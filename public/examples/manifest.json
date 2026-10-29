@@ -1,0 +1,9 @@
+{
+  "synthetic": true,
+  "schema": "invoice_id,vendor,date,description,amount,currency,commitment_ref",
+  "cases": [
+    { "id": "pipeline", "vendor": "Pipeline CRM", "label": "A partially honored promise", "promise": "pipeline-promise.txt", "invoices": "pipeline-invoices.csv", "reply": "pipeline-reply.txt", "asOf": "2026-10-28", "expected": { "promisedCents": 240000, "verifiedCents": 90000, "outstandingCents": 150000, "status": "partial" } },
+    { "id": "parcel", "vendor": "Parcel", "label": "A waiver that is not due yet", "promise": "parcel-promise.txt", "invoices": "parcel-invoices.csv", "asOf": "2026-10-28", "expected": { "promisedCents": 35000, "verifiedCents": 0, "outstandingCents": 35000, "status": "scheduled" } },
+    { "id": "orbit", "vendor": "Orbit Design", "label": "An offer with a new obligation", "promise": "orbit-promise.txt", "invoices": "orbit-invoices.csv", "asOf": "2026-11-01", "expected": { "promisedCents": 48000, "verifiedCents": 0, "outstandingCents": 48000, "status": "conditional" } }
+  ]
+}

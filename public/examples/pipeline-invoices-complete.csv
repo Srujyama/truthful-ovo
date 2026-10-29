@@ -1,0 +1,3 @@
+invoice_id,vendor,date,description,amount,currency,commitment_ref
+INV-PC-1026,Pipeline CRM,2026-10-01,Loyalty adjustment / duplicate seats,900.00,USD,PC-SEATS-2026
+INV-PC-1126,Pipeline CRM,2026-11-01,Remaining duplicate seat correction,1500.00,USD,PC-SEATS-2026

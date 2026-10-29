@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T07:01:13.425968+00:00",
+  "title": "Design System: Truthful",
+  "extensions": {
+    "shadows": [
+      {
+        "name": "evidence-drawer",
+        "value": "-15px 0 70px #172b2420",
+        "purpose": "Temporary evidence layer"
+      },
+      {
+        "name": "case-menu",
+        "value": "0 8px 30px #223a2417",
+        "purpose": "Case options overlay"
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "background .18s, transform .18s",
+        "purpose": "Button state changes"
+      },
+      {
+        "name": "scan",
+        "value": "2s linear infinite",
+        "purpose": "Prepared evidence-matching replay; disabled with reduced motion"
+      },
+      {
+        "name": "report-entry",
+        "value": ".35s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Finding panel enters with blur(2px) and translateY(4px); disabled with reduced motion."
+      },
+      {
+        "name": "local-loading",
+        "value": ".8s linear infinite",
+        "purpose": "Local processing spinner; disabled with reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "760px"
+      },
+      {
+        "name": "compact",
+        "value": "950px"
+      },
+      {
+        "name": "recording-density",
+        "value": "1000px"
+      },
+      {
+        "name": "summary-collapse",
+        "value": "1200px"
+      },
+      {
+        "name": "wide",
+        "value": "1400px"
+      },
+      {
+        "name": "lab-stack",
+        "value": "1000px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Workspace action.",
+      "html": "<button class=\"ds-button-primary\">Review claim</button>",
+      "css": ".ds-button-primary{font-family:'Manrope Variable',Manrope,sans-serif;border:1px solid transparent;background:#244e3b;color:white;border-radius:7px;padding:10px 14px;font-weight:600;font-size:11px;cursor:pointer;transition:background .18s,transform .18s;}.ds-button-primary:hover:not(:disabled){filter:brightness(.97)}.ds-button-primary:focus-visible{outline:2px solid #286a4e;outline-offset:3px}.ds-button-primary:disabled{opacity:.45;cursor:default}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Workspace action.",
+      "html": "<button class=\"ds-button-secondary\">Reset</button>",
+      "css": ".ds-button-secondary{font-family:'Manrope Variable',Manrope,sans-serif;border:1px solid #dfe4dc;background:white;color:#24372e;border-radius:7px;padding:10px 14px;font-weight:600;font-size:11px;cursor:pointer;transition:background .18s,transform .18s;}.ds-button-secondary:hover:not(:disabled){filter:brightness(.97)}.ds-button-secondary:focus-visible{outline:2px solid #286a4e;outline-offset:3px}.ds-button-secondary:disabled{opacity:.45;cursor:default}"
+    },
+    {
+      "name": "Vendor search",
+      "kind": "input",
+      "description": "Borderless register search; the source row provides a visible focus-within outline.",
+      "html": "<label class=\"ds-search-row\"><input class=\"ds-search\" aria-label=\"Search vendors\" placeholder=\"Find a vendor\u2026\"></label>",
+      "css": ".ds-search-row{display:block;border-radius:4px}.ds-search-row:focus-within{outline:2px solid #376743;outline-offset:3px}.ds-search{font-family:'Manrope Variable',Manrope,sans-serif;color:#24372e;font-size:11px;border:0;outline:none;padding:7px 0;background:transparent}"
+    },
+    {
+      "name": "Active navigation",
+      "kind": "nav",
+      "description": "Selected rail destination.",
+      "html": "<nav><button class=\"ds-nav\">Commitments</button></nav>",
+      "css": ".ds-nav{font-family:'Manrope Variable',Manrope,sans-serif;border:0;padding:11px;border-radius:7px;background:#dfe7db;color:#244e38;font-weight:700;font-size:13px;cursor:pointer}.ds-nav:hover{filter:brightness(.97)}.ds-nav:focus-visible{outline:2px solid #286a4e;outline-offset:3px}"
+    },
+    {
+      "name": "Conditional status",
+      "kind": "chip",
+      "refersTo": "conditional-tag",
+      "description": "Visible unresolved condition.",
+      "html": "<span class=\"ds-tag\"><span></span>Needs a decision</span>",
+      "css": ".ds-tag{font-family:'Manrope Variable',Manrope,sans-serif;display:inline-flex;align-items:center;gap:5px;font-size:9px;padding:4px 7px;border-radius:4px;color:#99652e;background:#fbf1df}.ds-tag>span{width:4px;height:4px;border-radius:50%;background:currentColor}"
+    },
+    {
+      "name": "Case panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Flat surface for evidence and decisions.",
+      "html": "<article class=\"ds-panel\"><h2>Nimbus Cloud</h2><p>Infrastructure \u00b7 SLA credit</p></article>",
+      "css": ".ds-panel{font-family:'Manrope Variable',Manrope,sans-serif;padding:24px;background:white;border:1px solid #e0e6de;border-radius:12px;color:#24372e}.ds-panel h2{margin:0;font-size:17px;font-weight:650;letter-spacing:-.5px}.ds-panel p{font-size:10px;color:#879083;margin:5px 0 0}"
+    },
+    {
+      "name": "Evidence citation",
+      "kind": "custom",
+      "description": "Named exact-source citation in the evidence workbench.",
+      "html": "<button class=\"ds-citation\">Promised credit<svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-citation{font-family:'Manrope Variable',Manrope,sans-serif;display:flex;align-items:center;gap:4px;border:0;border-bottom:1px solid #d1ddc9;background:transparent;color:#416640;min-height:32px;padding:3px 0;text-align:left;font-size:12px;cursor:pointer;transition:background .18s,transform .18s}.ds-citation:hover{filter:brightness(.97)}.ds-citation:focus-visible{outline:2px solid #286a4e;outline-offset:3px}.ds-citation:active{transform:translateY(1px)}"
+    },
+    {
+      "name": "Source document editor",
+      "kind": "input",
+      "description": "Resizable imported text editor in the evidence lab.",
+      "html": "<textarea class=\"ds-document\" aria-label=\"Original vendor promise\">Promise reference: PC-SEATS-2026</textarea>",
+      "css": ".ds-document{display:block;width:100%;min-height:210px;resize:vertical;border:1px solid #d6dfd0;border-radius:7px;padding:13px 14px;background:#fcfdfb;color:#3a4c3a;font-family:'Manrope Variable',Manrope,sans-serif;font-size:13px;line-height:1.9;caret-color:#315f3c}.ds-document:focus-visible{outline:2px solid #286a4e;outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The finance incident review desk",
+    "overview": "A quiet, dense work surface pairs a vendor register with an evidence-bearing case. White panels, pale sage navigation, forest actions, and fine rules keep the monetary outcome prominent without turning every section into a separate dashboard tile.\n\nThis record describes the implemented React workspace and its evidence-lab extension, sampled from shared styles, the workbench, case detail, and desktop/mobile review captures. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.",
+    "keyCharacteristics": [
+      "Tabular amounts and explicit financial states.",
+      "Flat paper surfaces with softly rounded corners.",
+      "Named evidence immediately beside the decision."
+    ],
+    "rules": [
+      {
+        "name": "State Has a Name",
+        "body": "Pair semantic colors with readable labels; a green amount alone does not establish application.",
+        "section": "colors"
+      },
+      {
+        "name": "Amount First",
+        "body": "Give the case amount greater visual weight than its status, unit, and supporting evidence.",
+        "section": "typography"
+      },
+      {
+        "name": "Flat Workspace",
+        "body": "Keep resting register and case panels unshadowed; preserve overlay shadows for the temporary layer they identify.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve named state labels alongside semantic colors.",
+      "Do keep tabular monetary figures and source references close to decisions.",
+      "Do maintain responsive stacking and clearance for fixed controls.",
+      "Do preserve visible focus and reduced-motion behavior when extending controls."
+    ],
+    "donts": [
+      "Don't treat an issued credit as verified savings without invoice application.",
+      "Don't generalize the existing tiny muted metadata into reusable styling.",
+      "Don't carry the uppercase workspace eyebrow into new surfaces; it is an incumbent craft-floor defect, not a system primitive."
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+invoice_id,vendor,date,description,amount,currency,commitment_ref
+INV-PC-1026,Pipeline CRM,2026-10-01,Loyalty adjustment / duplicate seats,900.00,USD,PC-SEATS-2026
+INV-PC-OTHER,Pipeline CRM,2026-10-01,Separate onboarding adjustment,1500.00,USD,PC-ONBOARDING-2026
+INV-OD-1026,Orbit Design,2026-10-01,Unrelated design credit,1500.00,USD,PC-SEATS-2026

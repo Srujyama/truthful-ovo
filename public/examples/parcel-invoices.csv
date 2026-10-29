@@ -1,0 +1,2 @@
+invoice_id,vendor,date,description,amount,currency,commitment_ref
+INV-PL-1126,Parcel,2026-11-01,Setup fee waiver,350.00,USD,PL-SETUP-2026

@@ -1,0 +1,48 @@
+async (page) => {
+  const checks = [];
+  const require = (value, message) => { if (!value) throw new Error(message); checks.push(message); };
+  await page.getByRole('button',{name:'Evidence lab',exact:true}).click();
+  await page.getByRole('button',{name:'Load example',exact:true}).click();
+  await page.waitForFunction(() => !document.querySelector('.analyze-button').disabled);
+  await page.getByRole('tab',{name:/^Promise/}).focus();
+  await page.keyboard.press('ArrowRight');
+  require(await page.getByRole('tab',{name:/^Invoice credits/}).getAttribute('aria-selected') === 'true','Input tabs support arrow-key selection');
+  await page.keyboard.press('Home');
+  const promise = page.getByRole('textbox',{name:'Original vendor promise'});
+  await promise.fill((await promise.inputValue()).replace('We will credit you USD 2,400','We might credit you USD 2,400'));
+  await page.getByRole('button',{name:'Analyze evidence',exact:true}).click();
+  const results = page.getByRole('region',{name:'Analysis results'});
+  await results.getByText('More evidence needed.',{exact:true}).waitFor();
+  const ledger = await results.locator('.recovery-ledger').innerText();
+  require(!ledger.includes('$0') && ledger.includes('—'),'Unsupported values remain unknown, not authoritative zeros');
+  await results.getByRole('tab',{name:'Claim draft',exact:true}).click();
+  require(await results.getByRole('button',{name:'Approve claim',exact:true}).isDisabled(),'Unsupported claim approval stays blocked');
+  await page.getByRole('button',{name:'Load example',exact:true}).click();
+  await page.waitForFunction(() => !document.querySelector('.analyze-button').disabled);
+  await page.getByRole('textbox',{name:'Reconcile as of'}).fill('2026-09-25');
+  await page.getByRole('button',{name:'Analyze evidence',exact:true}).click();
+  await results.getByText('Not due yet',{exact:true}).waitFor();
+  await results.getByRole('tab',{name:'Claim draft',exact:true}).click();
+  await page.getByRole('textbox',{name:'Follow-up draft'}).fill('Please apply the credit early.');
+  require(await results.getByRole('button',{name:'Approve claim',exact:true}).isDisabled(),'Future promise cannot be approved even with a custom draft');
+  await page.getByRole('button',{name:'Load example',exact:true}).click();
+  await page.waitForFunction(() => !document.querySelector('.analyze-button').disabled);
+  await page.evaluate(() => {
+    const original = crypto.subtle.digest.bind(crypto.subtle);
+    window.truthfulOriginalDigest = original;
+    crypto.subtle.digest = async (...args) => { await new Promise(resolve => setTimeout(resolve,250)); return original(...args); };
+  });
+  await page.getByRole('button',{name:'Analyze evidence',exact:true}).click();
+  await page.getByRole('textbox',{name:'Vendor',exact:true}).fill('Changed while hashing');
+  await page.waitForTimeout(700);
+  require(await results.getByText('A promise isn’t proof.',{exact:true}).isVisible(),'Editing during analysis cancels stale results');
+  await page.evaluate(() => { crypto.subtle.digest = window.truthfulOriginalDigest; });
+  await page.setViewportSize({width:390,height:844});
+  require(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),'Mobile workbench has no horizontal overflow');
+  await page.getByRole('button',{name:'Toggle navigation'}).click();
+  await page.getByRole('button',{name:'Commitments 4',exact:true}).click();
+  require(await page.getByRole('heading',{name:'Every promise, accounted for.'}).isVisible(),'Mobile navigation reaches guided cases');
+  require(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),'Mobile guided case has no horizontal overflow');
+  await page.setViewportSize({width:1440,height:1000});
+  return {passed:checks.length,checks};
+}

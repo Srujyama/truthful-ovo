@@ -1,0 +1,29 @@
+{
+  "name": "truthful-ovo",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "node --test src/domain.test.mjs src/recovery.test.mjs src/engine/*.test.mjs",
+    "verify:submission": "node scripts/verify-submission.mjs",
+    "check": "npm test && npm run evaluate && npm run verify:submission && npm run build",
+    "analyze": "node scripts/analyze.mjs",
+    "verify:packet": "node scripts/verify-packet.mjs",
+    "evaluate": "node src/engine/evaluate.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.2.8",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
