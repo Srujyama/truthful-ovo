@@ -1,8 +1,8 @@
 {
   "repository": "https://github.com/Srujyama/truthful-ovo",
   "liveDemo": "https://srujyama.github.io/truthful-ovo/",
-  "publicRecording": "https://github.com/Srujyama/truthful-ovo/releases/download/v2.0.0/truthful-demo.mp4",
-  "release": "https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0",
+  "publicRecording": "https://github.com/Srujyama/truthful-ovo/releases/download/v3.0.0/truthful-assurance-demo.mp4",
+  "release": "https://github.com/Srujyama/truthful-ovo/releases/tag/v3.0.0",
   "driveRecording": "https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view",
   "driveAnyoneWithLinkVerified": false,
   "runtimeAiDecision": null,
@@ -11,9 +11,23 @@
   "teamConsented": null,
   "applicationSubmitted": false,
   "verification": {
-    "unitTests": 57,
-    "authoredEvaluationCases": 22,
-    "hostedBrowserAssertions": 20,
-    "narratedVideoSeconds": 128
-  }
+    "unitTests": 117,
+    "evidenceEvaluationCases": 22,
+    "assuranceScenarios": 9,
+    "assuranceScenarioChecks": 31,
+    "committedPrefixDateProjections": 843,
+    "depthAcceptanceChecks": 9,
+    "tamperVariantsRejected": 6,
+    "localServiceBrowserAssertions": 25,
+    "staticBrowserAssertions": 25,
+    "legacyBrowserAssertions": 20,
+    "narratedVideoSeconds": 181,
+    "videoWidth": 1440,
+    "videoHeight": 912
+  },
+  "localRecording": "output/demo-v3/truthful-assurance-demo.mp4",
+  "previousDriveRecording": "https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view",
+  "driveRecordingVersion": "2.0.0",
+  "v3DriveUploadRequested": true,
+  "v3DriveUploadVerified": false
 }

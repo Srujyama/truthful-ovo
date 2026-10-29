@@ -6,6 +6,10 @@
 
 ## Goal
 
+Depth expansion (2026-10-29): implement financial commitment assurance beyond per-case recovery. Observable completion: multi-case portfolio with globally conserved credit allocations, effective-date and knowledge-date replay, proposed/accepted versioned amendments, reversals, policy- and revision-bound action approvals, explicit counterfactual economics, causal evidence graph, executable adversarial scenarios with inspectable failures, real local SQLite/HTTP persistence and enforced session roles/idempotency/optimistic concurrency, browser-local hosted fallback honestly labeled, source-backed differentiation research, updated technical demo and docs, independent code/design review, integrated checks and live publication. Keep all prior working paths. Live-model work remains gated by unanswered credential choice; no fake runtime AI or external send/payment/integration claims.
+
+Prior milestone:
+
 Round 2 upgrade (2026-10-28): turn the existing recording prototype into a technical hackathon project: supported document ingestion with exact citations, deterministic conservative invoice matching, explicit approval and downloadable draft, persistent saved cases, hash-linked local audit exports, regression/evaluation evidence, polished responsive workbench, public sanitized GitHub source, and a recorded demo with submission copy. Runtime OpenAI extraction is gated on user credential choice; do not imply connected AI. Actual form requires public repo, shareable video, 200–300 word tools/model/tradeoffs response. No external form submission or communications without explicit direction.
 
 Previous completed milestone:
@@ -23,7 +27,7 @@ A polished, working localhost finance demo named Truthful. The two-minute flow d
 
 ## Open questions
 
-None blocking.
+External T9 remains open: runtime AI credential/direction choice; accepted-host video sharing; original track, attendance and team consent. Current depth expansion continues independently. Optional user steer on agent assurance versus procurement depth is pending.
 
 ## Tasks
 
@@ -65,6 +69,21 @@ None blocking.
       files: docs/delivery.json, scripts/verify-submission-ready.mjs
       accept: node scripts/verify-submission-ready.mjs
       notes: External inputs pending: Drive anyone-link verification unsupported by connector and browser is controlled by another session; runtime AI reuse/create question unanswered; Round1 track, attendance and teammate consent unknown. No fabricated answers or automatic form submission.
+- [x] T10 · Build temporal commitment assurance and globally conserved allocation engine
+      files: src/assurance
+      accept: node --test src/assurance/*.test.mjs
+- [x] T11 · Add persistent local service with revision, idempotency, and role enforcement
+      files: server
+      accept: node --test server/*.test.mjs
+- [x] T12 · Build portfolio, decision review, evidence graph, and adversarial lab
+      files: src/Assurance.jsx, src/assurance.css, src/useAssurance.js, src/App.jsx, scripts/dev.mjs, vite.config.js
+      accept: npm run check
+- [x] T13 · Validate differentiation and align deep build documentation and demo
+      files: docs, README.md, scripts
+      accept: npm run verify:depth
+- [ ] T14 · Review integrated assurance system and publish validated upgrade
+      files: src, server, .github, docs/delivery.json
+      accept: npm run check && npm run verify:depth && node scripts/verify-delivery.mjs
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -77,3 +96,7 @@ None blocking.
 - 2026-10-29 · done T7 · Independently review and verify complete hackathon build
 - 2026-10-29 · done T8 · Publish and verify public repository, live demo, and narrated recording
 - 2026-10-29 · set T7 · notes
+- 2026-10-29 · done T10 · Build temporal commitment assurance and globally conserved allocation engine
+- 2026-10-29 · done T11 · Add persistent local service with revision, idempotency, and role enforcement
+- 2026-10-29 · done T12 · Build portfolio, decision review, evidence graph, and adversarial lab
+- 2026-10-29 · done T13 · Validate differentiation and align deep build documentation and demo

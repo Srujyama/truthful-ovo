@@ -2,7 +2,7 @@
 
 BBS × Ramp Hackathon, Round 2 · technical build
 
-**A vendor promise is not a saving. Truthful follows it until the credit reaches an invoice.**
+**A credit cannot be spent twice. An old approval cannot authorize a changed deal.**
 
 ## Actual submission requirements
 
@@ -23,8 +23,9 @@ No response has been submitted. Attendance and teammate agreement require the te
 
 - Public repository: https://github.com/Srujyama/truthful-ovo
 - Live supplemental demo: https://srujyama.github.io/truthful-ovo/
-- Public backup recording: https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0
-- Drive video: https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view — public-link access still needs verification.
+- V3 assurance recording: https://github.com/Srujyama/truthful-ovo/releases/tag/v3.0.0 — actual decisions, historical replay, failures, and resolution.
+- Earlier v2 backup recording: https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0 — demonstrates the earlier recovery/evidence workbench, not the expanded v3 assurance workflow.
+- Earlier v2 Drive video: https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view — public-link access still needs verification; this is not a recording of the v3 assurance workflow.
 
 See [delivery status](DELIVERY.md) before checking the form’s access and team confirmations.
 
@@ -36,32 +37,36 @@ Team: OVO. Confirm that the technical path matches the team’s Round 1 selectio
 
 ## Short description
 
-Truthful turns vendor concessions into evidence-backed recovery cases. It preserves the original promise, calculates what is still owed, flags new conditions, prepares a follow-up for human approval, and counts a credit only after matching its application to an invoice.
+Truthful tracks vendor promises through changing terms, shared credit allocations, and current authority. It prevents one recorded credit from funding two claims, blocks conflicting amendments and stale approvals, compares the real obligation behind a renewal concession, and exports the evidence and execution history. All external financial actions are simulated.
 
-## Architecture answer — 254 words
+## Architecture answer — 260 words
 
-Truthful replaces a spreadsheet-and-inbox workflow: remembering a vendor concession, chasing the missing credit, and checking whether it reduced a bill.
+Truthful replaces a spreadsheet-and-inbox workflow with a financial commitment assurance system. It asks whether a proposed action is still valid under the evidence, available credit, accepted terms, and current authority.
 
-React and Vite power two complementary surfaces. The guided Nimbus case demonstrates the full recovery lifecycle. The evidence lab processes supplied promise text, a documented invoice-credit CSV, and an optional vendor reply through a dependency-free JavaScript engine. It extracts supported terms with exact source citations, uses nonnegative integer cents, and matches credits by normalized vendor, USD currency, and exact commitment reference. Dates, duplicates, and unsupported ambiguity are checked before attributing savings.
+React and Vite provide Portfolio, Decision room, and Failure lab surfaces. A dependency-free JavaScript reducer records sources, commitments, amendments, credit allocations, reversals, policies, and exact-action approvals. Integer-cent accounting conserves each credit across commitments. Effective dates and observation times support historical projections without importing later knowledge. Conflicting amendment branches require a reasoned finance decision; a changed source, ledger, term, or policy invalidates pending approval. Renewal comparisons expose incremental cost separately from the headline credit.
 
-A separate recovery module snapshots each report and links local audit events with SHA-256 hashes. Reviewers can edit a follow-up, approve its exact text, and download an unsent email draft. Evidence JSON includes the original documents, report, and audit chain; a CLI verifies internal hash consistency. This does not authenticate the vendor, invoice, or reviewer. Up to thirty cases persist in browser localStorage, with no backend or account credentials.
+The optional Node service uses built-in HTTP and SQLite. It derives demo actors from server sessions, enforces roles, checks optimistic revisions, commits command batches atomically, and persists idempotent responses. Hash-linked server audit records can be replayed to check snapshot consistency. They do not authenticate vendors or establish settlement finality. The public GitHub Pages build uses clearly labeled browser-local storage; it has no authoritative shared backend.
 
-We chose deterministic runtime logic for the financial core: narrow supported formats make behavior transparent, reproducible, and testable. The prototype does not call a live language model or understand arbitrary invoices. AI-assisted development is distinct from runtime AI. That tradeoff limits extraction coverage while preserving a reliable demonstration and an inspectable financial boundary.
+A supported-format evidence lab imports promise text and positive invoice-credit CSV with exact citations. Revalidated evidence enters the shared portfolio atomically; an invoice reference change cannot manufacture another credit line. Nine synthetic failure scenarios execute the real reducer rather than display canned verdicts.
 
-With more time, we would validate schema-constrained model extraction against finance-reviewed held-out cases, add consented read-only connectors, and move storage and approval identity to an authenticated service. Deterministic reconciliation, citation checks, and explicit action approval would remain separate from model-generated proposals.
+We chose deterministic runtime checks for transparent financial behavior and reliable reproduction. AI assisted development, but no live language model is called. With more time, we would add authenticated organizational identity, consented connectors, and schema-constrained model proposals evaluated on independently reviewed evidence, while keeping financial and authorization checks deterministic.
 
 ## What the submitted build proves
 
-| Capability | Evidence to show |
+| Capability | Executable evidence |
 | --- | --- |
-| SLA calculation | Nimbus: 540 minutes of covered downtime in 43,200 minutes; 98.75% availability; 25% of $8,000 is $2,000. |
-| Partial fulfillment | Pipeline: $2,400 promised, $900 applied, $1,500 outstanding. |
-| Changed obligations | A later annual-renewal condition stays visible and contributes no new verified savings. |
-| Application versus issuance | Issuing the Nimbus credit memo leaves verified savings unchanged; applying it to the next invoice changes the total. |
-| Generalized processing | In Evidence lab, load Partial credit, analyze, change `900.00` to `1000.00`, and analyze again: the balance becomes $1,400. Wrong reference yields $0 applied. |
-| Evidence and authority | Inspect exact citations, edit and approve a follow-up, export full evidence JSON or CSV, and download an unsent `.eml` draft. |
+| Global allocation | A second allocation of the same $900 credit is rejected without increasing verified value. Ambiguous matches require source-backed finance resolution. |
+| Competing amendments | Pipeline’s date change and renewal counteroffer conflict. Finance dismisses an alternative with a reason before a fresh action can accept the current branch. |
+| Stale authority | Approve an exact action, revise a source or policy, then attempt execution. The old approval is rejected. |
+| Renewal economics | $1,500 remaining contingent credit against $2,400 incremental annual spend yields negative $900 under the stated baseline. No acceptance creates applied savings. |
+| Temporal truth | Effective-on and known-by cutoffs distinguish a late amendment’s retrospective effect from what was knowable earlier. Missing evidence remains unknown. |
+| Ledger lifecycle | An issued memo contributes no verified savings. Invoice application verifies it; a reversal reopens the balance. |
+| Durable local service | Real HTTP sessions, roles, atomic batches, optimistic concurrency, persistent idempotent results, and replayable SQLite audit. |
+| Generalized input | In Evidence lab, change the matching credit from `900.00` to `1000.00`; the $1,500 gap becomes $1,400. Add supported evidence to the portfolio through a revalidated atomic import. |
 
-The first four rows are a prepared scenario with real calculations. The evidence lab processes user-provided inputs within its supported format. CSV input is a positive credit ledger, not a parser for arbitrary gross invoices. Source indices are JavaScript UTF-16 offsets. Saved cases restore analyzed reports and approved drafts after reload; unanalysed input edits invalidate the displayed result. All included vendors and documents are synthetic. Test fixtures are authored regression cases, not a representative customer benchmark.
+The v3 failure suite has nine authored scenarios and thirty-one assertions. The assurance-domain test suite has thirty-eight tests at this documentation checkpoint. These are synthetic regressions, not a customer accuracy benchmark or formal proof. Integrated build/browser evidence and publication state are recorded separately in [DELIVERY.md](DELIVERY.md).
+
+The evidence importer supports one positive credit row per invoice. The structured assurance API supports explicit invoice-line identities; neither infers arbitrary invoice semantics or authenticates supplied documents. There is no live inbox, vendor, payment, Ramp, or model connection. The older guided Nimbus recording remains an explanatory appendix rather than evidence of the new assurance features.
 
 ## AI prompt fit
 
@@ -69,7 +74,7 @@ The current runtime uses deterministic processing, not a live LLM. Do not presen
 
 ## Optional “anything else” response
 
-We focused on the point where an apparently successful negotiation becomes a verified financial outcome. The included examples are synthetic. The repository distinguishes prepared scenario replay from document processing, includes financial, extraction, reconciliation, approval, and integrity tests, and documents the boundaries of local storage and supported extraction. No emails are sent and no payment or renewal is accepted by the prototype.
+We focused on correctness after an apparently successful negotiation: a credit cannot be counted twice, a changed deal cannot inherit an old approval, and an amendment cannot rewrite what was knowable earlier. The repository includes a runnable assurance engine, optional SQLite HTTP service, failure scenarios, and replayable evidence exports. All included counterparties are synthetic; no external email, payment, or renewal transaction is performed.
 
 ## Final publication handoff
 

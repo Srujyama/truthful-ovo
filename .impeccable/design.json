@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-29T07:01:13.425968+00:00",
+  "generatedAt": "2026-10-29T09:48:24.943210+00:00",
   "title": "Design System: Truthful",
   "extensions": {
     "shadows": [
@@ -35,6 +35,11 @@
         "name": "local-loading",
         "value": ".8s linear infinite",
         "purpose": "Local processing spinner; disabled with reduced motion."
+      },
+      {
+        "name": "assurance-entry",
+        "value": ".25s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Assurance case clears from blur(1px); disabled with reduced motion."
       }
     ],
     "breakpoints": [
@@ -61,6 +66,14 @@
       {
         "name": "lab-stack",
         "value": "1000px"
+      },
+      {
+        "name": "assurance-density",
+        "value": "1300px"
+      },
+      {
+        "name": "assurance-stack",
+        "value": "1100px"
       }
     ]
   },
@@ -124,11 +137,25 @@
       "description": "Resizable imported text editor in the evidence lab.",
       "html": "<textarea class=\"ds-document\" aria-label=\"Original vendor promise\">Promise reference: PC-SEATS-2026</textarea>",
       "css": ".ds-document{display:block;width:100%;min-height:210px;resize:vertical;border:1px solid #d6dfd0;border-radius:7px;padding:13px 14px;background:#fcfdfb;color:#3a4c3a;font-family:'Manrope Variable',Manrope,sans-serif;font-size:13px;line-height:1.9;caret-color:#315f3c}.ds-document:focus-visible{outline:2px solid #286a4e;outline-offset:3px}"
+    },
+    {
+      "name": "Assurance graph record",
+      "kind": "custom",
+      "description": "Selectable causal record; critical title and state stay at least 12px. Graph connectors use graph-link at 1.4px against paper.",
+      "html": "<button class=\"ds-graph-record\"><strong>Original promise</strong><small>Source revision 1</small></button>",
+      "css": ".ds-graph-record{display:block;width:180px;min-height:93px;padding:10px 9px;border:1px solid #d5e1cd;border-radius:6px;background:#fbfdf8;color:#24372e;text-align:left;font-family:\"Manrope Variable\",Manrope,sans-serif;cursor:pointer}.ds-graph-record strong{display:block;font-size:12px;font-weight:600;line-height:1.6}.ds-graph-record small{display:block;margin-top:6px;font-size:12px;line-height:1.7;color:#60725d}.ds-graph-record:hover{background:#eff5e8}.ds-graph-record:focus-visible{outline:2px solid #244e3b;outline-offset:3px}"
+    },
+    {
+      "name": "Assurance policy verdict",
+      "kind": "custom",
+      "description": "Explicit mandate result and readable reasons in the decision room.",
+      "html": "<section class=\"ds-policy-verdict\"><h3>Outside the current mandate.</h3><p>New contractual obligations require a changed mandate.</p></section>",
+      "css": ".ds-policy-verdict{padding:17px;border-radius:7px;background:#fbf1df;color:#855b2d;font-family:\"Manrope Variable\",Manrope,sans-serif}.ds-policy-verdict h3{margin:0;font-size:13px;font-weight:650;line-height:1.6}.ds-policy-verdict p{margin:5px 0 0;font-size:12px;line-height:1.9}"
     }
   ],
   "narrative": {
     "northStar": "The finance incident review desk",
-    "overview": "A quiet, dense work surface pairs a vendor register with an evidence-bearing case. White panels, pale sage navigation, forest actions, and fine rules keep the monetary outcome prominent without turning every section into a separate dashboard tile.\n\nThis record describes the implemented React workspace and its evidence-lab extension, sampled from shared styles, the workbench, case detail, and desktop/mobile review captures. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.",
+    "overview": "A quiet, dense work surface pairs a vendor register with an evidence-bearing case. White panels, pale sage navigation, forest actions, and fine rules keep the monetary outcome prominent without turning every section into a separate dashboard tile.\n\nThis record describes the implemented React workspace, evidence lab, and commitment-assurance extension, sampled from shared styles, workbench, case detail, and assurance source. The assurance portfolio, decision room, evidence graph, and failure lab preserve the same finance desk identity. Visible runtime labels distinguish browser-local records from the optional local SQLite service; neither mode performs a vendor transaction. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.",
     "keyCharacteristics": [
       "Tabular amounts and explicit financial states.",
       "Flat paper surfaces with softly rounded corners.",
@@ -143,6 +170,11 @@
       {
         "name": "Amount First",
         "body": "Give the case amount greater visual weight than its status, unit, and supporting evidence.",
+        "section": "typography"
+      },
+      {
+        "name": "Readable Assurance",
+        "body": "Keep assurance decision-critical annotations at 12px or larger; inherited tiny metadata is not a precedent.",
         "section": "typography"
       },
       {

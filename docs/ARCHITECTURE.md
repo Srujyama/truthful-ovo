@@ -1,89 +1,95 @@
-# Truthful architecture
+# Truthful v3 architecture
 
-Truthful runs its financial processing in the browser. The same evidence engine is callable from Node. It has no backend, account authentication, runtime LLM, connected inbox, or payment authority.
+Truthful is a financial commitment assurance prototype. Its central object is a versioned obligation with conserved credit allocations, source lineage, proposed changes, and actions checked against current authority. The deterministic core runs in both the browser and an optional Node service.
 
 ```mermaid
 flowchart LR
-    Sources[Promise text + positive credit CSV + optional reply]
-    Lab[Evidence lab · React]
-    Engine[Bounded evidence engine]
-    Report[Report + exact source citations]
-    Recovery[Report snapshot + local approval events]
-    Store[Browser localStorage · 30 cases]
-    Packet[Evidence JSON / summary CSV / unsent EML]
-    CLI[Node analyze CLI]
-    Verify[Packet hash verifier]
-    Guided[Guided Nimbus scenario]
-    Domain[SLA math + scenario transitions]
+    UI[Portfolio / Decision room / Failure lab]
+    Hook[useAssurance transport]
+    Reducer[Pure assurance reducer]
+    Projection[Effective + known-time projection]
+    Browser[Browser localStorage]
+    HTTP[Loopback HTTP service]
+    SQLite[SQLite snapshot + command audit + retries]
+    Text[Promise text + credit CSV + reply]
+    Extract[Bounded evidence engine]
+    Import[Revalidate + prepare atomic commands]
+    Export[Audit packet + replay check]
 
-    Sources --> Lab --> Engine --> Report --> Recovery
-    Sources --> CLI --> Engine
-    Recovery --> Store
-    Store --> Lab
-    Recovery --> Packet --> Verify
-    Guided --> Domain
+    UI --> Hook
+    Hook -->|static deployment| Reducer
+    Reducer --> Browser
+    Hook -->|local service available| HTTP
+    HTTP --> Reducer
+    HTTP --> SQLite
+    Reducer --> Projection --> UI
+    Text --> Extract --> Import --> Hook
+    HTTP --> Export
+    Browser --> Export
 ```
+
+## Runtime modes
+
+| Mode | Persistence and enforcement | Boundary |
+| --- | --- | --- |
+| Local SQLite service | Real Node HTTP process, server-issued sessions, role checks, optimistic write revisions, atomic SQLite transactions, durable idempotent responses, replayable audit. | Selectable local demo identities are not organizational authentication. Only loopback interfaces/origins are supported. No external financial action. |
+| Browser workspace | Same reducer and projections, stored in localStorage. Whole command batches validate before replacing the open/saved workspace. | The browser owner controls the data and selected role. No shared authoritative backend, independent identity, or managed backup. |
+| Public GitHub Pages | Static application uses the labeled browser workspace fallback. | It does not run Node or SQLite. The public URL is not a hosted multi-user finance service. |
+
+`npm run dev` starts the optional service and Vite together. `npm run dev:web` runs the frontend alone. Node 24 or later is required for the local service’s built-in SQLite support. Startup checks availability rather than treating configured code as a connected backend. The runtime banner names the active mode.
 
 ## Code map
 
 | File | Responsibility |
 | --- | --- |
-| [`src/App.jsx`](../src/App.jsx) | Shell, navigation, guided cases, and scenario actions. Evidence lab is the initial surface. |
-| [`src/Workbench.jsx`](../src/Workbench.jsx) | Text/CSV inputs, examples, import, analysis results, citations, draft review, saved cases, and export controls. |
-| [`src/engine/index.mjs`](../src/engine/index.mjs) | `extractPromise`, `parseInvoiceCsv`, and `analyzeEvidence`: bounded extraction, date/identity validation, matching, financial totals, warnings, and proposed draft. |
-| [`src/recovery.mjs`](../src/recovery.mjs) | `createCase`, `approveCase`, `verifyCase`, local storage helpers, evidence packets, CSV summary, and approved unsent email draft. |
-| [`src/domain.mjs`](../src/domain.mjs) | Prepared Nimbus SLA arithmetic and guided scenario state transitions. Separate from imported-evidence processing. |
-| [`scripts/analyze.mjs`](../scripts/analyze.mjs) | Reads local files, runs the engine, and creates a JSON evidence packet. |
-| [`scripts/verify-packet.mjs`](../scripts/verify-packet.mjs) | Checks report and audit hashes in an exported packet. |
-| [`src/engine/evaluate.mjs`](../src/engine/evaluate.mjs) | Authored synthetic fixture regression report, explicitly not held-out validation. |
-| [`scripts/verify-submission.mjs`](../scripts/verify-submission.mjs) | Checks the written architecture length and key demonstrated results against shipped fixtures. |
+| [`src/Assurance.jsx`](../src/Assurance.jsx) | Portfolio, source/version graph, replay dates, Decision room, branch decisions, ledger editor, mandate editor, and executable Failure lab. |
+| [`src/useAssurance.js`](../src/useAssurance.js) | Service discovery, demo sessions, transport, revision handling, browser fallback, reset, and consistent export snapshot. |
+| [`src/assurance/core.mjs`](../src/assurance/core.mjs) | Pure command reducer, temporal projection, financial checks, amendment branching, action simulation/approval/execution, and causal graph. |
+| [`src/assurance/fixtures.mjs`](../src/assurance/fixtures.mjs) | Fictional four-vendor seed and its source-backed event sequence. |
+| [`src/assurance/scenarios.mjs`](../src/assurance/scenarios.mjs) | Nine executable authored scenarios, including expected rejections and resulting-state assertions. |
+| [`server/service.mjs`](../server/service.mjs) | Loopback HTTP, server actor context, CSRF/origin checks, SQLite transaction boundary, concurrency, durable retries, audit export/replay. |
+| [`src/economics.mjs`](../src/economics.mjs) | Same-horizon renewal comparison from explicitly entered monthly cost assumptions. |
+| [`src/assuranceImport.mjs`](../src/assuranceImport.mjs) | Revalidates evidence documents and prepares an atomic import, preserving the legacy adapter’s invoice identity. |
+| [`src/Workbench.jsx`](../src/Workbench.jsx) and [`src/engine/index.mjs`](../src/engine/index.mjs) | Supported-format evidence ingestion, exact source spans, credit-ledger reconciliation, and the Add to portfolio path. |
+| [`src/recovery.mjs`](../src/recovery.mjs) | Separate evidence-lab report snapshots, exact-draft approval, thirty saved reports, JSON/CSV/unsent EML exports. |
+| [`src/domain.mjs`](../src/domain.mjs) | Earlier guided Nimbus SLA calculations and scenario replay; separate from the assurance workspace. |
 
-## Evidence processing
+## State and financial semantics
 
-The input is **one commitment**, not an entire mailbox or invoice archive. The selected vendor and review date provide explicit context. The promise must contain a supported confirmed USD credit, refund, or fee-waiver sentence, one amount, a commitment reference, and a supported due date. A `Vendor:` header, when present, must match the selected vendor. A valid `Date:` header prevents a later promise from matching earlier credits. Undated promises produce a provenance warning.
+The assurance workspace is an append-only domain event sequence with a base policy and event revision. Inputs and commands are not mutated. Each accepted fact has an actor, observation time, financial effective date, command identity, and source/version references. Projection produces commitments, credit lines, allocations, amendments, actions, totals, and graph edges.
 
-Invoice input is a **positive credit ledger** with these headers:
+An issued memo can reserve credit capacity through allocation but contributes zero verified value. Application requires invoice evidence. All allocations share one credit-line capacity across cases. Exact vendor identity, USD currency, and commitment reference must agree. Multiple or absent candidates are quarantined until an approver records an explicit source-backed resolution. Verified attribution is capped by the accepted promise; excess applied value remains separately observable.
 
-```csv
-invoice_id,vendor,date,description,amount,currency,commitment_ref
-```
+Reversals reduce ledger backing and the associated attribution. A partial reversal across several claims requires explicit causal allocation amounts. Recording/allocation/reversal/identity commands cannot be future-dated, closing the path where two invisible future allocations could each consume the same current capacity. Future due dates and approved future amendments remain supported.
 
-`900.00` means a $900 applied credit, not a gross invoice total, a negative charge, or a credit memo awaiting application. The person or future adapter providing this ledger must preserve that semantic distinction. The engine checks the supplied representation; it does not independently prove settlement.
+## Versioned terms and authority
 
-Matches require the vendor after trimming/case normalization, USD currency, the exact commitment reference, and a date no later than the review date. A dated promise also excludes rows predating the promise. Identical repeated rows with the same invoice ID count once. Different rows sharing one invoice ID are a conflict: use one credit row per invoice, or distinct valid IDs. This bounded policy does not support arbitrary multi-line credit allocation.
+Conflicting pending amendments cannot silently overwrite the original agreement. Incompatible patched fields or renewal economics block acceptance. Finance dismisses an alternative with a retained reason/actor event, then prepares a fresh action. Proposals bind the accepted branch, current term revision, and supporting source versions. A fresh action cannot revive an intrinsically stale amendment.
 
-Amounts are parsed into nonnegative safe integer cents. Invalid numeric formats, unsafe ranges, nonpositive credit rows, malformed CSV, and invalid dates require correction. Outstanding is floored at zero. Excess credits are surfaced separately, and attributed verified value is capped at the promised amount.
+A supported explicit replacement may supersede an accepted but not-yet-effective **nonfinancial schedule** amendment, naming its predecessor and covering every patched field. Renewal cancellation/replacement is outside that bounded model and is refused. All prior proposals, decisions, and replacement edges remain in history.
 
-Every citation retains the exact original text and a half-open range. Offsets are **JavaScript UTF-16 string indices**, so `source.slice(start, end) === quote`. They are not byte offsets or Unicode code-point counts.
+Actions pass through proposed, approved, stale/blocked, and locally executed states. Approval binds canonical action content, policy version/content, commitment revision, material event revision, and current source revisions. New material evidence, ledger facts, terms, or policy invalidate pending approval conservatively, even if the update concerns another case. Execution rechecks policy and current basis; it is one-use. A passing check records a local simulation, not a vendor transaction.
 
-## Terms and decisions
+## Temporal projection
 
-An original conditional offer is excluded from verified savings. A later detected condition is kept separate from the original promise; previously matched credits remain observable. No renewal or other new obligation is accepted. Reply text outside the recognized condition patterns is retained for manual review; failure to detect a phrase is not evidence that the reply contains no changed terms.
+`evaluateWorkspace(workspace, {asOf, knownAt})` separates financial effective dates from observation time. A late-recorded amendment can change a retrospective assessment without appearing in an earlier knowledge view. Historical UI comparisons disable writes. The underlying export may retain the complete event history so the projection can be reproduced; a historical cutoff is a query, not an access-control boundary.
 
-Future commitments are scheduled, not presented as due recovery drafts. Unknown, denied, tentative, multi-amount, missing-reference, ambiguous-date, and foreign-currency promises require correction rather than a confident financial claim. `$` without an explicit currency is treated as USD with a warning in this USD-only prototype. These are bounded rules, not general language understanding.
+Missing evidence remains unknown. Bitemporal replay does not establish that an external source has finished posting, prove absence of a later application, or guarantee settlement finality.
 
-## Snapshots, approval, and persistence
+## Evidence import and separate storage
 
-Analysis creates a report snapshot and an `EVIDENCE_ANALYZED` event containing its SHA-256 digest. Each event includes its sequence, timestamp, previous hash, payload, and hash. A local reviewer can edit a proposed draft and approve it. The approval records the **exact text** and its digest, tied to the analyzed report. Repeat approval does not replace that text. Unsupported, already fulfilled, or originally conditional cases cannot be approved for recovery.
+The evidence lab accepts one explicit supported USD promise, a positive applied-credit CSV, and an optional reply. Exact citations use half-open JavaScript UTF-16 indices. The CSV is a credit-ledger adapter, not arbitrary gross-invoice understanding.
 
-Editing an input clears the current result, so a stale calculation cannot be approved as if it describes the edited documents. Reanalysis creates a new snapshot. Saved cases retain up to thirty reports in browser `localStorage`; reopening one checks its hashes and restores its analyzed inputs and approved draft. Unanalyzed edits are not saved cases. Storage failure leaves the open case available for export and displays a recovery message.
+Add to portfolio reruns extraction against original documents, rejects unresolved conditions/replies, checks existing terms, and prepares source/commitment/credit/allocation commands. The legacy adapter has one credit per vendor invoice: changing its reference cannot invent a second line. Explicit multiple-line identities belong in the structured API. The batch commits entirely or leaves the portfolio unchanged. Importing facts does not transfer an evidence-lab email approval into assurance action authority.
 
-The outputs have different purposes:
+The guided walkthrough state, the evidence lab’s thirty saved reports, and the assurance workspace are distinct stores. Reset controls describe their scope. An assurance service reset restores the seed while retaining server command audit history; browser reset replaces that browser workspace.
 
-- **Evidence JSON**: original documents, complete report, citations, matches/exclusions, and local hash-linked events.
-- **CSV**: a monetary/status/approval summary, with escaping and spreadsheet-formula protection.
-- **EML**: the exact approved draft with `X-Unsent: 1`; downloading does not send it.
+## Service, exports, and trust
 
-## Trust and security boundary
+The server derives actor/time from its session and clock, refuses client-supplied outer actor fields, and applies the same reducer. `expectedRevision` prevents a stale writer from overwriting newer state. SQLite commits snapshot, command audit entry, and cached idempotent response together. Identical requests with the same actor/key return the recorded response after restart; changed input under that key is rejected.
 
-All supplied evidence remains in the browser during processing; example files are fetched from the app’s own static assets. Exporting a packet deliberately includes the original documents. The local saved-case store is not an authenticated accounting system or a secure shared vault.
+Server audit entries bind command, actor, timestamp, before/after state digests, revisions, and prior hash. Replay from the stored seed checks snapshot consistency. Browser-mode exports do not acquire server authority by containing the same event schema. Server-mode exports use the server’s returned workspace snapshot rather than a stale tab copy.
 
-Hash verification detects a changed report, draft, or event relative to the exported chain. It does not establish source authenticity, reviewer identity, trustworthy timestamps, authorization outside the app, or an independently immutable audit trail. Someone controlling the browser or packet can recompute an entirely new chain. Production requires authenticated actors, server-enforced permissions, source lineage, retention/deletion controls, and an independently protected event store.
+Hashes and replay check internal consistency relative to the supplied seed/history. They do not authenticate source issuers, verify an actual person, anchor time independently, or prevent a database owner from replacing and rehashing the entire record. Production identity, authenticated adapters, independent retention, and external action integrations remain outside this prototype. No live LLM, inbox, payment, vendor, or Ramp connection is claimed.
 
-Source text has no execution authority. There is no external email, purchasing, payment, or accounting writeback tool. A future model extraction layer would need constrained outputs, validated citations, adversarial testing, and the same deterministic approval boundary; none of those future integrations is implied by this build.
-
-## Verification
-
-`npm test` exercises financial boundaries, extraction and matching, approval snapshots, local storage, and hash-integrity failures. `node src/engine/evaluate.mjs` reports authored fixture regressions by supported, mixed, and adversarial groups. `npm run verify:submission` reconciles recorded demo expectations with the actual fixture engine. `npm run build` creates the static production bundle.
-
-Those checks are evidence about the included cases and implementation. They are not an accuracy benchmark on unseen customer documents, a security certification, or proof of recovered customer money. Browser walkthrough evidence is recorded separately by the lead.
+See [TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md) for invariants, adversarial sequences, API examples, and evaluation limits.

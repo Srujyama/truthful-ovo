@@ -1,5 +1,6 @@
 async (page) => {
   const checks = [];
+  await page.getByRole('button',{name:'Evidence lab',exact:true}).click();
   const require = (value, message) => { if (!value) throw new Error(message); checks.push(message); };
   await page.getByRole('button', {name:'Load example',exact:true}).click();
   await page.getByRole('button', {name:'Analyze evidence',exact:true}).click();
@@ -22,6 +23,7 @@ async (page) => {
   await (await packetDownload).saveAs('output/playwright/evidence-packet.json');
   checks.push('Approved edited draft and evidence packet downloaded');
   await page.reload();
+  await page.getByRole('button',{name:'Evidence lab',exact:true}).click();
   await page.getByRole('button',{name:/^Saved cases/}).click();
   await page.getByRole('region',{name:'Saved evidence cases'}).getByRole('button',{name:/Pipeline CRM/}).first().click();
   await results.getByRole('tab',{name:'Claim draft',exact:true}).click();

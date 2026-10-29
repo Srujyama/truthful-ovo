@@ -1,0 +1,36 @@
+async (page) => {
+  const start=Date.now();
+  const at=async seconds=>{const delay=start+seconds*1000-Date.now();if(delay>0)await page.waitForTimeout(delay);};
+  const click=name=>page.getByRole('button',{name,exact:true}).click();
+  await at(5);await page.locator('.lineage-section').scrollIntoViewIfNeeded();
+  await at(15);await page.getByRole('button',{name:/^Decision room/}).click();
+  await page.locator('.decision-row').filter({hasText:'Pipeline CRM'}).filter({hasText:'Accept proposed amendment'}).click();
+  await page.locator('.deal-economics').scrollIntoViewIfNeeded();
+  await at(32);await page.locator('.amendment-branches').scrollIntoViewIfNeeded();
+  await at(39);await page.getByLabel('Reason for dismissing an alternative').fill('Decline the renewal; retain the original commercial agreement.');
+  await at(44);await click('Dismiss renewal');
+  await at(49);await click('Review date change');
+  await page.locator('.decision-action-bar').scrollIntoViewIfNeeded();
+  await at(56);await click('Approve exact action');
+  await at(61);await click('Record approved action');
+  await at(68);await click('Portfolio');await page.getByRole('textbox',{name:'Financial effective date'}).fill('2026-11-02');
+  await page.getByRole('textbox',{name:'Knowledge cutoff date'}).fill('2026-10-28');
+  await page.locator('.assurance-amount').scrollIntoViewIfNeeded();
+  await at(81);await page.getByRole('textbox',{name:'Knowledge cutoff date'}).fill(new Date().toISOString().slice(0,10));
+  await page.locator('.assurance-amount').scrollIntoViewIfNeeded();
+  await at(94);await click('Return to latest');await click('Failure lab');
+  await page.locator('.scenario-list button').filter({hasText:'An approval belongs to one evidence revision'}).click();await click('Run case');
+  await at(105);await page.locator('.scenario-steps summary').click();await page.locator('.scenario-steps').scrollIntoViewIfNeeded();
+  await at(122);await page.locator('.scenario-list button').filter({hasText:'One credit, one conserved balance'}).click();await click('Run case');
+  await page.locator('.scenario-result').scrollIntoViewIfNeeded();
+  await at(132);if(await page.locator('.scenario-steps').getAttribute('open')===null)await page.locator('.scenario-steps summary').click();
+  await page.locator('.scenario-steps').scrollIntoViewIfNeeded();
+  await at(145);await page.getByText('Advanced commands against this workspace',{exact:true}).click();
+  await page.getByRole('combobox',{name:'Command example'}).selectOption('Apply remaining Pipeline credit');
+  await page.locator('.command-console').scrollIntoViewIfNeeded();
+  await at(156);await click('Run command');
+  await at(163);await click('Portfolio');await page.locator('.assurance-amount').scrollIntoViewIfNeeded();
+  await at(172);await click('Export audit packet');await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
+  await at(180);
+  return 'Recorded actual financial assurance decisions, temporal replay, rejected commands and valid resolution.';
+}

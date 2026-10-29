@@ -1,54 +1,81 @@
-# Truthful demo script
+# Truthful v3 demo script
 
-The technical submission should show both the recovery story and a result that changes with new input. Use a 1440 × 900 browser window and clear audio. All included examples are fictional.
+The hero recording is three minutes: a financial decision, a genuine conflict, a knowledge-time comparison, actual rejected commands, and legitimate completion. Use 1440 × 900 or larger, legible text, and clear narration. Included counterparties and documents are synthetic.
 
-Before recording: start on **Evidence lab**. Open **Guided demo**, use **Reset** if necessary, and confirm Nimbus begins at Watching with $900 verified savings. Return to **Evidence lab**. Close drawers and saved cases. In a practice take, rehearse changing the one matching CSV amount from `900.00` to `1000.00` without touching other rows.
+The existing [v2 release recording](https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0) and [v2 Drive recording](https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view) show the earlier Nimbus/evidence workbench. They do **not** demonstrate v3 assurance. The Drive access gate remains unresolved; see [DELIVERY.md](DELIVERY.md) for publication facts owned by the lead.
 
-## Two-minute primary take
+## Before the take
 
-| Time | Screen action | Spoken line |
+Run `npm run dev` for the local HTTP/SQLite build, or open the public static app for browser mode. State the mode shown in the runtime banner; do not call GitHub Pages a shared backend. In **Assurance**, choose demo **Admin**, click **Reset demo workspace**, then **Confirm reset**. This restores the fictional seed. It retains server command audit history; browser workspace records are replaced.
+
+Stay on today’s **Effective on** and **Known by** dates before writing. Pipeline begins at $2,400 promised, $900 applied, and $1,500 outstanding. Nimbus has $2,000 issued but not applied. Keep a practiced source revision, an optional follow-up input, and the intended baseline assumptions ready.
+
+## Three-minute hero take
+
+| Time | Actual controls and expected effect | Spoken line |
 | --- | --- | --- |
-| 0:00–0:08 | Begin on Evidence lab. Click **Guided demo**. | “A promised credit is not a saving. Truthful connects what a vendor said to what actually reached the invoice.” |
-| 0:08–0:24 | On Nimbus, click **Trigger outage**. Point to the calculation and source buttons. | “This prepared example has nine covered hours of downtime. The contract’s 25% tier makes it a $2,000 claim. Every input has evidence.” |
-| 0:24–0:39 | Click **Review claim**, then **Approve claim**. | “A person reviews the claim. Approval stays local in this prototype; no email is sent.” |
-| 0:39–0:53 | Click **Receive reply**. Pause on the condition. Click **Keep original terms**. | “The vendor adds a year-long renewal. That new obligation stays separate. We preserve the original claim without accepting it.” |
-| 0:53–1:10 | Click **Issue credit**; point to verified savings staying $900. Click **Apply credit**. | “A credit memo still is not an applied saving. Only when the credit reaches the next invoice does the verified total move from $900 to $2,900.” |
-| 1:10–1:30 | Click **Evidence lab** in the sidebar. Choose **Partial credit**, click **Load example**, then **Analyze evidence**. | “Now the processing path: supplied promise text and invoice-credit rows. It finds $2,400 promised, $900 applied, and $1,500 missing, using an exact commitment reference.” |
-| 1:30–1:48 | Click **Invoice credits**. Change only the matching `900.00` to `1000.00`. Click **Analyze evidence**. | “This is not a fixed replay. Change the input to $1,000 and rerun: the gap becomes $1,400. Editing the source clears the old result until we analyze again.” |
-| 1:48–2:00 | Open an evidence citation; click **Export evidence**. | “The exact source passage and local audit record travel with the result. Supported-format rules, real calculations, and proof you can inspect.” |
+| 0:00–0:15 | Begin in **Portfolio**, Pipeline selected. Show the promise, applied credit, and graph. | “A promised credit is not a saving. Truthful asks what is still owed, which evidence supports it, and whether the next action is still authorized.” |
+| 0:15–0:38 | Open **Decision room**. Select Pipeline’s **Accept proposed amendment** row showing negative $900. Point to the economics and competing branches. | “This $1,500 concession requires $2,400 extra annual spend under our explicit baseline. It is $900 worse. It also conflicts with a separate date proposal. Neither silently changes the agreement.” |
+| 0:38–1:07 | Enter a reason under **Reason for dismissing an alternative**, such as “Decline the renewal; retain the original commercial agreement.” Click **Dismiss renewal**, then **Review date change**, **Approve exact action**, and **Record approved action**. | “Finance rejects the renewal with a retained reason, then reviews a fresh date-change action. Approval and execution are separate. The accepted schedule still waits for its effective date.” |
+| 1:07–1:33 | Return to **Portfolio**. Set **Effective on** to November 2, 2026. Set **Known by** to October 28, then to the date of this take. The same effective date shows the old October 1 due date before acceptance was known, and November 15 afterward. Click **Return to latest**. | “What applied and what we knew are different questions. At the same financial date, the late knowledge changes today’s interpretation without rewriting the earlier view. Historical comparisons are read-only.” |
+| 1:33–2:02 | Open **Failure lab**. Select **An approval belongs to one evidence revision**, click **Run case**, and expand **Inspect … executed steps**. Show `STALE_APPROVAL`. | “This case actually approves, changes a source, and tries to execute the old approval. The reducer rejects it. These are executed effects and errors, not canned success messages.” |
+| 2:02–2:25 | Select **One credit, one conserved balance**, click **Run case**, and inspect the blocked second allocation. | “The same $900 cannot fund another claim. Credit capacity is shared across the portfolio. The failed command leaves verified value unchanged.” |
+| 2:25–2:50 | Expand **Advanced commands against this workspace**. Choose **Apply remaining Pipeline credit**, then **Run command**. Return to **Portfolio** and Pipeline. It is fully applied at $2,400, with no outstanding balance. | “The system also permits valid progress. This atomic batch records a new invoice source, a separate $1,500 credit line, and its allocation. The promise is fulfilled once.” |
+| 2:50–3:00 | Click **Export audit packet**. Hold the completed portfolio. | “The sources, revisions, decisions, and local execution record travel together. Consistency you can replay, with the trust boundary stated.” |
 
-This narration deliberately identifies the Nimbus story as prepared and the workbench as supported-format processing. Do not describe either as live AI, live ingestion, or an autonomous vendor negotiation.
+This date example assumes the take occurs after October 28 and before the chosen financial comparison date. If recorded later, select a financial date after November 1, keep the early knowledge cutoff before the live acceptance, and set the later cutoff to the acceptance date. Rehearse the actual values. Do not change the service clock or backdate an observation merely to fit the script.
 
-## Extended technical proof — 60 to 90 seconds
+## Engineer appendix
 
-Start in Evidence lab. Each example must be loaded and then analyzed; selecting the dropdown alone does not change the current documents.
+### Shared ledger and reversals
 
-1. Load **Wrong reference** and click **Analyze evidence**. The promised amount is still $2,400, but applied is $0. “The amount fits; the reference does not. Equal amounts are not proof.”
-2. Load **Changed terms** and analyze. The reply adds a renewal condition. The original $900 invoice credit remains applied; no additional savings appear. Open **Vendor reply** to inspect the input.
-3. Load **Partial credit** and analyze again. Open **Claim draft**, edit the wording, and click **Approve claim**. The exact approved text is recorded, and editing is locked for that record.
-4. Click **Download draft**. It produces an unsent `.eml` file. The app does not send it. Open **Audit trail** to show the linked local events.
-5. Click **Export evidence** for full JSON, or **CSV** for a monetary summary. Use **Saved cases** to reopen a prior record after reload. Up to thirty analyzed cases are retained in that browser.
+In **Portfolio**, select Nimbus and open **Shared ledger**. The $2,000 memo is issued, so it contributes zero verified value. Expand **Record invoice evidence or a reversal**, keep **Invoice application**, and supply clearly labeled synthetic invoice text identifying the credit/reference. Click **Record application**. The verified portfolio rises from $900 to $2,900 on a clean seed.
 
-The local audit hashes detect inconsistencies relative to the recorded chain. They do not authenticate the vendor, reviewer, or invoice. A user controlling the browser can construct a new record.
+For Pipeline, choose **Credit reversal**, enter `300`, add source text, and **Record reversal**. Its verified value falls from $900 to $600 and the outstanding correction becomes $1,800. A full $900 reversal on a clean seed restores the full $2,400 balance. Partial reversals across several claims require explicit allocation attribution through the structured command API; do not imply the UI guesses it.
 
-## Engineer appendix: reproduce without the interface
+### Approval freshness in the open workspace
 
-From the repository root, with Node 24 or later:
+On a clean seed, open Pipeline’s **Preserve original terms** action. Click **Approve exact action**. Return to **Portfolio**, open the original source node in **Evidence graph**, click **Revise this source**, edit the supplied text, and **Save source revision**. Back in **Decision room**, the old action is out of date and offers **Create fresh proposal**, rather than execution.
+
+The Failure lab’s stale-approval scenario additionally sends the prohibited execution command and shows its typed rejection. This distinction matters: a disabled button is useful UX; the reducer is the authority boundary.
+
+### Mandate and roles
+
+Expand **Current mandate**. The demo Admin can change **Claim limit, USD**, **Incremental renewal limit, USD**, and whether to allow new obligations, then **Update mandate**. This invalidates pending approvals. Use **Demo role** to show Analyst, Approver, Executor, and Read only contexts. A prohibited operation must be rejected by the local service/reducer, not merely hidden in the UI. The roles are selectable demo identities, not verified employees.
+
+### Model-independent changed-input proof
+
+Open **Evidence lab**, choose **Partial credit**, click **Load example**, then **Analyze evidence**. It finds $2,400 promised, $900 applied, and $1,500 outstanding. On **Invoice credits**, change only the matching `900.00` to `1000.00` and analyze again: the gap is $1,400. Editing clears the old result until reanalysis.
+
+Use **Wrong reference** to show $0 applied despite a matching amount, or **Changed terms** to retain the existing $900 while flagging the renewal reply. Exact source passages are inspectable. Add to portfolio revalidates original documents and commits all facts atomically; it will reject a changed amount/reference that conflicts with an already tracked vendor invoice. Do not expect that conflicting edited sample to overwrite the seeded Pipeline credit.
+
+A new supported vendor/reference/invoice set can be imported through **Add to portfolio**. Reimporting identical evidence must not duplicate the credit. This adapter has one credit per vendor invoice; the structured API accepts explicit multiple-line identities.
+
+### CLI and service evidence
+
+From the repository root:
+
+```sh
+npm run evaluate:assurance
+npm run verify:depth
+npm run verify:submission
+```
+
+The first executes nine synthetic scenarios and thirty-one checks at this checkpoint. It is an authored regression suite, not held-out accuracy or formal verification. The second checks the architecture-answer length and documented evidence-lab amounts against real fixtures; it does not certify the entire assurance UI.
+
+With the optional local service running, authenticated data routes include `/api/workspace`, `/api/events`, `/api/export`, and `/api/verify`. The server export module replays stored commands; browser-only exports have no independent server record. See [server documentation](../server/README.md) and [technical deep dive](TECHNICAL_DEEP_DIVE.md).
+
+The earlier evidence-lab packet CLI remains available:
 
 ```sh
 node scripts/analyze.mjs --vendor "Pipeline CRM" --promise public/examples/pipeline-promise.txt --invoices public/examples/pipeline-invoices.csv --as-of 2026-10-28 --out /tmp/truthful-evidence-packet.json
 node scripts/verify-packet.mjs /tmp/truthful-evidence-packet.json
-npm run verify:submission
 ```
 
-The first command runs the same evidence engine and creates an analysis packet. The second checks its source/report/audit hash consistency. The submission check asserts the documented sample amounts, changed-input result, conditional-reply behavior, citation integrity, and architecture word limit. It does not establish vendor authenticity or real-world extraction accuracy.
+That CLI verifies the evidence-lab packet format. For v3 assurance downloads use `npm run verify:assurance-packet -- /path/to/truthful-assurance-evidence.json`. It replays complete commands and validates the selected projection; server packets additionally verify the persisted audit chain. Neither authenticates supplied sources.
 
 ## Recording and access
 
-Use actual product controls, with short pauses for the condition and the changed number. Keep browser developer tools, notifications, and terminals out of the main take. Record the optional CLI proof separately if needed.
+Use a real product capture, with short pauses on the negative value, the blocked command, and the changed knowledge view. Keep terminals out of the hero recording. Say “local action recorded,” not “email sent” or “renewal executed.” The app performs no external transaction and calls no live LLM.
 
-The form requests a Google Drive, Loom, or unlisted YouTube recording. After uploading, open the final link signed out: the correct video must play without a permission request or login, with audible narration and readable figures. A private Site URL does not replace that recording.
-
-## Live-final recovery
-
-Keep the built app and local sample files available. The guided scenario’s **Reset** does not clear the lab’s saved cases. **Clear saved cases** removes those browser records; export an open case first if you need it. Network failure does not prevent locally served processing once the app and examples are available. No inbox, payments, or external messages are connected.
+The form requests a Google Drive, Loom, or unlisted YouTube recording. Verify signed-out playback, readable amounts, audible narration, and the correct v3 recording. A GitHub backup or running website is supplemental. Do not check teammate agreement, attendance, track, or access declarations without the actual facts.

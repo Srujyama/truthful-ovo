@@ -30,7 +30,7 @@ function switchTab(event, keys, current, set, prefix) {
   event.preventDefault(); set(keys[next]); document.getElementById(`${prefix}-${keys[next]}`)?.focus();
 }
 
-export default function Workbench({ notify, onWalkthrough }) {
+export default function Workbench({ notify, onWalkthrough, onPromote }) {
   const [form, setForm] = useState(initial);
   const [record, setRecord] = useState(null);
   const [draft, setDraft] = useState('');
@@ -90,6 +90,8 @@ export default function Workbench({ notify, onWalkthrough }) {
     finally { if(ticket === operation.current) setLoading(false); }
   }
 
+  async function addPortfolio(){setLoading(true);setError('');try{await onPromote(report);}catch(e){setError(e.message);}finally{setLoading(false);}}
+
   async function approve() {
     const ticket = ++operation.current;
     setLoading(true); setError('');
@@ -128,7 +130,7 @@ export default function Workbench({ notify, onWalkthrough }) {
 
   return <main className="lab-main">
     <div className="lab-heading"><div><h1>Find the gap. Follow the proof.</h1><p>A vendor promise goes in. An accountable recovery comes out.</p></div><button className="button secondary" onClick={onWalkthrough}><Play size={15}/>Guided demo</button></div>
-    <div className="lab-toolbar"><div className="engine-status"><ShieldCheck size={15}/><span>Documents stay in your browser</span></div><button className="text-button" onClick={() => setHistoryOpen(!historyOpen)} aria-expanded={historyOpen}><FolderOpen size={15}/>Saved cases <span className="count-label">{cases.length}</span><ChevronDown size={14}/></button></div>
+    <div className="lab-toolbar"><div className="engine-status"><ShieldCheck size={15}/><span>Evidence stays on this device</span></div><button className="text-button" onClick={() => setHistoryOpen(!historyOpen)} aria-expanded={historyOpen}><FolderOpen size={15}/>Saved cases <span className="count-label">{cases.length}</span><ChevronDown size={14}/></button></div>
     {historyOpen && <section className="saved-cases" aria-label="Saved evidence cases"><div className="section-heading"><h2>Saved in this browser</h2><button className="text-button" onClick={clearCases}><Trash2 size={14}/>Clear saved cases</button></div>{cases.length ? cases.map(c => <button key={c.id} className="saved-case" onClick={() => openSaved(c)}><span><strong>{c.report.vendor}</strong><small>{new Date(c.createdAt).toLocaleString()} · {stateLabels[c.report.status]}</small></span><strong>{c.report.status !== 'unsupported' && c.report.outstandingCents != null ? money(c.report.outstandingCents) : '—'}</strong><ChevronRight size={16}/></button>) : <p>No saved cases. Analyze a document set to create one.</p>}</section>}
     {(error || storageError) && <div className="lab-error" role="alert"><AlertTriangle size={17}/><p>{error || storageError}</p><button className="icon-button" aria-label="Dismiss error" onClick={() => {setError('');setStorageError('');}}><X size={16}/></button></div>}
     <div className="lab-layout">
@@ -155,7 +157,7 @@ export default function Workbench({ notify, onWalkthrough }) {
             {detailTab === 'claim' && <div className="live-claim"><p>Follow up under the original terms. Review the draft before recording approval.</p><label className="sr-only" htmlFor="live-draft">Follow-up draft</label><textarea id="live-draft" value={draft} disabled={!supported || approved || loading} onChange={e => setDraft(e.target.value)} placeholder="A supported, unconditional outstanding promise is needed for a draft."/><div className="claim-actions">{approved ? <><span><CheckCheck size={16}/>Approval recorded</span><button className="button secondary" onClick={() => download(emailFor(record),'truthful-claim.eml','message/rfc822')}><Mail size={15}/>Download draft</button></> : <><small>No email is sent.</small><button className="button primary" onClick={approve} disabled={!canApprove || loading}><ShieldCheck size={15}/>Approve claim</button></>}</div></div>}
             {detailTab === 'audit' && <div className="live-audit">{record.audit.map(event => <div key={event.hash}><span className="audit-node"><Check size={13}/></span><div><strong>{event.type === 'EVIDENCE_ANALYZED' ? 'Evidence analyzed' : 'Original claim approved'}</strong><p>{new Date(event.at).toLocaleString()}{event.payload.actor ? ` · ${event.payload.actor}` : ''}</p><code title={event.hash}>{event.hash.slice(0,20)}…</code></div></div>)}<p className="audit-note">Hash-linked local record. Export includes the original documents and exact approved draft. It detects changes relative to this chain; it does not authenticate the source or reviewer.</p></div>}
           </div>
-          <div className="finding-footer"><span><ShieldCheck size={14}/>{approved ? 'Approval preserved' : 'Review before approval'}</span><div><button className="button secondary" onClick={() => download(summaryCsv(record),'truthful-recovery.csv','text/csv;charset=utf-8')}>CSV<ArrowDownToLine size={14}/></button><button className="button primary" onClick={() => download(JSON.stringify(packetFor(record),null,2),'truthful-evidence-packet.json')}><ArrowDownToLine size={15}/>Export evidence</button></div></div>
+          <div className="finding-footer">{onPromote&&supported&&!report.condition&&!report.replyCondition&&!report.replyReviewRequired&&<button className="button secondary" onClick={addPortfolio} disabled={loading}>Add to portfolio<ArrowRight size={14}/></button>}<span><ShieldCheck size={14}/>{approved ? 'Approval preserved' : 'Review before approval'}</span><div><button className="button secondary" onClick={() => download(summaryCsv(record),'truthful-recovery.csv','text/csv;charset=utf-8')}>CSV<ArrowDownToLine size={14}/></button><button className="button primary" onClick={() => download(JSON.stringify(packetFor(record),null,2),'truthful-evidence-packet.json')}><ArrowDownToLine size={15}/>Export evidence</button></div></div>
         </>}
       </section>
     </div>

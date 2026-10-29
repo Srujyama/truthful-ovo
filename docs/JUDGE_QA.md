@@ -1,77 +1,105 @@
-# Truthful: questions from engineers
+# Truthful v3: questions from engineers
 
-## What is the actual problem?
+## What changed beyond the original parser?
 
-A vendor commitment can sit in a conversation while the invoice lives elsewhere. The operator has to remember the terms, detect partial fulfillment, chase the gap, and confirm the outcome. Our prototype puts those decisions and their evidence in one workflow. We have not measured how often customers lose these concessions or the market-wide dollar value.
+The parser is now an entry point into a shared commitment-assurance system. The implemented core manages allocations across commitments, versioned amendment branches, effective/knowledge-time projections, policy-bound approval/execution, reversals, and explicit renewal economics. The optional HTTP/SQLite service adds a real transaction, actor-context, concurrency, retry, and audit boundary. The Failure lab executes adverse cases against the same reducer. See [architecture](ARCHITECTURE.md) and [technical deep dive](TECHNICAL_DEEP_DIVE.md).
 
-## Doesn’t Ramp already handle vendor credits?
+## What is the specific user problem?
 
-Yes. Ramp already supports creating and applying vendor credits, and its Applied AI offering advertises contract-to-invoice reconciliation. We are demonstrating a focused extension: preserve a promise before a formal memo exists, carry its conditions and approval boundary forward, and distinguish a negotiated concession from its actual fulfillment. We do not claim that credit reconciliation is a new category. See [Ramp’s vendor-credit documentation](https://support.ramp.com/vendor-credits-credit-memos-on-ramp-bill-pay/) and [Applied AI Solutions](https://ramp.com/applied-ai-solutions).
+A finance operator needs to know whether a proposed recovery is still valid when the promise, ledger, and authority have changed independently. A promise may be partly fulfilled; a credit may already fund another claim; a renewal may worsen the economics; an old approval may refer to old evidence. We have not established the frequency of these cases or a customer recovery rate.
+
+## Isn’t credit recovery already a product?
+
+Yes. Ramp supports vendor credits and advertises contract-to-invoice reconciliation. Ardina describes supplier-credit lifecycle automation; Vertice Ana describes negotiation strategy and forecasting. We do not claim an uncontested category. Our hackathon contribution is the integrated, inspectable behavior under conflicting evidence and changing authority. Public pages do not reveal competitors’ internal invariants. [Primary-source comparison](COMPETITIVE_RESEARCH.md).
 
 ## Where is the AI?
 
-The financial runtime is deterministic. The prepared Nimbus case and the supported-format evidence lab do not call a live language model. AI-assisted development is different from runtime AI, and we label that honestly. A model extraction layer is a proposed extension, not a current capability. If the final build adds one, show the exact provider/model path, output schema, citation checks, failure behavior, and evaluation before changing this answer.
+AI assisted development. The runtime is deterministic and does not call a live language model. We deliberately keep financial conservation and authorization outside model-generated reasoning. A future model can propose structured interpretations/actions behind schema and citation checks. It is not implemented simply because we describe that architecture. The form asks for newest AI tools, so this distinction remains explicit in the submission answer and delivery record.
 
-## Why not put an LLM in charge of the whole workflow?
+## Why should an engineer care about a rules engine?
 
-A fluent answer is insufficient evidence that a credit reached an invoice. Extraction can be probabilistic, but reconciliation, monetary arithmetic, state transitions, and action approval should be independently checkable. A future model can propose structured terms; the core should reject unsupported values and invalid references before changing a financial result.
+Because the rules must continue to hold across multiple cases and time. We demonstrate a duplicate allocation rejected without partial mutation, a late amendment visible only at the appropriate knowledge cutoff, a conflicting branch blocked until reasoned review, and a once-valid approval rejected after its basis changes. Those are executable state/effect properties, not just a prompt or dashboard.
 
-## What is real versus simulated?
+## What exactly is conserved?
 
-Nimbus, Pipeline, Orbit, and Parcel are synthetic. Nimbus’s incident, vendor responses, and invoice arrivals are controlled replay events. Its arithmetic and state transitions are executed. The evidence lab processes supplied text and a positive applied-credit CSV using a documented supported format. Exact citation offsets are UTF-16 string indices, not byte offsets. No inbox, Ramp account, vendor endpoint, payment service, or live LLM is connected.
+Every recorded credit line has available value after reversals. Its allocations across all commitments cannot exceed that capacity. Allocation identity must agree with vendor, USD currency, and reference. Verified attribution is capped by the accepted commitment; issued credit contributes zero. The model relies on an adapter’s asserted external line identity; it does not authenticate the invoice or infer line identity from arbitrary text.
 
-## How do you know a credit belongs to this promise?
+## Can the same invoice appear twice under different names?
 
-The evidence lab accepts a positive applied-credit ledger and requires matching normalized vendor, USD currency, and exact commitment reference. It is not an arbitrary gross-invoice parser. A similar amount alone is insufficient. A source citation explains the extracted promise, and matched invoice rows support the applied total. This relies on the provided data being authentic; the prototype does not verify the issuer’s identity or prove that an imported invoice is genuine.
+The engine rejects reuse of a vendor/invoice/line identity under another credit ID. Its structured API permits real distinct lines on one invoice, provided the adapter supplies explicit line identities. The legacy Evidence lab importer has no line column, so it uses a stable one-credit-per-vendor-invoice identity. Changing the commitment reference cannot manufacture another line; conflicting imports are refused.
 
-## What if two rows look the same?
+## What if two commitments share a reference?
 
-Duplicate evidence must not inflate savings. Identical repeated rows with the same invoice ID count once. Different rows sharing an invoice ID are treated as conflicting evidence and require correction. The supported ledger uses one credit row per invoice. This is a bounded deduplication policy, not full accounting-system idempotency.
+The credit is quarantined rather than assigned by a guess. An approver supplies a source-backed resolution with explicit per-commitment limits. Identity still has to match, and allocations share the original capacity. Discovering ambiguity later can withdraw uncertain verified attribution until resolved; it does not create more money.
 
-## What if the vendor adds a condition?
+## Is a credit memo enough?
 
-The reply does not silently amend the original commitment. A renewal condition needs a separate decision. It creates no additional applied savings. In the Nimbus replay, preserving the original terms keeps the claim open; issuance still waits for invoice application.
+No. An issued memo may reserve capacity but contributes no verified applied value. Application requires a separate invoice source. A reversal reduces the available backing and reopens the affected balance. Shared partial reversals require explicit causal attribution, rather than choosing arbitrarily which claim loses its credit.
 
-## What if only part arrives?
+## How do competing amendments work?
 
-Keep the original promised amount and subtract only matched applied credits. Pipeline begins with $2,400 promised, $900 applied, and $1,500 outstanding. Partial fulfillment remains open. The operator can inspect the original email and supporting invoice.
+A proposal does not change accepted terms. Incompatible pending patches or renewal economics block acceptance. Finance dismisses an alternative with a retained reason and actor, then prepares/reviews a current action. The amendment itself binds its accepted branch and source revisions, so a fresh action cannot revive an intrinsically stale proposal. Accepted but future nonfinancial schedules require explicit supported supersession; cancelling an accepted renewal is outside this model.
 
-## Why integer cents?
+## Is a later email automatically more authoritative?
 
-The generalized evidence engine uses integer cents to avoid binary floating-point accumulation in credit totals. The original SLA helper rounds a rate calculation to cents and has separate boundary tests. We do not claim support for every currency, exchange rates, or arbitrary tax treatment.
+No. Observation order records knowledge; it does not establish legal agreement. The prototype requires explicit modeled acceptance and authority checks for an amendment to take effect. It is a bounded workflow model, not a determination that an email is legally binding.
 
-## What happens when extraction is ambiguous?
+## What does an approval authorize?
 
-It asks for review or reports unsupported input. It must not invent a date, currency, reference, or amount. The scope is deliberately narrower than arbitrary document understanding. Demonstrate an unsupported example and inspect the warnings rather than describing every rejection as a successful extraction.
+One canonical action under its recorded material revision, policy content/version, commitment revision, and source revisions. Execution rechecks the current basis and policy. New material facts invalidate pending approval conservatively, even when they concern another case. Repeated request IDs do not repeat effects; executing an already completed action with a new request ID is rejected.
 
-## Can a document prompt the app to send money or accept a renewal?
+## Why invalidate approvals for unrelated changes?
 
-The current processor has no execution or outbound payment tool. Source text is data, not an instruction channel. Approval records only the exact reviewed draft; downloading its `.eml` file does not send it. That reduces this prototype’s action surface; it does not establish that a future LLM connector would be immune to prompt injection. Such a connector needs isolation, constrained output, citations, and explicit authorization at the action boundary.
+It is a conservative implementation tradeoff. A single material-workspace revision is easier to inspect than an incomplete dependency graph that accidentally permits stale execution. It can create unnecessary re-review. A production system should narrow invalidation using tested causal dependencies while preserving soundness.
 
-## Is the audit log tamper-proof?
+## How does time differ from a date filter?
 
-No. The report snapshot and local approval events are SHA-256 hash-linked. The exported packet includes the original documents and exact approved draft; the verifier detects changes relative to that chain. A user controlling the browser can recompute a new chain. It does not authenticate the vendor, invoice, reviewer, or timestamp. Up to thirty cases persist in localStorage, with no account authentication. Production needs server-enforced actor identity and an independently protected event store.
+`asOf` filters financial effects; `knownAt` filters observations. A late-recorded amendment can alter today’s retrospective interpretation of an earlier financial date without appearing in what an earlier operator knew. Deadlines are recomputed as the financial date changes. Historical UI comparisons disable writes. This does not establish that all external data has arrived; missing evidence remains unknown.
 
-## Why no backend?
+## Why is a $1,500 credit a negative $900 deal?
 
-For this scope, browser-local processing makes setup repeatable and avoids sending supplied evidence to an external processor. It also means no multi-user coordination, independent authentication, managed backups, or authoritative ledger. Those are explicit production gaps, not features hidden by the interface.
+The fictional baseline is equivalent service for twelve months at $6,000 per month. The proposed renewal is $6,200 per month: $2,400 incremental annual spend. Only $1,500 remains as a contingent credit, so the incremental comparison is negative $900. The existing $900 application is not a new negotiation benefit. The baseline is an explicit assumption, not a verified alternative offer; taxes, discounting, cancellation rights, and uncertain service value are outside that simple comparison.
 
-## How is it tested?
+## Does accepting a renewal erase its cost?
 
-Separate financial/state-transition tests from the engine’s extraction and reconciliation tests. Show the actual command output. The included scenarios and adversarial examples are authored regression fixtures. Passing them does not establish real-world extraction accuracy, customer savings, or generalization to unseen contracts.
+No. Effective and future incremental obligations are retained separately from verified credits. `netVerifiedValueCents` subtracts effective agreed incremental obligation from verified attribution under the recorded baseline. That is a model comparison, not a settled bank cash-flow measurement. Acceptance alone creates no applied savings.
 
-## What would you validate with a real finance team?
+## Is the public website the same as the server demo?
 
-Start with permissioned historical cases. Ask an operator to label the original commitment, conditions, due date, correct invoice application, and final disposition. Hold out independently reviewed cases before tuning extraction. Measure precision of surfaced recoveries, unsupported-input rate, false applied-credit matches, time spent reviewing, and incremental credits actually applied. Keep vendor concessions separate from ordinary contract discounts and avoid double-counting savings already identified by existing tools.
+It uses the same reducer, but has a different trust boundary. GitHub Pages serves static files and uses the clearly labeled browser workspace. It does not host Node, SQLite, or a shared authoritative ledger. `npm run dev` additionally starts a loopback HTTP/SQLite service with server-side role checks, transactions, revisions, persistent retries, and audit replay. The runtime banner identifies the mode.
 
-## How would Ramp integration work?
+## Are the server’s users authenticated employees?
 
-Begin with a consented, read-only adapter for supported bill/vendor data and separately authorized source access. Keep approval and reconciliation in our domain layer. Verify the available endpoints, scopes, account access, and credit-application records before writing an adapter. Ramp’s authorization documentation lists `bills:read`; that is a possible starting point, not proof that every required field is exposed. No such adapter is implemented here. [Ramp authorization documentation](https://docs.ramp.com/developer-api/v1/scopes).
+No. The local service issues sessions for deliberately selectable demo roles. It refuses actor/role spoofing in command requests and enforces the selected session role, but anybody with access to the local demonstration service may intentionally choose a demo Admin identity. Production organizational identity, membership, and credential management are not implemented.
 
-## Why mention purchasing agents?
+## What makes an import atomic?
 
-Agents can negotiate or purchase, but financial fulfillment still needs proof. Ramp’s agent-payments documentation already supports purchases under user permissions. Our hypothesis is that a durable commitment record can complement that execution layer. The prototype’s Orbit case illustrates the authority boundary; it is not a connected agent-to-agent negotiation. [Ramp agent payments](https://docs.ramp.com/developer-api/v1/agent-payments).
+Add to portfolio reruns extraction against the original text and CSV, checks terms and stable credit identity, and prepares a source/commitment/credit/allocation batch. Browser mode does not replace the workspace until the whole batch succeeds. Server mode uses one SQLite transaction for the entire batch. An invalid last allocation leaves no earlier source or ledger fact committed. An evidence-lab draft approval does not become assurance authority during import.
 
-## What would you build next?
+## What happens if two tabs write at once?
 
-First validate supported cases with finance operators. Then add authenticated storage and read-only source connectors. Add model-assisted extraction only behind schema and citation checks, and evaluate it on held-out, permissioned evidence. Outbound recovery actions come later, with scoped approval, idempotency, and a real audit trail. Broader SLA ingestion, OCR, currencies, amendments, and accounting writeback each need explicit domain support.
+The server requires `expectedRevision` or `If-Match`. A stale request receives a conflict instead of overwriting newer data. Identical actor/idempotency-key requests return the recorded response, including after restart; a different request under that key conflicts. This is real service behavior. Browser-only mode is a local demo and does not provide equivalent independent multi-user coordination.
+
+## Is the audit tamper-proof?
+
+No. Server entries bind command, actor, time, state digests, revisions, and previous hash. Replaying from the stored seed checks the persisted snapshot and export. Somebody controlling the entire database can replace the seed/history and recompute the hashes. There is no independent external anchor, authenticated vendor signature, or trusted clock attestation. Browser records have still less independent authority.
+
+## Can source text cause a real action?
+
+No external action tool is connected. Text is evidence, not an instruction channel; action types are explicitly modeled commands. A valid execution records a local simulation. This does not establish that a future model/connector would be prompt-injection-proof. That integration requires its own adversarial evaluation and complete mediation of real effects.
+
+## How is correctness tested?
+
+At this checkpoint the assurance suite has thirty-eight tests and nine authored scenarios with thirty-one checks, including legitimate completion after a block. Other suites cover extraction, cents math, imports, economics, local approval packets, and real HTTP/SQLite behavior. The lead records integrated browser/build results separately. Authored scenarios are regression evidence, not held-out accuracy, competitor performance, or formal proof.
+
+## Are these proof-carrying contracts or formal verification?
+
+No. We use runtime validation, deterministic reducers, regression tests, and replay checks. Existing research already studies proof-checked agent operations, temporal reconciliation admissibility, and formally verified invoice lifecycles. We cite it as grounding and a limit on novelty claims, not as a guarantee inherited by our JavaScript implementation. [Research review](COMPETITIVE_RESEARCH.md).
+
+## How would a pilot be evaluated?
+
+Use permissioned historical cases independently labeled by finance reviewers, with DEV tuning separated from held-out evaluation. Measure unsafe effects, false blocks, legitimate task completion, false credit associations, review effort, and incremental credits actually applied against the existing process. Do not count credits already recovered elsewhere or replace those outcomes with a fluent explanation score.
+
+## What is still outside scope?
+
+Verified organizational identity; authenticated source/financial connectors; independent retention/anchoring; arbitrary document/OCR understanding; currencies, FX and tax; accepted-renewal cancellation; real outbound communication, purchasing, payment and accounting writeback; and runtime model extraction. The implemented assurance checks remain useful local demonstrations without claiming those integrations exist.

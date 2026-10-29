@@ -1,26 +1,31 @@
-# Delivery record · October 29, 2026
+# V3 delivery record · October 29, 2026
 
-- [Live application](https://srujyama.github.io/truthful-ovo/)
-- [Public GitHub repository](https://github.com/Srujyama/truthful-ovo)
-- [Narrated recording: public MP4 download](https://github.com/Srujyama/truthful-ovo/releases/download/v2.0.0/truthful-demo.mp4)
-- [Release and recording](https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0)
-- [Google Drive recording](https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view) — uploaded, public-link access **not verified**.
+- [Live assurance application](https://srujyama.github.io/truthful-ovo/)
+- [Public source](https://github.com/Srujyama/truthful-ovo)
+- [V3 release](https://github.com/Srujyama/truthful-ovo/releases/tag/v3.0.0)
+- [Three-minute narrated MP4](https://github.com/Srujyama/truthful-ovo/releases/download/v3.0.0/truthful-assurance-demo.mp4)
+- [Earlier v2 Drive copy](https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view) — earlier workbench recording, owner-only permission observed; unsuitable as the v3 submission recording.
 
-The 2:08 recording captures the actual browser product at1440×1000, with generated local system-voice narration (Samantha). It shows the Nimbus SLA case, human approval, the renewal counteroffer, issuance versus application, then changed-input reconciliation from$900 to$1,000 applied and$1,500 to$1,400 outstanding. Video frames were inspected and its H.264 video/AAC audio streams verified. The public GitHub MP4 is a backup: the form specifically names Drive, Loom, or unlisted YouTube.
+The v3 recording is181 seconds of actual browser interaction with the local SQLite service, with local system-voice narration. It demonstrates negative renewal economics, retained branch dismissal, precise approval and one-use local execution, effective/knowledge-date replay, actual stale-approval and duplicate-allocation rejections, a valid atomic invoice/source/allocation batch, and final $2,400 applied with zero Pipeline outstanding. Sources and counterparties are synthetic. No external transaction occurs.
 
-## Verification evidence
+The H.2641440×912 video and AAC audio were checked. Representative frames, including the negative$900 economics and final zero balance, were inspected. The recorder’s unused gray bottom strip was cropped; UI content and behavior were not fabricated. All nine narration segments fit their chapter windows; audio mean−17dB and peak−1.4dB. Recording and narration scripts are in `scripts/`; the inspected artifact is `output/demo-v3/truthful-assurance-demo.mp4`.
 
-- `npm run check`:57 automated tests;22 authored synthetic evaluation cases; submission/demo consistency; production build.
-- GitHub Verify Truthful and Deploy demo workflows succeeded for the published build.
--20 browser assertions passed against the deployed app, including the complete claim lifecycle, edited-input recalculation, wrong-reference exclusion, exact citations, edited-draft approval/export, reload persistence, keyboard tabs, unsupported/future claim blocking, delayed-analysis cancellation, and mobile layout/navigation.
-- Exported evidence packet verified through the standalone CLI.
-- Independent implementation review findings repaired. Design reviewer scored all five material fixes resolved. DESIGN.md and its sidecar reflect the shipped extension.
-- Staged source checked for common API-token/private-key patterns and excluded private transcripts, environment files, caches and generated local data. This is a bounded check, not a claim of exhaustive security certification.
+## Integrated evidence
 
-## External decisions before submission
+- `npm run check`:117 automated tests,22 authored evidence fixtures,9 assurance scenarios/31 assertions,9 cross-layer acceptance checks,6 rejected tamper variants, submission-answer consistency, production build.
+- The depth verifier checks843 command-prefix/date projections. Shared seed prefixes recur; these are not843 independent cases or a real-world accuracy benchmark.
+- The same assurance walkthrough passes25 UI assertions in local-service mode and25 in static browser mode. Original evidence/Nimbus paths pass20 more assertions, including edited inputs, exact citations, draft approval/export, reload, keyboard navigation, cancellation, and mobile behavior.
+- Actual browser and server assurance exports replay through `verify:assurance-packet`; selected historical projections agree with their recorded source state and server audit.
+- Independent engineering review found and repaired future-allocation conservation, invoice reference aliasing, historical History leakage, large-number comparison arithmetic, and inactive historical-reversal fallthrough. Service checks exercise actual HTTP, SQLite restart, concurrent writers, roles, CSRF, batches, and durable idempotency.
+- Independent design review scored its two material fixes resolved: graph-path contrast and critical annotation size. Six correct desktop/mobile captures show no horizontal overflow. DESIGN.md and the sidecar record the extension.
+- Bounded common credential/private-key pattern scan clean. Runtime SQLite, `.env`, outputs, caches, and private transcripts are excluded from published source.
 
-1. **Video access:** enable Anyone with the link / Viewer on the Drive recording and verify playback signed out. Connected Drive tools can upload and inspect this file but cannot set an anyone permission. Native browser access was interrupted by another active session; the browser host was unavailable and a separate app attempt timed out. No other session was stopped or reconfigured.
-2. **AI direction:** the runtime currently uses supported rules, not a live model. No usable OpenAI key was found in the environment/project. The requested reuse-versus-create decision is pending; no key was created, copied, or used. The form asks for newest AI tools, so the architecture answer accurately distinguishes AI-assisted development from runtime AI.
-3. **Team facts:** confirm the track selected in Round1, November19 attendance, and actual teammate agreement before checking the form declarations.
+`node scripts/verify-delivery.mjs` checks public repository visibility, the deployed assurance bundle/examples, and byte equality between the public MP4 and the inspected local recording. GitHub workflow results and hosted browser acceptance are verified separately during publication; [delivery.json](delivery.json) records those facts.
 
-No application was submitted, no organizer email was sent, and no consent or attendance answer was invented. The copy-ready text is in [SUBMISSION.md](SUBMISSION.md). The remaining external state is tracked in [delivery.json](delivery.json); `node scripts/verify-submission-ready.mjs` deliberately fails until those facts are resolved.
+## External submission gates
+
+1. **Accepted-host video:** the form requires a viewable Drive/Loom/unlisted YouTube video. The public GitHub MP4 is a backup. A v3 Drive upload was requested, but no retrievable new file ID was found in connector readback; do not infer a verified upload or shareable link. The observed v2 file is owner-only. The connector can upload/read but can grant only named-user/domain sharing, not anyone-link sharing. Earlier native browser access was unavailable or contested by another session. A final v3 accepted-host link must be opened signed out before submission.
+2. **Runtime AI choice:** no live LLM is connected. No usable OpenAI key was found in the environment/project; the reuse/create/direction question remains unanswered. No key was created, copied, or used. The260-word answer distinguishes AI-assisted development from deterministic runtime behavior. The form’s AI prompt fit still needs an explicit decision or a validated model path after the credential gate.
+3. **Team declarations:** original Round1 track, November19 attendance, and actual teammate agreement remain unknown. No organizer email or application was sent and no declaration was invented.
+
+These gates are preserved as openT9. `node scripts/verify-submission-ready.mjs` deliberately fails until the actual facts are recorded. The engineering upgrade is separately verifiable; publication does not establish submission readiness.

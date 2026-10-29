@@ -1,58 +1,60 @@
 # Truthful
 
-**Follow the promise. Verify the money.**
+**A credit cannot be spent twice. An old approval cannot authorize a changed deal.**
 
-Team OVO · BBS × Ramp Hackathon · technical prototype
+Team OVO · BBS × Ramp Hackathon · v3 technical prototype
 
-## The user and the job
+## The job
 
-A finance operator is closing the month. A vendor’s account manager promised a correction in an email; the invoice has an adjustment with a different label. The operator needs to know what was promised, whether a condition changed, how much was actually applied, and what to follow up on.
+A finance lead has to turn a vendor’s promise into a defensible outcome. The hard cases span several records: a partial credit, another claim with the same reference, a later amendment, a renewal condition, and an approval issued before the evidence changed.
 
-Truthful keeps that case together. Its unit of work is a commitment with supporting evidence, not a chat answer or an unqualified “savings” number.
+Truthful makes the next decision explicit: what is still owed, which terms apply, which credit is available, and whether the proposed action is still authorized. Its unit of work is an evidence-backed commitment with changing state, not a chat answer or an unqualified savings number.
 
-## The workflow
+## The product
 
-1. Preserve the original promise and its terms.
-2. Attach evidence and determine the supported amount.
-3. Match invoice-credit evidence to that commitment.
-4. Surface the outstanding balance and any new condition.
-5. Prepare a follow-up for human review.
-6. Close the gap only when the application is supported by invoice evidence.
+**Portfolio** shows obligations beside a shared credit ledger, deadlines, source revisions, amendment proposals, and an inspectable evidence graph. Effective-on and known-by dates separate what applied from what was knowable. Historical comparisons are read-only.
 
-The interface keeps promised, issued, conditional, and applied states separate. It makes the source accessible at the decision point. Approval does not imply an external send.
+**Decision room** binds approval to the exact proposal and its evidence, ledger, term, and policy basis. A changed basis invalidates pending approval. Competing amendment branches require a finance decision with a retained reason. Execution rechecks the current basis and records one local action.
 
-## What this build demonstrates
+**Failure lab** runs nine authored adverse scenarios through the actual reducer. Duplicate allocation, late evidence, stale approval, ambiguous references, reversals, deadlines, issuance versus application, negative renewal economics, and competing branches produce inspectable effects and expected rejections. An advanced console also accepts structured commands or atomic batches against the open workspace.
 
-The prepared Nimbus story calculates a $2,000 SLA claim from a covered nine-hour outage. A renewal counteroffer triggers review. A credit memo leaves verified savings unchanged until the next invoice applies it. Pipeline demonstrates partial fulfillment: $2,400 promised, $900 applied, $1,500 outstanding. Orbit illustrates an agent receiving an offer beyond its renewal authority; Parcel illustrates a future fee waiver.
+The **Evidence lab** remains a working entry path: paste or import supported promise text and positive invoice-credit CSV, inspect exact citations, then Add to portfolio. The import revalidates original documents and commits sources and financial facts atomically. It does not carry over authority from an earlier email-draft approval.
 
-The Evidence lab is the opening surface. It processes supplied promise text, a positive applied-credit CSV, and an optional vendor reply. This is not arbitrary gross-invoice understanding. It uses supported-format extraction, exact source citations, reference-based matching, and monetary arithmetic. Documents and cases included with the project are fictional. This is not a live recovery service, a universal contract reader, or a measured customer outcome.
+## The case that explains it
 
-## Architecture and implementation
+Pipeline CRM promised a fictional $2,400 correction. Only $900 reached an invoice, leaving $1,500. The same $900 cannot fund another claim. A date amendment and a renewal alternative conflict, so neither silently replaces the original agreement.
 
-React and Vite provide a compact, locally runnable workspace. Financial and evidence logic live in modules outside the UI. The generalized engine keeps money in nonnegative safe integer cents, refuses unsupported ambiguity, and requires normalized vendor, USD currency, and exact commitment-reference matching. Citations retain exact UTF-16 source ranges. Up to thirty cases persist in browser localStorage. Full evidence JSON contains original documents and hash-linked local audit events; CSV provides a summary. Reviewers can edit and approve a draft, then download an unsent `.eml`. Hashes verify internal consistency, not source authenticity or reviewer identity. There is no connected inbox, accounting writeback, live LLM, payment execution, or accepted renewal.
+The renewal offers that remaining $1,500 in exchange for $2,400 extra annual spend under an explicit same-service baseline: $6,200/month instead of $6,000/month over twelve months. That yields negative $900 incremental value. This is a scenario calculation, not a forecast, market benchmark, or verified alternative offer.
 
-The narrow parser is a deliberate tradeoff: it makes supported outcomes explainable and reproducible. A future model can expand extraction coverage while leaving money math, evidence validation, and approval enforcement deterministic.
+The finance lead can preserve the original claim, dismiss a competing alternative with a reason, and review a fresh current proposal. If the evidence or mandate changes after approval, the old action is unusable. When an invoice applies a credit, verified value increases once. If the credit reverses, the balance reopens.
 
-## Where this fits beside Ramp
+## What is implemented
 
-Ramp already supports recording and applying vendor credits. Its Applied AI Solutions offering also advertises contract-to-invoice reconciliation and cited policy interpretation. Truthful should therefore be presented as a specific workflow experiment around the life of a conversational commitment, its changing conditions, and its eventual fulfillment—not as the invention of reconciliation. [Vendor credits in Ramp](https://support.ramp.com/vendor-credits-credit-memos-on-ramp-bill-pay/), [Ramp Applied AI Solutions](https://ramp.com/applied-ai-solutions).
+| Mechanism | Current behavior |
+| --- | --- |
+| Shared allocation | Global credit-line capacity, exact identity, ambiguity quarantine, explicit resolution, partial allocations, and causal reversals. |
+| Versioned obligations | Proposed, accepted, dismissed, stale, competing, and explicitly superseded schedule changes retain lineage. |
+| Temporal replay | Independent financial effective and observation cutoffs; no feed-completeness claim. |
+| Authority | Analyst/approver/executor/viewer roles, exact-action approval, current-policy recheck, and one-use local execution. |
+| Economics | Contingent credit, incremental obligation, explicit baseline, and editable comparison assumptions remain separate from applied savings. |
+| Local service | Real Node HTTP and SQLite with sessions, role enforcement, atomic batches, revisions, durable retries, and hash-linked replay. |
+| Static public demo | Same reducer in a clearly labeled browser workspace; no authoritative shared backend. |
+| Evidence entry | Bounded USD text/credit-ledger input, exact source spans, safe invoice identity, atomic portfolio import, and separate report/draft exports. |
 
-Ramp’s agent-payment flows already act under connected users’ permissions. Our proposed complement is evidence about promises surrounding those purchases after the transaction. That integration is a design hypothesis; the Orbit fixture is not a live Ramp agent. [Ramp agent payments](https://docs.ramp.com/developer-api/v1/agent-payments).
+At the documentation checkpoint, the assurance suite has thirty-eight tests and nine authored scenarios with thirty-one checks. These counts cover that domain suite, not an independent extraction benchmark or all application tests. Publication and integrated acceptance evidence are tracked by the lead in [DELIVERY.md](DELIVERY.md).
 
-## Success criteria
+## Fit beside existing products
 
-For this prototype: financial invariants hold, conditional offers do not become savings, unrelated credits do not match, source citations are inspectable, and changed supported input changes the result. Regression tests and a complete browser walkthrough provide the evidence.
+Ramp already records/applies credits and advertises contract-to-invoice reconciliation. Ardina describes source-linked supplier-credit recovery and amendment updates. Vertice Ana covers negotiation strategy and forecasts. Our case for differentiation is an inspectable, executable assurance workflow across adverse state changes—not that credit recovery, graphs, or agent guardrails are new. [Primary-source competitive review](COMPETITIVE_RESEARCH.md).
 
-For a pilot: measure false recovery claims, false application matches, operator review time, and incremental credits actually applied. Establish a baseline and avoid counting credits recovered by existing workflows. No customer recovery rate, accuracy percentage, or revenue claim has been established.
+## Boundaries
 
-## Roadmap and gates
+All included counterparties and documents are synthetic. External emails, renewals, purchases, and payments are not performed. No live model, inbox, or Ramp integration is connected. AI assisted development; the financial runtime is deterministic.
 
-| Stage | Deliverable | Gate before expanding |
-| --- | --- | --- |
-| Current prototype | Prepared recovery story, supported-format evidence processing, local approvals, persistence, and export. | Financial tests, source inspection, and repeatable demo. |
-| Finance-reviewed pilot | Permissioned historical examples, workflow interviews, independently labeled outcomes. | High precision on held-out cases and useful operator review time. |
-| Connected read-only workspace | Authenticated storage and approved source adapters. | Verified scopes, source lineage, entity identity, access control, and deletion/retention behavior. |
-| Model-assisted extraction | Schema-constrained proposed terms with validated citations. | Held-out evaluation, ambiguity handling, prompt-injection testing, and cost/latency evidence. |
-| Controlled recovery actions | Approved outbound follow-ups and accounting handoff. | Scoped authority, actor identity, idempotency, immutable server audit, and reversibility. |
+The optional service enforces roles for selectable local demo identities, not verified employees. Hashes/replay prove internal consistency relative to the record, not vendor authenticity, independent time, or settlement finality. The evidence importer supports a positive credit ledger with one row per invoice; the structured API supports explicit credit-line identities. Neither is universal invoice understanding.
 
-This brief describes a product direction and a bounded technical prototype. It does not claim that roadmap items are shipped.
+## Validation and next gates
+
+The implemented acceptance focus is financial conservation, safe state transitions, correct historical projections, legitimate progress after a block is resolved, and reproducible traces. A pilot would use permissioned, independently labeled cases to measure unsafe effects, false blocks, review effort, and incremental credits actually applied against the existing workflow.
+
+Next product gates are verified organizational identity, consented read-only source adapters, independent audit retention, and finance-reviewed held-out evaluation. Model-assisted proposals can expand coverage only behind schema, citation, financial, and authority checks. Outbound actions need separately scoped permissions and integration tests. No customer ROI or market-wide recovery estimate has been established.

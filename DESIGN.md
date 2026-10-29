@@ -14,6 +14,13 @@ colors:
   condition-fill: "#fbf1df"
   availability: "#a8bda0"
   outage: "#bb7254"
+  assurance-muted: "#60725d"
+  assurance-rule: "#dfe7d8"
+  assurance-wash: "#eef3e8"
+  assurance-condition: "#855b2d"
+  assurance-negative: "#974c39"
+  assurance-negative-fill: "#f9ede8"
+  graph-link: "#657d5c"
 typography:
   headline:
     fontFamily: "Manrope Variable, Manrope, sans-serif"
@@ -33,6 +40,21 @@ typography:
     lineHeight: 1.4
     letterSpacing: "-0.035em"
   proof-label:
+    fontFamily: "Manrope Variable, Manrope, sans-serif"
+    fontSize: "12px"
+  assurance-headline:
+    fontFamily: "Manrope Variable, Manrope, sans-serif"
+    fontSize: "29px"
+    fontWeight: 650
+    lineHeight: 1.3
+    letterSpacing: "-0.035em"
+  assurance-amount:
+    fontFamily: "Manrope Variable, Manrope, sans-serif"
+    fontSize: "37px"
+    fontWeight: 550
+    lineHeight: 1.5
+    letterSpacing: "-0.035em"
+  assurance-annotation:
     fontFamily: "Manrope Variable, Manrope, sans-serif"
     fontSize: "12px"
   title:
@@ -83,7 +105,7 @@ components:
 
 A quiet, dense work surface pairs a vendor register with an evidence-bearing case. White panels, pale sage navigation, forest actions, and fine rules keep the monetary outcome prominent without turning every section into a separate dashboard tile.
 
-This record describes the implemented React workspace and its evidence-lab extension, sampled from shared styles, the workbench, case detail, and desktop/mobile review captures. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.
+This record describes the implemented React workspace, evidence lab, and commitment-assurance extension, sampled from shared styles, workbench, case detail, and assurance source. The assurance portfolio, decision room, evidence graph, and failure lab preserve the same finance desk identity. Visible runtime labels distinguish browser-local records from the optional local SQLite service; neither mode performs a vendor transaction. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.
 
 **Key Characteristics:**
 - Tabular amounts and explicit financial states.
@@ -101,12 +123,15 @@ The palette is mineral and botanical, with restrained semantic accents.
 ### Secondary
 - **Condition amber:** unresolved conditions and partial fulfillment.
 - **Outage clay:** the affected day in the availability strip.
+- **Assurance condition and negative:** amber marks pending terms or policy restrictions; red marks negative economics, stale/blocked states, and failed commands, paired with explicit text.
 
 ### Neutral
 - **Paper:** case, register, source, and dialog surfaces.
 - **Canvas:** the surrounding workspace.
 - **Sage rail and selected wash:** navigation and selected commitment context.
 - **Ink and panel rule:** primary text and structural separation.
+- **Assurance muted, rule, and wash:** readable supporting annotations, fine separators, and selected rows or notices within assurance.
+- **Graph link:** causal connector paths and their arrowheads on paper; the geometry supplements named record relationships.
 
 **The State Has a Name Rule.** Pair semantic colors with readable labels; a green amount alone does not establish application.
 
@@ -115,6 +140,10 @@ The palette is mineral and botanical, with restrained semantic accents.
 Manrope Variable, with Manrope and sans-serif fallbacks, supplies both headings and body copy. Amounts use tabular numerals. Desktop hierarchy uses the frontmatter headline and amount values at widths of at least 1000px; the base title is 28px and base amount is 38px. At mobile widths they become 24px and 33px. Summary figures are 28px on desktop and 26px on mobile. Case headings are 17px; vendor names are 12px and semibold.
 
 The evidence lab uses a 28px, weight-650 heading with a 1.3 line height, becoming 25px at 1000px and below. Its recovery figure uses the recovery-amount role and becomes 40px at mobile widths. Result headings are 21px, or 20px at 1200px and below. Source text is 13px with a 1.9 line height. Critical result states, due-date references, ledger labels, citation controls, citation provenance, and reasoning text are 12px; document tabs become 11px on mobile.
+
+Assurance uses the assurance-headline, assurance-amount, and assurance-annotation roles. The heading becomes 27px and the case amount 35px at mobile widths. Portfolio totals are 28px, 25px at 1300px and below, and 27px on mobile. Net economics uses 32px, becoming 29px on mobile. Critical statuses, deadlines, provenance, graph labels, policy reasoning, and failure results remain at least 12px across assurance breakpoints.
+
+**The Readable Assurance Rule.** Keep assurance decision-critical annotations at 12px or larger; inherited tiny metadata is not a precedent.
 
 The inherited guided cases and secondary lab annotations still carry 8–11px text. These are recorded as legibility debt, not a recommended label scale for future surfaces. The scan also identifies 19 distinct font sizes across the build; they are not a newly approved uniform type ramp.
 
@@ -127,6 +156,8 @@ The shared desktop shell has a fixed 210px rail and a contextual top bar. Guided
 At 950px the rail narrows to 175px. At 760px it becomes a toggleable overlay, the workbench stacks, the register becomes a two-column grid, and the workspace gutters become 16px. The dock becomes 73px high with reset and primary action. Bottom content padding reserves space for the fixed controls. Evidence uses a right-side drawer up to 610px wide, capped at the viewport width.
 
 The evidence lab has a 1580px maximum container with 34px horizontal gutters, a 24px gap, and input/result columns of `minmax(310px, .85fr)` and `minmax(420px, 1.15fr)`. At 1200px its gutters become 24px and the gap 18px. At 1000px the panels stack input before result and the container caps at 850px. At 760px gutters become 16px and panel content uses 18–19px padding. The lab has no fixed bottom dock.
+
+Assurance has a 1590px maximum container and 32px horizontal gutters, narrowing to 24px at 1300px and 16px at 760px. Portfolio and decision views use a 22px-gap master/detail grid with `minmax(280px, .68fr)` and `minmax(0, 1.55fr)` columns. At 1100px they stack, with portfolio rows in two columns; decision rows become full-width on mobile. Four totals become two columns at 760px. The failure lab uses a scenario list beside a flexible result, stacking at 760px. Its actions remain in normal flow. Graph records occupy four columns, becoming two on mobile, where connectors are hidden and named relationships remain available.
 
 ## Elevation & Depth
 
@@ -173,6 +204,16 @@ The input and finding panels extend the same flat paper treatment. The finding h
 Reasoning rows pair a state icon, readable explanation, and named source citations. Citation controls use 12px text and a minimum 32px height; an opened source shows the exact passage and character range in a pale sage inset. The result footer contains local approval state and export controls, with 40px minimum button heights. These affordances describe local evidence review, not authenticated source provenance.
 
 A new result enters over 0.35s with a 4px rise and slight blur; a loading spinner uses a 0.8s linear loop. Reduced-motion preferences disable both. These are feedback for local processing, separate from the guided-case replay scan.
+
+### Commitment assurance
+
+Portfolio rows combine vendor/reference, named state, outstanding amount, and deadline. The selected paper case keeps original promise, verified application, and issued value separate. Evidence, shared ledger, and history use underline navigation; effective-date and knowledge-cutoff controls sit above the case. Historical read-only state is stated in a sage notice.
+
+The decision room places contingent credit, incremental renewal cost, and net value in aligned rows, with a stronger net figure and red negative value. Policy verdicts use sage or amber insets, explicit reasons, and a collapsible approval basis. Alternative terms retain named states and separate review/dismiss actions. Approval and execution controls follow the evidence in normal document flow.
+
+Evidence graph nodes reuse the source radius and pale paper/sage/amber fills. Causal paths and arrowheads use graph-link with a 1.4px path stroke against paper. Named relationship text accompanies the geometry; source selection reveals quoted evidence, record metadata, and revision controls. Node titles may clamp to three lines; the full title and relationship list remain available.
+
+Failure cases use a selectable list beside a bordered result, an explicit passed/failed verdict, named checks, and expandable recorded/rejected steps. The advanced command editor uses 12px monospace. Assurance case entry is a .25s easing from 1px blur to clear, disabled for reduced motion. Assurance controls use 2px forest focus outlines with 3px offset; primary/secondary actions have 39px minimum height.
 
 ## Do's and Don'ts
 
