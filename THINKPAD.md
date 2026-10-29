@@ -27,7 +27,7 @@ A polished, working localhost finance demo named Truthful. The two-minute flow d
 
 ## Open questions
 
-External T9 remains open: runtime AI credential/direction choice; accepted-host video sharing; original track, attendance and team consent. Current depth expansion continues independently. Optional user steer on agent assurance versus procurement depth is pending.
+External T9 remains open: runtime AI credential/direction choice; accepted-host video sharing; original track, attendance and team consent. Current depth expansion continues independently. V3 assurance is implemented and published. The final accepted-host v3 video link still needs verification; the v2 Drive copy is owner-only and a new connector upload could not be grounded by readback.
 
 ## Tasks
 
@@ -72,18 +72,23 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - [x] T10 · Build temporal commitment assurance and globally conserved allocation engine
       files: src/assurance
       accept: node --test src/assurance/*.test.mjs
+      notes: 38 domain tests and 9 scenarios/31 checks pass. Independent prefix/date replay caught inactive reversal fallthrough; repaired with regression.
 - [x] T11 · Add persistent local service with revision, idempotency, and role enforcement
       files: server
       accept: node --test server/*.test.mjs
+      notes: 16 real HTTP tests pass, including restart, cross-instance writes, roles, CSRF, atomic rollback, idempotency, audit and real-engine integrations.
 - [x] T12 · Build portfolio, decision review, evidence graph, and adversarial lab
       files: src/Assurance.jsx, src/assurance.css, src/useAssurance.js, src/App.jsx, scripts/dev.mjs, vite.config.js
       accept: npm run check
+      notes: 25 assurance UI checks pass in SQLite, local static, and public Pages modes; original20 checks preserved. Six desktop/mobile captures inspected; independent reviewer scored graph contrast and annotation fixes resolved.
 - [x] T13 · Validate differentiation and align deep build documentation and demo
       files: docs, README.md, scripts
       accept: npm run verify:depth
-- [ ] T14 · Review integrated assurance system and publish validated upgrade
+      notes: 843 command-prefix/date projections,9 cross-layer assertions,6 tamper rejections pass. Research/documents reconciled to actual code. Narrated181s v3 recording inspected and published with replayable evidence.
+- [x] T14 · Review integrated assurance system and publish validated upgrade
       files: src, server, .github, docs/delivery.json
       accept: npm run check && npm run verify:depth && node scripts/verify-delivery.mjs
+      notes: Source d1481836 published; both GitHub workflows green;45 hosted UI assertions passed;181s public video equals inspected local bytes; public evidence packet replays. Final pad audit refuses completion solely because externalT9 is open.
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -100,3 +105,4 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · done T11 · Add persistent local service with revision, idempotency, and role enforcement
 - 2026-10-29 · done T12 · Build portfolio, decision review, evidence graph, and adversarial lab
 - 2026-10-29 · done T13 · Validate differentiation and align deep build documentation and demo
+- 2026-10-29 · done T14 · Review integrated assurance system and publish validated upgrade

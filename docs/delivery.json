@@ -23,11 +23,21 @@
     "legacyBrowserAssertions": 20,
     "narratedVideoSeconds": 181,
     "videoWidth": 1440,
-    "videoHeight": 912
+    "videoHeight": 912,
+    "hostedBrowserAssertions": 45,
+    "publicVideoByteEqualityVerified": true,
+    "publishedPacketReplayVerified": true,
+    "videoSha256": "c7407d3e7519952354c0aad95ffacb6d1ba56aad5b334c7f6e076c6380aab27d"
   },
   "localRecording": "output/demo-v3/truthful-assurance-demo.mp4",
   "previousDriveRecording": "https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view",
   "driveRecordingVersion": "2.0.0",
   "v3DriveUploadRequested": true,
-  "v3DriveUploadVerified": false
+  "v3DriveUploadVerified": false,
+  "sourceCommit": "d1481836a7bae4a850510992af85885851198753",
+  "githubWorkflows": {
+    "verify": "https://github.com/Srujyama/truthful-ovo/actions/runs/40853438789",
+    "deploy": "https://github.com/Srujyama/truthful-ovo/actions/runs/40853438758",
+    "conclusion": "success"
+  }
 }
