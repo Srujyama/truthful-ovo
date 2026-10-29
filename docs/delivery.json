@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/Srujyama/truthful-ovo",
+  "liveDemo": "https://srujyama.github.io/truthful-ovo/",
+  "publicRecording": "https://github.com/Srujyama/truthful-ovo/releases/download/v2.0.0/truthful-demo.mp4",
+  "release": "https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0",
+  "driveRecording": "https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view",
+  "driveAnyoneWithLinkVerified": false,
+  "runtimeAiDecision": null,
+  "round1Track": null,
+  "attendanceConfirmed": null,
+  "teamConsented": null,
+  "applicationSubmitted": false,
+  "verification": {
+    "unitTests": 57,
+    "authoredEvaluationCases": 22,
+    "hostedBrowserAssertions": 20,
+    "narratedVideoSeconds": 128
+  }
+}

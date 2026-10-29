@@ -4,6 +4,8 @@
 
 Built for the BBS × Ramp Hackathon technical round. Truthful turns a vendor concession into an inspectable recovery case: original terms, matching invoice credits, a human-approved follow-up, and the evidence behind the result.
 
+[Live demo](https://srujyama.github.io/truthful-ovo/) · [Narrated recording](https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0) · [Delivery and remaining submission decisions](docs/DELIVERY.md)
+
 ![Truthful evidence workbench](docs/workbench.png)
 
 ## Run it

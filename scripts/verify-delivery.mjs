@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+
+const manifest = JSON.parse(await readFile(new URL('../docs/delivery.json',import.meta.url),'utf8'));
+const request = async url => {
+  const response = await fetch(url,{signal:AbortSignal.timeout(30000)});
+  assert.equal(response.status,200,`Public request failed: ${url}`);
+  return response;
+};
+const repo = await (await request('https://api.github.com/repos/Srujyama/truthful-ovo')).json();
+assert.equal(repo.private,false,'Repository must be public.');
+const html = await (await request(manifest.liveDemo)).text();
+assert.match(html,/<title>Truthful/);
+const asset = html.match(/src="([^"]+\.js)"/);
+assert.ok(asset,'Live app must reference built JavaScript.');
+await request(new URL(asset[1],manifest.liveDemo));
+const promise = await (await request(new URL('examples/pipeline-promise.txt',manifest.liveDemo))).text();
+assert.match(promise,/PC-SEATS-2026/,'Live examples must work under the repository base path.');
+const media = Buffer.from(await (await request(manifest.publicRecording)).arrayBuffer());
+const localMedia = await readFile(new URL('../output/demo/truthful-demo.mp4',import.meta.url));
+const hash = data => createHash('sha256').update(data).digest('hex');
+assert.equal(hash(media),hash(localMedia),'Published video must equal the inspected local artifact.');
+const probe = JSON.parse(execFileSync('ffprobe',['-v','error','-show_entries','stream=codec_type,width,height:format=duration','-of','json','output/demo/truthful-demo.mp4'],{encoding:'utf8'}));
+assert.equal(Number(probe.format.duration),128);
+assert.ok(probe.streams.some(s => s.codec_type === 'audio'),'Narration audio is required.');
+assert.ok(probe.streams.some(s => s.codec_type === 'video' && s.width === 1440 && s.height === 1000));
+console.log('Delivery verified anonymously: public repository, live app/assets/examples, and identical 128-second narrated recording.');
+console.log('Drive anyone-link setting and team/API decisions remain separate submission-readiness checks.');

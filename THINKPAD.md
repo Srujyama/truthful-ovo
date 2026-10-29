@@ -41,21 +41,39 @@ None blocking.
       accept: npm test && npm run build
       deps: T2
       notes: Independent review completed; readability and selection refinements applied. Desktop/mobile visually inspected; complete Nimbus browser flow and proof invoice passed. DESIGN and design sidecar saved.
-- [ ] T4 · Implement evidence ingestion and conservative reconciliation engine
+- [x] T4 · Implement evidence ingestion and conservative reconciliation engine
       files: src/engine, public/examples
       accept: node --test src/engine/*.test.mjs
-- [ ] T5 · Build persistent evidence workbench and auditable exports
+      notes: 40 engine tests and 22 authored evaluation fixtures passed; source quotes exact.
+- [x] T5 · Build persistent evidence workbench and auditable exports
       files: src/Workbench.jsx, src/workbench.css, src/recovery.mjs, src/recovery.test.mjs, src/App.jsx
       accept: npm test && npm run build
-- [ ] T6 · Prepare technical submission and demo materials
+      notes: Persistent evidence workbench, guarded approvals, hash-linked exports, 57 automated tests and production build pass.
+- [x] T6 · Prepare technical submission and demo materials
       files: docs, README.md
       accept: npm run verify:submission
-- [ ] T7 · Independently review and verify complete hackathon build
+      notes: Actual form read; final architecture254 words; financial demonstration assertions agree.
+- [x] T7 · Independently review and verify complete hackathon build
       files: src, .impeccable/review
       accept: npm run check
+      notes: Independent implementation review repaired; design reviewer scored all5 fixes resolved. 57 tests,22 authored eval fixtures,20 hosted browser assertions pass; exported packet verified; design documentation updated.
+- [x] T8 · Publish and verify public repository, live demo, and narrated recording
+      files: .github/workflows/deploy.yml, docs/DELIVERY.md, scripts/verify-delivery.mjs
+      accept: node scripts/verify-delivery.mjs
+      notes: Public repo and Pages app verified anonymously; hosted20 browser assertions passed; public128s MP4 matches inspected local artifact byte-for-byte. Drive copy uploaded but accepted-host public sharing is tracked separately inT9.
+- [ ] T9 · Resolve external submission decisions and accepted-host video sharing
+      files: docs/delivery.json, scripts/verify-submission-ready.mjs
+      accept: node scripts/verify-submission-ready.mjs
+      notes: External inputs pending: Drive anyone-link verification unsupported by connector and browser is controlled by another session; runtime AI reuse/create question unanswered; Round1 track, attendance and teammate consent unknown. No fabricated answers or automatic form submission.
 ## Log
 
 - 2026-10-22 · thinkpad created
 - 2026-10-22 · done T1 · Verify financial state transitions
 - 2026-10-22 · done T2 · Build and inspect recording workspace
 - 2026-10-22 · done T3 · Review and document final demo
+- 2026-10-29 · done T4 · Implement evidence ingestion and conservative reconciliation engine
+- 2026-10-29 · done T5 · Build persistent evidence workbench and auditable exports
+- 2026-10-29 · done T6 · Prepare technical submission and demo materials
+- 2026-10-29 · done T7 · Independently review and verify complete hackathon build
+- 2026-10-29 · done T8 · Publish and verify public repository, live demo, and narrated recording
+- 2026-10-29 · set T7 · notes

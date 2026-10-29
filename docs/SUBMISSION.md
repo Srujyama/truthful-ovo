@@ -19,6 +19,15 @@ The technical path requests:
 
 No response has been submitted. Attendance and teammate agreement require the team’s actual confirmation. Repository publication and video sharing must be verified using the final URLs before checking the access confirmations.
 
+## Delivered links
+
+- Public repository: https://github.com/Srujyama/truthful-ovo
+- Live supplemental demo: https://srujyama.github.io/truthful-ovo/
+- Public backup recording: https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0
+- Drive video: https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view — public-link access still needs verification.
+
+See [delivery status](DELIVERY.md) before checking the form’s access and team confirmations.
+
 ## Form-ready project name
 
 Truthful
