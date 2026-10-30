@@ -1,0 +1,56 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {screenModels} from './figma-screen-models.mjs';
+
+export const palette={forest:'#244e3b',ink:'#24372e',canvas:'#f6f7f5',paper:'#ffffff','sage-rail':'#eff2ec',selected:'#eff5ed','panel-rule':'#e0e6de',verified:'#287052','condition-ink':'#855b2d','condition-fill':'#fbf1df','assurance-muted':'#60725d','assurance-negative':'#974c39','assurance-negative-fill':'#f9ede8'};
+export const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+const F=(name,w,h,children=[],props={})=>({type:'Frame',name,props:{w,...(h?{h}:{}),flex:'col',gap:16,...props},children});
+const T=(name,text,w,size=16,color='ink',weight='regular')=>({type:'Text',name,props:{w,font:'Manrope',size,weight,color:`var:${color}`},text,children:[]});
+const R=(name,w,children,props={})=>F(name,w,null,children,{flex:'row',...props});
+function board(section){
+ const children=[T('Board title',section.title,1264,24,'forest','semibold'),T('Board headline',section.headline,1264,section.id==='start'?62:42,'ink','semibold'),T('Board explanation',section.body,1030,23,'assurance-muted')];
+ if(section.id==='start')children.push(F('Financial truth',1264,160,[T('Anchor case','Pipeline CRM · illustrative case',1200,18,'forest','semibold'),T('Economic states','$2,400 promised   →   $900 applied   →   $1,500 outstanding',1200,35,'ink','semibold')],{p:32,bg:'var:paper',rounded:12}));
+ if(section.id==='system')children.push(R('Color tokens',1264,Object.entries(palette).slice(0,7).map(([name,color])=>F(name,164,135,[F('Color swatch',164,70,[],{bg:color,rounded:7}),T('Token name',name,164,14)],{gap:12})),{gap:18}));
+ if(section.id==='roadmap')children.push(R('Implemented and concept',1264,[F('Implemented',620,null,[T('Implemented label','Implemented',560,23,'forest','semibold'),...section.implemented.map(v=>T('Implemented capability',v,560,16))],{bg:'var:paper',p:30}),F('Concept',620,null,[T('Concept label','Concept · requires implementation',560,23,'condition-ink','semibold'),...section.concept.map(v=>T('Concept capability',v,560,16))],{bg:'var:condition-fill',p:30})],{gap:24}));
+ if(section.id==='ritual')children.push(T('Current continuity boundary','Evidence → portfolio-copy exploration is connected.\nSigned authority is a separate Pipeline-focused lab.\nThe arbitrary selected-case handoff is a labeled concept.',1264,26,'forest','semibold'));
+ if(section.label)children.push(T('Truth boundary',section.label,1264,16,'assurance-muted'));
+ children.push(T('Artifact label','Truthful · OVO  /  Product design review  /  Synthetic local prototype',1264,14,'assurance-muted'));
+ return F(`board-${section.id}`,1440,960,children,{p:88,gap:32,bg:'var:canvas'});
+}
+function components(){
+ const out=[];
+ for(const kind of ['Primary','Secondary'])for(const state of ['Default','Hover','Disabled'])out.push(F(`Truthful Button / kind=${kind}, state=${state}`,220,44,[T('Label','Review exact action',184,13,state==='Disabled'?'assurance-muted':kind==='Primary'?'paper':'forest','semibold')],{flex:'row',items:'center',justify:'center',px:18,py:12,gap:0,rounded:7,bg:`var:${state==='Disabled'?'paper':kind==='Primary'?'forest':'paper'}`,stroke:kind==='Secondary'||state==='Disabled'?'var:panel-rule':undefined}));
+ for(const [label,fg,bg] of [['Approved','verified','selected'],['Unsafe effect','assurance-negative','assurance-negative-fill'],['Inconclusive','condition-ink','condition-fill'],['Needs approval','condition-ink','condition-fill'],['Consumed once','forest','selected'],['Stale approval','assurance-negative','assurance-negative-fill']])out.push(F(`Truthful State / ${label}`,190,34,[T('Label',label,166,12,fg,'medium')],{flex:'row',items:'center',px:12,py:8,gap:0,rounded:5,bg:`var:${bg}`}));
+ return out;
+}
+export function toJSX(n){
+ const props={name:n.name,...n.props};
+ const attrs=Object.entries(props).filter(([,v])=>v!==undefined).map(([k,v])=>typeof v==='string'?`${k}="${esc(v)}"`:`${k}={${JSON.stringify(v)}}`).join(' ');
+ return `<${n.type} ${attrs}>${n.type==='Text'?esc(n.text):(n.children||[]).map(toJSX).join('')}</${n.type}>`;
+}
+const color=v=>v?.startsWith('var:')?palette[v.slice(4)]:v;
+function htmlNode(n){
+ const p=n.props,styles={boxSizing:'border-box',flexShrink:0,position:p.position==='absolute'?'absolute':'relative',width:p.w==='fill'?'100%':p.w?`${p.w}px`:undefined,height:p.h?`${p.h}px`:undefined,background:color(p.bg),border:p.stroke?`1px solid ${color(p.stroke)}`:undefined,borderRadius:p.rounded?`${p.rounded}px`:undefined,opacity:p.opacity,color:color(p.color),fontFamily:'Manrope, sans-serif',fontSize:p.size?`${p.size}px`:undefined,fontWeight:{regular:400,medium:500,semibold:600,bold:700}[p.weight]||400,lineHeight:1.4};
+ if(n.type==='Text'){styles.whiteSpace='pre-wrap';styles.overflowWrap='anywhere';styles.fontVariantNumeric='tabular-nums';}
+ else if(n.type==='Line'){styles.height='1px';styles.background=color(p.stroke);styles.border=0;}
+ else Object.assign(styles,{display:'flex',flexDirection:p.flex==='row'?'row':'column',gap:`${p.gap||0}px`,alignItems:{start:'flex-start',end:'flex-end',center:'center'}[p.items]||'flex-start',justifyContent:{start:'flex-start',end:'flex-end',center:'center',between:'space-between'}[p.justify]||'flex-start',padding:`${p.py??p.p??0}px ${p.px??p.p??0}px`,overflow:'hidden'});
+ const css=Object.entries(styles).filter(([,v])=>v!==undefined).map(([k,v])=>`${k.replace(/[A-Z]/g,m=>'-'+m.toLowerCase())}:${v}`).join(';');
+ const target=n.name?.startsWith('hotspot:')?n.name.slice(8):null;
+ return `<div data-layer="${esc(n.name)}"${target?` data-action="${esc(target)}" role="button" tabindex="0"`:''} style="${css}">${n.type==='Text'?esc(n.text):(n.children||[]).map(htmlNode).join('')}</div>`;
+}
+export async function build(){
+ const spec=JSON.parse(await readFile('docs/FIGMA_SCREEN_MAP.json','utf8'));
+ const screens=screenModels(spec),boards=spec.sections.map(board),library=components();
+ await mkdir('design/figma/generated',{recursive:true});
+ const models={schemaVersion:1,generatedFrom:'docs/FIGMA_SCREEN_MAP.json',note:'Review mockup reconstructions; native upload is recorded separately.',screens,boards,components:library};
+ await writeFile('design/figma/generated/models.json',JSON.stringify(models,null,2)+'\n');
+ for(const [file,nodes] of [['screens',screens],['boards',boards],['components',library]])await writeFile(`design/figma/generated/${file}.jsx.json`,JSON.stringify(nodes.map(toJSX),null,2)+'\n');
+ await writeFile('design/figma/generated/tokens.json',JSON.stringify(Object.fromEntries(Object.entries(palette).map(([k,v])=>[k,{$type:'color',$value:v}])),null,2)+'\n');
+ const all=[...boards,...screens,...library];
+ const sections=all.map(n=>{const s=spec.screens.find(s=>s.id===n.name);return `<section id="${esc(n.name)}"><header><h2>${esc(s?.title||n.name)}</h2><p>${esc(s?.purpose||'Native editable Figma design material')}</p><p>${s?.status==='concept'?'Concept · not implemented':'Design reconstruction · synthetic demonstration'}</p></header><div class="frame-scroll">${htmlNode(n)}</div>${s?`<aside>${s.annotations.map(a=>`<p>${esc(a)}</p>`).join('')}<nav>${s.actions.map(a=>`<a href="#${esc(a.targetId)}">${esc(a.label)} →</a>`).join('')}</nav></aside>`:''}</section>`}).join('');
+ const doc=`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Truthful · Figma design review</title><style>@font-face{font-family:Manrope;src:url('../assets/Manrope.woff2') format('woff2');font-weight:200 800}*{box-sizing:border-box}html{scroll-behavior:smooth;background:#eff2ec;color:#24372e;font-family:Manrope,sans-serif}body{margin:0}body>header{padding:40px 48px;border-bottom:1px solid #dfe7d8;background:#fff}h1{margin:0 0 12px;font-size:32px;font-weight:600}body>header p{max-width:75ch;line-height:1.6}body>nav{display:flex;gap:8px;flex-wrap:wrap;padding:24px 48px}a{color:#244e3b;text-underline-offset:4px}body>nav a,aside a{padding:8px 10px;background:white;border:1px solid #dfe7d8;border-radius:6px;font-size:13px}section{padding:32px 48px;border-top:1px solid #dfe7d8;scroll-margin-top:20px}section>header{margin-bottom:18px}section h2{font-size:21px;font-weight:600;margin:0 0 10px}section>header p{font-size:13px;max-width:75ch;line-height:1.6;color:#60725d}.frame-scroll{max-width:100%;overflow:auto;border:1px solid #dfe7d8;background:#fff}.frame-scroll>div{overflow:hidden}aside{max-width:1100px;padding:14px 0;font-size:13px;line-height:1.7}aside nav{display:flex;gap:8px;flex-wrap:wrap}*[data-action]{cursor:pointer}a:focus-visible,[role=button]:focus-visible{outline:2px solid #244e3b;outline-offset:3px}@media(max-width:760px){body>header,body>nav,section{padding:24px 16px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}</style><header><h1>Make the next move earn its authority.</h1><p>Truthful · OVO — product screens, components and review flow. These are editable design reconstructions of the synthetic local prototype; the selected-case authority handoff is explicitly a concept. Native Figma creation and verification are tracked separately.</p></header><nav>${spec.screens.map(s=>`<a href="#${s.id}">${esc(s.title)}</a>`).join('')}</nav>${sections}<script>const spec=${JSON.stringify(spec).replaceAll('<','\\u003c')};function follow(el){const section=el.closest('section'),screen=spec.screens.find(s=>s.id===section?.id),action=screen?.actions.find(a=>a.label===el.dataset.action);if(action)document.getElementById(action.targetId)?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});}document.addEventListener('click',e=>{const el=e.target.closest('[data-action]');if(el)follow(el);});document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-action]')){e.preventDefault();follow(e.target);}});</script></html>`;
+ await writeFile('design/figma/generated/preview.html',doc);
+ console.log(`Prepared ${screens.length} screens, ${boards.length} product boards, ${library.length} component specimens, and ${Object.keys(palette).length} tokens.`);
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await build();

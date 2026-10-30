@@ -6,6 +6,10 @@
 
 ## Goal
 
+Figma product-design milestone (2026-10-29): prepare and inspect 17 editable screen reconstructions, 7 product boards, named component/color definitions and linked review states; create and verify a native Figma file through CLI. Preserve incumbent identity, truthful implemented/concept boundaries and the no-video instruction. Local kit and preview are implemented; native creation is blocked by the account Full-seat requirement for the CLI bridge. Do not claim a blank target or prepared payload is a completed native design.
+
+Prior development milestone:
+
 Frontier expansion (2026-10-29 Pacific): research dated primary releases/specifications/papers through current time; implement a bounded multi-agent interleaving explorer using real financial transitions, replayable shortest unsafe-effect witnesses for a deliberately naive reference harness, guarded comparison, explicit resource exhaustion, deterministic repair and legitimate completion; implement exact-action Ed25519 delegation, subject possession, monotonic scope narrowing, revocation/expiry/current-basis checking and atomic one-use SQLite execution, verifier-signed portable receipts checked against separately pinned trust roots; make both mechanisms usable in a responsive execution lab with honest static/memory versus server labels; independent review, actual browser tests, and research/product documentation. User steering explicitly defers video work and submission/release packaging; retain the current public v3 deployment and focus on the development build. Preserve v3 paths and external T9. No claims of protocol conformance, global proof, authenticated source truth, external settlement or live LLM safety.
 
 Prior milestone:
@@ -115,6 +119,10 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       files: src/explorer/portfolio.mjs, src/explorer/portfolio.test.mjs, src/ExecutionLab.jsx
       accept: node --test src/explorer/portfolio.test.mjs
       notes: Eight adapter tests and eight real browser checks in each of SQLite and static modes pass. Exact approved snapshot, explicit clock, hypothetical adverse event, current reducer rejection, packet replay, no live mutation and mobile overflow verified; independent design review ships.
+- [!] T21 · Build editable Figma product-design screens, components and prototype flow
+      files: design/figma, docs/FIGMA_PRODUCT_SPEC.md, docs/FIGMA_SCREEN_MAP.json
+      accept: npm run design:check && npm run design:verify-native
+      notes: Prepared17screens7boards12component specimens13tokens;680Manrope text layers;41mappedcontrols21crossframe. Local browser clipping0; independentpreviewreviewship; actualCLIparsercompilepasses;14offline binding/verifier regression tests pass. Importer code review findings repaired: explicit targetbinding, exact prototype destinations, recoverable native component conversion. Native blanktarget8j4pwtsGDI4seljHPNeUkI exists; Apple Silicon Figma installed and loggedin. Account Full-seat restriction blocks bridgeplugin; no billingchange or nativecompletion claim.
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -141,3 +149,7 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · done T19 · Independently review and validate frontier development build; release deferred by user
 - 2026-10-29 · set T19 · notes
 - 2026-10-29 · set T9 · notes
+- 2026-10-29 · set T21 · accept, notes
+- 2026-10-29 · BLOCKED T21 · Build editable Figma product-design screens, components and prototype flow
+- 2026-10-29 · set T21 · notes
+- 2026-10-29 · set T21 · accept

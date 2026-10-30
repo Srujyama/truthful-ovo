@@ -1,0 +1,607 @@
+{
+  "schemaVersion": 1,
+  "title": "Truthful · Product design and execution review",
+  "product": "Truthful · OVO",
+  "sourceVersion": "v4 development build",
+  "capturePolicy": "Use actual app states and synthetic records. Specified frames are a design plan; this file does not assert that a Figma file or native layers have already been created.",
+  "sections": [
+    {
+      "id": "start",
+      "title": "Truthful · OVO",
+      "eyebrow": "Product design review · development build",
+      "headline": "Make the next move earn its authority.",
+      "body": "Trace a vendor promise to an applied credit. Challenge the proposed action, preserve the original terms, delegate narrowly, and verify the recorded local effect.",
+      "label": "All examples and counterparties are synthetic."
+    },
+    {
+      "id": "problem",
+      "title": "The job to be done",
+      "headline": "Recover what is owed without buying a worse deal.",
+      "body": "A finance lead needs to distinguish a promise from applied value, see the economic cost of changed terms, and keep yesterday’s permission from authorizing today’s action.",
+      "persona": "Finance operator reviewing vendor concessions and renewals.",
+      "trigger": "A promised credit only partly reaches the invoice; the reply adds a renewal condition.",
+      "desiredOutcome": "A source-backed outstanding balance, a deliberate terms decision, a current exact approval, and an inspectable local action record."
+    },
+    {
+      "id": "economics",
+      "title": "The anchor case",
+      "headline": "$2,400 promised → $900 applied → $1,500 open",
+      "body": "Fictional Pipeline CRM. Its contingent $1,500 benefit carries $2,400 of incremental renewal spend against the explicit same-horizon baseline: −$900 net incremental value. Preserving original terms does not create applied savings.",
+      "label": "Illustrative USD values from the authored case; no customer result or ROI claim."
+    },
+    {
+      "id": "ritual",
+      "title": "One review ritual, explicit boundaries",
+      "headline": "Evidence → portfolio → exact approval → bounded stress test → scoped grant → local effect → pinned-root verification",
+      "body": "Evidence import and portfolio-copy exploration are connected. The authority lab is currently Pipeline-focused. Browser signing uses an isolated ephemeral workspace; it does not sign the browser portfolio. An arbitrary selected-case handoff is shown only as a concept."
+    },
+    {
+      "id": "system",
+      "title": "The visual system",
+      "headline": "A finance incident review desk",
+      "body": "Manrope, paper surfaces, sage navigation, forest primary actions, tabular amounts, amber conditions, and named red rejection states. Keep evidence adjacent to the decision. Flat panels use rules rather than decorative shadows.",
+      "tokens": {
+        "forest": "#244e3b",
+        "ink": "#24372e",
+        "canvas": "#f6f7f5",
+        "paper": "#ffffff",
+        "sageRail": "#eff2ec",
+        "verified": "#287052"
+      },
+      "components": [
+        "Workspace rail and breadcrumb",
+        "Monetary state summary",
+        "Evidence citation and source revision",
+        "Decision row and policy verdict",
+        "Bounded search verdict",
+        "Numbered execution trace and selected transition",
+        "Grant scope and lifecycle facts",
+        "Receipt and explicitly pinned trust root",
+        "Warning, error, not-run and inconclusive states"
+      ]
+    },
+    {
+      "id": "trust",
+      "title": "What success establishes",
+      "headline": "A current-state check and a signed history have different jobs.",
+      "body": "The local boundary rechecks current authority before committing its effect. Offline verification checks included signed history against a separately trusted issuer. It cannot establish current revocation, global unspentness, authentic vendor evidence, source completeness, organizational identity, or external settlement.",
+      "label": "No live LLM, inbox, Ramp, vendor, or payment connection. No AP2/UCP/MCP/A2A or IETF-draft conformance claim."
+    },
+    {
+      "id": "roadmap",
+      "title": "The next useful steps",
+      "headline": "Connect the case; validate the outcome.",
+      "body": "The concept stage unifies case identity across review, model analysis and authority. A later pilot would add authenticated source intake, organizational roles, narrowly permissioned adapters and independently labeled operator cases. These require implementation and evaluation; dates, integrations and outcomes are not promised.",
+      "implemented": [
+        "Supported text/CSV evidence reconciliation and exact source spans",
+        "Atomic evidence promotion into the financial portfolio",
+        "Current exact-action approval and versioned terms",
+        "Bounded authored/custom plan exploration and contained current-portfolio copies",
+        "Fixed repairs for five unchanged authored families",
+        "Real Ed25519 scope, agent possession, narrowed child delegation and one-use local execution",
+        "Separately pinned-key signed packet verification"
+      ],
+      "concept": [
+        "Arbitrary selected-case handoff into the authority lab",
+        "Organizational identity and managed key custody",
+        "Permissioned source and external-effect adapters",
+        "Independent pilot evaluation and protocol-conformance work"
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "id": "evidence-input",
+      "title": "01 · Start with the source",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Make the supported inputs and local processing boundary clear.",
+      "entry": "Evidence lab → Load example → Partial credit.",
+      "actions": [
+        {
+          "label": "Analyze evidence",
+          "targetId": "evidence-finding"
+        }
+      ],
+      "annotations": [
+        "Show Promise / Invoice credits / Vendor reply input tabs and the explicit vendor/date.",
+        "Text, EML and CSV import; PDF text must be exported first. Rules-based extraction.",
+        "No inbox connector, uploaded PDF understanding, or live model is implied."
+      ],
+      "state": "Pipeline example loaded, not yet analyzed."
+    },
+    {
+      "id": "evidence-finding",
+      "title": "02 · Find the missing $1,500",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Put the outstanding amount beside the exact matching evidence.",
+      "entry": "Analyze the supported Pipeline partial-credit example; expand one citation.",
+      "actions": [
+        {
+          "label": "Add to portfolio",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Claim draft",
+          "targetId": "evidence-finding",
+          "note": "Alternate tab state on the same frame; approve only the exact supported draft."
+        },
+        {
+          "label": "Analyze evidence",
+          "targetId": "evidence-finding",
+          "note": "Reanalysis clears earlier claim approval and rechecks original inputs."
+        }
+      ],
+      "annotations": [
+        "$2,400 promised, $900 verified applied, $1,500 outstanding.",
+        "Exact reference PC-SEATS-2026 outranks an amount-only match.",
+        "The citation quote and character offsets come from the supplied text; they do not authenticate the vendor.",
+        "Claim approval is distinct from an action approval; downloading EML sends no message."
+      ]
+    },
+    {
+      "id": "portfolio",
+      "title": "03 · Follow the financial state",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Separate recoverable, applied, issued and conditional value; retain lineage.",
+      "entry": "Assurance → Portfolio, Pipeline selected, Evidence graph tab.",
+      "actions": [
+        {
+          "label": "Renewal offer: $900.00 worse than baseline",
+          "targetId": "renewal-decision"
+        },
+        {
+          "label": "Decision room",
+          "targetId": "exact-approval"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Shared ledger",
+          "targetId": "portfolio",
+          "note": "Alternate case information tab; conserves the shared credit balance."
+        }
+      ],
+      "annotations": [
+        "Use the authored Pipeline case for the main review sequence; imported cases retain their own identity.",
+        "Sources → commitment/terms → ledger → action/approval are real recorded relationships.",
+        "Effective on and Known by are separate historical controls; historical views disable writes.",
+        "Issued credit and an approved local action are excluded from verified applied savings."
+      ]
+    },
+    {
+      "id": "renewal-decision",
+      "title": "04 · Expose the cost of the offer",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Explain why a nominal credit can have negative incremental value.",
+      "entry": "Decision room → Pipeline renewal proposal.",
+      "actions": [
+        {
+          "label": "Pipeline CRM · Preserve original terms",
+          "targetId": "exact-approval",
+          "note": "Select the existing preserve-original action in the decision queue."
+        },
+        {
+          "label": "Change the comparison assumptions",
+          "targetId": "renewal-decision",
+          "note": "Expand explicit what-if fields; this does not change a proposal."
+        }
+      ],
+      "annotations": [
+        "Contingent credit $1,500; incremental renewal cost $2,400; net incremental value −$900.",
+        "Keep the explicit baseline visible; do not call the remaining credit free money.",
+        "A later vendor proposal changes no accepted terms until an exact approved acceptance takes effect.",
+        "Record a reason when dismissing a conflicting alternative; never silently delete its history."
+      ]
+    },
+    {
+      "id": "exact-approval",
+      "title": "05 · Approve the current exact action",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Make the scope of a finance review inspectable.",
+      "entry": "Decision room → Pipeline Preserve original terms; inspect authorization basis.",
+      "actions": [
+        {
+          "label": "Approve exact action",
+          "targetId": "exact-approval",
+          "note": "State changes from Needs approval to Approved when current policy permits."
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup",
+          "note": "Navigate, then select the approved action under Current approved portfolio actions."
+        }
+      ],
+      "annotations": [
+        "Bind material/source/ledger/policy revisions and the approver event.",
+        "No additional contractual obligation; no applied savings recorded by preserving original terms.",
+        "Changed evidence or policy requires a fresh proposal/review.",
+        "Selectable demo identities are not production organizational authentication.",
+        "Alternate working-app state: after exact approval, Record approved action permits direct local execution. That post-approval control is not rendered as a hotspot in this review frame. Exploration is not a mandatory gate in the current app."
+      ]
+    },
+    {
+      "id": "race-setup",
+      "title": "06 · Challenge a copy of the actual approval",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Show the exact snapshot and finite hypothetical program before exploration.",
+      "entry": "Race explorer → Current approved portfolio actions → Pipeline Preserve original; choose a supporting-source revision.",
+      "actions": [
+        {
+          "label": "Explore schedules",
+          "targetId": "race-witness"
+        },
+        {
+          "label": "Signed authority",
+          "targetId": "authority-approval",
+          "note": "Switches to the separate Pipeline-focused signing lab; this is not a selected-action handoff."
+        }
+      ],
+      "annotations": [
+        "Analysis copies the approved action, exact approval basis, recorded sources and explicit simulation time.",
+        "Competing source and clock events, analyst/executor roles are hypothetical model assumptions.",
+        "No live source, approval, grant or money record is created by exploration.",
+        "Missing or inapplicable actual deadlines are refused rather than invented.",
+        "Alternate working-app setup: select the authored Two consumers, one credit family, choose the ten-state budget, then rerun to reach the cutoff frame. No combined budget-and-run hotspot is rendered in this portfolio-copy setup."
+      ]
+    },
+    {
+      "id": "race-witness",
+      "title": "07 · Inspect the unsafe effect",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Show a concrete shortest retained prefix and the same-schedule guarded rejection.",
+      "entry": "Run the portfolio source-revision adversary and select the final unsafe-effect step.",
+      "actions": [
+        {
+          "label": "Replay report",
+          "targetId": "race-witness",
+          "note": "Verify contained state, trace, search counts and result."
+        },
+        {
+          "label": "Signed authority",
+          "targetId": "authority-approval"
+        }
+      ],
+      "annotations": [
+        "The source-revision portfolio witness has three modeled steps: check, revision, commit.",
+        "The naive cached-check reference is a teaching harness, not a competitor or LLM benchmark.",
+        "Name the portfolio snapshot and show when live state has changed after it.",
+        "A portable replay verifies its supplied model premises, not authentic evidence or approval identity.",
+        "Alternate working-app interaction: selecting Current effect boundary displays the same-schedule guarded replay and its STALE_APPROVAL refusal. This review frame shows that refusal directly; its verdict panel is not a prototype hotspot.",
+        "Alternate working-app setup: switch to the unchanged authored Two consumers, one credit family, rerun, then choose Inspect repaired plan. The repair frame documents that distinct state; no portfolio-copy automatic repair or direct family-switch hotspot is implied."
+      ]
+    },
+    {
+      "id": "race-cutoff",
+      "title": "08 · Preserve uncertainty at the bound",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Show resource exhaustion as an honest incomplete result.",
+      "entry": "Authored Two consumers, one credit → ten-state budget → Explore schedules.",
+      "actions": [
+        {
+          "label": "State budget: 2,000 states",
+          "targetId": "race-repair",
+          "note": "Increase budget and rerun the authored family; inspect its repaired plan."
+        },
+        {
+          "label": "Signed authority",
+          "targetId": "authority-approval"
+        }
+      ],
+      "annotations": [
+        "Amber Inconclusive: search limit is separate from green No unsafe effect within bounds.",
+        "Display depth/state/transition/time bounds and retained frontier/cutoff facts.",
+        "Do not show a cutoff as proof that the workflow is safe.",
+        "Completion counts and unsafe-effect counts answer different questions."
+      ]
+    },
+    {
+      "id": "race-repair",
+      "title": "09 · A permitted continuation",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Demonstrate a concrete repair that still completes the declared goal.",
+      "entry": "Authored Two consumers, one credit → 2,000-state run → Inspect repaired plan.",
+      "actions": [
+        {
+          "label": "Replay report",
+          "targetId": "race-repair"
+        },
+        {
+          "label": "Signed authority",
+          "targetId": "authority-approval"
+        }
+      ],
+      "annotations": [
+        "Atomic current-state allocation preserves both distinct command/intent IDs; it does not merge them.",
+        "The first credit allocation consumes $900 capacity; another allocation cannot consume it again.",
+        "Show safe terminal completion separately from blocked attempts.",
+        "Five unchanged authored families have fixed repairs; edited, portfolio-copy and unknown plans get no invented repair.",
+        "The deadline repair intentionally blocks an expired ordering; it does not extend authority."
+      ]
+    },
+    {
+      "id": "authority-approval",
+      "title": "10 · Finance approves the signing-lab action",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Establish which workspace and action the issuer will bind.",
+      "entry": "Execution lab → Signed authority → Prepare fresh action.",
+      "actions": [
+        {
+          "label": "Approve exact action",
+          "targetId": "authority-approval",
+          "note": "Approve the new Pipeline preserve-original action."
+        },
+        {
+          "label": "Issue signed grant",
+          "targetId": "authority-scope",
+          "note": "Available once the current action is approved."
+        }
+      ],
+      "annotations": [
+        "The current UI is Pipeline preserve-original focused; arbitrary selected-action handoff is a concept.",
+        "Browser mode is labeled Isolated browser authority with an independent synthetic workspace and ephemeral keys.",
+        "Local-service mode is labeled SQLite execution boundary and uses its actual durable workspace.",
+        "Approval alone produces neither a signed grant nor recovered savings."
+      ]
+    },
+    {
+      "id": "authority-scope",
+      "title": "11 · Issue only the required scope",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Make limits, lifetime, identity binding and attenuation visible.",
+      "entry": "Approved signing-lab Pipeline action → claim limit USD 1,500 → lifetime 120 seconds → Issue signed grant.",
+      "actions": [
+        {
+          "label": "Delegate to worker",
+          "targetId": "authority-scope",
+          "note": "Optional child uses a fresh key and cannot widen action, audience, amount, obligation or parent lifetime."
+        },
+        {
+          "label": "Record delegated action",
+          "targetId": "execution-receipt"
+        },
+        {
+          "label": "Revoke root grant",
+          "targetId": "authority-scope",
+          "note": "Refuses new uses under the root and its children."
+        },
+        {
+          "label": "Revise supporting source",
+          "targetId": "authority-scope",
+          "note": "Invalidates the old approval basis; a signature cannot revive it."
+        }
+      ],
+      "annotations": [
+        "Use a grant snapshot captured before expiry; the visible expiry is a recorded value, not a countdown promise.",
+        "Maximum new obligation is $0; action/workspace/audience and full approval digest remain bound.",
+        "Ed25519 is real cryptography under a custom Truthful profile.",
+        "The ephemeral agent private key stays in memory; an embedded issuer key is not automatically trusted."
+      ]
+    },
+    {
+      "id": "execution-receipt",
+      "title": "12 · Recheck and record once",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Explain the difference between one effect and a harmless retry.",
+      "entry": "Use a valid fresh signing-lab grant before expiry → Record delegated action.",
+      "actions": [
+        {
+          "label": "Retry identical request",
+          "targetId": "execution-receipt",
+          "note": "Returns the earlier signed receipt and records no second effect."
+        },
+        {
+          "label": "Attempt another execution",
+          "targetId": "execution-receipt",
+          "note": "A fresh use of the consumed root is refused."
+        },
+        {
+          "label": "Export signed evidence",
+          "targetId": "packet-verification"
+        }
+      ],
+      "annotations": [
+        "The local boundary verifies issuer/signature, agent possession, exact current action/basis, policy, limits, lifetime and revocation.",
+        "SQLite commits the financial effect, consumed root nonce, audit, receipt and retry response together.",
+        "The preserve-original action changes local action state; it does not apply credit, send a message or settle a payment.",
+        "Receipt revision and ID come from the actual record; do not invent fingerprints or receipt identifiers."
+      ]
+    },
+    {
+      "id": "packet-verification",
+      "title": "13 · Trust deliberately; verify the record",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "implemented",
+      "purpose": "Show independent trust and detectable tampering without overstating offline evidence.",
+      "entry": "Export signed evidence → Download public trust key separately → Pin this demo issuer → Verify signed packet.",
+      "actions": [
+        {
+          "label": "Verify signed packet",
+          "targetId": "packet-verification",
+          "note": "Unpinned issuer is refused; explicit trusted issuer enables recorded-history verification."
+        },
+        {
+          "label": "Alter checkpoint signature",
+          "targetId": "packet-verification",
+          "note": "Reverify to show a named rejection rather than a success badge."
+        },
+        {
+          "label": "Prepare fresh action",
+          "targetId": "authority-approval"
+        }
+      ],
+      "annotations": [
+        "No issuer is trusted until explicitly pinned; pinning a demo key establishes no real organization’s identity.",
+        "Verification checks included signed lifecycle/grants/requests, checkpoint and the recorded reducer effect.",
+        "It cannot prove current revocation, global unspentness, source authenticity/completeness or external settlement.",
+        "Offline success is evidence about the recorded checkpoint, never permission for another execution."
+      ]
+    },
+    {
+      "id": "connected-handoff-concept",
+      "title": "14 · One selected case across the boundary",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "status": "concept",
+      "purpose": "Explore a future explicit handoff of the reviewed case/action into scoped authority.",
+      "entry": "Concept board only; not a currently shipped selected-case CTA.",
+      "actions": [
+        {
+          "label": "Issue scope for this reviewed action",
+          "targetId": "authority-scope",
+          "note": "Concept transition. Requires actual selected-action plumbing, fresh current-state check and runtime boundary ownership."
+        },
+        {
+          "label": "Back to the implemented workflow",
+          "targetId": "portfolio"
+        }
+      ],
+      "annotations": [
+        "CONCEPT — retain a visible concept label in the frame and prototype hotspot.",
+        "Carry immutable case/action identity, workspace identity, source/approval basis and analysis report digest.",
+        "Rerun eligibility at issue and execute; a successful exploration report never grants authority.",
+        "Do not imply that browser-local portfolio records are already signed by the isolated browser issuer."
+      ]
+    },
+    {
+      "id": "mobile-approval",
+      "title": "Mobile · Exact approval",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "implemented",
+      "purpose": "Keep the decision amount, current policy and exact review action readable on a narrow screen.",
+      "entry": "390px responsive Decision room, Pipeline preserve-original selected.",
+      "actions": [
+        {
+          "label": "Approve exact action",
+          "targetId": "mobile-approval"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "mobile-witness",
+          "note": "Navigate, select approved portfolio action and run the hypothetical source revision."
+        }
+      ],
+      "annotations": [
+        "Stack the decision queue and detail; do not compress the amount or authorization basis into unreadable metadata.",
+        "Primary action remains in document flow; preserve visible focus and labeled state.",
+        "No new mobile-only financial behavior is implied."
+      ]
+    },
+    {
+      "id": "mobile-witness",
+      "title": "Mobile · Selected transition",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "implemented",
+      "purpose": "Let an operator inspect the actual rejected effect without horizontal scrolling.",
+      "entry": "390px responsive Race explorer after portfolio-source run; select final step.",
+      "actions": [
+        {
+          "label": "Replay report",
+          "targetId": "mobile-witness"
+        },
+        {
+          "label": "Signed authority",
+          "targetId": "mobile-receipt",
+          "note": "Navigate and perform the separate approved signing-lab flow; not a shared-case automatic handoff."
+        }
+      ],
+      "annotations": [
+        "Stack numbered trace before selected-transition inspector.",
+        "Keep STALE_APPROVAL, source snapshot identity and hypothetical labels legible.",
+        "The immutable portfolio-copy statement must survive the responsive layout.",
+        "Alternate working-app interaction: Current effect boundary selects guarded replay. The mobile review already exposes the current reducer refusal; its condensed verdict is not a prototype hotspot."
+      ]
+    },
+    {
+      "id": "mobile-receipt",
+      "title": "Mobile · Authority and verification",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "implemented",
+      "purpose": "Preserve the runtime boundary, receipt and trust decision in the stacked layout.",
+      "entry": "390px responsive Signed authority after a valid local action; export packet.",
+      "actions": [
+        {
+          "label": "Retry identical request",
+          "targetId": "mobile-receipt"
+        },
+        {
+          "label": "Pin this demo issuer",
+          "targetId": "mobile-receipt"
+        },
+        {
+          "label": "Verify signed packet",
+          "targetId": "mobile-receipt"
+        }
+      ],
+      "annotations": [
+        "Approval, scope, execution and verifier stack in order.",
+        "Keep mode and expiry visible; wrap identifiers without horizontal overflow.",
+        "The verifier success text must retain its offline/current-state limitations.",
+        "Alternate working-app state: Prepare fresh action returns the signing lab to a newly proposed action, requiring approval again. That reset control is not rendered as a hotspot in this condensed mobile receipt frame."
+      ]
+    }
+  ]
+}
