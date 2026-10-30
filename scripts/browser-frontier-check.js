@@ -57,6 +57,7 @@ async page=>{
  }
  await click('Attempt another execution');await page.getByRole('alert').filter({hasText:'AUTHORITY_CONSUMED'}).waitFor();
  checks.push('A fresh attempt cannot consume the root nonce twice');
+ await page.getByText('Verify exported evidence',{exact:true}).click();
  const trust=page.waitForEvent('download');await click('Download public trust key');await(await trust).saveAs('output/playwright/frontier-trust.json');
  const packet=page.waitForEvent('download');await click('Export signed evidence');await(await packet).saveAs('output/playwright/frontier-authority.json');
  await click('Verify signed packet');await page.getByText('Verification rejected this packet.',{exact:true}).waitFor();

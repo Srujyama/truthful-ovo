@@ -104,6 +104,8 @@ A working ledger for inspecting financial evidence and exact commands. Neutral w
 
 Public Sans supplies a single interface voice. Ordered steps, source records, financial amounts, and selected detail share the same visual grammar across execution, authority, assurance, evidence, and guided cases. Imagery is absent; Lucide line icons support labels.
 
+The user-selected philosophy draws on [Apple’s design foundations](https://developer.apple.com/videos/play/wwdc2025/359/) for clear structure, location, and next actions, and [Ramp’s approach to financial software](https://ramp.com/blog/midday-joining-ramp) for reducing the work around a financial task. Truthful applies these principles through finance-first navigation, compact records, and progressive disclosure. This is an application of those principles, with Truthful’s own visual identity; it implies no affiliation or copied brand interface.
+
 **Key Characteristics:**
 - Neutral white shell and fine rule separation.
 - Compact controls with explicit named states.
@@ -137,11 +139,11 @@ The palette is neutral and restrained, with forest actions and named amber/red c
 The interface combines a compact reading scale with larger tabular amounts. Headings use restrained negative tracking; annotations use normal letter spacing and sentence case.
 
 ### Hierarchy
-- **Headline:** functional page title; the frontmatter desktop role becomes 24px at the mobile breakpoint.
+- **Headline:** functional page title; the frontmatter desktop role becomes 24px at the mobile breakpoint. The finance portfolio heading uses weight 600.
 - **Title:** trace inspector and result headings; smaller working-panel headings use 13–16px according to hierarchy.
 - **Body:** prose, evidence, and document content; source text uses a generous 1.9 line height.
 - **Annotation:** controls, statuses, source references, timestamps, and program steps.
-- **Summary amount:** guided summary figures; assurance totals use 29px, and 26px on mobile.
+- **Summary amount:** guided summary figures; assurance totals use 28px, and 25px on mobile.
 - **Recovery amount:** evidence result figure; it becomes 39px on mobile. Guided case amounts use 39px desktop and 35px mobile; assurance case amounts use 35px.
 
 **The Readable Record Rule.** Use the implemented 12px annotation role for decision-critical labels, provenance, and controls; inherited smaller text is not a future scale.
@@ -150,9 +152,11 @@ The interface combines a compact reading scale with larger tabular amounts. Head
 
 The desktop shell uses a fixed navigation rail (216px) and utility header (56px). Working containers cap at 1512px and use 32px vertical / 36px horizontal padding. At 1300px the horizontal gutter becomes 26px. White working panels use roughly 20–24px padding and fine internal dividers.
 
-Guided cases pair a 275px register with flexible case detail and a 23px gap. Evidence pairs near-equal input and result columns with a 24px gap. Assurance pairs a register with a wider detail surface. Execution uses ordered agent lanes and a separate trace list / inspector; these are relational working surfaces rather than isolated metric tiles.
+Guided cases pair a 275px register with flexible case detail and a 23px gap. Evidence pairs near-equal input and result columns with a 24px gap. Assurance pairs a compact register with a wider detail surface; desktop rows use 16px vertical / 18px horizontal padding. Above 1100px its columns use a .62fr / 1.7fr relationship with a minimum 250px register. Execution uses ordered agent lanes and a separate trace list / inspector; these are relational working surfaces rather than isolated metric tiles.
 
-At 1100px evidence and assurance master-detail layouts stack. Between 761px and 950px the rail narrows to 184px. At 760px the rail becomes a toggleable overlay, gutters become 16px, header height becomes 54px, controls and agent lanes stack, and the trace becomes a single column. Guided cases reserve bottom space for a fixed action dock. Tabs retain horizontal scrolling when necessary.
+At 1100px evidence and assurance master-detail layouts stack. Between 761px and 950px the rail narrows to 184px. At 760px the rail becomes a toggleable overlay, gutters become 16px, header height becomes 54px, controls and agent lanes stack, and the trace becomes a single column. Guided cases reserve bottom space for a fixed action dock. Tabs retain horizontal scrolling when necessary. On mobile, portfolio and guided registers use a native selected-case picker in place of long record lists. Portfolio options include vendor, commitment reference, and amount, while the selected case exposes its name, reference, named status, and money together.
+
+Portfolio overview, workspace actions, role selection, and totals are open on desktop and initially collapsed on mobile. The current commitment remains the principal mobile content. Historical date controls and the signed-packet verifier are separate disclosures. When a historical view is active, its read-only notice remains outside the collapsed date controls. If a responsive collapse would hide the focused control, focus returns to its disclosure summary.
 
 ## Elevation & Depth
 
@@ -185,7 +189,10 @@ Paper panels use fine rule borders, practical corners, and flat depth. Panel hea
 White fields use the control-rule border, small corners, and ink text. Common minimum heights are 38–39px. Placeholders remain muted and opaque. Document textareas use 13px text with 1.9 line height; structured command editors retain the code role. All controls inherit visible keyboard focus.
 
 ### Navigation
-White fixed rail; small labeled line icons and 12px text. The selected item uses forest text over the selected wash; hover uses a neutral wash. Underlined tabs use graphite for the selected label and underline. Mobile navigation opens as an overlay.
+The default destination is the finance portfolio. Assurance, Evidence lab, and Execution lab lead the navigation; guided cases, activity, and sources follow as supporting destinations. Explicit view links retain direct access to each surface. White fixed rail; small labeled line icons and 12px text. The selected item uses forest text over the selected wash; hover uses a neutral wash. Underlined tabs use graphite for the selected label and underline. Mobile navigation opens as an overlay.
+
+### Disclosures and Mobile Record Selection
+Supporting controls appear at the point of need. Disclosure summaries have a full-width labeled row, a fine boundary rule, and a directional chevron; history and mobile overview summaries use a minimum height of 44px. The packet-verifier summary uses 56px. Mobile record selectors use a white field with a fine rule, field-radius corners, and a minimum height of 42px. A closed overview must leave the selected financial record directly reachable.
 
 ### Program and Trace
 An ordered program uses rule-separated agent lanes, numbered square step marks, named operations, and supporting identifiers. Execution yields a selectable trace list beside a financial inspector. Selected rows use context fill; unsafe selections use negative fill. This shared list/detail grammar also appears in assurance and guided cases.

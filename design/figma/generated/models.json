@@ -56,19 +56,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -81,7 +80,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -102,35 +101,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:paper",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "regular",
-                    "color": "var:assurance-muted"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -186,6 +156,35 @@
                     "color": "var:forest"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:paper",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "regular",
+                    "color": "var:assurance-muted"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -1056,19 +1055,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -1081,7 +1079,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -1102,35 +1100,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:paper",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "regular",
-                    "color": "var:assurance-muted"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -1186,6 +1155,35 @@
                     "color": "var:forest"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:paper",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "regular",
+                    "color": "var:assurance-muted"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -1927,7 +1925,7 @@
                                 "weight": "semibold",
                                 "color": "var:ink"
                               },
-                              "text": "Reconciliation result",
+                              "text": "Outstanding credit",
                               "children": []
                             },
                             {
@@ -2376,19 +2374,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -2401,7 +2398,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -2422,35 +2419,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:paper",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "regular",
-                    "color": "var:assurance-muted"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -2506,6 +2474,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:paper",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "regular",
+                    "color": "var:assurance-muted"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -2759,7 +2756,7 @@
                     "flex": "row",
                     "gap": 20,
                     "items": "start",
-                    "h": 668
+                    "h": 700
                   },
                   "children": [
                     {
@@ -2767,7 +2764,7 @@
                       "name": "Commitment register",
                       "props": {
                         "w": 330,
-                        "h": 668,
+                        "h": 580,
                         "flex": "col",
                         "gap": 9,
                         "bg": "var:paper",
@@ -2848,45 +2845,58 @@
                           "name": "Vendor row: Pipeline CRM",
                           "props": {
                             "w": 286,
-                            "h": 94,
+                            "h": 78,
                             "flex": "col",
-                            "gap": 5,
+                            "gap": 7,
                             "bg": "var:selected",
                             "p": 10,
-                            "rounded": 6
+                            "rounded": 4
                           },
                           "children": [
                             {
-                              "type": "Text",
-                              "name": "Vendor",
+                              "type": "Frame",
+                              "name": "Commitment identity and amount",
                               "props": {
-                                "w": 258,
-                                "font": "Public Sans",
-                                "size": 15,
-                                "weight": "semibold",
-                                "color": "var:ink"
+                                "w": 266,
+                                "flex": "row",
+                                "gap": 12,
+                                "items": "center",
+                                "justify": "between"
                               },
-                              "text": "Pipeline CRM",
-                              "children": []
-                            },
-                            {
-                              "type": "Text",
-                              "name": "Outstanding amount",
-                              "props": {
-                                "w": 258,
-                                "font": "Public Sans",
-                                "size": 18,
-                                "weight": "semibold",
-                                "color": "var:forest"
-                              },
-                              "text": "$1,500.00",
-                              "children": []
+                              "children": [
+                                {
+                                  "type": "Text",
+                                  "name": "Vendor",
+                                  "props": {
+                                    "w": 140,
+                                    "font": "Public Sans",
+                                    "size": 14,
+                                    "weight": "semibold",
+                                    "color": "var:ink"
+                                  },
+                                  "text": "Pipeline CRM",
+                                  "children": []
+                                },
+                                {
+                                  "type": "Text",
+                                  "name": "Outstanding amount",
+                                  "props": {
+                                    "w": 114,
+                                    "font": "Public Sans",
+                                    "size": 16,
+                                    "weight": "semibold",
+                                    "color": "var:ink"
+                                  },
+                                  "text": "$1,500.00",
+                                  "children": []
+                                }
+                              ]
                             },
                             {
                               "type": "Text",
                               "name": "Financial state",
                               "props": {
-                                "w": 258,
+                                "w": 266,
                                 "font": "Public Sans",
                                 "size": 12,
                                 "weight": "regular",
@@ -2902,45 +2912,58 @@
                           "name": "Vendor row: Nimbus Cloud",
                           "props": {
                             "w": 286,
-                            "h": 94,
+                            "h": 78,
                             "flex": "col",
-                            "gap": 5,
+                            "gap": 7,
                             "bg": "var:paper",
                             "p": 10,
-                            "rounded": 6
+                            "rounded": 4
                           },
                           "children": [
                             {
-                              "type": "Text",
-                              "name": "Vendor",
+                              "type": "Frame",
+                              "name": "Commitment identity and amount",
                               "props": {
-                                "w": 258,
-                                "font": "Public Sans",
-                                "size": 15,
-                                "weight": "semibold",
-                                "color": "var:ink"
+                                "w": 266,
+                                "flex": "row",
+                                "gap": 12,
+                                "items": "center",
+                                "justify": "between"
                               },
-                              "text": "Nimbus Cloud",
-                              "children": []
-                            },
-                            {
-                              "type": "Text",
-                              "name": "Outstanding amount",
-                              "props": {
-                                "w": 258,
-                                "font": "Public Sans",
-                                "size": 18,
-                                "weight": "semibold",
-                                "color": "var:ink"
-                              },
-                              "text": "$2,000.00",
-                              "children": []
+                              "children": [
+                                {
+                                  "type": "Text",
+                                  "name": "Vendor",
+                                  "props": {
+                                    "w": 140,
+                                    "font": "Public Sans",
+                                    "size": 14,
+                                    "weight": "semibold",
+                                    "color": "var:ink"
+                                  },
+                                  "text": "Nimbus Cloud",
+                                  "children": []
+                                },
+                                {
+                                  "type": "Text",
+                                  "name": "Outstanding amount",
+                                  "props": {
+                                    "w": 114,
+                                    "font": "Public Sans",
+                                    "size": 16,
+                                    "weight": "semibold",
+                                    "color": "var:ink"
+                                  },
+                                  "text": "$2,000.00",
+                                  "children": []
+                                }
+                              ]
                             },
                             {
                               "type": "Text",
                               "name": "Financial state",
                               "props": {
-                                "w": 258,
+                                "w": 266,
                                 "font": "Public Sans",
                                 "size": 12,
                                 "weight": "regular",
@@ -2956,45 +2979,58 @@
                           "name": "Vendor row: Orbit Design",
                           "props": {
                             "w": 286,
-                            "h": 94,
+                            "h": 78,
                             "flex": "col",
-                            "gap": 5,
+                            "gap": 7,
                             "bg": "var:paper",
                             "p": 10,
-                            "rounded": 6
+                            "rounded": 4
                           },
                           "children": [
                             {
-                              "type": "Text",
-                              "name": "Vendor",
+                              "type": "Frame",
+                              "name": "Commitment identity and amount",
                               "props": {
-                                "w": 258,
-                                "font": "Public Sans",
-                                "size": 15,
-                                "weight": "semibold",
-                                "color": "var:ink"
+                                "w": 266,
+                                "flex": "row",
+                                "gap": 12,
+                                "items": "center",
+                                "justify": "between"
                               },
-                              "text": "Orbit Design",
-                              "children": []
-                            },
-                            {
-                              "type": "Text",
-                              "name": "Outstanding amount",
-                              "props": {
-                                "w": 258,
-                                "font": "Public Sans",
-                                "size": 18,
-                                "weight": "semibold",
-                                "color": "var:ink"
-                              },
-                              "text": "Review required",
-                              "children": []
+                              "children": [
+                                {
+                                  "type": "Text",
+                                  "name": "Vendor",
+                                  "props": {
+                                    "w": 140,
+                                    "font": "Public Sans",
+                                    "size": 14,
+                                    "weight": "semibold",
+                                    "color": "var:ink"
+                                  },
+                                  "text": "Orbit Design",
+                                  "children": []
+                                },
+                                {
+                                  "type": "Text",
+                                  "name": "Outstanding amount",
+                                  "props": {
+                                    "w": 114,
+                                    "font": "Public Sans",
+                                    "size": 12,
+                                    "weight": "semibold",
+                                    "color": "var:ink"
+                                  },
+                                  "text": "Review required",
+                                  "children": []
+                                }
+                              ]
                             },
                             {
                               "type": "Text",
                               "name": "Financial state",
                               "props": {
-                                "w": 258,
+                                "w": 266,
                                 "font": "Public Sans",
                                 "size": 12,
                                 "weight": "regular",
@@ -3010,45 +3046,58 @@
                           "name": "Vendor row: Parcel",
                           "props": {
                             "w": 286,
-                            "h": 94,
+                            "h": 78,
                             "flex": "col",
-                            "gap": 5,
+                            "gap": 7,
                             "bg": "var:paper",
                             "p": 10,
-                            "rounded": 6
+                            "rounded": 4
                           },
                           "children": [
                             {
-                              "type": "Text",
-                              "name": "Vendor",
+                              "type": "Frame",
+                              "name": "Commitment identity and amount",
                               "props": {
-                                "w": 258,
-                                "font": "Public Sans",
-                                "size": 15,
-                                "weight": "semibold",
-                                "color": "var:ink"
+                                "w": 266,
+                                "flex": "row",
+                                "gap": 12,
+                                "items": "center",
+                                "justify": "between"
                               },
-                              "text": "Parcel",
-                              "children": []
-                            },
-                            {
-                              "type": "Text",
-                              "name": "Outstanding amount",
-                              "props": {
-                                "w": 258,
-                                "font": "Public Sans",
-                                "size": 18,
-                                "weight": "semibold",
-                                "color": "var:ink"
-                              },
-                              "text": "Recorded commitment",
-                              "children": []
+                              "children": [
+                                {
+                                  "type": "Text",
+                                  "name": "Vendor",
+                                  "props": {
+                                    "w": 140,
+                                    "font": "Public Sans",
+                                    "size": 14,
+                                    "weight": "semibold",
+                                    "color": "var:ink"
+                                  },
+                                  "text": "Parcel",
+                                  "children": []
+                                },
+                                {
+                                  "type": "Text",
+                                  "name": "Outstanding amount",
+                                  "props": {
+                                    "w": 114,
+                                    "font": "Public Sans",
+                                    "size": 12,
+                                    "weight": "semibold",
+                                    "color": "var:ink"
+                                  },
+                                  "text": "Recorded commitment",
+                                  "children": []
+                                }
+                              ]
                             },
                             {
                               "type": "Text",
                               "name": "Financial state",
                               "props": {
-                                "w": 258,
+                                "w": 266,
                                 "font": "Public Sans",
                                 "size": 12,
                                 "weight": "regular",
@@ -3079,7 +3128,7 @@
                       "name": "Pipeline financial commitment",
                       "props": {
                         "w": 822,
-                        "h": 668,
+                        "h": 700,
                         "flex": "col",
                         "gap": 16,
                         "bg": "var:paper",
@@ -3157,7 +3206,44 @@
                         },
                         {
                           "type": "Frame",
-                          "name": "Case monetary states",
+                          "name": "Amount: Credit still outstanding",
+                          "props": {
+                            "w": 778,
+                            "flex": "col",
+                            "gap": 7
+                          },
+                          "children": [
+                            {
+                              "type": "Text",
+                              "name": "Amount label",
+                              "props": {
+                                "w": 778,
+                                "font": "Public Sans",
+                                "size": 12,
+                                "weight": "regular",
+                                "color": "var:assurance-muted"
+                              },
+                              "text": "Credit still outstanding",
+                              "children": []
+                            },
+                            {
+                              "type": "Text",
+                              "name": "Monetary value",
+                              "props": {
+                                "w": 778,
+                                "font": "Public Sans",
+                                "size": 38,
+                                "weight": "semibold",
+                                "color": "var:ink"
+                              },
+                              "text": "$1,500.00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Frame",
+                          "name": "Supporting financial states",
                           "props": {
                             "w": 778,
                             "flex": "row",
@@ -3167,9 +3253,9 @@
                           "children": [
                             {
                               "type": "Frame",
-                              "name": "Amount: Promised",
+                              "name": "Amount: Original promise",
                               "props": {
-                                "w": 251.33333333333331,
+                                "w": 381,
                                 "flex": "col",
                                 "gap": 7
                               },
@@ -3178,22 +3264,22 @@
                                   "type": "Text",
                                   "name": "Amount label",
                                   "props": {
-                                    "w": 251.33333333333331,
+                                    "w": 381,
                                     "font": "Public Sans",
                                     "size": 12,
                                     "weight": "regular",
                                     "color": "var:assurance-muted"
                                   },
-                                  "text": "Promised",
+                                  "text": "Original promise",
                                   "children": []
                                 },
                                 {
                                   "type": "Text",
                                   "name": "Monetary value",
                                   "props": {
-                                    "w": 251.33333333333331,
+                                    "w": 381,
                                     "font": "Public Sans",
-                                    "size": 25,
+                                    "size": 21,
                                     "weight": "semibold",
                                     "color": "var:ink"
                                   },
@@ -3206,7 +3292,7 @@
                               "type": "Frame",
                               "name": "Amount: Verified applied",
                               "props": {
-                                "w": 251.33333333333331,
+                                "w": 381,
                                 "flex": "col",
                                 "gap": 7
                               },
@@ -3215,7 +3301,7 @@
                                   "type": "Text",
                                   "name": "Amount label",
                                   "props": {
-                                    "w": 251.33333333333331,
+                                    "w": 381,
                                     "font": "Public Sans",
                                     "size": 12,
                                     "weight": "regular",
@@ -3228,9 +3314,9 @@
                                   "type": "Text",
                                   "name": "Monetary value",
                                   "props": {
-                                    "w": 251.33333333333331,
+                                    "w": 381,
                                     "font": "Public Sans",
-                                    "size": 25,
+                                    "size": 21,
                                     "weight": "semibold",
                                     "color": "var:verified"
                                   },
@@ -3238,45 +3324,20 @@
                                   "children": []
                                 }
                               ]
-                            },
-                            {
-                              "type": "Frame",
-                              "name": "Amount: Still outstanding",
-                              "props": {
-                                "w": 251.33333333333331,
-                                "flex": "col",
-                                "gap": 7
-                              },
-                              "children": [
-                                {
-                                  "type": "Text",
-                                  "name": "Amount label",
-                                  "props": {
-                                    "w": 251.33333333333331,
-                                    "font": "Public Sans",
-                                    "size": 12,
-                                    "weight": "regular",
-                                    "color": "var:assurance-muted"
-                                  },
-                                  "text": "Still outstanding",
-                                  "children": []
-                                },
-                                {
-                                  "type": "Text",
-                                  "name": "Monetary value",
-                                  "props": {
-                                    "w": 251.33333333333331,
-                                    "font": "Public Sans",
-                                    "size": 25,
-                                    "weight": "semibold",
-                                    "color": "var:ink"
-                                  },
-                                  "text": "$1,500.00",
-                                  "children": []
-                                }
-                              ]
                             }
                           ]
+                        },
+                        {
+                          "type": "Frame",
+                          "name": "Fine panel rule",
+                          "props": {
+                            "w": 778,
+                            "h": 1,
+                            "flex": "col",
+                            "gap": 0,
+                            "bg": "var:panel-rule"
+                          },
+                          "children": []
                         },
                         {
                           "type": "Frame",
@@ -3869,19 +3930,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -3894,7 +3954,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -3915,35 +3975,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:paper",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "regular",
-                    "color": "var:assurance-muted"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -3999,6 +4030,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:paper",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "regular",
+                    "color": "var:assurance-muted"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -4858,19 +4918,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -4883,7 +4942,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -4904,35 +4963,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "hotspot:Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:paper",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "regular",
-                    "color": "var:assurance-muted"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -4988,6 +5018,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "hotspot:Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:paper",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "regular",
+                    "color": "var:assurance-muted"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -6003,19 +6062,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -6028,7 +6086,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -6049,35 +6107,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -6133,6 +6162,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -7018,19 +7076,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -7043,7 +7100,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -7064,35 +7121,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -7148,6 +7176,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -8257,19 +8314,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -8282,7 +8338,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -8303,35 +8359,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -8387,6 +8414,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -9295,19 +9351,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -9320,7 +9375,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -9341,35 +9396,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -9425,6 +9451,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -10455,19 +10510,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -10480,7 +10534,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -10501,35 +10555,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -10585,6 +10610,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -10971,7 +11025,7 @@
                                 "weight": "semibold",
                                 "color": "var:ink"
                               },
-                              "text": "Finance approves the exact action",
+                              "text": "Approve the exact action",
                               "children": []
                             },
                             {
@@ -11224,7 +11278,7 @@
                                 "weight": "semibold",
                                 "color": "var:ink"
                               },
-                              "text": "Issue narrowly scoped authority",
+                              "text": "Set authority limits",
                               "children": []
                             },
                             {
@@ -11418,7 +11472,7 @@
                                 "weight": "semibold",
                                 "color": "var:ink"
                               },
-                              "text": "Recheck and commit together",
+                              "text": "Record the action",
                               "children": []
                             },
                             {
@@ -11671,19 +11725,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -11696,7 +11749,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -11717,35 +11770,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -11801,6 +11825,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -12187,7 +12240,7 @@
                                 "weight": "semibold",
                                 "color": "var:ink"
                               },
-                              "text": "Finance approves the exact action",
+                              "text": "Approve the exact action",
                               "children": []
                             },
                             {
@@ -12441,7 +12494,7 @@
                                 "weight": "semibold",
                                 "color": "var:ink"
                               },
-                              "text": "Issue narrowly scoped authority",
+                              "text": "Set authority limits",
                               "children": []
                             },
                             {
@@ -12775,7 +12828,7 @@
                                 "weight": "semibold",
                                 "color": "var:ink"
                               },
-                              "text": "Recheck and commit together",
+                              "text": "Record the action",
                               "children": []
                             },
                             {
@@ -13028,19 +13081,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -13053,7 +13105,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -13074,35 +13126,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -13158,6 +13181,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -13980,19 +14032,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -14005,7 +14056,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -14026,35 +14077,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -14110,6 +14132,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -14786,19 +14837,18 @@
               "name": "Workspace selector",
               "props": {
                 "w": 176,
-                "h": 66,
+                "h": 48,
                 "flex": "col",
                 "gap": 6,
-                "p": 12,
-                "bg": "var:canvas",
-                "rounded": 6
+                "p": 0,
+                "bg": "var:paper"
               },
               "children": [
                 {
                   "type": "Text",
                   "name": "Workspace name",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 13,
                     "weight": "semibold",
@@ -14811,7 +14861,7 @@
                   "type": "Text",
                   "name": "Workspace type",
                   "props": {
-                    "w": 152,
+                    "w": 176,
                     "font": "Public Sans",
                     "size": 12,
                     "weight": "regular",
@@ -14832,35 +14882,6 @@
                 "gap": 0
               },
               "children": []
-            },
-            {
-              "type": "Frame",
-              "name": "Navigation: Execution lab",
-              "props": {
-                "w": 176,
-                "h": 40,
-                "flex": "col",
-                "gap": 0,
-                "px": 12,
-                "py": 12,
-                "bg": "var:selected",
-                "rounded": 6
-              },
-              "children": [
-                {
-                  "type": "Text",
-                  "name": "Navigation label",
-                  "props": {
-                    "w": 152,
-                    "font": "Public Sans",
-                    "size": 13,
-                    "weight": "semibold",
-                    "color": "var:forest"
-                  },
-                  "text": "Execution lab",
-                  "children": []
-                }
-              ]
             },
             {
               "type": "Frame",
@@ -14916,6 +14937,35 @@
                     "color": "var:assurance-muted"
                   },
                   "text": "Evidence lab",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Navigation: Execution lab",
+              "props": {
+                "w": 176,
+                "h": 40,
+                "flex": "col",
+                "gap": 0,
+                "px": 12,
+                "py": 12,
+                "bg": "var:selected",
+                "rounded": 6
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Navigation label",
+                  "props": {
+                    "w": 152,
+                    "font": "Public Sans",
+                    "size": 13,
+                    "weight": "semibold",
+                    "color": "var:forest"
+                  },
+                  "text": "Execution lab",
                   "children": []
                 }
               ]
@@ -15615,7 +15665,7 @@
                 "w": 358,
                 "h": 604,
                 "flex": "col",
-                "gap": 12,
+                "gap": 10,
                 "bg": "var:paper",
                 "stroke": "var:panel-rule",
                 "rounded": 10,
@@ -15624,7 +15674,7 @@
               "children": [
                 {
                   "type": "Frame",
-                  "name": "Selected decision",
+                  "name": "Selected commitment",
                   "props": {
                     "w": 322,
                     "flex": "row",
@@ -15633,17 +15683,41 @@
                   },
                   "children": [
                     {
-                      "type": "Text",
-                      "name": "Vendor",
+                      "type": "Frame",
+                      "name": "Selected commitment identity",
                       "props": {
                         "w": 162,
-                        "font": "Public Sans",
-                        "size": 17,
-                        "weight": "semibold",
-                        "color": "var:ink"
+                        "flex": "col",
+                        "gap": 4
                       },
-                      "text": "Pipeline CRM",
-                      "children": []
+                      "children": [
+                        {
+                          "type": "Text",
+                          "name": "Vendor",
+                          "props": {
+                            "w": 162,
+                            "font": "Public Sans",
+                            "size": 17,
+                            "weight": "semibold",
+                            "color": "var:ink"
+                          },
+                          "text": "Pipeline CRM",
+                          "children": []
+                        },
+                        {
+                          "type": "Text",
+                          "name": "Commitment reference",
+                          "props": {
+                            "w": 162,
+                            "font": "Public Sans",
+                            "size": 12,
+                            "weight": "regular",
+                            "color": "var:assurance-muted"
+                          },
+                          "text": "PC-SEATS-2026",
+                          "children": []
+                        }
+                      ]
                     },
                     {
                       "type": "Frame",
@@ -17163,7 +17237,7 @@
             "weight": "semibold",
             "color": "var:ink"
           },
-          "text": "Make the next move earn its authority.",
+          "text": "Follow the promise to the invoice.",
           "children": []
         },
         {
@@ -17176,7 +17250,7 @@
             "weight": "regular",
             "color": "var:assurance-muted"
           },
-          "text": "Trace a vendor promise to an applied credit. Challenge the proposed action, preserve the original terms, delegate narrowly, and verify the recorded local effect.",
+          "text": "Review outstanding credits, inspect the supporting evidence, and make the next financial decision with the original terms intact.",
           "children": []
         },
         {
@@ -17455,7 +17529,7 @@
             "weight": "semibold",
             "color": "var:ink"
           },
-          "text": "A finance incident review desk",
+          "text": "Clarity before complexity.",
           "children": []
         },
         {
@@ -17468,7 +17542,7 @@
             "weight": "regular",
             "color": "var:assurance-muted"
           },
-          "text": "Manrope, paper surfaces, sage navigation, forest primary actions, tabular amounts, amber conditions, and named red rejection states. Keep evidence adjacent to the decision. Flat panels use rules rather than decorative shadows.",
+          "text": "Ramp-inspired efficiency and Apple-inspired hierarchy: one clear next action, financial context beside the decision, and technical detail when it is needed.",
           "children": []
         },
         {
@@ -17742,6 +17816,128 @@
                     "color": "var:ink"
                   },
                   "text": "panel-rule",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Frame",
+          "name": "Applied design principles",
+          "props": {
+            "w": 1264,
+            "flex": "row",
+            "gap": 24
+          },
+          "children": [
+            {
+              "type": "Frame",
+              "name": "Principle: Clarity",
+              "props": {
+                "w": 405,
+                "flex": "col",
+                "gap": 10
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Principle name",
+                  "props": {
+                    "w": 405,
+                    "font": "Public Sans",
+                    "size": 20,
+                    "weight": "semibold",
+                    "color": "var:ink"
+                  },
+                  "text": "Clarity",
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "name": "Principle application",
+                  "props": {
+                    "w": 405,
+                    "font": "Public Sans",
+                    "size": 16,
+                    "weight": "regular",
+                    "color": "var:assurance-muted"
+                  },
+                  "text": "Make the amount, status and next action easy to find.",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Principle: Efficiency",
+              "props": {
+                "w": 405,
+                "flex": "col",
+                "gap": 10
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Principle name",
+                  "props": {
+                    "w": 405,
+                    "font": "Public Sans",
+                    "size": 20,
+                    "weight": "semibold",
+                    "color": "var:ink"
+                  },
+                  "text": "Efficiency",
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "name": "Principle application",
+                  "props": {
+                    "w": 405,
+                    "font": "Public Sans",
+                    "size": 16,
+                    "weight": "regular",
+                    "color": "var:assurance-muted"
+                  },
+                  "text": "Use compact records and keep related evidence together.",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Frame",
+              "name": "Principle: Control",
+              "props": {
+                "w": 405,
+                "flex": "col",
+                "gap": 10
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "name": "Principle name",
+                  "props": {
+                    "w": 405,
+                    "font": "Public Sans",
+                    "size": 20,
+                    "weight": "semibold",
+                    "color": "var:ink"
+                  },
+                  "text": "Control",
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "name": "Principle application",
+                  "props": {
+                    "w": 405,
+                    "font": "Public Sans",
+                    "size": 16,
+                    "weight": "regular",
+                    "color": "var:assurance-muted"
+                  },
+                  "text": "Reveal advanced detail on demand; retain exact approval boundaries.",
                   "children": []
                 }
               ]

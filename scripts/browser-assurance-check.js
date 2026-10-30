@@ -27,6 +27,7 @@ async (page) => {
   checks.push('Approved date amendment executes once in the local model');
   await click('Portfolio');
   await page.getByText('An accepted amendment has a future effective date.',{exact:false}).waitFor();
+  await page.getByText('Historical view',{exact:true}).click();
   await page.getByRole('textbox',{name:'Financial effective date'}).fill('2026-11-02');
   await page.getByRole('textbox',{name:'Knowledge cutoff date'}).fill('2026-10-28');
   require((await page.locator('.assurance-amount').innerText()).includes('Oct 1, 2026'),'Early knowledge preserves original terms at the same future financial date');

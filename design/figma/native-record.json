@@ -263,7 +263,7 @@
       "nodeId": "3:1288",
       "width": 390,
       "height": 844,
-      "textLayers": 19
+      "textLayers": 20
     },
     {
       "id": "mobile-witness",
@@ -281,39 +281,30 @@
     }
   ],
   "visualReview": {
-    "disposition": "ship",
-    "scope": "Independent verdict pass over four requested fixes; nine final native exports inspected. All four scored resolved; no visible regressions in this batch.",
-    "resolvedFixes": [
-      "Ruled portfolio relationships replace nested equal evidence cards.",
-      "Proposed program is a principal white working surface with row and column separation.",
-      "All three mobile headers expose Navigation; an editable menu has three real destinations and a CLOSE return.",
-      "Receipt facts and outcome use one compact ruled review surface."
-    ],
+    "disposition": "native-scope-cleared",
+    "scope": "The combined independent review inspected fourteen captures and listed only a web mobile layout finding. These six actual native exports matched its fidelity checks and had no material native findings. Native subset cleared separately; this is not whole-app approval or a prototype-player playback assertion.",
     "exports": [
-      "race-setup",
       "portfolio",
+      "evidence",
       "receipt",
-      "mobile-witness",
-      "note",
-      "board",
-      "mobile-menu",
       "mobile-approval",
-      "mobile-receipt"
+      "board-system",
+      "board-start"
     ]
   },
   "fileName": "Truthful · OVO · Product design",
   "cloudVersion": {
+    "id": "2415993476214323512",
+    "label": "Truthful · Apple/Ramp principles · verified"
+  },
+  "prototypePlayback": null,
+  "redesignedAt": "2026-10-30T04:19:28.112Z",
+  "previousCloudVersion": {
     "id": "2415995078788101279",
     "label": "Truthful · working ledger · verified native redesign"
   },
-  "prototypePlayback": null,
-  "redesignedAt": "2026-10-30T04:00:34.049Z",
-  "previousCloudVersion": {
-    "id": "2415972791632449600",
-    "label": "Truthful · native checked design"
-  },
   "restoreVersion": {
-    "id": "2415991964928554183"
+    "id": "2415997479124780655"
   },
   "fontMapping": {
     "family": "Public Sans",
@@ -327,19 +318,19 @@
   },
   "nativeApiVerification": {
     "status": "passed",
-    "checkedAt": "2026-10-30T04:02:52.254829+00:00",
+    "checkedAt": "2026-10-30T04:28:44.874Z",
     "command": "npm run design:verify-native",
     "screenRootIds": 17,
-    "screenTextLayers": 652,
+    "screenTextLayers": 653,
     "nativeComponents": 12,
     "colorVariables": 13,
     "mappedInteractions": 47,
     "closeReturns": 21,
-    "scope": "Actual connected native document IDs, dimensions, text counts and Public Sans family; exact screen/menu/overlay reactions and destinations; named native components and RGB color variables."
+    "scope": "Actual connected native IDs, dimensions, Public Sans text counts, exact control destinations and close actions, variables/components, and portfolio-first prototype entry."
   },
   "geometryVerification": {
-    "checkedAt": "2026-10-30T04:00:49.549Z",
-    "scope": "All native text under owned roots checked against clipping ancestors",
+    "checkedAt": "2026-10-30T04:28:43.129Z",
+    "scope": "All native text in 57 owned roots checked against clipping ancestors",
     "clippedTextLayers": 0,
     "missingFontLayers": 0
   },
@@ -363,11 +354,8 @@
     "navigationMenus": 1,
     "closeReturnControls": 21
   },
-  "manualPlaybackAttempt": {
-    "status": "not-completed",
-    "reason": "Figma Desktop window became inaccessible to cu (no_window). No new manual playback success is asserted. Exact native reactions and destinations are checked separately by the connected API."
-  },
-  "verifiedAt": "2026-10-30T04:02:52.255019+00:00",
+  "manualPlaybackAttempt": null,
+  "verifiedAt": "2026-10-30T04:28:45.404Z",
   "nativeLibrary": {
     "components": [
       {
@@ -475,5 +463,14 @@
         "height": 960
       }
     ]
-  }
+  },
+  "designPhilosophy": {
+    "direction": "Ramp-inspired financial workflow; Apple-inspired clarity and progressive disclosure",
+    "defaultEntry": "portfolio",
+    "sources": [
+      "https://developer.apple.com/videos/play/wwdc2025/359/",
+      "https://ramp.com/blog/midday-joining-ramp"
+    ]
+  },
+  "playbackNotice": "No new manual prototype-player playback performed for this refinement. Exact native screen, menu and overlay reactions and destinations are checked through the connected API."
 }

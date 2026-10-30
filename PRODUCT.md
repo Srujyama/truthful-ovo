@@ -32,6 +32,8 @@ The separate guided story uses fictional Nimbus Cloud and Pipeline CRM source ma
 Truthful is the product; OVO is the team. Neutral white navigation, graphite text, Public Sans typography, rule-separated working surfaces, forest actions, restrained amber/red conditions and Lucide icons. Concise product copy, inspectable evidence, clear approvals. No invented customers, recovery outcomes, integrations or runtime-AI claims.
 
 ## Product Principles
+
+The user pins Apple and Ramp as design references: clear hierarchy, progressive disclosure, efficient finance workflows and a visible next action. The portfolio is the default entry; technical laboratory views remain direct destinations. This is an independent product with no affiliation claim.
 - Evidence before assertion; unknown values stay unknown.
 - A promise, approval, issued credit and applied credit are distinct.
 - Exact references outrank matching amounts.

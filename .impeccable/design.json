@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T03:58:54.349432+00:00",
+  "generatedAt": "2026-10-30T04:29:14.173113+00:00",
   "title": "Design System: Truthful",
   "extensions": {
     "colorMeta": {
@@ -277,8 +277,8 @@
       "name": "Selected Navigation",
       "kind": "nav",
       "refersTo": "navigation-selected",
-      "description": "Named selected destination on white navigation.",
-      "html": "<nav aria-label=\"Workspace\"><button class=\"ds-nav\" aria-current=\"page\">Execution lab</button></nav>",
+      "description": "Finance-first selected destination on white navigation.",
+      "html": "<nav aria-label=\"Workspace\"><button class=\"ds-nav\" aria-current=\"page\">Assurance</button></nav>",
       "css": ".ds-nav{font-family:var(--ui-font);font-size:12px;color:var(--ui-accent);background:var(--ui-selected);border:0;border-radius:5px;padding:10px 12px;min-height:39px;font-weight:600;cursor:pointer}.ds-nav:hover{background:#f5f6f8;color:var(--ui-ink)}.ds-nav:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}"
     },
     {
@@ -308,7 +308,7 @@
   ],
   "narrative": {
     "northStar": "The working ledger",
-    "overview": "A working ledger for inspecting financial evidence and exact commands. Neutral white navigation and graphite typography frame quiet paper surfaces; fine rules carry structure while forest marks actions and selected context. The interface is compact and operational, with readable annotations and explicit financial states.\n\nPublic Sans supplies a single interface voice. Ordered steps, source records, financial amounts, and selected detail share the same visual grammar across execution, authority, assurance, evidence, and guided cases. Imagery is absent; Lucide line icons support labels.",
+    "overview": "A working ledger for inspecting financial evidence and exact commands. Neutral white navigation and graphite typography frame quiet paper surfaces; fine rules carry structure while forest marks actions and selected context. The interface is compact and operational, with readable annotations and explicit financial states.\n\nPublic Sans supplies a single interface voice. Ordered steps, source records, financial amounts, and selected detail share the same visual grammar across execution, authority, assurance, evidence, and guided cases. Imagery is absent; Lucide line icons support labels.\n\nThe user-selected philosophy draws on [Apple\u2019s design foundations](https://developer.apple.com/videos/play/wwdc2025/359/) for clear structure, location, and next actions, and [Ramp\u2019s approach to financial software](https://ramp.com/blog/midday-joining-ramp) for reducing the work around a financial task. Truthful applies these principles through finance-first navigation, compact records, and progressive disclosure. This is an application of those principles, with Truthful\u2019s own visual identity; it implies no affiliation or copied brand interface.",
     "keyCharacteristics": [
       "Neutral white shell and fine rule separation.",
       "Compact controls with explicit named states.",

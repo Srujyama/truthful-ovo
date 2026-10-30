@@ -451,3 +451,65 @@ h1, h2, h3 { text-wrap: balance; }
 .app-shell .insight.warning { background: var(--ui-warning-fill); color: var(--ui-warning); }
 .app-shell .insight.warning :is(p,small,.condition-facts) { color: #79531d; }
 .app-shell .summary-item em { font-weight: 400; }
+
+/* Financial work first; technical detail appears when requested. */
+.sidebar .workspace-switch { display: grid; grid-template-columns: 24px minmax(0,1fr) 12px; gap: 8px; }
+.workspace-switch .workspace-avatar { width: 24px; height: 24px; }
+.workspace-switch>span:nth-child(2) { min-width: 0; }
+.workspace-switch small { white-space: nowrap; }
+.sidebar nav button:nth-child(4) { margin-top: 14px; }
+.app-shell .assurance-page-heading h1 { font-weight: 600; }
+.assurance-page-heading .button.secondary { background: transparent; border-color: transparent; }
+.assurance-totals { gap: 22px; margin-top: 18px; padding-bottom: 20px; }
+.assurance-totals strong { font-size: 28px; }
+.assurance-register .portfolio-row { padding: 16px 18px; }
+.portfolio-row>div:nth-child(2) { margin-top: 11px; }
+.portfolio-row>small { margin-top: 7px; }
+.portfolio-vendor-symbol { background: #eff2f4; color: #5d6a73; }
+.history-disclosure { margin: 0 0 18px; border-bottom: 1px solid var(--ui-rule); }
+.history-disclosure>summary, .authority-evidence-disclosure>summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; gap: 16px; color: #49555f; font-size: 12px; cursor: pointer; list-style: none; }
+.history-disclosure>summary::-webkit-details-marker, .authority-evidence-disclosure>summary::-webkit-details-marker { display: none; }
+.history-disclosure>summary>span { display: inline-flex; align-items: center; gap: 8px; }
+.history-disclosure>summary>span:last-child { color: var(--ui-muted); }
+.history-disclosure[open]>summary { margin-bottom: 11px; }
+.history-disclosure[open]>summary>span:last-child>svg, .authority-evidence-disclosure[open]>summary>svg { transform: rotate(180deg); }
+.history-disclosure .replay-controls>div { display: none; }
+.authority-evidence-disclosure { margin-top: 24px; border-top: 1px solid var(--ui-rule); }
+.authority-evidence-disclosure>summary { min-height: 56px; }
+.authority-evidence-disclosure>summary>span { display: inline-flex; align-items: center; gap: 9px; }
+.authority-evidence-disclosure .authority-verifier { margin-top: 0; }
+.mobile-record-picker { display: none; }
+@media (min-width: 1101px) {
+  .assurance-master-detail { grid-template-columns: minmax(250px,.62fr) minmax(0,1.7fr); }
+  .portfolio-row>div:nth-child(2)>strong { font-size: 15px; }
+}
+@media (max-width: 760px) {
+  .mobile-record-picker { display: grid; gap: 9px; padding: 0 18px 18px; font-size: 12px; color: var(--ui-muted); }
+  .mobile-record-picker select { width: 100%; min-width: 0; min-height: 42px; padding: 10px; border: 1px solid var(--ui-rule); border-radius: 5px; background: white; color: var(--ui-ink); font: inherit; }
+  .portfolio-rows, .assurance-register .assurance-search, .assurance-register .register-explainer, .commitment-list, .commitment-register .filter-tabs, .commitment-register .register-search, .commitment-register .register-footer { display: none; }
+  .assurance-register .import-portfolio-button { border-top: 1px solid var(--ui-rule); }
+  .assurance-register .assurance-section-title, .register-heading { padding-bottom: 15px; }
+  .assurance-totals { gap: 19px 16px; }
+  .assurance-totals strong { font-size: 25px; }
+  .history-disclosure>summary { min-height: 44px; }
+  .history-disclosure .replay-controls { display: flex; }
+  .history-disclosure .replay-controls>div { display: none; }
+}
+
+.portfolio-overview>summary { display: none; }
+.portfolio-workspace-actions { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 8px; margin: -5px 0 12px; }
+.portfolio-workspace-actions .button.secondary { background: transparent; border-color: transparent; }
+.portfolio-workspace-actions>.text-button { margin-left: 8px; }
+@media (max-width: 760px) {
+  .portfolio-overview { margin: 0 0 16px; border-bottom: 1px solid var(--ui-rule); }
+  .portfolio-overview>summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; list-style: none; cursor: pointer; color: #49555f; font-size: 12px; }
+  .portfolio-overview>summary::-webkit-details-marker { display: none; }
+  .portfolio-overview[open]>summary>svg { transform: rotate(180deg); }
+  .portfolio-workspace-actions { margin: 12px 0; justify-content: flex-start; }
+  .portfolio-workspace-actions>.text-button { margin-left: 0; }
+  .assurance-page-heading { margin-bottom: 14px; }
+  .assurance-navigation { margin-bottom: 0; }
+  .assurance-register .assurance-section-title { display: none; }
+  .assurance-register .mobile-record-picker { padding-top: 18px; }
+}
+.assurance-page-heading>div:only-child { display: block; flex-shrink: 1; margin-top: 0; }

@@ -8,7 +8,7 @@ Truthful tests proposed financial workflows before their effects, then binds exe
 
 V4 is a local development build. Media and submission packaging are deferred; the existing public deployment remains the earlier v3 build.
 
-The development UI has been redesigned as a working ledger: direct task headings, a visible authored agent program, compact workflow controls, neutral surfaces and readable Public Sans typography. All financial and authority flows are retained.
+The development UI has been redesigned as a working ledger: direct task headings, a visible authored agent program, compact workflow controls, neutral surfaces and readable Public Sans typography. All financial and authority flows are retained. The pinned [design philosophy](design/figma/DESIGN_PHILOSOPHY.md) applies Apple’s clarity and progressive disclosure to Ramp-style efficient finance workflows: portfolio first, exact records, and advanced tools on demand.
 
 The [native Figma design](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) contains 17 editable screens, 7 product boards, 12 components, 13 color variables and a linked review prototype. The [design kit](design/figma/README.md) includes its reproducible scene definitions, product brief and native verification record.
 

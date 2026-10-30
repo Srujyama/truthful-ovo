@@ -1,6 +1,6 @@
 async page=>{
  const checks=[];
- await page.goto('http://127.0.0.1:5173/');
+ await page.goto('http://127.0.0.1:5173/?view=execution');
  await page.getByRole('combobox',{name:'Exploration scenario'}).selectOption('portfolio:action-pipeline-preserve');
  const click=name=>page.getByRole('button',{name,exact:true}).click();
  for(const change of ['budget','editor']){

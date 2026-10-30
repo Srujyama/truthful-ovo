@@ -41,3 +41,21 @@ FIRST VIEWPORT: 216px navigation rail,56px utility header,27px functional title,
 FORM: Working ledger, fifth grounded candidate; direction seed a54e588a. Code-led implementation; signature interaction is the actual program becoming the selected execution trace and its financial inspector.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## User-pinned Apple / Ramp refinement
+
+The user explicitly selected Apple or Ramp design philosophy. Ramp supplies the finance-workflow emphasis: minimize time and effort, make the monetary state and next decision apparent. Apple supplies clarity of structure and progressive disclosure. These are product principles, not affiliation or a pixel-copy mandate. Keep the existing Public Sans/neutral system.
+
+THESIS: Open on the financial job; reveal advanced machinery as the operator asks for it.
+
+OWN-WORLD: Preserve neutral paper, graphite type and forest actions, with compact record rows and a quiet account selector.
+
+STORY: Begin with the portfolio, select the commitment, inspect evidence and decide. Historical replay and signed verification remain explicit secondary tasks.
+
+FIRST VIEWPORT: Financial portfolio by default; ledger totals, compact vendor register and the selected record. Historical dates are under Historical view. Mobile uses a real record selector so the current case is near the top. Execution remains accessible by navigation and ?view=execution.
+
+FORM: User-pinned Apple/Ramp principles refine the working ledger; no replacement identity, comp or new seed. Existing technical workflows retain their behavior and bounds.
+
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+Primary references: https://developer.apple.com/videos/play/wwdc2025/359/ and https://ramp.com/blog/midday-joining-ramp . Live Ramp product marketing inspected at https://ramp.com/spend-management ; its marketing composition is not the application template.

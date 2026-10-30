@@ -1,5 +1,5 @@
-import React from 'react';
-import {Check, Cloud, Layers3, Radio, FolderOpen, Mail, Bot, FileText, ArrowUpRight, Clock3, Zap} from 'lucide-react';
+import React,{useEffect,useRef,useState} from 'react';
+import {Check, Cloud, Layers3, Radio, FolderOpen, Mail, Bot, FileText, ArrowUpRight, Clock3, Zap, ChevronDown} from 'lucide-react';
 import {sources} from './content.js';
 export const stateLabels={monitoring:'Watching',eligible:'Ready to claim',submitted:'Claim submitted',conditional:'Needs a decision',issued:'Credit issued',verified:'Promise kept',partial:'Partly kept',scheduled:'Scheduled'};
 export function Brand(){return <div className="brand"><span className="brand-symbol"><Check size={20} strokeWidth={3}/></span><span>truthful<span className="brand-period">.</span></span></div>}
@@ -8,3 +8,18 @@ export function Badge({state,children}){return <span className={`badge ${state}`
 export function SourceButton({id,onOpen,compact=false}){const item=sources[id];return <button className={`source-button ${compact?'compact':''}`} onClick={()=>onOpen(id)}><span className="source-icon">{item.kind==='Email'?<Mail size={16}/>:item.kind==='Agent conversation'?<Bot size={16}/>:<FileText size={16}/>}</span><span><strong>{item.title}</strong>{!compact&&<small>{item.kind} · {item.label.split(' · ')[0]}</small>}</span><ArrowUpRight size={15}/></button>}
 export function PromiseProgress({state,isPipeline}){const index=state==='verified'?3:state==='issued'?2:['submitted','conditional'].includes(state)?1:0;const names=isPipeline?['Agreed','Follow up','Issued','Verified']:['Promise','Claim','Issued','Verified'];return <div className="promise-progress" aria-label="Commitment progress">{names.map((label,i)=><React.Fragment key={label}>{i>0&&<span className={`progress-line ${i<=index?'complete':''}`}/>}<div className={`progress-step ${i<index?'complete':''} ${i===index?'current':''}`}><span>{i<index||state==='verified'?<Check size={12} strokeWidth={3}/>:<span/>}</span><small>{label}</small></div></React.Fragment>)}</div>}
 export function Availability({detected,busy,onTrigger,onSource}){return <section className="availability-section"><div className="section-heading"><h3>Service availability</h3><button className="text-button" onClick={()=>onSource('incident')}>Incident evidence<ArrowUpRight size={13}/></button></div><div className="availability-meta"><span><span className={`mini-dot ${detected?'amber':''}`}/>{detected?'Incident detected · EU-West Compute':'Nimbus Cloud · EU-West Compute'}</span><strong>{detected?'98.75%':'100.00%'}<small> uptime</small></strong></div><div className="uptime-bars" role="img" aria-label={detected?'September availability: nine hours of downtime on September 28':'September availability: no incident loaded'}>{Array.from({length:30},(_,i)=><span key={i} className={detected&&i===27?'outage-bar':''} title={detected&&i===27?'Sep 28: 9 hours unavailable':`Sep ${i+1}: available`}/>)}</div><div className="availability-axis"><span>Sep 1</span><span>30-day billing period</span><span>Sep 30</span></div>{!detected&&!busy&&<div className="empty-incident"><span>Your contract is ready.<br/><small>Replay a covered outage to see what happens next.</small></span><button className="button secondary" onClick={onTrigger}><Zap size={15}/>Trigger outage</button></div>}{detected&&<div className="incident-detail"><span><Clock3 size={14}/>Sep 28 · 00:00–09:00 UTC</span><span>9 hours of verified downtime</span></div>}</section>}
+
+export function ResponsiveDetails({className,label,children}){
+  const [open,setOpen]=useState(()=>matchMedia('(min-width: 761px)').matches);
+  const disclosure=useRef(null);
+  useEffect(()=>{
+    const media=matchMedia('(min-width: 761px)');
+    const change=event=>{
+      if(!event.matches&&disclosure.current?.contains(document.activeElement))disclosure.current.querySelector('summary')?.focus();
+      setOpen(event.matches);
+    };
+    media.addEventListener('change',change);
+    return()=>media.removeEventListener('change',change);
+  },[]);
+  return <details ref={disclosure} className={className} open={open} onToggle={event=>setOpen(event.currentTarget.open)}><summary>{label}<ChevronDown size={15}/></summary>{children}</details>;
+}

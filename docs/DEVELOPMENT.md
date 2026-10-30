@@ -13,3 +13,5 @@ Run `npm run dev` and open http://127.0.0.1:5173. `npm run check` validates the 
 Independent code review found and repaired response-ordering and superseded-run presentation races. Three hook regression tests check delayed command/reset responses against newer refreshes; two browser checks hold a real server response while inputs change. The recorded submission plan remains open because its external decisions are outside this development milestone.
 
 The current product UI uses the working-ledger design system in DESIGN.md. Vite ignores generated Figma HTML and output artifacts for hot reload so running the design CLI or capturing screenshots does not reset an in-progress product review. The Figma companion remains separately generated and verified through its connected native document.
+
+The default app entry is the financial portfolio. Use `http://127.0.0.1:5173/?view=execution` for a direct laboratory entry. `scripts/browser-design-principles-check.js` verifies the default route, disclosure access, keyboard focus, exact mobile references and first-viewport financial context through the existing Playwright CLI.

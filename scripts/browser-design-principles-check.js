@@ -1,0 +1,56 @@
+async page => {
+  const checks = [];
+  const require = (condition, message) => {
+    if (!condition) throw new Error(message);
+    checks.push(message);
+  };
+  const click = name => page.getByRole('button', {name, exact: true}).click();
+  const origin = new URL(page.url()).origin;
+  await page.setViewportSize({width: 1440, height: 960});
+  await page.goto(origin);
+  await page.getByRole('heading', {name: 'Commitment portfolio', level: 1}).waitFor();
+  require(await page.locator('.assurance-case').isVisible(), 'Default entry opens the actual financial portfolio');
+  const dates = page.getByRole('textbox', {name: 'Financial effective date'});
+  require(!await dates.isVisible(), 'Historical controls are disclosed on demand');
+  await page.getByText('Historical view', {exact: true}).click();
+  await page.getByRole('textbox', {name: 'Knowledge cutoff date'}).fill('2026-10-28');
+  await page.getByText('Historical view', {exact: true}).click();
+  require(await page.getByText(/Historical comparison\. Write actions are disabled/).isVisible(), 'Historical read-only state stays visible when its editor is collapsed');
+  await page.getByText('Historical view', {exact: true}).click();
+  await click('Return to latest');
+  require(!await dates.isVisible(), 'Returning to current records restores the compact default');
+  require(await page.locator('.history-disclosure>summary').evaluate(el => el === document.activeElement), 'Programmatic collapse returns keyboard focus to the disclosure');
+  await page.goto(`${origin}/?view=execution`);
+  await page.getByRole('heading', {name: 'Execution lab', level: 1}).waitFor();
+  require(await page.getByRole('region', {name: 'Proposed agent program'}).isVisible(), 'Explicit execution links retain the visible real program');
+  await page.getByRole('tab', {name: 'Signed authority', exact: true}).click();
+  await page.getByText(/^(SQLite execution boundary|Isolated browser authority)$/).waitFor();
+  require(!await page.getByRole('textbox', {name: 'Signed evidence JSON'}).isVisible(), 'Packet verification starts behind its explicit disclosure');
+  await page.getByText('Verify exported evidence', {exact: true}).click();
+  require(await page.getByRole('textbox', {name: 'Signed evidence JSON'}).isVisible(), 'Advanced signed verification remains reachable');
+  await page.setViewportSize({width: 390, height: 844});
+  await page.goto(origin);
+  require((await page.getByRole('combobox', {name: 'Selected commitment'}).innerText()).includes('NC-SLA-2026'), 'Mobile records retain their exact commitment references');
+  require(!await page.getByRole('combobox', {name: 'Demo actor role'}).isVisible(), 'Mobile workspace utilities start disclosed');
+  await page.getByText('Portfolio overview', {exact: true}).click();
+  require(await page.locator('.assurance-totals').isVisible() && await page.getByRole('combobox', {name: 'Demo actor role'}).isVisible(), 'All portfolio totals and role controls remain reachable');
+  await page.getByText('Portfolio overview', {exact: true}).click();
+  await page.getByRole('combobox', {name: 'Selected commitment'}).selectOption('nimbus-sla');
+  await page.locator('.assurance-case>header').getByRole('heading', {name: 'Nimbus Cloud', exact: true}).waitFor();
+  require(await page.locator('.portfolio-rows').isHidden(), 'Mobile record selection exposes the real selected detail without a tall queue');
+  await page.evaluate(() => scrollTo(0,0));
+  const firstScreen=await page.locator('.assurance-case').evaluate(el=>{
+    const selectors=['header h2','header p','.assurance-status','.assurance-amount>strong'];
+    return selectors.every(selector=>{const node=el.querySelector(selector),box=node?.getBoundingClientRect();return box&&box.top>=0&&box.bottom<=innerHeight;});
+  });
+  require(firstScreen, 'Selected name, exact reference, status and balance fit the first mobile viewport');
+  require(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Mobile portfolio remains within the viewport');
+  await click('Toggle navigation');
+  await click('Commitments 4');
+  await page.getByRole('combobox', {name: 'Selected guided case'}).selectOption('pipeline');
+  await page.locator('.case-header').getByRole('heading', {name: 'Pipeline CRM', exact: true}).waitFor();
+  require(await page.locator('.commitment-list').isHidden(), 'Mobile guided picker changes the actual case');
+  require(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Mobile guided detail remains within the viewport');
+  await page.setViewportSize({width: 1440, height: 960});
+  return {passed: checks.length, checks};
+}

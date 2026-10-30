@@ -6,6 +6,10 @@
 
 ## Goal
 
+Apple/Ramp refinement: user pins clear hierarchy, progressive disclosure and efficient finance workflows. Open on the portfolio, compact desktop records, working mobile case pickers, disclose historical controls and packet verification without hiding active historical restrictions, preserve every financial/technical capability, reflect in native Figma and verify desktop/mobile plus disclosures. No videos or public deployment. Completed: implementation and visual findings repaired, all acceptance checks passed, native version2415993476214323512 saved, and desktop/mobile context verified.
+
+Prior completed milestone:
+
 UI redesign milestone (2026-10-29): replace the rejected generic sage interface with a sharp, neutral working ledger in the live app and actual native Figma file. Preserve all financial, evidence, exploration, signed authority and export behavior. Direct task headings, visible authored agent program, Public Sans, readable labels and compact working controls; desktop/mobile inspection and independent reviews; push source branch. Videos and public deployment remain deferred. Completed: live-app redesign passed automated/build and browser checks, 12 rendered states reviewed; native Figma redesign API-verified with nine inspected exports and named cloud version2415995078788101279.
 
 Prior design milestone:
@@ -137,6 +141,11 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       accept: npm run design:check && npm run design:verify-native
       notes: Native file must actually match redesigned neutral working-ledger direction; all17 screens,7boards,12components,13variables and41controls retained; independent export review.; Actual native redesign saved as cloud version2415995078788101279. 17screenIDs,7boardIDs,12componentIDs retained;13colorvariables,652PublicSansscreen textlayers,47mappedcontrols and21CLOSEreturns APIverified. Nineexports reviewed; independentverdictscoredall4requestedfixesresolved. Geometry0clipping/0missingfonts. Newdesktopplaybacknotclaimed: windowinaccessible; exactnativeinteractionsverifiedbyAPI. Safeupdater targetbinding, proofinvalidation, modeldigest andclone-resume issues independently reviewed and repaired.
       took: 19m
+- [x] T24 · Apply Apple clarity and Ramp finance workflow principles to app and native Figma
+      files: src/App.jsx, src/Assurance.jsx, src/ExecutionLab.jsx, src/Workbench.jsx, src/product-ui.css, design/figma, docs/FIGMA_SCREEN_MAP.json, DESIGN.md, PRODUCT.md
+      accept: npm run check && npm run design:check && npm run design:verify-native
+      notes: Apple/Ramp refinement complete: finance-first entry, compact records, exact-reference mobile pickers, responsive utility overview, disclosed history/verifier, conditional-state copy and focus preservation. Independent source findings repaired; mobile-first-viewport fix independently scored resolved. 156 application tests, 15 design regressions, production build, actual native gate and112 browser assertions across SQLite/static modes pass. Nine web states and six native exports inspected. Native653text/47interactions/defaultportfolio verified; cloudversion2415993476214323512. No manual Figma playback claim.
+      took: 13m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -174,3 +183,6 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · done T22 · Redesign the live product with a coherent task-first visual system
 - 2026-10-29 · set T22 · notes
 - 2026-10-29 · done T23 · Carry the redesigned product system into editable native Figma
+- 2026-10-29 · started T24 · Apply Apple clarity and Ramp finance workflow principles to app and native Figma
+- 2026-10-29 · done T24 · Apply Apple clarity and Ramp finance workflow principles to app and native Figma
+- 2026-10-29 · set T24 · notes

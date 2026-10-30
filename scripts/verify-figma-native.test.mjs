@@ -20,7 +20,7 @@ function fixture(){
  const overlays=models.overlays.map((model,i)=>({name:model.name,nodeId:`77:${i+1}`,width:model.props.w,height:model.props.h,textLayers:countText(model)}));
  const navigationOverlays=(models.navigationOverlays||[]).map((model,i)=>({name:model.name,nodeId:`88:${i+1}`,width:model.props.w,height:model.props.h,textLayers:countText(model)}));
  const record={schemaVersion:1,status:'verified-native',fileKey:'MockTruthful',fileUrl:'https://www.figma.com/design/MockTruthful/Offline-test',frames,overlays,navigationOverlays,links:spec.screens.reduce((sum,screen)=>sum+screen.actions.length,0)};
- const live={marker:'truthful-ovo-design-v1:MockTruthful',frames:spec.screens.map(screen=>{
+ const live={marker:'truthful-ovo-design-v1:MockTruthful',flowStartingPoints:[{nodeId:frames.find(f=>f.id===(spec.designPhilosophy?.defaultEntry||'evidence-input')).nodeId,name:'Main review'}],frames:spec.screens.map(screen=>{
   const model=models.screens.find(n=>n.name===screen.id),controls=[];
   function visit(node){
    if(node.name.startsWith('hotspot:')){
@@ -71,4 +71,10 @@ test('a URL action cannot stand in for the expected internal NODE navigation',as
 test('a missing declared hotspot is rejected instead of being hidden by other reaction counts',async t=>{
  const run=await harness(t,({live})=>{const label='hotspot:'+spec.screens[0].actions[0].label;live.frames[0].controls=live.frames[0].controls.filter(control=>control.name!==label);});
  await assert.rejects(run(),error=>{assert.equal(error.code,1);assert.match(error.stderr,/Missing hotspot evidence-input/);return true;});
+});
+
+
+test('the main prototype entry must remain the declared financial task',async t=>{
+ const run=await harness(t,({live})=>{live.flowStartingPoints[0].nodeId='wrong-entry';});
+ await assert.rejects(run(),error=>{assert.equal(error.code,1);assert.match(error.stderr,/main prototype entry/);return true;});
 });

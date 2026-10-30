@@ -12,7 +12,7 @@ async (page) => {
   await promise.fill((await promise.inputValue()).replace('We will credit you USD 2,400','We might credit you USD 2,400'));
   await page.getByRole('button',{name:'Analyze evidence',exact:true}).click();
   const results = page.getByRole('region',{name:'Analysis results'});
-  await results.getByText('More evidence needed.',{exact:true}).waitFor();
+  await results.getByRole('heading',{name:'Evidence needs review',exact:true}).waitFor();
   const ledger = await results.locator('.recovery-ledger').innerText();
   require(!ledger.includes('$0') && ledger.includes('—'),'Unsupported values remain unknown, not authoritative zeros');
   await results.getByRole('tab',{name:'Claim draft',exact:true}).click();
