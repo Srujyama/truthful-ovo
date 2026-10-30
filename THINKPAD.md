@@ -6,6 +6,10 @@
 
 ## Goal
 
+UI redesign milestone (2026-10-29): replace the rejected generic sage interface with a sharp, neutral working ledger in the live app and actual native Figma file. Preserve all financial, evidence, exploration, signed authority and export behavior. Direct task headings, visible authored agent program, Public Sans, readable labels and compact working controls; desktop/mobile inspection and independent reviews; push source branch. Videos and public deployment remain deferred. Completed: live-app redesign passed automated/build and browser checks, 12 rendered states reviewed; native Figma redesign API-verified with nine inspected exports and named cloud version2415995078788101279.
+
+Prior design milestone:
+
 Figma product-design milestone (2026-10-29): prepare and inspect 17 editable screen reconstructions, 7 product boards, named component/color definitions and linked review states; create and verify a native Figma file through CLI. Preserve incumbent identity, truthful implemented/concept boundaries and the no-video instruction. Native creation is complete through the safe CLI bridge: 17 screens, 7 boards, 12 components, 13 color variables and 20 review-note overlays. Actual API checks, six independently reviewed native exports, prototype-player smoke checks and a named cloud version establish the scoped design milestone. Submission and videos remain deferred under T9.
 
 Prior development milestone:
@@ -123,6 +127,16 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       files: design/figma, docs/FIGMA_PRODUCT_SPEC.md, docs/FIGMA_SCREEN_MAP.json
       accept: npm run design:check && npm run design:verify-native
       notes: Created native file 8j4pwtsGDI4seljHPNeUkI through the safe CLI bridge: 17 editable screens, 7 boards, 12 native components, 13 color variables, 680 Manrope screen text layers and 20 review-note overlays. All 41 mapped controls and overlay returns checked by actual API; 14 offline regression tests pass. Six native exports independently reviewed after heading/font repairs. Four native prototype-player interactions observed. Saved cloud version 2415972791632449600. No billing change or financial command. Video and submission remain deferred under T9.
+- [x] T22 · Redesign the live product with a coherent task-first visual system
+      files: src/App.jsx, src/ui.jsx, src/styles.css, src/ExecutionLab.jsx, src/Assurance.jsx, src/Workbench.jsx, src/product-ui.css, PRODUCT.md, DESIGN.md
+      accept: npm run check
+      notes: Working-ledger redesign across app shell, visible authored program and retained-program inspection, assurance, evidence, authority and guided cases. Independent implementation findings repaired; 12 desktop/mobile captures reviewed and support-text contrast repair scored resolved. 156 automated tests and production build pass. 104 browser checks passed across SQLite and isolated-browser authority, portfolio, assurance, evidence, edge, cancellation and retained-program inspection. New token-bearing DESIGN.md and sidecar verified; financial behavior retained.
+      took: 15m
+- [x] T23 · Carry the redesigned product system into editable native Figma
+      files: design/figma, scripts/figma-screen-models.mjs, scripts/build-figma-kit.mjs, scripts/verify-figma-kit.mjs, scripts/verify-figma-native.mjs
+      accept: npm run design:check && npm run design:verify-native
+      notes: Native file must actually match redesigned neutral working-ledger direction; all17 screens,7boards,12components,13variables and41controls retained; independent export review.; Actual native redesign saved as cloud version2415995078788101279. 17screenIDs,7boardIDs,12componentIDs retained;13colorvariables,652PublicSansscreen textlayers,47mappedcontrols and21CLOSEreturns APIverified. Nineexports reviewed; independentverdictscoredall4requestedfixesresolved. Geometry0clipping/0missingfonts. Newdesktopplaybacknotclaimed: windowinaccessible; exactnativeinteractionsverifiedbyAPI. Safeupdater targetbinding, proofinvalidation, modeldigest andclone-resume issues independently reviewed and repaired.
+      took: 19m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -155,3 +169,8 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · set T21 · accept
 - 2026-10-29 · set T21 · notes
 - 2026-10-29 · done T21 · Build editable Figma product-design screens, components and prototype flow
+- 2026-10-29 · started T22 · Redesign the live product with a coherent task-first visual system
+- 2026-10-29 · started T23 · Carry the redesigned product system into editable native Figma
+- 2026-10-29 · done T22 · Redesign the live product with a coherent task-first visual system
+- 2026-10-29 · set T22 · notes
+- 2026-10-29 · done T23 · Carry the redesigned product system into editable native Figma

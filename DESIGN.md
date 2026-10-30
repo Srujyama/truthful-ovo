@@ -1,247 +1,205 @@
 ---
 name: Truthful
-description: A calm finance workspace for tracing vendor promises to applied credits.
+description: A working ledger for inspectable financial evidence and commands.
 colors:
-  forest: "#244e3b"
-  ink: "#24372e"
-  canvas: "#f6f7f5"
+  forest: "#176448"
+  forest-hover: "#12513a"
+  ink: "#20252b"
+  muted: "#626b75"
+  canvas: "#f7f8fa"
   paper: "#ffffff"
-  sage-rail: "#eff2ec"
-  selected: "#eff5ed"
-  panel-rule: "#e0e6de"
-  verified: "#287052"
-  condition-ink: "#99652e"
-  condition-fill: "#fbf1df"
-  availability: "#a8bda0"
-  outage: "#bb7254"
-  assurance-muted: "#60725d"
-  assurance-rule: "#dfe7d8"
-  assurance-wash: "#eef3e8"
-  assurance-condition: "#855b2d"
-  assurance-negative: "#974c39"
-  assurance-negative-fill: "#f9ede8"
-  graph-link: "#657d5c"
+  rule: "#e3e7eb"
+  control-rule: "#d5dbe0"
+  selected: "#edf5f0"
+  negative: "#b23d37"
+  negative-fill: "#fcf0ef"
+  warning: "#8a5b17"
+  warning-fill: "#fff5e4"
 typography:
   headline:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
-    fontSize: "26px"
-    fontWeight: 600
-    letterSpacing: "-1.1px"
-  amount:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
-    fontSize: "35px"
-    fontWeight: 550
-    lineHeight: 1.1
-    letterSpacing: "-1.5px"
-  recovery-amount:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
-    fontSize: "43px"
-    fontWeight: 550
-    lineHeight: 1.4
-    letterSpacing: "-0.035em"
-  proof-label:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
-    fontSize: "12px"
-  assurance-headline:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
-    fontSize: "29px"
+    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
+    fontSize: "27px"
     fontWeight: 650
     lineHeight: 1.3
     letterSpacing: "-0.035em"
-  assurance-amount:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
-    fontSize: "37px"
-    fontWeight: 550
-    lineHeight: 1.5
-    letterSpacing: "-0.035em"
-  assurance-annotation:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
-    fontSize: "12px"
   title:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
+    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
     fontSize: "17px"
-    fontWeight: 650
-    letterSpacing: "-0.5px"
+    fontWeight: 600
   body:
-    fontFamily: "Manrope Variable, Manrope, sans-serif"
+    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
     fontSize: "13px"
+  annotation:
+    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
+    fontSize: "12px"
+    lineHeight: 1.7
+  summary-amount:
+    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
+    fontSize: "30px"
+    fontWeight: 550
+    letterSpacing: "-0.03em"
+  recovery-amount:
+    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
+    fontSize: "43px"
+    fontWeight: 550
+    letterSpacing: "-0.035em"
+  code:
+    fontFamily: "ui-monospace, SFMono-Regular, monospace"
+    fontSize: "12px"
+    lineHeight: 1.9
 rounded:
   tag: "4px"
-  source: "6px"
-  control: "7px"
-  panel: "12px"
+  field: "5px"
+  control: "6px"
+  detail: "8px"
+  panel: "9px"
 spacing:
   tight: "8px"
   small: "12px"
   medium: "16px"
+  panel: "20px"
   section: "24px"
-  workspace: "32px"
+  workspace: "36px"
 components:
   button-primary:
     backgroundColor: "{colors.forest}"
     textColor: "{colors.paper}"
     rounded: "{rounded.control}"
-    padding: "10px 14px"
+    padding: "9px 13px"
+  button-primary-hover:
+    backgroundColor: "{colors.forest-hover}"
   button-secondary:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
     rounded: "{rounded.control}"
-    padding: "10px 14px"
+    padding: "9px 13px"
+  button-text:
+    textColor: "{colors.forest}"
+  input:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.field}"
+  navigation-selected:
+    backgroundColor: "{colors.selected}"
+    textColor: "{colors.forest}"
+    rounded: "{rounded.field}"
+    padding: "10px 12px"
+  warning-status:
+    backgroundColor: "{colors.warning-fill}"
+    textColor: "{colors.warning}"
+    rounded: "{rounded.tag}"
+    padding: "5px 7px"
   panel:
     backgroundColor: "{colors.paper}"
     rounded: "{rounded.panel}"
-  conditional-tag:
-    backgroundColor: "{colors.condition-fill}"
-    textColor: "{colors.condition-ink}"
-    rounded: "{rounded.tag}"
-    padding: "4px 7px"
 ---
 
 # Design System: Truthful
 
 ## Overview
 
-**Creative North Star: "The finance incident review desk"**
+**Creative North Star: "The working ledger"**
 
-A quiet, dense work surface pairs a vendor register with an evidence-bearing case. White panels, pale sage navigation, forest actions, and fine rules keep the monetary outcome prominent without turning every section into a separate dashboard tile.
+A working ledger for inspecting financial evidence and exact commands. Neutral white navigation and graphite typography frame quiet paper surfaces; fine rules carry structure while forest marks actions and selected context. The interface is compact and operational, with readable annotations and explicit financial states.
 
-This record describes the implemented React workspace, evidence lab, commitment-assurance extension, and execution lab, sampled from shared styles, workbench, case detail, assurance, and execution source. The assurance portfolio, decision room, evidence graph, and failure lab preserve the same finance desk identity. Visible runtime labels distinguish browser-local records from the optional local SQLite service; neither mode performs a vendor transaction. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.
+Public Sans supplies a single interface voice. Ordered steps, source records, financial amounts, and selected detail share the same visual grammar across execution, authority, assurance, evidence, and guided cases. Imagery is absent; Lucide line icons support labels.
 
 **Key Characteristics:**
-- Tabular amounts and explicit financial states.
-- Flat paper surfaces with softly rounded corners.
-- Named evidence immediately beside the decision.
+- Neutral white shell and fine rule separation.
+- Compact controls with explicit named states.
+- Tabular financial amounts and adjacent evidence.
+- Ordered programs that become selectable execution traces.
 
 ## Colors
 
-The palette is mineral and botanical, with restrained semantic accents.
+The palette is neutral and restrained, with forest actions and named amber/red conditions. Frontmatter records the reused shared theme; it does not catalog every older local declaration.
 
 ### Primary
-- **Forest:** primary actions and decisive navigation emphasis.
-- **Verified green:** amounts confirmed on an invoice.
+- **Forest:** primary commands, text actions, active navigation, and keyboard focus.
+- **Selected wash:** selected records and supporting evidence context.
 
 ### Secondary
-- **Condition amber:** unresolved conditions and partial fulfillment.
-- **Outage clay:** the affected day in the availability strip.
-- **Assurance condition and negative:** amber marks pending terms or policy restrictions; red marks negative economics, stale/blocked states, and failed commands, paired with explicit text.
+- **Warning ink and fill:** pending conditions, bounded-search uncertainty, and unresolved decisions.
+- **Negative ink and fill:** unsafe effects, blocked authority, and errors.
 
 ### Neutral
-- **Paper:** case, register, source, and dialog surfaces.
-- **Canvas:** the surrounding workspace.
-- **Sage rail and selected wash:** navigation and selected commitment context.
-- **Ink and panel rule:** primary text and structural separation.
-- **Assurance muted, rule, and wash:** readable supporting annotations, fine separators, and selected rows or notices within assurance.
-- **Graph link:** causal connector paths and their arrowheads on paper; the geometry supplements named record relationships.
+- **Ink and muted:** primary content and supporting annotations.
+- **Canvas and paper:** workspace surround and working surfaces; navigation remains paper white.
+- **Rule and control rule:** panel separators and field boundaries.
 
-**The State Has a Name Rule.** Pair semantic colors with readable labels; a green amount alone does not establish application.
+**The State Has a Name Rule.** Pair semantic color with a readable status or verdict; color alone does not establish approval or application.
 
 ## Typography
 
-Manrope Variable, with Manrope and sans-serif fallbacks, supplies both headings and body copy. Amounts use tabular numerals. Desktop hierarchy uses the frontmatter headline and amount values at widths of at least 1000px; the base title is 28px and base amount is 38px. At mobile widths they become 24px and 33px. Summary figures are 28px on desktop and 26px on mobile. Case headings are 17px; vendor names are 12px and semibold.
+**Display / Body Font:** Public Sans Variable, Public Sans, sans-serif. There is no separate decorative display face.
+**Code Font:** ui-monospace, SFMono-Regular, monospace for editable program and command JSON.
 
-The evidence lab uses a 28px, weight-650 heading with a 1.3 line height, becoming 25px at 1000px and below. Its recovery figure uses the recovery-amount role and becomes 40px at mobile widths. Result headings are 21px, or 20px at 1200px and below. Source text is 13px with a 1.9 line height. Critical result states, due-date references, ledger labels, citation controls, citation provenance, and reasoning text are 12px; document tabs become 11px on mobile.
+The interface combines a compact reading scale with larger tabular amounts. Headings use restrained negative tracking; annotations use normal letter spacing and sentence case.
 
-Assurance uses the assurance-headline, assurance-amount, and assurance-annotation roles. The heading becomes 27px and the case amount 35px at mobile widths. Portfolio totals are 28px, 25px at 1300px and below, and 27px on mobile. Net economics uses 32px, becoming 29px on mobile. Critical statuses, deadlines, provenance, graph labels, policy reasoning, and failure results remain at least 12px across assurance breakpoints.
+### Hierarchy
+- **Headline:** functional page title; the frontmatter desktop role becomes 24px at the mobile breakpoint.
+- **Title:** trace inspector and result headings; smaller working-panel headings use 13–16px according to hierarchy.
+- **Body:** prose, evidence, and document content; source text uses a generous 1.9 line height.
+- **Annotation:** controls, statuses, source references, timestamps, and program steps.
+- **Summary amount:** guided summary figures; assurance totals use 29px, and 26px on mobile.
+- **Recovery amount:** evidence result figure; it becomes 39px on mobile. Guided case amounts use 39px desktop and 35px mobile; assurance case amounts use 35px.
 
-The execution lab reuses the assurance heading role, becoming 27px on mobile, with 23px task headings (21px at 1000px and below), 18px verdict headings (17px on mobile), and 13px body text. Critical states, trace steps, bounds, grant facts, receipt identifiers, and trust fingerprints remain at least 12px. Editable scenario and signed-evidence JSON deliberately use `ui-monospace, SFMono-Regular, monospace` at 12px with 1.9 line height; this is code typography, not the display face.
-
-**The Readable Assurance Rule.** Keep assurance decision-critical annotations at 12px or larger; inherited tiny metadata is not a precedent.
-
-The inherited guided cases and secondary lab annotations still carry 8–11px text. These are recorded as legibility debt, not a recommended label scale for future surfaces. The scan also identifies 19 distinct font sizes across the build; they are not a newly approved uniform type ramp.
-
-**The Amount First Rule.** Give the case amount greater visual weight than its status, unit, and supporting evidence.
+**The Readable Record Rule.** Use the implemented 12px annotation role for decision-critical labels, provenance, and controls; inherited smaller text is not a future scale.
 
 ## Layout
 
-The shared desktop shell has a fixed 210px rail and a contextual top bar. Guided cases retain a fixed bottom action dock; the evidence lab places its actions inside the document and finding panels. The main surface has 32px horizontal gutters and a 1600px maximum width. A 278px register sits beside a flexible case with a 22px gap; at 1400px the register becomes 290px. The summary uses three numeric columns plus an assurance column, which disappears at 1200px.
+The desktop shell uses a fixed navigation rail (216px) and utility header (56px). Working containers cap at 1512px and use 32px vertical / 36px horizontal padding. At 1300px the horizontal gutter becomes 26px. White working panels use roughly 20–24px padding and fine internal dividers.
 
-At 950px the rail narrows to 175px. At 760px it becomes a toggleable overlay, the workbench stacks, the register becomes a two-column grid, and the workspace gutters become 16px. The dock becomes 73px high with reset and primary action. Bottom content padding reserves space for the fixed controls. Evidence uses a right-side drawer up to 610px wide, capped at the viewport width.
+Guided cases pair a 275px register with flexible case detail and a 23px gap. Evidence pairs near-equal input and result columns with a 24px gap. Assurance pairs a register with a wider detail surface. Execution uses ordered agent lanes and a separate trace list / inspector; these are relational working surfaces rather than isolated metric tiles.
 
-The evidence lab has a 1580px maximum container with 34px horizontal gutters, a 24px gap, and input/result columns of `minmax(310px, .85fr)` and `minmax(420px, 1.15fr)`. At 1200px its gutters become 24px and the gap 18px. At 1000px the panels stack input before result and the container caps at 850px. At 760px gutters become 16px and panel content uses 18–19px padding. The lab has no fixed bottom dock.
-
-Assurance has a 1590px maximum container and 32px horizontal gutters, narrowing to 24px at 1300px and 16px at 760px. Portfolio and decision views use a 22px-gap master/detail grid with `minmax(280px, .68fr)` and `minmax(0, 1.55fr)` columns. At 1100px they stack, with portfolio rows in two columns; decision rows become full-width on mobile. Four totals become two columns at 760px. The failure lab uses a scenario list beside a flexible result, stacking at 760px. Its actions remain in normal flow. Graph records occupy four columns, becoming two on mobile, where connectors are hidden and named relationships remain available.
-
-The execution lab reuses the 1590px maximum width and 32px gutters, narrowing to 24px at 1300px and 16px at 760px. Paired execution verdicts share a divided paper container, stacking at 760px. Its ordered trace and selected-transition inspector use a 22px gap and `minmax(280px, .85fr)` / `minmax(0, 1.25fr)` columns, stacking at 1000px. Approval, scope, and execution occupy three columns, two at 1300px with execution spanning the row, and one at 1000px. Actions stay in normal flow and wrap or become full-width on mobile.
+At 1100px evidence and assurance master-detail layouts stack. Between 761px and 950px the rail narrows to 184px. At 760px the rail becomes a toggleable overlay, gutters become 16px, header height becomes 54px, controls and agent lanes stack, and the trace becomes a single column. Guided cases reserve bottom space for a fixed action dock. Tabs retain horizontal scrolling when necessary.
 
 ## Elevation & Depth
 
-Panels are flat, distinguished by white fill and fine borders. Shadows signal overlays or selection rather than general card importance. Selected register rows use a pale wash; the later stylesheet removes the older inset stripe. The evidence drawer uses `-15px 0 70px #172b2420`; menus use `0 8px 30px #223a2417`. Dialog backdrops use a translucent forest wash and 2px blur.
+Working panels are flat, separated by rules, canvas contrast, selected fills, and occasional semantic inset marks. Floating menus, toast messages, evidence drawers, and mobile navigation retain ambient shadows. These do not define a general card elevation scale.
 
-**The Flat Workspace Rule.** Keep resting register and case panels unshadowed; preserve overlay shadows for the temporary layer they identify.
+### Shadow Vocabulary
+- **Mobile navigation:** `12px 0 40px #1c2c3426` separates the temporary navigation overlay.
+- **Evidence drawer:** `-15px 0 70px #172b2420` separates the floating source document.
+
+**The Flat Working Surface Rule.** Use rules, white surfaces, and selected fills for working hierarchy; reserve ambient shadows for floating overlays.
 
 ## Shapes
 
-Large panels use the panel radius; controls use the control radius, sources the source radius, and status tags the tag radius. Circular progress markers and small status dots describe state. Lucide SVG icons provide consistent outline imagery; the brand uses a heavier check. The interface has no raster illustration assets. The evidence lab reuses panel, source, and control radii. Its saved-case container (10px), result-state tag (5px), and audit-count badge (3px) are local variations, not additions to the shared radius scale.
+Small practical corners distinguish status marks, fields, commands, and work surfaces. Tags use the tag radius, fields and navigation use the field radius, and primary controls use the control radius. Primary working panels use the panel radius; assurance and trace detail use the detail radius. Internal rows and column dividers remain straight. Lucide line icons use a shared 1.65 stroke width; the brand check has a heavier stroke.
 
 ## Components
 
 ### Buttons
+Compact, explicit commands. Primary buttons use forest on white text; secondary buttons use paper, ink, and a control-rule border. Both use the frontmatter padding and a minimum height of 38px. Primary hover deepens forest; secondary hover uses a neutral wash. Text actions use forest with underlined hover. Disabled controls use opaque neutral fills and readable muted text. Keyboard focus uses a forest outline (2px) offset by 3px.
 
-Compact, semibold controls pair an outline icon with a direct action label. Primary buttons use forest fill and white text; secondary buttons use white fill with a fine neutral border. Hover applies brightness 0.97; background and transform transitions last 0.18s. Disabled buttons use opacity 0.45. Focus-visible outlines are 2px green with a 3px offset. The evidence-lab stylesheet also updates the shared primary fill to the frontmatter forest token; older green variations remain in navigation and status treatments.
+Button color transitions last 160ms with ease timing. Pressed buttons darken slightly. Reduced-motion preferences disable animations and transitions across the app.
 
 ### Chips
-
-Small rectangular status tags pair a colored dot with a state name. Amber marks partial or conditional states, green marks eligible/submitted/verified, and blue marks issued. The text distinguishes these financial meanings.
+Named statuses use compact rounded fills and readable text. Warning and negative treatments use shared semantic tokens. Some verified and scheduled chips retain inherited local greens; their precise hues are not reusable shared primitives.
 
 ### Cards / Containers
-
-The register, case, and library share white surfaces, one-pixel borders, and the panel radius. Case content normally has 24px padding, with 28px horizontal padding on wide screens and 19px padding at narrower desktop widths. Source references are individually bordered, clickable rows with document type and an outward arrow.
+Paper panels use fine rule borders, practical corners, and flat depth. Panel headers and internal rows separate content through rules. Typical padding is 20–24px; smaller mobile panels use 16–20px.
 
 ### Inputs / Fields
-
-Vendor search is a transparent, borderless input beside a search icon; its enclosing search row now has a visible focus-within outline. Claim drafting uses a resizable textarea with plain document-like presentation. The evidence lab adds bordered vendor/date fields and a pale, resizable document editor with the control radius. Selects and metadata inputs use the source radius. All inherit the global visible focus treatment.
+White fields use the control-rule border, small corners, and ink text. Common minimum heights are 38–39px. Placeholders remain muted and opaque. Document textareas use 13px text with 1.9 line height; structured command editors retain the code role. All controls inherit visible keyboard focus.
 
 ### Navigation
+White fixed rail; small labeled line icons and 12px text. The selected item uses forest text over the selected wash; hover uses a neutral wash. Underlined tabs use graphite for the selected label and underline. Mobile navigation opens as an overlay.
 
-Active rail navigation uses a sage fill and stronger forest text. Case tabs use a forest bottom rule. Segmented register filters use a white selected segment on a pale gray-green track. Mobile navigation opens from the header toggle. Evidence-lab document and result tabs use a forest underline, linked tab/panel semantics, a single tab stop, and arrow/Home/End keyboard movement. Document tabs have 40px minimum height; result tabs have 42px minimum height.
-
-### Availability and evidence
-
-Thirty rounded bars represent the billing period. A single clay-colored bar identifies the outage day; adjacent text states the downtime and period. Evidence opens in a paper-like drawer with the relevant clause highlighted, source facts, and a close control. The horizontal progress sequence separates promise, claim, issue, and verification.
-
-The evidence-matching scan uses a two-second linear moving line. Reduced-motion preferences disable animations and transitions. This motion represents a prepared scenario replay, not live source ingestion.
-
-### Evidence workbench
-
-The input and finding panels extend the same flat paper treatment. The finding heading precedes vendor context, then the recovery amount and a three-column promised/applied/open ledger. Unknown unsupported values display an em dash, rather than a calculated zero. Named status tags remain beside headings. Conditional terms use an amber inline notice.
-
-Reasoning rows pair a state icon, readable explanation, and named source citations. Citation controls use 12px text and a minimum 32px height; an opened source shows the exact passage and character range in a pale sage inset. The result footer contains local approval state and export controls, with 40px minimum button heights. These affordances describe local evidence review, not authenticated source provenance.
-
-A new result enters over 0.35s with a 4px rise and slight blur; a loading spinner uses a 0.8s linear loop. Reduced-motion preferences disable both. These are feedback for local processing, separate from the guided-case replay scan.
-
-### Commitment assurance
-
-Portfolio rows combine vendor/reference, named state, outstanding amount, and deadline. The selected paper case keeps original promise, verified application, and issued value separate. Evidence, shared ledger, and history use underline navigation; effective-date and knowledge-cutoff controls sit above the case. Historical read-only state is stated in a sage notice.
-
-The decision room places contingent credit, incremental renewal cost, and net value in aligned rows, with a stronger net figure and red negative value. Policy verdicts use sage or amber insets, explicit reasons, and a collapsible approval basis. Alternative terms retain named states and separate review/dismiss actions. Approval and execution controls follow the evidence in normal document flow.
-
-Evidence graph nodes reuse the source radius and pale paper/sage/amber fills. Causal paths and arrowheads use graph-link with a 1.4px path stroke against paper. Named relationship text accompanies the geometry; source selection reveals quoted evidence, record metadata, and revision controls. Node titles may clamp to three lines; the full title and relationship list remain available.
-
-Failure cases use a selectable list beside a bordered result, an explicit passed/failed verdict, named checks, and expandable recorded/rejected steps. The advanced command editor uses 12px monospace. Assurance case entry is a .25s easing from 1px blur to clear, disabled for reduced motion. Assurance controls use 2px forest focus outlines with 3px offset; primary/secondary actions have 39px minimum height.
-
-### Execution laboratory
-
-A portfolio-copy note names the selected vendor and commitment reference, snapshot revision, and retained source revisions. Adversarial source and clock inputs are explicitly hypothetical. The note states that exploration creates no approval, grant, or live portfolio change; custom edited programs are labeled user-supplied.
-
-Paired selectable verdicts compare the actual bounded cached-check reference and guarded execution. Each presents a named result, search extent, and outcome text; selected states use sage, negative red, or inconclusive amber wash. Not-run, loading, error, and resource-cutoff states remain distinct. An inconclusive search is not presented as a green safety verdict.
-
-Numbered trace rows express actual execution order. Selection reveals the command, actor, before/after revision, observed credit capacity, reducer decision, and time in an adjacent paper inspector. Unsafe effects use named red labels. The repair inset keeps rationale, inspected continuation, safe terminal completion counts, and incomplete branches visible together; custom programs explicitly state when no automatic repair exists.
-
-The authority workflow keeps exact finance approval, bounded signed scope, and one-use execution in separate flat panels. Scope facts expose amount, lifetime, delegation depth, approval basis, and consumed/revoked state. A receipt shows the committed revision change and identifier. The trust area requires an explicit demo-issuer pin beside its fingerprint, with a separate signed-JSON editor and named verification outcome. Runtime labels distinguish isolated browser authority from SQLite execution; notices state the limits of offline verification.
-
-Execution panels reuse the panel and control radii, thin rules, and 2px forest focus outline with 3px offset. Primary and secondary actions have a 40px minimum height; text actions have 32px minimum height. The inspector clears from 0.7px blur over .25s with `cubic-bezier(.16,1,.3,1)`; loading uses the existing .8s spinner rhythm. Reduced-motion preferences disable both animations.
+### Program and Trace
+An ordered program uses rule-separated agent lanes, numbered square step marks, named operations, and supporting identifiers. Execution yields a selectable trace list beside a financial inspector. Selected rows use context fill; unsafe selections use negative fill. This shared list/detail grammar also appears in assurance and guided cases.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** preserve named state labels alongside semantic colors.
-- **Do** keep tabular monetary figures and source references close to decisions.
-- **Do** maintain responsive stacking and clearance for fixed controls.
-- **Do** preserve visible focus and reduced-motion behavior when extending controls.
+- **Do** use the shared Public Sans interface family and tabular numerals for financial values.
+- **Do** keep evidence, named status, and the selected financial effect inspectable together.
+- **Do** preserve mobile stacking, readable annotations, and visible keyboard focus.
 
 ### Don't:
-- **Don't** treat an issued credit as verified savings without invoice application.
-- **Don't** generalize the existing tiny muted metadata into reusable styling.
-- **Don't** carry the uppercase workspace eyebrow into new surfaces; it is an incumbent craft-floor defect, not a system primitive.
+- **Don't** reintroduce the rejected sage navigation identity.
+- **Don't** communicate approval, failure, or application through color alone.
+- **Don't** promote inherited tiny labels or one-off legacy colors into new system tokens.
 
-The source scan reports 64 slight tonal color variants, 19 font sizes, and three local radii outside the recorded scale (86 advisories; zero primary findings). These remain observed drift, not normative tokens. The inherited workspace eyebrow and tiny annotations are not canonized; this documentation pass does not normalize source code.
+Not canonized: overridden Manrope/sage declarations, remaining one-off semantic greens, local type-size variations, and any inherited labels below the readable annotation role are implementation debt, not new rules. This record describes the React artifact; it does not certify native Figma completion.

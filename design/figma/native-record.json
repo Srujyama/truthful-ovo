@@ -16,7 +16,7 @@
   },
   "createdAt": "2026-10-30T02:45:23.746Z",
   "method": "figma-cli plugin mode",
-  "links": 41,
+  "links": 47,
   "overlays": [
     {
       "name": "review-note:evidence-finding:Claim draft",
@@ -165,35 +165,35 @@
       "nodeId": "3:134",
       "width": 1440,
       "height": 960,
-      "textLayers": 42
+      "textLayers": 37
     },
     {
       "id": "evidence-finding",
       "nodeId": "3:213",
       "width": 1440,
       "height": 960,
-      "textLayers": 54
+      "textLayers": 52
     },
     {
       "id": "portfolio",
       "nodeId": "3:312",
       "width": 1440,
       "height": 960,
-      "textLayers": 63
+      "textLayers": 60
     },
     {
       "id": "renewal-decision",
       "nodeId": "3:422",
       "width": 1440,
       "height": 960,
-      "textLayers": 41
+      "textLayers": 39
     },
     {
       "id": "exact-approval",
       "nodeId": "3:495",
       "width": 1440,
       "height": 960,
-      "textLayers": 47
+      "textLayers": 45
     },
     {
       "id": "race-setup",
@@ -207,122 +207,273 @@
       "nodeId": "3:655",
       "width": 1440,
       "height": 960,
-      "textLayers": 48
+      "textLayers": 46
     },
     {
       "id": "race-cutoff",
       "nodeId": "3:747",
       "width": 1440,
       "height": 960,
-      "textLayers": 40
+      "textLayers": 38
     },
     {
       "id": "race-repair",
       "nodeId": "3:824",
       "width": 1440,
       "height": 960,
-      "textLayers": 45
+      "textLayers": 43
     },
     {
       "id": "authority-approval",
       "nodeId": "3:910",
       "width": 1440,
       "height": 960,
-      "textLayers": 49
+      "textLayers": 47
     },
     {
       "id": "authority-scope",
       "nodeId": "3:999",
       "width": 1440,
       "height": 960,
-      "textLayers": 54
+      "textLayers": 52
     },
     {
       "id": "execution-receipt",
       "nodeId": "3:1097",
       "width": 1440,
       "height": 960,
-      "textLayers": 39
+      "textLayers": 36
     },
     {
       "id": "packet-verification",
       "nodeId": "3:1171",
       "width": 1440,
       "height": 960,
-      "textLayers": 31
+      "textLayers": 29
     },
     {
       "id": "connected-handoff-concept",
       "nodeId": "3:1231",
       "width": 1440,
       "height": 960,
-      "textLayers": 30
+      "textLayers": 28
     },
     {
       "id": "mobile-approval",
       "nodeId": "3:1288",
       "width": 390,
       "height": 844,
-      "textLayers": 18
+      "textLayers": 19
     },
     {
       "id": "mobile-witness",
       "nodeId": "3:1320",
       "width": 390,
       "height": 844,
-      "textLayers": 23
+      "textLayers": 24
     },
     {
       "id": "mobile-receipt",
       "nodeId": "3:1370",
       "width": 390,
       "height": 844,
-      "textLayers": 17
+      "textLayers": 18
     }
   ],
   "visualReview": {
     "disposition": "ship",
-    "scope": "Six actual native exports; heading fix and final Manrope normalization independently scored resolved.",
+    "scope": "Independent verdict pass over four requested fixes; nine final native exports inspected. All four scored resolved; no visible regressions in this batch.",
+    "resolvedFixes": [
+      "Ruled portfolio relationships replace nested equal evidence cards.",
+      "Proposed program is a principal white working surface with row and column separation.",
+      "All three mobile headers expose Navigation; an editable menu has three real destinations and a CLOSE return.",
+      "Receipt facts and outcome use one compact ruled review surface."
+    ],
     "exports": [
-      "race-witness",
-      "execution-receipt",
+      "race-setup",
+      "portfolio",
+      "receipt",
       "mobile-witness",
-      "board-start",
-      "interaction-note",
-      "disabled-component"
+      "note",
+      "board",
+      "mobile-menu",
+      "mobile-approval",
+      "mobile-receipt"
     ]
   },
-  "fileName": "Truthful \u00b7 OVO \u00b7 Product design",
+  "fileName": "Truthful · OVO · Product design",
   "cloudVersion": {
-    "id": "2415972791632449600",
-    "label": "Truthful \u00b7 native checked design"
+    "id": "2415995078788101279",
+    "label": "Truthful · working ledger · verified native redesign"
   },
-  "prototypePlayback": {
-    "status": "passed-smoke-check",
-    "observedAt": "2026-10-30T03:12:43.820511+00:00",
-    "method": "Figma Desktop native prototype player; pointer interaction and inspected screenshots",
-    "checks": [
+  "prototypePlayback": null,
+  "redesignedAt": "2026-10-30T04:00:34.049Z",
+  "previousCloudVersion": {
+    "id": "2415972791632449600",
+    "label": "Truthful · native checked design"
+  },
+  "restoreVersion": {
+    "id": "2415991964928554183"
+  },
+  "fontMapping": {
+    "family": "Public Sans",
+    "nativeStyles": {
+      "regular": "Regular",
+      "medium": "Medium",
+      "semibold": "SemiBold",
+      "bold": "Bold"
+    },
+    "notice": "Official Public Sans variable TTF installed locally. Each native style loaded and confirmed with hasMissingFont=false."
+  },
+  "nativeApiVerification": {
+    "status": "passed",
+    "checkedAt": "2026-10-30T04:02:52.254829+00:00",
+    "command": "npm run design:verify-native",
+    "screenRootIds": 17,
+    "screenTextLayers": 652,
+    "nativeComponents": 12,
+    "colorVariables": 13,
+    "mappedInteractions": 47,
+    "closeReturns": 21,
+    "scope": "Actual connected native document IDs, dimensions, text counts and Public Sans family; exact screen/menu/overlay reactions and destinations; named native components and RGB color variables."
+  },
+  "geometryVerification": {
+    "checkedAt": "2026-10-30T04:00:49.549Z",
+    "scope": "All native text under owned roots checked against clipping ancestors",
+    "clippedTextLayers": 0,
+    "missingFontLayers": 0
+  },
+  "navigationOverlays": [
+    {
+      "name": "mobile-navigation",
+      "nodeId": "12:6155",
+      "width": 352,
+      "height": 320,
+      "textLayers": 5
+    }
+  ],
+  "interactionInventory": {
+    "screenControls": 44,
+    "menuNavigationLinks": 3,
+    "totalMappedInteractions": 47,
+    "screenNavigationLinks": 21,
+    "reviewNoteOpeners": 20,
+    "menuOpeners": 3,
+    "reviewNotes": 20,
+    "navigationMenus": 1,
+    "closeReturnControls": 21
+  },
+  "manualPlaybackAttempt": {
+    "status": "not-completed",
+    "reason": "Figma Desktop window became inaccessible to cu (no_window). No new manual playback success is asserted. Exact native reactions and destinations are checked separately by the connected API."
+  },
+  "verifiedAt": "2026-10-30T04:02:52.255019+00:00",
+  "nativeLibrary": {
+    "components": [
       {
-        "source": "evidence-input",
-        "control": "Analyze evidence",
-        "result": "evidence-finding"
+        "name": "Truthful Button / kind=Primary, state=Default",
+        "nodeId": "3:21",
+        "type": "COMPONENT"
       },
       {
-        "source": "evidence-finding",
-        "control": "Claim draft",
-        "result": "review-note:evidence-finding:Claim draft"
+        "name": "Truthful Button / kind=Primary, state=Hover",
+        "nodeId": "3:22",
+        "type": "COMPONENT"
       },
       {
-        "source": "review-note:evidence-finding:Claim draft",
-        "control": "Return to the screen",
-        "result": "evidence-finding"
+        "name": "Truthful Button / kind=Primary, state=Disabled",
+        "nodeId": "3:27",
+        "type": "COMPONENT"
       },
       {
-        "source": "evidence-finding",
-        "control": "Add to portfolio",
-        "result": "portfolio"
+        "name": "Truthful Button / kind=Secondary, state=Default",
+        "nodeId": "3:28",
+        "type": "COMPONENT"
+      },
+      {
+        "name": "Truthful Button / kind=Secondary, state=Hover",
+        "nodeId": "3:33",
+        "type": "COMPONENT"
+      },
+      {
+        "name": "Truthful Button / kind=Secondary, state=Disabled",
+        "nodeId": "3:34",
+        "type": "COMPONENT"
+      },
+      {
+        "name": "Truthful State / Approved",
+        "nodeId": "3:39",
+        "type": "COMPONENT"
+      },
+      {
+        "name": "Truthful State / Unsafe effect",
+        "nodeId": "3:40",
+        "type": "COMPONENT"
+      },
+      {
+        "name": "Truthful State / Inconclusive",
+        "nodeId": "3:45",
+        "type": "COMPONENT"
+      },
+      {
+        "name": "Truthful State / Needs approval",
+        "nodeId": "3:46",
+        "type": "COMPONENT"
+      },
+      {
+        "name": "Truthful State / Consumed once",
+        "nodeId": "3:51",
+        "type": "COMPONENT"
+      },
+      {
+        "name": "Truthful State / Stale approval",
+        "nodeId": "3:52",
+        "type": "COMPONENT"
       }
     ],
-    "scope": "Four observed interactions; all 41 mapped controls and 20 overlay close reactions are separately verified through the connected native API. Synthetic review states execute no financial actions."
+    "boards": [
+      {
+        "name": "board-start",
+        "nodeId": "3:53",
+        "width": 1440,
+        "height": 960
+      },
+      {
+        "name": "board-problem",
+        "nodeId": "3:62",
+        "width": 1440,
+        "height": 960
+      },
+      {
+        "name": "board-economics",
+        "nodeId": "3:67",
+        "width": 1440,
+        "height": 960
+      },
+      {
+        "name": "board-ritual",
+        "nodeId": "3:73",
+        "width": 1440,
+        "height": 960
+      },
+      {
+        "name": "board-system",
+        "nodeId": "3:79",
+        "width": 1440,
+        "height": 960
+      },
+      {
+        "name": "board-trust",
+        "nodeId": "3:106",
+        "width": 1440,
+        "height": 960
+      },
+      {
+        "name": "board-roadmap",
+        "nodeId": "3:112",
+        "width": 1440,
+        "height": 960
+      }
+    ]
   }
 }

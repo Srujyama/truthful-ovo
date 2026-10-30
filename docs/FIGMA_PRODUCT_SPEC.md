@@ -4,7 +4,7 @@
 
 Team OVO · v4 development build · Design content and prototype plan
 
-This specification describes the working product and one explicitly labeled concept. Its companion [screen map](FIGMA_SCREEN_MAP.json) provides frame IDs, viewports, entries, actions, destinations and annotations. The completed [native Figma file](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) contains 17 editable screens, 7 story boards, 12 components and 13 color variables. Its separately checked creation, cloud version, exact links and visual-review scope are recorded in the [native record](../design/figma/native-record.json). Twenty review-note overlays explain controls that do not navigate to another screen. Video work is outside this task.
+This specification describes the working product and one explicitly labeled concept. Its companion [screen map](FIGMA_SCREEN_MAP.json) provides frame IDs, viewports, entries, actions, destinations and annotations. The completed [native Figma file](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) contains 17 editable screens, 7 story boards, 12 components and 13 color variables. Its separately checked creation, cloud version, exact links and visual-review scope are recorded in the [native record](../design/figma/native-record.json). Twenty review-note overlays explain controls that do not navigate to another screen. A shared editable navigation overlay connects the three mobile review screens. Video work is outside this task.
 
 ## Product brief
 
@@ -69,7 +69,7 @@ Use 1440 × 960 desktop viewports and 390 × 844 mobile viewports. Long content 
 
 ## Prototype interactions and adverse states
 
-Use the action map in JSON as the navigation source. Its 41 declared review links correspond to controls represented in the editable screen models. Entries explain any setup needed before a recorded state can be reached. Six additional working-app behaviors are preserved as explicit alternate-state annotations rather than phantom prototype links: direct execution after approval, switching an authored family to a ten-state cutoff, selecting guarded replay on desktop and mobile, switching from a portfolio witness to an authored repair, and preparing a fresh action from the condensed mobile receipt view. Label concept-only hotspots visibly.
+Use the action map in JSON as the navigation source. Its original 41 review controls are retained, with three additional mobile navigation triggers and three destinations in the shared navigation overlay. All 47 mapped controls are represented in the editable models. Entries explain any setup needed before a recorded state can be reached. Six additional working-app behaviors are preserved as explicit alternate-state annotations rather than phantom prototype links: direct execution after approval, switching an authored family to a ten-state cutoff, selecting guarded replay on desktop and mobile, switching from a portfolio witness to an authored repair, and preparing a fresh action from the condensed mobile receipt view. Label concept-only hotspots visibly.
 
 The main prototype story connects evidence, portfolio review, exact approval, the portfolio-copy race, the separate signing lab, the local receipt and verification. The cutoff and fixed-family repair frames are separate authored-program review states; reviewers reach them through board or reviewer navigation, rather than a false claim that replay automatically repairs a copied portfolio action. Any reviewer navigation belongs outside the product preview and must be labeled as such.
 
@@ -83,7 +83,7 @@ Use real app labels including **Analyze evidence**, **Add to portfolio**, **Appr
 
 ## Visual and component direction
 
-Preserve [DESIGN.md](../DESIGN.md): Manrope, forest `#244e3b`, ink `#24372e`, canvas `#f6f7f5`, paper `#ffffff`, sage rail `#eff2ec` and named verified state `#287052`. Semantic state has a readable name as well as color. Monetary values use tabular figures. Keep decision-critical annotations at 12px or above; inherited tiny metadata is not a reusable precedent.
+Use the redesigned working-ledger system recorded in [DESIGN.md](../DESIGN.md): Public Sans, forest `#176448`, graphite `#20252b`, canvas `#f7f8fa`, paper `#ffffff`, neutral rules `#e3e7eb` and readable named financial states. Semantic state has a readable name as well as color. Monetary values use tabular figures. Keep decision-critical annotations at 12px or above; inherited tiny metadata is not a reusable precedent.
 
 The component library should contain workspace navigation, primary/secondary/text actions, labeled fields, money-state summaries, exact source citations, source revision facts, decision rows, policy verdicts, authorization basis, search verdicts, numbered trace rows, selected-transition inspector, grant scope/lifecycle facts, receipt and trust-root controls. Include disabled, loading, focus, error and inconclusive variants where the current component supports them.
 

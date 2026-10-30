@@ -1,210 +1,346 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T01:17:55.733314+00:00",
+  "generatedAt": "2026-10-30T03:58:54.349432+00:00",
   "title": "Design System: Truthful",
   "extensions": {
+    "colorMeta": {
+      "forest": {
+        "role": "primary",
+        "displayName": "Forest",
+        "tonalRamp": [
+          "oklch(15% 0.0865 163.89)",
+          "oklch(26% 0.0865 163.89)",
+          "oklch(37% 0.0865 163.89)",
+          "oklch(49% 0.0865 163.89)",
+          "oklch(61% 0.0865 163.89)",
+          "oklch(73% 0.0865 163.89)",
+          "oklch(85% 0.0865 163.89)",
+          "oklch(95% 0.0865 163.89)"
+        ]
+      },
+      "forest-hover": {
+        "role": "primary",
+        "displayName": "Forest Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0740 164.03)",
+          "oklch(26% 0.0740 164.03)",
+          "oklch(37% 0.0740 164.03)",
+          "oklch(49% 0.0740 164.03)",
+          "oklch(61% 0.0740 164.03)",
+          "oklch(73% 0.0740 164.03)",
+          "oklch(85% 0.0740 164.03)",
+          "oklch(95% 0.0740 164.03)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0134 253.06)",
+          "oklch(26% 0.0134 253.06)",
+          "oklch(37% 0.0134 253.06)",
+          "oklch(49% 0.0134 253.06)",
+          "oklch(61% 0.0134 253.06)",
+          "oklch(73% 0.0134 253.06)",
+          "oklch(85% 0.0134 253.06)",
+          "oklch(95% 0.0134 253.06)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.0192 250.99)",
+          "oklch(26% 0.0192 250.99)",
+          "oklch(37% 0.0192 250.99)",
+          "oklch(49% 0.0192 250.99)",
+          "oklch(61% 0.0192 250.99)",
+          "oklch(73% 0.0192 250.99)",
+          "oklch(85% 0.0192 250.99)",
+          "oklch(95% 0.0192 250.99)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas",
+        "tonalRamp": [
+          "oklch(15% 0.0029 264.54)",
+          "oklch(26% 0.0029 264.54)",
+          "oklch(37% 0.0029 264.54)",
+          "oklch(49% 0.0029 264.54)",
+          "oklch(61% 0.0029 264.54)",
+          "oklch(73% 0.0029 264.54)",
+          "oklch(85% 0.0029 264.54)",
+          "oklch(95% 0.0029 264.54)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(37% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(73% 0.0000 89.88)",
+          "oklch(85% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "tonalRamp": [
+          "oklch(15% 0.0069 247.90)",
+          "oklch(26% 0.0069 247.90)",
+          "oklch(37% 0.0069 247.90)",
+          "oklch(49% 0.0069 247.90)",
+          "oklch(61% 0.0069 247.90)",
+          "oklch(73% 0.0069 247.90)",
+          "oklch(85% 0.0069 247.90)",
+          "oklch(95% 0.0069 247.90)"
+        ]
+      },
+      "control-rule": {
+        "role": "neutral",
+        "displayName": "Control Rule",
+        "tonalRamp": [
+          "oklch(15% 0.0095 242.85)",
+          "oklch(26% 0.0095 242.85)",
+          "oklch(37% 0.0095 242.85)",
+          "oklch(49% 0.0095 242.85)",
+          "oklch(61% 0.0095 242.85)",
+          "oklch(73% 0.0095 242.85)",
+          "oklch(85% 0.0095 242.85)",
+          "oklch(95% 0.0095 242.85)"
+        ]
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "Selected",
+        "tonalRamp": [
+          "oklch(15% 0.0107 158.85)",
+          "oklch(26% 0.0107 158.85)",
+          "oklch(37% 0.0107 158.85)",
+          "oklch(49% 0.0107 158.85)",
+          "oklch(61% 0.0107 158.85)",
+          "oklch(73% 0.0107 158.85)",
+          "oklch(85% 0.0107 158.85)",
+          "oklch(95% 0.0107 158.85)"
+        ]
+      },
+      "negative": {
+        "role": "secondary",
+        "displayName": "Negative",
+        "tonalRamp": [
+          "oklch(15% 0.1534 26.67)",
+          "oklch(26% 0.1534 26.67)",
+          "oklch(37% 0.1534 26.67)",
+          "oklch(49% 0.1534 26.67)",
+          "oklch(61% 0.1534 26.67)",
+          "oklch(73% 0.1534 26.67)",
+          "oklch(85% 0.1534 26.67)",
+          "oklch(95% 0.1534 26.67)"
+        ]
+      },
+      "negative-fill": {
+        "role": "secondary",
+        "displayName": "Negative Fill",
+        "tonalRamp": [
+          "oklch(15% 0.0131 23.19)",
+          "oklch(26% 0.0131 23.19)",
+          "oklch(37% 0.0131 23.19)",
+          "oklch(49% 0.0131 23.19)",
+          "oklch(61% 0.0131 23.19)",
+          "oklch(73% 0.0131 23.19)",
+          "oklch(85% 0.0131 23.19)",
+          "oklch(95% 0.0131 23.19)"
+        ]
+      },
+      "warning": {
+        "role": "secondary",
+        "displayName": "Warning",
+        "tonalRamp": [
+          "oklch(15% 0.1003 70.79)",
+          "oklch(26% 0.1003 70.79)",
+          "oklch(37% 0.1003 70.79)",
+          "oklch(49% 0.1003 70.79)",
+          "oklch(61% 0.1003 70.79)",
+          "oklch(73% 0.1003 70.79)",
+          "oklch(85% 0.1003 70.79)",
+          "oklch(95% 0.1003 70.79)"
+        ]
+      },
+      "warning-fill": {
+        "role": "secondary",
+        "displayName": "Warning Fill",
+        "tonalRamp": [
+          "oklch(15% 0.0248 81.13)",
+          "oklch(26% 0.0248 81.13)",
+          "oklch(37% 0.0248 81.13)",
+          "oklch(49% 0.0248 81.13)",
+          "oklch(61% 0.0248 81.13)",
+          "oklch(73% 0.0248 81.13)",
+          "oklch(85% 0.0248 81.13)",
+          "oklch(95% 0.0248 81.13)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Functional headline",
+        "purpose": "Page titles; mobile uses 24px."
+      },
+      "annotation": {
+        "displayName": "Readable annotation",
+        "purpose": "Decision-critical labels, status, and provenance."
+      }
+    },
     "shadows": [
+      {
+        "name": "mobile-navigation",
+        "value": "12px 0 40px #1c2c3426",
+        "purpose": "Temporary navigation overlay."
+      },
       {
         "name": "evidence-drawer",
         "value": "-15px 0 70px #172b2420",
-        "purpose": "Temporary evidence layer"
-      },
-      {
-        "name": "case-menu",
-        "value": "0 8px 30px #223a2417",
-        "purpose": "Case options overlay"
+        "purpose": "Floating source document."
       }
     ],
     "motion": [
       {
-        "name": "control-transition",
-        "value": "background .18s, transform .18s",
-        "purpose": "Button state changes"
+        "name": "button-color",
+        "value": "160ms ease",
+        "purpose": "Background, text, and border color transitions; disabled under reduced motion."
       },
       {
-        "name": "scan",
-        "value": "2s linear infinite",
-        "purpose": "Prepared evidence-matching replay; disabled with reduced motion"
-      },
-      {
-        "name": "report-entry",
-        "value": ".35s cubic-bezier(.16,1,.3,1)",
-        "purpose": "Finding panel enters with blur(2px) and translateY(4px); disabled with reduced motion."
-      },
-      {
-        "name": "local-loading",
-        "value": ".8s linear infinite",
-        "purpose": "Local processing spinner; disabled with reduced motion."
-      },
-      {
-        "name": "assurance-entry",
-        "value": ".25s cubic-bezier(.16,1,.3,1)",
-        "purpose": "Assurance case clears from blur(1px); disabled with reduced motion."
-      },
-      {
-        "name": "execution-inspector-entry",
-        "value": ".25s cubic-bezier(.16,1,.3,1)",
-        "purpose": "Selected transition clears from blur(.7px); disabled with reduced motion."
+        "name": "trace-clarify",
+        "value": "250ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "Inspector entry; disabled under reduced motion."
       }
     ],
     "breakpoints": [
       {
-        "name": "mobile",
-        "value": "760px"
-      },
-      {
-        "name": "compact",
-        "value": "950px"
-      },
-      {
-        "name": "recording-density",
-        "value": "1000px"
-      },
-      {
-        "name": "summary-collapse",
-        "value": "1200px"
-      },
-      {
-        "name": "wide",
-        "value": "1400px"
-      },
-      {
-        "name": "lab-stack",
-        "value": "1000px"
-      },
-      {
-        "name": "assurance-density",
+        "name": "gutter",
         "value": "1300px"
       },
       {
-        "name": "assurance-stack",
+        "name": "detail-stack",
         "value": "1100px"
+      },
+      {
+        "name": "narrow-rail",
+        "value": "950px"
+      },
+      {
+        "name": "mobile",
+        "value": "760px"
       }
     ]
   },
   "components": [
     {
-      "name": "Primary button",
+      "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Workspace action.",
-      "html": "<button class=\"ds-button-primary\">Review claim</button>",
-      "css": ".ds-button-primary{font-family:'Manrope Variable',Manrope,sans-serif;border:1px solid transparent;background:#244e3b;color:white;border-radius:7px;padding:10px 14px;font-weight:600;font-size:11px;cursor:pointer;transition:background .18s,transform .18s;}.ds-button-primary:hover:not(:disabled){filter:brightness(.97)}.ds-button-primary:focus-visible{outline:2px solid #286a4e;outline-offset:3px}.ds-button-primary:disabled{opacity:.45;cursor:default}"
+      "description": "Compact explicit command.",
+      "html": "<button class=\"ds-button-primary\">Inspect record</button>",
+      "css": ".ds-button-primary{font-family:var(--ui-font);font-size:12px;background:var(--ui-accent);color:white;border:1px solid var(--ui-accent);border-radius:6px;padding:9px 13px;min-height:38px;font-weight:600;line-height:1.4;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease}.ds-button-primary:hover{background:#12513a}.ds-button-primary:active{filter:brightness(.96)}.ds-button-primary:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}"
     },
     {
-      "name": "Secondary button",
+      "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Workspace action.",
-      "html": "<button class=\"ds-button-secondary\">Reset</button>",
-      "css": ".ds-button-secondary{font-family:'Manrope Variable',Manrope,sans-serif;border:1px solid #dfe4dc;background:white;color:#24372e;border-radius:7px;padding:10px 14px;font-weight:600;font-size:11px;cursor:pointer;transition:background .18s,transform .18s;}.ds-button-secondary:hover:not(:disabled){filter:brightness(.97)}.ds-button-secondary:focus-visible{outline:2px solid #286a4e;outline-offset:3px}.ds-button-secondary:disabled{opacity:.45;cursor:default}"
+      "description": "Compact explicit command.",
+      "html": "<button class=\"ds-button-secondary\">Inspect record</button>",
+      "css": ".ds-button-secondary{font-family:var(--ui-font);font-size:12px;background:var(--ui-paper);color:var(--ui-ink);border:1px solid #d5dbe0;border-radius:6px;padding:9px 13px;min-height:38px;font-weight:600;line-height:1.4;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease}.ds-button-secondary:hover{background:#f2f4f6}.ds-button-secondary:active{filter:brightness(.96)}.ds-button-secondary:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}"
     },
     {
-      "name": "Vendor search",
+      "name": "Text Action",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Inline evidence action.",
+      "html": "<button class=\"ds-text\">Inspect evidence</button>",
+      "css": ".ds-text{font-family:var(--ui-font);font-size:12px;color:var(--ui-accent);background:none;border:0;min-height:32px;font-weight:550;cursor:pointer}.ds-text:hover{color:#104d36;text-decoration:underline;text-underline-offset:3px}.ds-text:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}"
+    },
+    {
+      "name": "Evidence Field",
       "kind": "input",
-      "description": "Borderless register search; the source row provides a visible focus-within outline.",
-      "html": "<label class=\"ds-search-row\"><input class=\"ds-search\" aria-label=\"Search vendors\" placeholder=\"Find a vendor…\"></label>",
-      "css": ".ds-search-row{display:block;border-radius:4px}.ds-search-row:focus-within{outline:2px solid #376743;outline-offset:3px}.ds-search{font-family:'Manrope Variable',Manrope,sans-serif;color:#24372e;font-size:11px;border:0;outline:none;padding:7px 0;background:transparent}"
+      "refersTo": "input",
+      "description": "Neutral editable record field.",
+      "html": "<input class=\"ds-field\" aria-label=\"Commitment reference\" placeholder=\"Commitment reference\">",
+      "css": ".ds-field{font-family:var(--ui-font);font-size:12px;color:var(--ui-ink);background:var(--ui-paper);border:1px solid #d5dbe0;border-radius:5px;min-height:38px;padding:8px 10px;caret-color:var(--ui-accent)}.ds-field::placeholder{color:var(--ui-muted);opacity:1}.ds-field:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}"
     },
     {
-      "name": "Active navigation",
+      "name": "Selected Navigation",
       "kind": "nav",
-      "description": "Selected rail destination.",
-      "html": "<nav><button class=\"ds-nav\">Commitments</button></nav>",
-      "css": ".ds-nav{font-family:'Manrope Variable',Manrope,sans-serif;border:0;padding:11px;border-radius:7px;background:#dfe7db;color:#244e38;font-weight:700;font-size:13px;cursor:pointer}.ds-nav:hover{filter:brightness(.97)}.ds-nav:focus-visible{outline:2px solid #286a4e;outline-offset:3px}"
+      "refersTo": "navigation-selected",
+      "description": "Named selected destination on white navigation.",
+      "html": "<nav aria-label=\"Workspace\"><button class=\"ds-nav\" aria-current=\"page\">Execution lab</button></nav>",
+      "css": ".ds-nav{font-family:var(--ui-font);font-size:12px;color:var(--ui-accent);background:var(--ui-selected);border:0;border-radius:5px;padding:10px 12px;min-height:39px;font-weight:600;cursor:pointer}.ds-nav:hover{background:#f5f6f8;color:var(--ui-ink)}.ds-nav:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}"
     },
     {
-      "name": "Conditional status",
+      "name": "Warning Status",
       "kind": "chip",
-      "refersTo": "conditional-tag",
-      "description": "Visible unresolved condition.",
-      "html": "<span class=\"ds-tag\"><span></span>Needs a decision</span>",
-      "css": ".ds-tag{font-family:'Manrope Variable',Manrope,sans-serif;display:inline-flex;align-items:center;gap:5px;font-size:9px;padding:4px 7px;border-radius:4px;color:#99652e;background:#fbf1df}.ds-tag>span{width:4px;height:4px;border-radius:50%;background:currentColor}"
+      "refersTo": "warning-status",
+      "description": "Named state with semantic fill.",
+      "html": "<span class=\"ds-status\">Awaiting approval</span>",
+      "css": ".ds-status{font-family:var(--ui-font);font-size:12px;display:inline-flex;color:var(--ui-warning);background:var(--ui-warning-fill);padding:5px 7px;border-radius:4px;line-height:1.4;font-weight:500}"
     },
     {
-      "name": "Case panel",
+      "name": "Working Panel",
       "kind": "card",
       "refersTo": "panel",
-      "description": "Flat surface for evidence and decisions.",
-      "html": "<article class=\"ds-panel\"><h2>Nimbus Cloud</h2><p>Infrastructure · SLA credit</p></article>",
-      "css": ".ds-panel{font-family:'Manrope Variable',Manrope,sans-serif;padding:24px;background:white;border:1px solid #e0e6de;border-radius:12px;color:#24372e}.ds-panel h2{margin:0;font-size:17px;font-weight:650;letter-spacing:-.5px}.ds-panel p{font-size:10px;color:#879083;margin:5px 0 0}"
+      "description": "Flat record container separated by a fine rule.",
+      "html": "<section class=\"ds-panel\"><h2 class=\"ds-panel-title\">Supporting evidence</h2><p class=\"ds-panel-copy\">Inspect the exact source before approval.</p></section>",
+      "css": ".ds-panel{font-family:var(--ui-font);font-size:12px;background:var(--ui-paper);color:var(--ui-ink);border:1px solid var(--ui-rule);border-radius:9px;padding:20px 23px}.ds-panel-title{font-size:15px;font-weight:600;margin:0 0 8px}.ds-panel-copy{font-size:12px;line-height:1.7;color:var(--ui-muted);margin:0}"
     },
     {
-      "name": "Evidence citation",
+      "name": "Selected Trace Step",
       "kind": "custom",
-      "description": "Named exact-source citation in the evidence workbench.",
-      "html": "<button class=\"ds-citation\">Promised credit<svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button>",
-      "css": ".ds-citation{font-family:'Manrope Variable',Manrope,sans-serif;display:flex;align-items:center;gap:4px;border:0;border-bottom:1px solid #d1ddc9;background:transparent;color:#416640;min-height:32px;padding:3px 0;text-align:left;font-size:12px;cursor:pointer;transition:background .18s,transform .18s}.ds-citation:hover{filter:brightness(.97)}.ds-citation:focus-visible{outline:2px solid #286a4e;outline-offset:3px}.ds-citation:active{transform:translateY(1px)}"
-    },
-    {
-      "name": "Source document editor",
-      "kind": "input",
-      "description": "Resizable imported text editor in the evidence lab.",
-      "html": "<textarea class=\"ds-document\" aria-label=\"Original vendor promise\">Promise reference: PC-SEATS-2026</textarea>",
-      "css": ".ds-document{display:block;width:100%;min-height:210px;resize:vertical;border:1px solid #d6dfd0;border-radius:7px;padding:13px 14px;background:#fcfdfb;color:#3a4c3a;font-family:'Manrope Variable',Manrope,sans-serif;font-size:13px;line-height:1.9;caret-color:#315f3c}.ds-document:focus-visible{outline:2px solid #286a4e;outline-offset:3px}"
-    },
-    {
-      "name": "Assurance graph record",
-      "kind": "custom",
-      "description": "Selectable causal record; critical title and state stay at least 12px. Graph connectors use graph-link at 1.4px against paper.",
-      "html": "<button class=\"ds-graph-record\"><strong>Original promise</strong><small>Source revision 1</small></button>",
-      "css": ".ds-graph-record{display:block;width:180px;min-height:93px;padding:10px 9px;border:1px solid #d5e1cd;border-radius:6px;background:#fbfdf8;color:#24372e;text-align:left;font-family:\"Manrope Variable\",Manrope,sans-serif;cursor:pointer}.ds-graph-record strong{display:block;font-size:12px;font-weight:600;line-height:1.6}.ds-graph-record small{display:block;margin-top:6px;font-size:12px;line-height:1.7;color:#60725d}.ds-graph-record:hover{background:#eff5e8}.ds-graph-record:focus-visible{outline:2px solid #244e3b;outline-offset:3px}"
-    },
-    {
-      "name": "Assurance policy verdict",
-      "kind": "custom",
-      "description": "Explicit mandate result and readable reasons in the decision room.",
-      "html": "<section class=\"ds-policy-verdict\"><h3>Outside the current mandate.</h3><p>New contractual obligations require a changed mandate.</p></section>",
-      "css": ".ds-policy-verdict{padding:17px;border-radius:7px;background:#fbf1df;color:#855b2d;font-family:\"Manrope Variable\",Manrope,sans-serif}.ds-policy-verdict h3{margin:0;font-size:13px;font-weight:650;line-height:1.6}.ds-policy-verdict p{margin:5px 0 0;font-size:12px;line-height:1.9}"
-    },
-    {
-      "name": "Bounded execution verdicts",
-      "kind": "custom",
-      "description": "Paired selected reference and guarded outcomes; named amber cutoff remains inconclusive.",
-      "html": "<div class=\"ds-execution-comparison\" aria-label=\"Bounded execution comparison\"><button class=\"ds-execution-verdict ds-execution-inconclusive\" aria-pressed=\"true\"><span>Cached-check reference</span><strong>Search incomplete</strong><small>Resource cutoff; safety is not established.</small></button><button class=\"ds-execution-verdict\" aria-pressed=\"false\"><span>Current effect boundary</span><strong>Not explored yet</strong><small>Explore the same proposed program.</small></button></div>",
-      "css": ".ds-execution-comparison{display:grid;grid-template-columns:1fr 1fr;border:1px solid #dfe7d8;border-radius:12px;overflow:hidden;background:white;font-family:\"Manrope Variable\",Manrope,sans-serif}.ds-execution-verdict{padding:23px 25px;text-align:left;background:white;border:0;color:#24372e;font-family:inherit;cursor:pointer}.ds-execution-verdict:first-child{border-right:1px solid #dfe7d8}.ds-execution-verdict>span{display:block;font-size:12px;color:#60725d;margin-bottom:14px}.ds-execution-verdict strong{display:block;font-size:18px;font-weight:600;line-height:1.6;letter-spacing:-.02em}.ds-execution-verdict small{display:block;font-size:12px;color:#60725d;line-height:1.9;margin-top:9px}.ds-execution-inconclusive{background:#fbf1df}.ds-execution-inconclusive strong{color:#855b2d}.ds-execution-verdict:focus-visible{outline:2px solid #244e3b;outline-offset:-3px}@media(max-width:760px){.ds-execution-comparison{grid-template-columns:1fr}.ds-execution-verdict{padding:19px}.ds-execution-verdict:first-child{border-right:0;border-bottom:1px solid #dfe7d8}.ds-execution-verdict strong{font-size:17px}}"
+      "refersTo": "panel",
+      "description": "Selected transition leading to an adjacent inspector.",
+      "html": "<button class=\"ds-trace\"><strong class=\"ds-trace-title\">Commit allocation</strong><span class=\"ds-trace-detail\">Inspect the financial effect</span></button>",
+      "css": ".ds-trace{font-family:var(--ui-font);font-size:12px;display:block;text-align:left;width:100%;background:var(--ui-selected);color:var(--ui-ink);border:1px solid var(--ui-rule);border-radius:8px;padding:17px 16px;cursor:pointer}.ds-trace-title{display:block;font-weight:600;font-size:12px}.ds-trace-detail{display:block;color:var(--ui-muted);font-size:12px;line-height:1.7;margin-top:4px}.ds-trace:hover{filter:brightness(.97)}.ds-trace:focus-visible{outline:2px solid var(--ui-accent);outline-offset:3px}"
     }
   ],
   "narrative": {
-    "northStar": "The finance incident review desk",
-    "overview": "A quiet, dense work surface pairs a vendor register with an evidence-bearing case. White panels, pale sage navigation, forest actions, and fine rules keep the monetary outcome prominent without turning every section into a separate dashboard tile.\n\nThis record describes the implemented React workspace, evidence lab, commitment-assurance extension, and execution lab, sampled from shared styles, workbench, case detail, assurance, and execution source. The assurance portfolio, decision room, evidence graph, and failure lab preserve the same finance desk identity. Visible runtime labels distinguish browser-local records from the optional local SQLite service; neither mode performs a vendor transaction. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.\n\nA portfolio-copy note names the selected vendor and commitment reference, snapshot revision, and retained source revisions. Adversarial source and clock inputs are explicitly hypothetical. The note states that exploration creates no approval, grant, or live portfolio change; custom edited programs are labeled user-supplied.",
+    "northStar": "The working ledger",
+    "overview": "A working ledger for inspecting financial evidence and exact commands. Neutral white navigation and graphite typography frame quiet paper surfaces; fine rules carry structure while forest marks actions and selected context. The interface is compact and operational, with readable annotations and explicit financial states.\n\nPublic Sans supplies a single interface voice. Ordered steps, source records, financial amounts, and selected detail share the same visual grammar across execution, authority, assurance, evidence, and guided cases. Imagery is absent; Lucide line icons support labels.",
     "keyCharacteristics": [
-      "Tabular amounts and explicit financial states.",
-      "Flat paper surfaces with softly rounded corners.",
-      "Named evidence immediately beside the decision."
+      "Neutral white shell and fine rule separation.",
+      "Compact controls with explicit named states.",
+      "Tabular financial amounts and adjacent evidence.",
+      "Ordered programs that become selectable execution traces."
     ],
     "rules": [
       {
-        "name": "State Has a Name",
-        "body": "Pair semantic colors with readable labels; a green amount alone does not establish application.",
+        "name": "The State Has a Name Rule",
+        "body": "Pair semantic color with a readable status or verdict; color alone does not establish approval or application.",
         "section": "colors"
       },
       {
-        "name": "Amount First",
-        "body": "Give the case amount greater visual weight than its status, unit, and supporting evidence.",
+        "name": "The Readable Record Rule",
+        "body": "Use the implemented 12px annotation role for decision-critical labels, provenance, and controls; inherited smaller text is not a future scale.",
         "section": "typography"
       },
       {
-        "name": "Readable Assurance",
-        "body": "Keep assurance decision-critical annotations at 12px or larger; inherited tiny metadata is not a precedent.",
-        "section": "typography"
-      },
-      {
-        "name": "Flat Workspace",
-        "body": "Keep resting register and case panels unshadowed; preserve overlay shadows for the temporary layer they identify.",
+        "name": "The Flat Working Surface Rule",
+        "body": "Use rules, white surfaces, and selected fills for working hierarchy; reserve ambient shadows for floating overlays.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do preserve named state labels alongside semantic colors.",
-      "Do keep tabular monetary figures and source references close to decisions.",
-      "Do maintain responsive stacking and clearance for fixed controls.",
-      "Do preserve visible focus and reduced-motion behavior when extending controls."
+      "Do use the shared Public Sans interface family and tabular numerals for financial values.",
+      "Do keep evidence, named status, and the selected financial effect inspectable together.",
+      "Do preserve mobile stacking, readable annotations, and visible keyboard focus."
     ],
     "donts": [
-      "Don't treat an issued credit as verified savings without invoice application.",
-      "Don't generalize the existing tiny muted metadata into reusable styling.",
-      "Don't carry the uppercase workspace eyebrow into new surfaces; it is an incumbent craft-floor defect, not a system primitive."
+      "Don't reintroduce the rejected sage navigation identity.",
+      "Don't communicate approval, failure, or application through color alone.",
+      "Don't promote inherited tiny labels or one-off legacy colors into new system tokens."
     ]
   }
 }

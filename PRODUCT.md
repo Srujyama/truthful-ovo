@@ -29,7 +29,7 @@ Evidence lab accepts supported promise text, positive applied-credit ledger CSV,
 The separate guided story uses fictional Nimbus Cloud and Pipeline CRM source material. Covered nine-hour outage in a 30-day month yields98.75% availability,25% of$8,000=$2,000. Pipeline concession is$2,400 promised,$900 applied,$1,500 outstanding. Issued and applied credits remain separate. Simulated invoice arrivals and replies are explicitly labeled.
 
 ## Brand Commitments
-Truthful is the product; OVO is the team. Sage navigation, paper work surfaces, forest actions, restrained amber for conditions, Manrope type and Lucide icons. Concise product copy, inspectable evidence, clear approvals. No invented customers, recovery outcomes, integrations or runtime-AI claims.
+Truthful is the product; OVO is the team. Neutral white navigation, graphite text, Public Sans typography, rule-separated working surfaces, forest actions, restrained amber/red conditions and Lucide icons. Concise product copy, inspectable evidence, clear approvals. No invented customers, recovery outcomes, integrations or runtime-AI claims.
 
 ## Product Principles
 - Evidence before assertion; unknown values stay unknown.
@@ -39,4 +39,4 @@ Truthful is the product; OVO is the team. Sage navigation, paper work surfaces, 
 - Deterministic financial rules remain authoritative if model extraction is added.
 
 ## Implementation Assumptions
-Desktop-first review at1440px; responsive mobile at390px. Ordinary extension of the established finance incident desk, without a replacement visual world. All shipped examples are synthetic; inputs remain in the browser or the chosen local SQLite service. Runtime OpenAI extraction is not connected; a credential-choice request remains pending. No teammate consent, attendance declaration, external form submission or message is inferred.
+Desktop-first review at1440px; responsive mobile at390px. The user requested a full visual redesign after rejecting the previous sage interface. The replacement working-ledger system emphasizes direct task headings, real program/evidence visibility and neutral surfaces. All shipped examples are synthetic; inputs remain in the browser or the chosen local SQLite service. Runtime OpenAI extraction is not connected; a credential-choice request remains pending. No teammate consent, attendance declaration, external form submission or message is inferred.

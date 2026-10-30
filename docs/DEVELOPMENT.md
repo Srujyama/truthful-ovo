@@ -11,3 +11,5 @@ Current portfolio integration is implemented: choose an actual approved portfoli
 Run `npm run dev` and open http://127.0.0.1:5173. `npm run check` validates the development build. Research and actual trust limits are documented in FRONTIER_RESEARCH.md and TECHNICAL_DEEP_DIVE.md. No live LLM or external financial system is connected.
 
 Independent code review found and repaired response-ordering and superseded-run presentation races. Three hook regression tests check delayed command/reset responses against newer refreshes; two browser checks hold a real server response while inputs change. The recorded submission plan remains open because its external decisions are outside this development milestone.
+
+The current product UI uses the working-ledger design system in DESIGN.md. Vite ignores generated Figma HTML and output artifacts for hot reload so running the design CLI or capturing screenshots does not reset an in-progress product review. The Figma companion remains separately generated and verified through its connected native document.

@@ -12,7 +12,7 @@ async page=>{
   else{await page.locator('.execution-plan summary').click();await click('Edit scenario JSON');}
   const responded=page.waitForResponse(r=>r.url().endsWith('/api/workspace'));release();await responded;await page.waitForTimeout(750);
   if(await page.locator('.trace-workbench').count())throw new Error('Superseded '+change+' run retained result');
-  if(await page.getByText('Not explored',{exact:true}).count()!==2)throw new Error('Superseded '+change+' run retained verdict');
+  if(!await page.locator('.exploration-ready').isVisible()||await page.locator('.exploration-comparison').count())throw new Error('Superseded '+change+' run retained verdict');
   if(await page.getByRole('button',{name:'Explore schedules',exact:true}).isDisabled())throw new Error('Cancelled run left busy flag');
   checks.push('Changing '+change+' during held server refresh discards the superseded result and clears busy');
  }

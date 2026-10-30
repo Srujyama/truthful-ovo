@@ -536,6 +536,11 @@
           "label": "Execution lab",
           "targetId": "mobile-witness",
           "note": "Navigate, select approved portfolio action and run the hypothetical source revision."
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-navigation",
+          "navigation": "overlay"
         }
       ],
       "annotations": [
@@ -563,6 +568,11 @@
           "label": "Signed authority",
           "targetId": "mobile-receipt",
           "note": "Navigate and perform the separate approved signing-lab flow; not a shared-case automatic handoff."
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-navigation",
+          "navigation": "overlay"
         }
       ],
       "annotations": [
@@ -594,6 +604,11 @@
         {
           "label": "Verify signed packet",
           "targetId": "mobile-receipt"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-navigation",
+          "navigation": "overlay"
         }
       ],
       "annotations": [
@@ -601,6 +616,35 @@
         "Keep mode and expiry visible; wrap identifiers without horizontal overflow.",
         "The verifier success text must retain its offline/current-state limitations.",
         "Alternate working-app state: Prepare fresh action returns the signing lab to a newly proposed action, requiring approval again. That reset control is not rendered as a hotspot in this condensed mobile receipt frame."
+      ]
+    }
+  ],
+  "overlays": [
+    {
+      "id": "mobile-navigation",
+      "title": "Mobile workspace navigation",
+      "viewport": {
+        "width": 352,
+        "height": 320
+      },
+      "kind": "navigation",
+      "actions": [
+        {
+          "label": "Exact action approval",
+          "targetId": "mobile-approval"
+        },
+        {
+          "label": "Race explorer",
+          "targetId": "mobile-witness"
+        },
+        {
+          "label": "Execution receipt",
+          "targetId": "mobile-receipt"
+        }
+      ],
+      "annotations": [
+        "Navigation among modeled mobile review screens. This menu performs no financial action.",
+        "Close returns to the current screen."
       ]
     }
   ]

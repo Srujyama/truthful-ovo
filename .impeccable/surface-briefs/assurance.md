@@ -1,7 +1,3 @@
 # Commitment assurance
 
-Mode: Operate. Extend the existing sage/forest Manrope finance workspace; preserve sidebar, paper surfaces, thin separators, Lucide icons and responsive stacked review. No replacement world or new concept comp.
-
-The operator must distinguish outstanding, applied, issued and conditional amounts, review economically adverse renewal terms, explicitly dismiss conflicting proposal branches, approve the exact source/policy basis, and replay effective versus observed time. The graph is actual causal geometry; each failure result comes from executed commands. Desktop has master/detail portfolio and decisions; mobile stacks them. Visible mode distinguishes browser-local records from local SQLite. Demo identities, synthetic inputs and no external transaction are stated.
-
-Acceptance: no mobile horizontal overflow; clear negative net economics; original versus amended terms; stale approvals and historical read-only state; working sources/ledger/history; executable rejected steps; correct exports; desktop/mobile inspection and independent finish review.
+Current mode: Operate. The user rejected the prior sage interface and requested a full redesign. The current [working-ledger direction contract](../surfaces/src-app-jsx.md) supersedes the former visual instructions. Preserve the actual product behavior and synthetic/trust boundaries recorded in PRODUCT.md. Public Sans, neutral white navigation, graphite text, rule-separated work surfaces and forest actions are current; DESIGN.md records the finished implementation.

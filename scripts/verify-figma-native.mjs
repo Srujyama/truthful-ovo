@@ -22,16 +22,18 @@ assert.equal(live.marker,`truthful-ovo-design-v1:${record.fileKey}`);
 function textCount(n){return (n.type==='Text'?1:0)+(n.children||[]).reduce((sum,c)=>sum+textCount(c),0);}
 for(const source of spec.screens){
  const expected=record.frames.find(f=>f.id===source.id),actuals=live.frames.filter(f=>f.name===source.id);assert.equal(actuals.length,1,'Duplicate/missing '+source.id);const actual=actuals[0];
- assert.equal(actual.id,expected.nodeId);assert.equal(actual.width,source.viewport.width);assert.equal(actual.height,source.viewport.height);assert.equal(actual.text,textCount(models.screens.find(n=>n.name===source.id)));assert.deepEqual(actual.fonts,['Manrope']);
+ assert.equal(actual.id,expected.nodeId);assert.equal(actual.width,source.viewport.width);assert.equal(actual.height,source.viewport.height);assert.equal(actual.text,textCount(models.screens.find(n=>n.name===source.id)));assert.deepEqual(actual.fonts,['Public Sans']);
  for(const action of source.actions){
   const controls=actual.controls.filter(c=>c.name==='hotspot:'+action.label);assert.ok(controls.length,'Missing hotspot '+source.id+': '+action.label);
-  const isNote=action.targetId===source.id;
-  const destination=isNote?record.overlays.find(f=>f.name===`review-note:${source.id}:${action.label}`).nodeId:record.frames.find(f=>f.id===action.targetId).nodeId;
-  for(const control of controls)assert.deepEqual(control.reactions,[{trigger:'ON_CLICK',actions:[{type:'NODE',navigation:isNote?'OVERLAY':'NAVIGATE',destinationId:destination}]}],'Incorrect prototype destination or action: '+source.id+' / '+action.label);
+  const isNote=action.targetId===source.id,isMenu=action.navigation==='overlay';
+  const destination=isMenu?record.navigationOverlays.find(f=>f.name===action.targetId).nodeId:isNote?record.overlays.find(f=>f.name===`review-note:${source.id}:${action.label}`).nodeId:record.frames.find(f=>f.id===action.targetId).nodeId;
+  for(const control of controls)assert.deepEqual(control.reactions,[{trigger:'ON_CLICK',actions:[{type:'NODE',navigation:isNote||isMenu?'OVERLAY':'NAVIGATE',destinationId:destination}]}],'Incorrect prototype destination or action: '+source.id+' / '+action.label);
  }
 }
 assert.equal(record.overlays.length,models.overlays.length);
 for(const model of models.overlays){const expected=record.overlays.find(o=>o.name===model.name);assert.ok(expected);const actual=live.frames.find(f=>f.name===model.name);assert.ok(actual);assert.equal(actual.id,expected.nodeId);assert.equal(actual.width,model.props.w);assert.equal(actual.height,model.props.h);assert.equal(actual.text,textCount(model));const close=actual.controls.find(c=>c.name==='annotation-close');assert.ok(close);assert.deepEqual(close.reactions,[{trigger:'ON_CLICK',actions:[{type:'CLOSE'}]}]);}
+assert.equal(record.navigationOverlays.length,(models.navigationOverlays||[]).length);
+for(const model of models.navigationOverlays||[]){const expected=record.navigationOverlays.find(o=>o.name===model.name),actual=live.frames.find(f=>f.name===model.name),source=spec.overlays.find(o=>o.id===model.name);assert.ok(expected&&actual);assert.equal(actual.id,expected.nodeId);assert.equal(actual.width,model.props.w);assert.equal(actual.height,model.props.h);assert.equal(actual.text,textCount(model));for(const action of source.actions){const control=actual.controls.find(c=>c.name==='hotspot:'+action.label);assert.ok(control);assert.deepEqual(control.reactions,[{trigger:'ON_CLICK',actions:[{type:'NODE',navigation:'NAVIGATE',destinationId:record.frames.find(f=>f.id===action.targetId).nodeId}]}]);}assert.deepEqual(actual.controls.find(c=>c.name==='annotation-close').reactions,[{trigger:'ON_CLICK',actions:[{type:'CLOSE'}]}]);}
 for(const model of models.components)assert.equal(live.components.filter(c=>c.name===model.name).length,1,'Missing/duplicate native component '+model.name);
 for(const [name,hex]of Object.entries(palette)){const matches=live.colors.filter(c=>c.name===name);assert.equal(matches.length,1,'Missing/duplicate Truthful variable '+name);const rgb=matches[0].value;assert.ok(rgb&&typeof rgb==='object');for(const [i,k]of ['r','g','b'].entries())assert.ok(Math.abs(rgb[k]-parseInt(hex.slice(1+i*2,3+i*2),16)/255)<.001,'Incorrect color '+name);}
 console.log(`PASS actual Figma document: ${record.frames.length} native screen IDs, dimensions, text layers, prototype links, color variables and reusable components match the reviewed record.`);
