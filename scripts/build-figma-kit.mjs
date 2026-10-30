@@ -21,7 +21,7 @@ function board(section){
 }
 function components(){
  const out=[];
- for(const kind of ['Primary','Secondary'])for(const state of ['Default','Hover','Disabled'])out.push(F(`Truthful Button / kind=${kind}, state=${state}`,220,44,[T('Label','Review exact action',184,13,state==='Disabled'?'assurance-muted':kind==='Primary'?'paper':'forest','semibold')],{flex:'row',items:'center',justify:'center',px:18,py:12,gap:0,rounded:6,bg:`var:${state==='Disabled'?'paper':kind==='Primary'?'forest':'paper'}`,stroke:kind==='Secondary'||state==='Disabled'?'var:panel-rule':undefined}));
+ for(const kind of ['Primary','Secondary'])for(const state of ['Default','Hover','Disabled'])out.push(F(`Truthful Button / kind=${kind}, state=${state}`,220,44,[T('Label','Review exact action',184,13,state==='Disabled'?'assurance-muted':kind==='Primary'?'paper':'forest','semibold')],{flex:'row',items:'center',justify:'center',px:18,py:12,gap:0,rounded:6,bg:state==='Hover'&&kind==='Primary'?'#12513a':`var:${state==='Disabled'?'paper':state==='Hover'?'selected':kind==='Primary'?'forest':'paper'}`,stroke:kind==='Secondary'||state==='Disabled'?'var:panel-rule':undefined}));
  for(const [label,fg,bg] of [['Approved','verified','selected'],['Unsafe effect','assurance-negative','assurance-negative-fill'],['Inconclusive','condition-ink','condition-fill'],['Needs approval','condition-ink','condition-fill'],['Consumed once','forest','selected'],['Stale approval','assurance-negative','assurance-negative-fill']])out.push(F(`Truthful State / ${label}`,190,34,[T('Label',label,166,12,fg,'medium')],{flex:'row',items:'center',px:12,py:8,gap:0,rounded:4,bg:`var:${bg}`}));
  return out;
 }

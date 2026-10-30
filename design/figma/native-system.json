@@ -1,0 +1,920 @@
+{
+  "schemaVersion": 1,
+  "status": "verified-native-system",
+  "fileKey": "8j4pwtsGDI4seljHPNeUkI",
+  "sets": [
+    {
+      "id": "16:12355",
+      "name": "Truthful / Button",
+      "role": "Button",
+      "variants": [
+        {
+          "id": "3:21",
+          "sourceName": "Truthful Button / kind=Primary, state=Default",
+          "properties": {
+            "Style": "Primary",
+            "State": "Default"
+          },
+          "labelProperty": "Label#16:12"
+        },
+        {
+          "id": "3:22",
+          "sourceName": "Truthful Button / kind=Primary, state=Hover",
+          "properties": {
+            "Style": "Primary",
+            "State": "Hover"
+          },
+          "labelProperty": "Label#16:12"
+        },
+        {
+          "id": "3:27",
+          "sourceName": "Truthful Button / kind=Primary, state=Disabled",
+          "properties": {
+            "Style": "Primary",
+            "State": "Disabled"
+          },
+          "labelProperty": "Label#16:12"
+        },
+        {
+          "id": "3:28",
+          "sourceName": "Truthful Button / kind=Secondary, state=Default",
+          "properties": {
+            "Style": "Secondary",
+            "State": "Default"
+          },
+          "labelProperty": "Label#16:12"
+        },
+        {
+          "id": "3:33",
+          "sourceName": "Truthful Button / kind=Secondary, state=Hover",
+          "properties": {
+            "Style": "Secondary",
+            "State": "Hover"
+          },
+          "labelProperty": "Label#16:12"
+        },
+        {
+          "id": "3:34",
+          "sourceName": "Truthful Button / kind=Secondary, state=Disabled",
+          "properties": {
+            "Style": "Secondary",
+            "State": "Disabled"
+          },
+          "labelProperty": "Label#16:12"
+        }
+      ]
+    },
+    {
+      "id": "16:12356",
+      "name": "Truthful / Status",
+      "role": "Status",
+      "variants": [
+        {
+          "id": "3:39",
+          "sourceName": "Truthful State / Approved",
+          "properties": {
+            "State": "Approved"
+          },
+          "labelProperty": null
+        },
+        {
+          "id": "3:40",
+          "sourceName": "Truthful State / Unsafe effect",
+          "properties": {
+            "State": "Unsafe effect"
+          },
+          "labelProperty": null
+        },
+        {
+          "id": "3:45",
+          "sourceName": "Truthful State / Inconclusive",
+          "properties": {
+            "State": "Inconclusive"
+          },
+          "labelProperty": null
+        },
+        {
+          "id": "3:46",
+          "sourceName": "Truthful State / Needs approval",
+          "properties": {
+            "State": "Needs approval"
+          },
+          "labelProperty": null
+        },
+        {
+          "id": "3:51",
+          "sourceName": "Truthful State / Consumed once",
+          "properties": {
+            "State": "Consumed once"
+          },
+          "labelProperty": null
+        },
+        {
+          "id": "3:52",
+          "sourceName": "Truthful State / Stale approval",
+          "properties": {
+            "State": "Stale approval"
+          },
+          "labelProperty": null
+        }
+      ]
+    }
+  ],
+  "instances": [
+    {
+      "id": "16:20367",
+      "componentId": "3:21",
+      "rootId": "3:134",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20371",
+      "componentId": "3:21",
+      "rootId": "3:213",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20374",
+      "componentId": "3:21",
+      "rootId": "3:213",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20377",
+      "componentId": "3:28",
+      "rootId": "3:213",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20383",
+      "componentId": "3:28",
+      "rootId": "3:312",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20386",
+      "componentId": "3:21",
+      "rootId": "3:312",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20389",
+      "componentId": "3:28",
+      "rootId": "3:312",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20395",
+      "componentId": "3:46",
+      "rootId": "3:422",
+      "sourceName": "Truthful State / Needs approval"
+    },
+    {
+      "id": "16:20397",
+      "componentId": "3:28",
+      "rootId": "3:422",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20400",
+      "componentId": "3:21",
+      "rootId": "3:422",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20405",
+      "componentId": "3:46",
+      "rootId": "3:495",
+      "sourceName": "Truthful State / Needs approval"
+    },
+    {
+      "id": "16:20407",
+      "componentId": "3:46",
+      "rootId": "3:495",
+      "sourceName": "Truthful State / Needs approval"
+    },
+    {
+      "id": "16:20409",
+      "componentId": "3:21",
+      "rootId": "3:495",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20412",
+      "componentId": "3:28",
+      "rootId": "3:495",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20417",
+      "componentId": "3:21",
+      "rootId": "3:579",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20421",
+      "componentId": "3:28",
+      "rootId": "3:655",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20424",
+      "componentId": "3:28",
+      "rootId": "3:655",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20429",
+      "componentId": "3:21",
+      "rootId": "3:747",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20432",
+      "componentId": "3:28",
+      "rootId": "3:747",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20437",
+      "componentId": "3:28",
+      "rootId": "3:824",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20440",
+      "componentId": "3:28",
+      "rootId": "3:824",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20445",
+      "componentId": "3:46",
+      "rootId": "3:910",
+      "sourceName": "Truthful State / Needs approval"
+    },
+    {
+      "id": "16:20447",
+      "componentId": "3:21",
+      "rootId": "3:910",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20450",
+      "componentId": "3:21",
+      "rootId": "3:910",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20453",
+      "componentId": "3:21",
+      "rootId": "3:910",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20455",
+      "componentId": "3:28",
+      "rootId": "3:910",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20457",
+      "componentId": "3:28",
+      "rootId": "3:910",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20461",
+      "componentId": "3:39",
+      "rootId": "3:999",
+      "sourceName": "Truthful State / Approved"
+    },
+    {
+      "id": "16:20463",
+      "componentId": "3:28",
+      "rootId": "3:999",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20465",
+      "componentId": "3:28",
+      "rootId": "3:999",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20468",
+      "componentId": "3:21",
+      "rootId": "3:999",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20471",
+      "componentId": "3:28",
+      "rootId": "3:999",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20474",
+      "componentId": "3:28",
+      "rootId": "3:999",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20481",
+      "componentId": "3:21",
+      "rootId": "3:1097",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20484",
+      "componentId": "3:28",
+      "rootId": "3:1097",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20487",
+      "componentId": "3:21",
+      "rootId": "3:1097",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20493",
+      "componentId": "3:28",
+      "rootId": "3:1171",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20496",
+      "componentId": "3:28",
+      "rootId": "3:1171",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20498",
+      "componentId": "3:21",
+      "rootId": "3:1171",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20501",
+      "componentId": "3:28",
+      "rootId": "3:1171",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20507",
+      "componentId": "3:21",
+      "rootId": "3:1231",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20510",
+      "componentId": "3:28",
+      "rootId": "3:1231",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20515",
+      "componentId": "3:46",
+      "rootId": "3:1288",
+      "sourceName": "Truthful State / Needs approval"
+    },
+    {
+      "id": "16:20517",
+      "componentId": "3:21",
+      "rootId": "3:1288",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20520",
+      "componentId": "3:28",
+      "rootId": "3:1288",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20525",
+      "componentId": "3:28",
+      "rootId": "3:1320",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20528",
+      "componentId": "3:21",
+      "rootId": "3:1320",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20533",
+      "componentId": "3:28",
+      "rootId": "3:1370",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20536",
+      "componentId": "3:28",
+      "rootId": "3:1370",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:20539",
+      "componentId": "3:21",
+      "rootId": "3:1370",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20545",
+      "componentId": "3:21",
+      "rootId": "3:1403",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20549",
+      "componentId": "3:21",
+      "rootId": "3:1410",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20553",
+      "componentId": "3:21",
+      "rootId": "3:1417",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20557",
+      "componentId": "3:21",
+      "rootId": "3:1424",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20561",
+      "componentId": "3:21",
+      "rootId": "3:1431",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20565",
+      "componentId": "3:21",
+      "rootId": "3:1438",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20569",
+      "componentId": "3:21",
+      "rootId": "3:1445",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20573",
+      "componentId": "3:21",
+      "rootId": "3:1452",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20577",
+      "componentId": "3:21",
+      "rootId": "3:1459",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20581",
+      "componentId": "3:21",
+      "rootId": "3:1466",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20585",
+      "componentId": "3:21",
+      "rootId": "3:1473",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20589",
+      "componentId": "3:21",
+      "rootId": "3:1480",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20593",
+      "componentId": "3:21",
+      "rootId": "3:1487",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20597",
+      "componentId": "3:21",
+      "rootId": "3:1494",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20601",
+      "componentId": "3:21",
+      "rootId": "3:1501",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20605",
+      "componentId": "3:21",
+      "rootId": "3:1508",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20609",
+      "componentId": "3:21",
+      "rootId": "3:1515",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20613",
+      "componentId": "3:21",
+      "rootId": "3:1522",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20617",
+      "componentId": "3:21",
+      "rootId": "3:1529",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20621",
+      "componentId": "3:21",
+      "rootId": "3:1536",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "16:20625",
+      "componentId": "3:28",
+      "rootId": "12:6155",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "16:21626",
+      "componentId": "3:21",
+      "rootId": "16:12949",
+      "sourceName": "Truthful Button / kind=Primary, state=Default",
+      "example": true
+    },
+    {
+      "id": "16:21628",
+      "componentId": "3:28",
+      "rootId": "16:12949",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default",
+      "example": true
+    },
+    {
+      "id": "16:21630",
+      "componentId": "3:27",
+      "rootId": "16:12949",
+      "sourceName": "Truthful Button / kind=Primary, state=Disabled",
+      "example": true
+    }
+  ],
+  "textStyles": [
+    {
+      "id": "S:b59ef47b5d48050369225882217ad277b0c1c28f,",
+      "name": "Truthful / Title / 23 Regular",
+      "size": 23,
+      "fontStyle": "Regular",
+      "usage": 7
+    },
+    {
+      "id": "S:5ef056a2be016bdc3ee6de3e4d897c90e568dbce,",
+      "name": "Truthful / Title / 18 SemiBold",
+      "size": 18,
+      "fontStyle": "SemiBold",
+      "usage": 7
+    },
+    {
+      "id": "S:3c345b79860c4450f1983c7ceb520503b84105e9,",
+      "name": "Truthful / Body / 16 Regular",
+      "size": 16,
+      "fontStyle": "Regular",
+      "usage": 38
+    },
+    {
+      "id": "S:7476d0b4cd073ddf622ad6f6909bc9678a5734ed,",
+      "name": "Truthful / Body / 14 Regular",
+      "size": 14,
+      "fontStyle": "Regular",
+      "usage": 29
+    },
+    {
+      "id": "S:393b34b6ff05bd6c7e847cbdebf8f1e5d30d806b,",
+      "name": "Truthful / Display / 36 SemiBold",
+      "size": 36,
+      "fontStyle": "SemiBold",
+      "usage": 6
+    },
+    {
+      "id": "S:bc1892ea41cda9bf98791c9f2feb5f17772753ef,",
+      "name": "Truthful / Heading / 26 SemiBold",
+      "size": 26,
+      "fontStyle": "SemiBold",
+      "usage": 23
+    },
+    {
+      "id": "S:48c2dd6b568cb2b65ee0691c3e06489531721b90,",
+      "name": "Truthful / Title / 20 SemiBold",
+      "size": 20,
+      "fontStyle": "SemiBold",
+      "usage": 6
+    },
+    {
+      "id": "S:68560582b42ffa0bc7c41856a3c1ac49312de336,",
+      "name": "Truthful / Title / 23 SemiBold",
+      "size": 23,
+      "fontStyle": "SemiBold",
+      "usage": 7
+    },
+    {
+      "id": "S:65f618218c3b73062110e526339501d7d47fa25c,",
+      "name": "Truthful / Heading / 29 Bold",
+      "size": 29,
+      "fontStyle": "Bold",
+      "usage": 14
+    },
+    {
+      "id": "S:f99f4bed878f28e5add9f83f365401cb7f62baec,",
+      "name": "Truthful / Body / 13 SemiBold",
+      "size": 13,
+      "fontStyle": "SemiBold",
+      "usage": 94
+    },
+    {
+      "id": "S:99c89e70f6dafdf91469b08571730d165ec12d59,",
+      "name": "Truthful / Label / 12 Regular",
+      "size": 12,
+      "fontStyle": "Regular",
+      "usage": 219
+    },
+    {
+      "id": "S:c015471fa6a02d8b673f62eae17a19e26098b147,",
+      "name": "Truthful / Body / 13 Regular",
+      "size": 13,
+      "fontStyle": "Regular",
+      "usage": 169
+    },
+    {
+      "id": "S:5effca70ea8209a3e5949dbafc987e13e8e31a99,",
+      "name": "Truthful / Heading / 28 SemiBold",
+      "size": 28,
+      "fontStyle": "SemiBold",
+      "usage": 14
+    },
+    {
+      "id": "S:1c2819eb4e2516d76f63ca677bd71eafd32e36c2,",
+      "name": "Truthful / Title / 17 SemiBold",
+      "size": 17,
+      "fontStyle": "SemiBold",
+      "usage": 11
+    },
+    {
+      "id": "S:760071304b0027d2907f7d0b653c6107bd815b3f,",
+      "name": "Truthful / Label / 12 SemiBold",
+      "size": 12,
+      "fontStyle": "SemiBold",
+      "usage": 76
+    },
+    {
+      "id": "S:507810e1677e23585adae4b9a57a7b0a7115c20a,",
+      "name": "Truthful / Title / 21 SemiBold",
+      "size": 21,
+      "fontStyle": "SemiBold",
+      "usage": 9
+    },
+    {
+      "id": "S:6a48136d0caee3c8eeca062fe92d4735737ba7ae,",
+      "name": "Truthful / Label / 12 Medium",
+      "size": 12,
+      "fontStyle": "Medium",
+      "usage": 26
+    },
+    {
+      "id": "S:2de113be839e75d0f2c9ff533134d4be82d33e9e,",
+      "name": "Truthful / Body / 16 SemiBold",
+      "size": 16,
+      "fontStyle": "SemiBold",
+      "usage": 4
+    },
+    {
+      "id": "S:06f3016a7332a2fe6e805ffd85d3af5270424199,",
+      "name": "Truthful / Body / 14 SemiBold",
+      "size": 14,
+      "fontStyle": "SemiBold",
+      "usage": 13
+    },
+    {
+      "id": "S:98a4b0b7455d0277aa2843c73a9758b54e708ea9,",
+      "name": "Truthful / Display / 38 SemiBold",
+      "size": 38,
+      "fontStyle": "SemiBold",
+      "usage": 3
+    },
+    {
+      "id": "S:07b45f1dd71666d7588d872ee49106778818bbce,",
+      "name": "Truthful / Title / 22 SemiBold",
+      "size": 22,
+      "fontStyle": "SemiBold",
+      "usage": 5
+    },
+    {
+      "id": "S:873f0578ec56c7b9c56bb570ecac6cd193d7edf6,",
+      "name": "Truthful / Title / 19 SemiBold",
+      "size": 19,
+      "fontStyle": "SemiBold",
+      "usage": 10
+    },
+    {
+      "id": "S:f14e048d9806e36015f0a0e37fab9b2fca4bdc1b,",
+      "name": "Truthful / Body / 15 Regular",
+      "size": 15,
+      "fontStyle": "Regular",
+      "usage": 3
+    },
+    {
+      "id": "S:2307df6d03ea577b99f6ba37b12e5b42903b4788,",
+      "name": "Truthful / Heading / 24 SemiBold",
+      "size": 24,
+      "fontStyle": "SemiBold",
+      "usage": 4
+    }
+  ],
+  "numberVariables": [
+    {
+      "id": "VariableID:16:12562",
+      "name": "space/0",
+      "value": 0
+    },
+    {
+      "id": "VariableID:16:12563",
+      "name": "space/4",
+      "value": 4
+    },
+    {
+      "id": "VariableID:16:12564",
+      "name": "space/8",
+      "value": 8
+    },
+    {
+      "id": "VariableID:16:12565",
+      "name": "space/12",
+      "value": 12
+    },
+    {
+      "id": "VariableID:16:12566",
+      "name": "space/16",
+      "value": 16
+    },
+    {
+      "id": "VariableID:16:12567",
+      "name": "space/20",
+      "value": 20
+    },
+    {
+      "id": "VariableID:16:12568",
+      "name": "space/24",
+      "value": 24
+    },
+    {
+      "id": "VariableID:16:12569",
+      "name": "space/32",
+      "value": 32
+    },
+    {
+      "id": "VariableID:16:12570",
+      "name": "radius/4",
+      "value": 4
+    },
+    {
+      "id": "VariableID:16:12571",
+      "name": "radius/6",
+      "value": 6
+    },
+    {
+      "id": "VariableID:16:12572",
+      "name": "radius/10",
+      "value": 10
+    }
+  ],
+  "colorExceptions": [
+    {
+      "componentId": "3:22",
+      "field": "fills",
+      "literal": "#12513a",
+      "reason": "Existing forest-hover treatment; 13-color shared collection retained."
+    }
+  ],
+  "bindingsSummary": {
+    "colorBoundNodes": 1260,
+    "spatialBindings": 2710,
+    "styledTextNodes": 797,
+    "fillRelationships": 1116
+  },
+  "proofs": {
+    "inheritedStyleSwap": {
+      "passed": true,
+      "sourceInstanceId": "16:20367",
+      "swaps": [
+        {
+          "properties": {
+            "Style": "Secondary",
+            "State": "Default"
+          },
+          "componentId": "3:28",
+          "passed": true
+        },
+        {
+          "properties": {
+            "Style": "Primary",
+            "State": "Disabled"
+          },
+          "componentId": "3:27",
+          "passed": true
+        }
+      ],
+      "statusStateSwap": {
+        "passed": true,
+        "sourceInstanceId": "16:20395",
+        "beforeState": "Needs approval",
+        "targetState": "Approved",
+        "observed": "Approved"
+      }
+    },
+    "statusVariantSwap": {
+      "passed": true,
+      "sourceInstanceId": "16:20395",
+      "beforeState": "Needs approval",
+      "targetState": "Approved",
+      "observed": "Approved"
+    },
+    "labelOverride": {
+      "passed": true,
+      "componentId": "3:21",
+      "property": "Label#16:12"
+    },
+    "masterPropagation": {
+      "passed": true,
+      "componentId": "3:21",
+      "property": "cornerRadius",
+      "sourceInstanceId": "16:20367",
+      "before": 6,
+      "observed": 7
+    },
+    "buttonResize": {
+      "passed": true,
+      "width": 164,
+      "height": 62,
+      "labelHeight": 42
+    },
+    "portfolioResize": {
+      "passed": true,
+      "originalWidth": 1440,
+      "width": 1280,
+      "height": 960,
+      "nestedClipCount": 0,
+      "clipping": [],
+      "missingFonts": 0
+    },
+    "mobileResize": {
+      "passed": true,
+      "originalWidth": 390,
+      "width": 430,
+      "height": 844,
+      "nestedClipCount": 0,
+      "clipping": [],
+      "missingFonts": 0
+    }
+  },
+  "handoff": {
+    "pageId": "16:12915",
+    "frames": [
+      {
+        "id": "16:12916",
+        "name": "Handoff · Start here",
+        "textLayers": 12
+      },
+      {
+        "id": "16:12934",
+        "name": "Handoff · Review and implementation",
+        "textLayers": 9
+      },
+      {
+        "id": "16:12949",
+        "name": "Handoff · Component properties",
+        "textLayers": 6
+      }
+    ]
+  },
+  "libraryGuideId": "16:12911",
+  "libraryLabels": [
+    "16:20795",
+    "16:20796"
+  ],
+  "notice": "Explicit variant states, linked instances and clone-only editing/resize proofs. Resize checks cover the recorded representative widths, not arbitrary responsive parity for every screen.",
+  "verifiedAt": "2026-10-30T04:55:04.080Z",
+  "review": "design/figma/system-review.json",
+  "cloudVersion": {
+    "id": "2416005136496065741",
+    "label": "Truthful · Native system · verified"
+  }
+}

@@ -22,9 +22,10 @@
     "verify:exploration": "node scripts/verify-exploration.mjs",
     "verify:authority": "node scripts/verify-authority.mjs",
     "design:build": "node scripts/build-figma-kit.mjs",
-    "design:check": "node scripts/verify-figma-kit.mjs && node --test scripts/figma-target-binding.test.mjs scripts/verify-figma-native.test.mjs",
+    "design:check": "node scripts/verify-figma-kit.mjs && node --test scripts/figma-target-binding.test.mjs scripts/verify-figma-native.test.mjs scripts/verify-figma-system.test.mjs",
     "design:verify-native": "node scripts/verify-figma-native.mjs",
-    "design:push": "node scripts/push-figma-kit.mjs"
+    "design:push": "node scripts/push-figma-kit.mjs",
+    "design:verify-system": "node scripts/verify-figma-system.mjs"
   },
   "dependencies": {
     "@fontsource-variable/public-sans": "^5.3.0",

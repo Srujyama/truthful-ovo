@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-30T04:53:56.252682+00:00",
+  "title": "Design System: Truthful native Figma",
+  "extensions": {
+    "nativeFigma": {
+      "manifest": "native-system.json",
+      "source": "../../scripts/figma-native-system.mjs",
+      "identityPolicy": "Resolve native identities and current verification status from the manifest; do not cache node IDs here.",
+      "collections": {
+        "color": "Truthful",
+        "spacingAndRadius": "Truthful \u00b7 Layout"
+      },
+      "componentSets": [
+        {
+          "name": "Truthful / Button",
+          "variantProperties": {
+            "Style": [
+              "Primary",
+              "Secondary"
+            ],
+            "State": [
+              "Default",
+              "Hover",
+              "Disabled"
+            ]
+          },
+          "textProperties": [
+            "Label"
+          ],
+          "labelPolicy": "Editable instance wording; preserve on Style/State swaps.",
+          "hoverPolicy": "Explicit selectable authored state: Primary uses the root forest-hover color as literal paint; Secondary uses the existing selected color variable. No new native COLOR variable is introduced. Automatic hover prototype behavior is not asserted."
+        },
+        {
+          "name": "Truthful / Status",
+          "variantProperties": {
+            "State": [
+              "Approved",
+              "Unsafe effect",
+              "Inconclusive",
+              "Needs approval",
+              "Consumed once",
+              "Stale approval"
+            ]
+          },
+          "textProperties": [],
+          "labelPolicy": "Wording follows State; no free Label property."
+        }
+      ],
+      "layoutPolicy": "Use Fill container for authored matching widths and Hug height for growing text; matching repeated spacing and radius values bind to variables. Separate desktop/mobile compositions remain intentional.",
+      "proofScope": {
+        "labelOverride": "Review this exact action",
+        "masterPropagation": "Reversible corner-radius mutation on a linked clone, restored after observation.",
+        "styleSwap": "Primary/Secondary and Disabled inherit main fill and typography while preserving button wording; Status wording follows State.",
+        "resize": [
+          {
+            "target": "portfolio",
+            "width": 1280
+          },
+          {
+            "target": "mobile-approval",
+            "width": 430
+          },
+          {
+            "target": "button long label",
+            "width": 164,
+            "label": "Review the exact action and supporting evidence"
+          }
+        ],
+        "limitation": "Representative clone probes only; not arbitrary-width responsiveness or financial execution."
+      },
+      "handoffFrames": [
+        "Handoff \u00b7 Start here",
+        "Handoff \u00b7 Review and implementation",
+        "Handoff \u00b7 Component properties"
+      ],
+      "verificationPolicy": "Read current manifest status/proofs and native gates. This sidecar is system guidance, not proof of native persistence."
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": []
+  },
+  "components": [],
+  "narrative": {
+    "northStar": "The working ledger",
+    "overview": "Apple-inspired clarity and Ramp-inspired efficiency guide an editable financial review file. Public Sans, quiet neutral surfaces and forest actions preserve the incumbent identity; explicit written states preserve financial meaning.",
+    "keyCharacteristics": [
+      "Linked controls with exposed properties",
+      "Shared typography and semantic variables",
+      "Separate authored desktop and mobile compositions",
+      "Native handoff with precise verification scope"
+    ],
+    "rules": [
+      {
+        "name": "The State Has a Name Rule",
+        "body": "Keep written financial states beside their semantic color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Connected Control Rule",
+        "body": "Keep the instance linked: use Label for button wording and Style/State for authored treatment.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do change a main component for global treatment and instance Label for local button wording.",
+      "Do select the actual Status state and retain its wording.",
+      "Do inspect desktop, mobile, library and handoff exports after changes."
+    ],
+    "donts": [
+      "Do not detach a component to change wording.",
+      "Do not communicate financial meaning through color alone.",
+      "Do not infer arbitrary-width responsiveness from Auto Layout or the recorded clone probes.",
+      "Do not treat review navigation as financial execution."
+    ]
+  }
+}

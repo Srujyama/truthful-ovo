@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-30T04:55:04.080Z",
+  "initialScope": [
+    "output/figma-system/portfolio.png",
+    "output/figma-system/approval.png",
+    "output/figma-system/race.png",
+    "output/figma-system/mobile.png",
+    "output/figma-system/library.png",
+    "output/figma-system/properties.png",
+    "output/figma-system/handoff-start.png",
+    "output/figma-system/handoff-review.png"
+  ],
+  "initialFindings": [
+    "Button Hover variants need visible differentiation",
+    "Remove repeated Handoff eyebrow headings"
+  ],
+  "confirmationScope": [
+    "output/figma-system/library.png",
+    "output/figma-system/handoff-start.png",
+    "output/figma-system/handoff-review.png"
+  ],
+  "confirmationVerdict": "Both requested fixes resolved; no visible regressions from the fix batch. This confirmation scores the fixes, not a new whole-surface review.",
+  "sourceReview": "No unresolved P1/P2 findings after source and independent-gate repairs.",
+  "exports": [
+    {
+      "path": "output/figma-system/portfolio.png",
+      "sha256": "ce8a305dde9775ed5f3b105444767ad04923c61b42a29bd3593a833a3fdc7e0d",
+      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/approval.png",
+      "sha256": "fe334627d7f2cc0b7fd59e87fa3a57789edaba48515971bc57324f82a0ba39e9",
+      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/race.png",
+      "sha256": "225669a53f7a45803bd26082c03b6c3a91a32c30120d4bb343c27fa851309fb7",
+      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/mobile.png",
+      "sha256": "3f1b85d85de5c2ea929b3bbd1d7c0312d0cb3b519cb1e15849a0382db661593b",
+      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/library.png",
+      "sha256": "a93018b12a23031569f5eb8244f099ae2155b3ee9e039ce9dfe57f63410f7baf",
+      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/properties.png",
+      "sha256": "2433912e3ad48770c8114d2dff0329f82252adf61683432c19dabcfa72c05e37",
+      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/handoff-start.png",
+      "sha256": "692f02769ce960b603a47489080798a58a90440f43aeb317487b9dae24534d09",
+      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/handoff-review.png",
+      "sha256": "c02b0bd0bac5daec6dc66ab058bcf31bfc479a1574eb4ecf53d6c72d5ac6999d",
+      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+    }
+  ],
+  "audit": {
+    "roots": 53,
+    "missingFonts": 0,
+    "clipping": [],
+    "buttonInheritance": {
+      "count": 65,
+      "exceptions": []
+    },
+    "screenTexts": 653,
+    "instances": 74
+  },
+  "cloudVersion": {
+    "id": "2416005136496065741",
+    "label": "Truthful · Native system · verified"
+  },
+  "prototypePlayback": "No new manual prototype-player playback; reactions verified separately through native API."
+}

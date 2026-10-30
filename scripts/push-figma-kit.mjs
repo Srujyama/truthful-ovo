@@ -3,6 +3,7 @@ import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {homedir} from 'node:os';
 import {join,resolve} from 'node:path';
+import {applyNativeSystem,invalidateNativeSystem} from './figma-native-system.mjs';
 import {build} from './build-figma-kit.mjs';
 import {validateTargetBinding} from './figma-target-binding.mjs';
 
@@ -33,10 +34,16 @@ const attestationPath=args.includes('--target-attestation')?args[args.indexOf('-
 const attestation=attestationPath?JSON.parse(await readFile(attestationPath,'utf8')):null;
 const targetBinding=validateTargetBinding(initial,{fileUrl:url,attestation,now:new Date().toISOString()});
 if(!initial.marker&&initial.pages.some(p=>p.count!==0))throw new Error('Target is not empty and was not created by this kit. Use a new blank file.');
+if(initial.marker){
+ const restore=await evaluate(`return {version:await figma.saveVersionHistoryAsync('Before kit synchronization','Restore point before reusable kit scene synchronization.')};`);
+ let prior={};try{prior=JSON.parse(await readFile('design/figma/native-record.json','utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
+ await writeFile('design/figma/native-record.json',JSON.stringify({...prior,status:'synchronizing-native-pending-review',cloudVersion:null,visualReview:null,nativeApiVerification:null,geometryVerification:null,nativeSystem:null,restoreVersion:restore.version},null,2)+'\n');
+}
+await invalidateNativeSystem(fileKey);
 await evaluate(`figma.root.setPluginData('truthful-design-kit',${JSON.stringify(marker)});if(figma.root.children.length===1&&figma.root.children[0].children.length===0)figma.root.children[0].name='Read me';return {prepared:true};`);
 const models=JSON.parse(await readFile('design/figma/generated/models.json','utf8'));
 const spec=JSON.parse(await readFile('docs/FIGMA_SCREEN_MAP.json','utf8'));
-const existing=await evaluate(`await figma.loadAllPagesAsync();return {nodes:figma.root.children.flatMap(p=>p.children.map(n=>({name:n.name,type:n.type,page:p.name,id:n.id}))),collections:(await figma.variables.getLocalVariableCollectionsAsync()).map(c=>c.name)};`);
+const existing=await evaluate(`await figma.loadAllPagesAsync();return {nodes:figma.root.children.flatMap(p=>[...p.children,...p.findAll(n=>n.type==='COMPONENT')].map(n=>({name:n.getPluginData('truthful-component-source')||n.name,type:n.type,page:p.name,id:n.id}))),collections:(await figma.variables.getLocalVariableCollectionsAsync()).map(c=>c.name)};`);
 if(!existing.collections.includes('Truthful'))await run(['import',resolve('design/figma/generated/tokens.json'),'--collection','Truthful']);
 for(const [type,page]of [['components','Design system'],['boards','Read me'],['screens','Product flow'],['overlays','Product flow'],['navigationOverlays','Product flow']]){
  const jsx=JSON.parse(await readFile(`design/figma/generated/${type}.jsx.json`,'utf8'));
@@ -52,13 +59,13 @@ for(const [type,page]of [['components','Design system'],['boards','Read me'],['s
 // The CLI warns instead of throwing if an --as-component conversion fails.
 // A retained owned Frame must be converted or rejected, never skipped forever.
 for(const component of models.components){
- const found=await evaluate(`const p=figma.root.children.find(p=>p.name==='Design system');const ns=p.children.filter(n=>n.name===${JSON.stringify(component.name)});return {nodes:ns.map(n=>({id:n.id,type:n.type}))};`);
+ const found=await evaluate(`const p=figma.root.children.find(p=>p.name==='Design system');const ns=p.findAll(n=>(n.getPluginData('truthful-component-source')||n.name)===${JSON.stringify(component.name)});return {nodes:ns.map(n=>({id:n.id,type:n.type}))};`);
  if(found.nodes.length!==1)throw new Error('Expected one owned component specimen: '+component.name);
  if(found.nodes[0].type==='FRAME'){
   await evaluate(`if(figma.root.getPluginData('truthful-design-kit')!==${JSON.stringify(marker)})throw new Error('Wrong design document.');return {targetChecked:true};`);
   await run(['node','to-component',found.nodes[0].id]);
  }
- const repaired=await evaluate(`const p=figma.root.children.find(p=>p.name==='Design system');return {types:p.children.filter(n=>n.name===${JSON.stringify(component.name)}).map(n=>n.type)};`);
+ const repaired=await evaluate(`const p=figma.root.children.find(p=>p.name==='Design system');return {types:p.findAll(n=>(n.getPluginData('truthful-component-source')||n.name)===${JSON.stringify(component.name)}).map(n=>n.type)};`);
  if(repaired.types.length!==1||repaired.types[0]!=='COMPONENT')throw new Error('Component conversion remains incomplete: '+component.name);
 }
 // CLI2.2.5 requests "Semi Bold", while Public Sans uses "SemiBold".
@@ -68,7 +75,7 @@ if(figma.root.getPluginData('truthful-design-kit')!==${JSON.stringify(marker)})t
 const mapping={regular:'Regular',medium:'Medium',semibold:'SemiBold',bold:'Bold'};
 for(const style of Object.values(mapping))await figma.loadFontAsync({family:'Public Sans',style});
 const key=s=>s.toLowerCase().replace(/[^a-z]/g,'');const names=new Set(${JSON.stringify([...models.screens,...models.boards,...models.components,...models.overlays,...(models.navigationOverlays||[])].map(n=>n.name))});let normalized=0;
-for(const page of figma.root.children)for(const root of page.children.filter(n=>names.has(n.name)))for(const text of root.findAll(n=>n.type==='TEXT')){if(text.fontName===figma.mixed)throw new Error('Unexpected mixed-font text in owned root');if(text.fontName.family==='Public Sans'&&!text.hasMissingFont)continue;const style=mapping[key(text.fontName.style)];if(!style)throw new Error('No matching Public Sans native weight for '+text.fontName.style);text.fontName={family:'Public Sans',style};if(text.hasMissingFont)throw new Error('Public Sans native style is unavailable: '+style);normalized++;}return {normalizedFontAliases:normalized};`);
+for(const page of figma.root.children)for(const root of [...page.children,...page.findAll(n=>n.type==='COMPONENT')].filter(n=>names.has(n.getPluginData('truthful-component-source')||n.name)))for(const text of root.findAll(n=>n.type==='TEXT')){if(text.fontName===figma.mixed)throw new Error('Unexpected mixed-font text in owned root');if(text.fontName.family==='Public Sans'&&!text.hasMissingFont)continue;const style=mapping[key(text.fontName.style)];if(!style)throw new Error('No matching Public Sans native weight for '+text.fontName.style);text.fontName={family:'Public Sans',style};if(text.hasMissingFont)throw new Error('Public Sans native style is unavailable: '+style);normalized++;}return {normalizedFontAliases:normalized};`);
 const wire=await evaluate(`
 if(figma.root.getPluginData('truthful-design-kit')!==${JSON.stringify(marker)})throw new Error('Wrong design document.');
 await figma.loadAllPagesAsync();const page=figma.root.children.find(p=>p.name==='Product flow');await figma.setCurrentPageAsync(page);
@@ -78,6 +85,7 @@ const navigationOverlays=[];for(const menu of ${JSON.stringify(spec.overlays||[]
 page.flowStartingPoints=[['portfolio','Commitment review'],['evidence-input','Evidence to portfolio'],['race-cutoff','Adverse state · bounded cutoff'],['race-repair','Authored repair · separate model'],['connected-handoff-concept','Concept · selected-case handoff'],['mobile-approval','Mobile review']].map(([id,name])=>({nodeId:frames.get(id).id,name}));
 const readme=figma.root.children.find(p=>p.name==='Read me');for(let i=0;i<readme.children.length;i++){readme.children[i].x=(i%2)*1540;readme.children[i].y=Math.floor(i/2)*1060;}
 await figma.setCurrentPageAsync(readme);figma.viewport.scrollAndZoomIntoView([readme.children[0]]);return {links,overlays:notes,navigationOverlays,frames:specification.map(s=>({id:s.id,nodeId:frames.get(s.id).id,width:frames.get(s.id).width,height:frames.get(s.id).height,textLayers:frames.get(s.id).findAll(n=>n.type==='TEXT').length}))};`);
-const record={schemaVersion:1,status:'created-native-pending-visual-review',fileUrl:url,fileKey,targetBinding,createdAt:new Date().toISOString(),method:'figma-cli plugin mode',...wire};
+const nativeSystem=await applyNativeSystem({evaluate,marker,fileKey});
+const record={nativeSystem:{manifest:'design/figma/native-system.json',sets:nativeSystem.sets.length,instances:nativeSystem.instances.length},schemaVersion:1,status:'created-native-pending-visual-review',fileUrl:url,fileKey,targetBinding,createdAt:new Date().toISOString(),method:'figma-cli plugin mode',...wire};
 await writeFile('design/figma/native-record.json',JSON.stringify(record,null,2)+'\n');
 console.log(`Created ${wire.frames.length} native screen frames and ${wire.links} mapped review links. Export and inspect native frames before claiming the Figma build verified.`);

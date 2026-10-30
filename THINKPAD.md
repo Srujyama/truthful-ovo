@@ -6,6 +6,10 @@
 
 ## Goal
 
+Native Figma craft: preserve the Apple/Ramp visual direction while turning isolated specimens into a maintainable native system. Real component sets, editable properties and linked screen instances; shared type styles and useful spatial variables; content/resize/master propagation probes; visible handoff guidance; reproducible updates and independent live verification. Keep17screenIDs,47interactions, financial truth and prior cloud restore history. No app changes, videos or public deployment.
+
+Prior completed milestone:
+
 Apple/Ramp refinement: user pins clear hierarchy, progressive disclosure and efficient finance workflows. Open on the portfolio, compact desktop records, working mobile case pickers, disclose historical controls and packet verification without hiding active historical restrictions, preserve every financial/technical capability, reflect in native Figma and verify desktop/mobile plus disclosures. No videos or public deployment. Completed: implementation and visual findings repaired, all acceptance checks passed, native version2415993476214323512 saved, and desktop/mobile context verified.
 
 Prior completed milestone:
@@ -146,6 +150,11 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       accept: npm run check && npm run design:check && npm run design:verify-native
       notes: Apple/Ramp refinement complete: finance-first entry, compact records, exact-reference mobile pickers, responsive utility overview, disclosed history/verifier, conditional-state copy and focus preservation. Independent source findings repaired; mobile-first-viewport fix independently scored resolved. 156 application tests, 15 design regressions, production build, actual native gate and112 browser assertions across SQLite/static modes pass. Nine web states and six native exports inspected. Native653text/47interactions/defaultportfolio verified; cloudversion2415993476214323512. No manual Figma playback claim.
       took: 13m
+- [x] T25 · Build a reusable native Figma system and verifiable handoff
+      files: scripts/figma-native-system.mjs, scripts/verify-figma-system.mjs, scripts/verify-figma-system.test.mjs, scripts/push-figma-kit.mjs, scripts/update-figma-kit.mjs, scripts/verify-figma-native.mjs, design/figma
+      accept: npm run design:check && npm run design:verify-native && npm run design:verify-system
+      notes: Actual component sets/properties and on-screen linked instances, shared type styles, useful spacing/radius bindings, real content and resize probes, clear native handoff; keep17screenIDs/47flows andApple/Rampstyle. Inspect rendered native outputs and independently review source/system proof. No app redesign, video or release.; Native Figma system complete:2sets/12retainedmasters/74instances/24styles/11FLOATs; real editing+resize probes, all17screenIDs/653texts/47mappedflows+21CLOSE preserved. Full updater reproduced. Independent source findings repaired, eight exports inspected and two final visual fixes scored resolved.53ownedroots0clips0missingfonts;65Buttons inherit master styling.38offlinechecks and both live native gates pass; cloudversion2416005136496065741. Native guide+sidecar+handoff+review records complete. No videos or release.
+      took: 14m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -186,3 +195,5 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · started T24 · Apply Apple clarity and Ramp finance workflow principles to app and native Figma
 - 2026-10-29 · done T24 · Apply Apple clarity and Ramp finance workflow principles to app and native Figma
 - 2026-10-29 · set T24 · notes
+- 2026-10-29 · started T25 · Build a reusable native Figma system and verifiable handoff
+- 2026-10-29 · done T25 · Build a reusable native Figma system and verifiable handoff

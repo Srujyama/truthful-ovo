@@ -18330,7 +18330,7 @@
         "px": 18,
         "py": 12,
         "rounded": 6,
-        "bg": "var:forest"
+        "bg": "#12513a"
       },
       "children": [
         {
@@ -18425,7 +18425,7 @@
         "px": 18,
         "py": 12,
         "rounded": 6,
-        "bg": "var:paper",
+        "bg": "var:selected",
         "stroke": "var:panel-rule"
       },
       "children": [
