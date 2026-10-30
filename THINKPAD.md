@@ -6,7 +6,7 @@
 
 ## Goal
 
-Figma product-design milestone (2026-10-29): prepare and inspect 17 editable screen reconstructions, 7 product boards, named component/color definitions and linked review states; create and verify a native Figma file through CLI. Preserve incumbent identity, truthful implemented/concept boundaries and the no-video instruction. Local kit and preview are implemented; native creation is blocked by the account Full-seat requirement for the CLI bridge. Do not claim a blank target or prepared payload is a completed native design.
+Figma product-design milestone (2026-10-29): prepare and inspect 17 editable screen reconstructions, 7 product boards, named component/color definitions and linked review states; create and verify a native Figma file through CLI. Preserve incumbent identity, truthful implemented/concept boundaries and the no-video instruction. Native creation is complete through the safe CLI bridge: 17 screens, 7 boards, 12 components, 13 color variables and 20 review-note overlays. Actual API checks, six independently reviewed native exports, prototype-player smoke checks and a named cloud version establish the scoped design milestone. Submission and videos remain deferred under T9.
 
 Prior development milestone:
 
@@ -119,10 +119,10 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       files: src/explorer/portfolio.mjs, src/explorer/portfolio.test.mjs, src/ExecutionLab.jsx
       accept: node --test src/explorer/portfolio.test.mjs
       notes: Eight adapter tests and eight real browser checks in each of SQLite and static modes pass. Exact approved snapshot, explicit clock, hypothetical adverse event, current reducer rejection, packet replay, no live mutation and mobile overflow verified; independent design review ships.
-- [!] T21 · Build editable Figma product-design screens, components and prototype flow
+- [x] T21 · Build editable Figma product-design screens, components and prototype flow
       files: design/figma, docs/FIGMA_PRODUCT_SPEC.md, docs/FIGMA_SCREEN_MAP.json
       accept: npm run design:check && npm run design:verify-native
-      notes: Prepared17screens7boards12component specimens13tokens;680Manrope text layers;41mappedcontrols21crossframe. Local browser clipping0; independentpreviewreviewship; actualCLIparsercompilepasses;14offline binding/verifier regression tests pass. Importer code review findings repaired: explicit targetbinding, exact prototype destinations, recoverable native component conversion. Native blanktarget8j4pwtsGDI4seljHPNeUkI exists; Apple Silicon Figma installed and loggedin. Account Full-seat restriction blocks bridgeplugin; no billingchange or nativecompletion claim.
+      notes: Created native file 8j4pwtsGDI4seljHPNeUkI through the safe CLI bridge: 17 editable screens, 7 boards, 12 native components, 13 color variables, 680 Manrope screen text layers and 20 review-note overlays. All 41 mapped controls and overlay returns checked by actual API; 14 offline regression tests pass. Six native exports independently reviewed after heading/font repairs. Four native prototype-player interactions observed. Saved cloud version 2415972791632449600. No billing change or financial command. Video and submission remain deferred under T9.
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -153,3 +153,5 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · BLOCKED T21 · Build editable Figma product-design screens, components and prototype flow
 - 2026-10-29 · set T21 · notes
 - 2026-10-29 · set T21 · accept
+- 2026-10-29 · set T21 · notes
+- 2026-10-29 · done T21 · Build editable Figma product-design screens, components and prototype flow

@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "status": "verified-native",
+  "fileUrl": "https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI",
+  "fileKey": "8j4pwtsGDI4seljHPNeUkI",
+  "targetBinding": {
+    "method": "persistent-kit-marker",
+    "evidence": {
+      "fileUrl": "https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI/Untitled",
+      "fileKey": "8j4pwtsGDI4seljHPNeUkI",
+      "marker": "truthful-ovo-design-v1:8j4pwtsGDI4seljHPNeUkI",
+      "documentId": "0:0",
+      "currentPageId": "0:1",
+      "notice": "Resumed an already bound kit using its persistent marker. The private native file-key API is unavailable; the marker is not independent cryptographic proof of file identity."
+    }
+  },
+  "createdAt": "2026-10-30T02:45:23.746Z",
+  "method": "figma-cli plugin mode",
+  "links": 41,
+  "overlays": [
+    {
+      "name": "review-note:evidence-finding:Claim draft",
+      "nodeId": "3:1403",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:evidence-finding:Analyze evidence",
+      "nodeId": "3:1410",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:portfolio:Shared ledger",
+      "nodeId": "3:1417",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:renewal-decision:Change the comparison assumptions",
+      "nodeId": "3:1424",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:exact-approval:Approve exact action",
+      "nodeId": "3:1431",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:race-witness:Replay report",
+      "nodeId": "3:1438",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:race-repair:Replay report",
+      "nodeId": "3:1445",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:authority-approval:Approve exact action",
+      "nodeId": "3:1452",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:authority-scope:Delegate to worker",
+      "nodeId": "3:1459",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:authority-scope:Revoke root grant",
+      "nodeId": "3:1466",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:authority-scope:Revise supporting source",
+      "nodeId": "3:1473",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:execution-receipt:Retry identical request",
+      "nodeId": "3:1480",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:execution-receipt:Attempt another execution",
+      "nodeId": "3:1487",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:packet-verification:Verify signed packet",
+      "nodeId": "3:1494",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:packet-verification:Alter checkpoint signature",
+      "nodeId": "3:1501",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:mobile-approval:Approve exact action",
+      "nodeId": "3:1508",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:mobile-witness:Replay report",
+      "nodeId": "3:1515",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:mobile-receipt:Retry identical request",
+      "nodeId": "3:1522",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:mobile-receipt:Pin this demo issuer",
+      "nodeId": "3:1529",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:mobile-receipt:Verify signed packet",
+      "nodeId": "3:1536",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    }
+  ],
+  "frames": [
+    {
+      "id": "evidence-input",
+      "nodeId": "3:134",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 42
+    },
+    {
+      "id": "evidence-finding",
+      "nodeId": "3:213",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 54
+    },
+    {
+      "id": "portfolio",
+      "nodeId": "3:312",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 63
+    },
+    {
+      "id": "renewal-decision",
+      "nodeId": "3:422",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 41
+    },
+    {
+      "id": "exact-approval",
+      "nodeId": "3:495",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 47
+    },
+    {
+      "id": "race-setup",
+      "nodeId": "3:579",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 39
+    },
+    {
+      "id": "race-witness",
+      "nodeId": "3:655",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 48
+    },
+    {
+      "id": "race-cutoff",
+      "nodeId": "3:747",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 40
+    },
+    {
+      "id": "race-repair",
+      "nodeId": "3:824",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 45
+    },
+    {
+      "id": "authority-approval",
+      "nodeId": "3:910",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 49
+    },
+    {
+      "id": "authority-scope",
+      "nodeId": "3:999",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 54
+    },
+    {
+      "id": "execution-receipt",
+      "nodeId": "3:1097",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 39
+    },
+    {
+      "id": "packet-verification",
+      "nodeId": "3:1171",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 31
+    },
+    {
+      "id": "connected-handoff-concept",
+      "nodeId": "3:1231",
+      "width": 1440,
+      "height": 960,
+      "textLayers": 30
+    },
+    {
+      "id": "mobile-approval",
+      "nodeId": "3:1288",
+      "width": 390,
+      "height": 844,
+      "textLayers": 18
+    },
+    {
+      "id": "mobile-witness",
+      "nodeId": "3:1320",
+      "width": 390,
+      "height": 844,
+      "textLayers": 23
+    },
+    {
+      "id": "mobile-receipt",
+      "nodeId": "3:1370",
+      "width": 390,
+      "height": 844,
+      "textLayers": 17
+    }
+  ],
+  "visualReview": {
+    "disposition": "ship",
+    "scope": "Six actual native exports; heading fix and final Manrope normalization independently scored resolved.",
+    "exports": [
+      "race-witness",
+      "execution-receipt",
+      "mobile-witness",
+      "board-start",
+      "interaction-note",
+      "disabled-component"
+    ]
+  },
+  "fileName": "Truthful \u00b7 OVO \u00b7 Product design",
+  "cloudVersion": {
+    "id": "2415972791632449600",
+    "label": "Truthful \u00b7 native checked design"
+  },
+  "prototypePlayback": {
+    "status": "passed-smoke-check",
+    "observedAt": "2026-10-30T03:12:43.820511+00:00",
+    "method": "Figma Desktop native prototype player; pointer interaction and inspected screenshots",
+    "checks": [
+      {
+        "source": "evidence-input",
+        "control": "Analyze evidence",
+        "result": "evidence-finding"
+      },
+      {
+        "source": "evidence-finding",
+        "control": "Claim draft",
+        "result": "review-note:evidence-finding:Claim draft"
+      },
+      {
+        "source": "review-note:evidence-finding:Claim draft",
+        "control": "Return to the screen",
+        "result": "evidence-finding"
+      },
+      {
+        "source": "evidence-finding",
+        "control": "Add to portfolio",
+        "result": "portfolio"
+      }
+    ],
+    "scope": "Four observed interactions; all 41 mapped controls and 20 overlay close reactions are separately verified through the connected native API. Synthetic review states execute no financial actions."
+  }
+}

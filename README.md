@@ -8,7 +8,7 @@ Truthful tests proposed financial workflows before their effects, then binds exe
 
 V4 is a local development build. Media and submission packaging are deferred; the existing public deployment remains the earlier v3 build.
 
-The [Figma design kit](design/figma/README.md) contains editable scene definitions, a linked local review, a component library payload and a product-design brief. Native import is pending the Figma account’s Full-seat entitlement; the created target file is not presented as a completed design.
+The [native Figma design](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) contains 17 editable screens, 7 product boards, 12 components, 13 color variables and a linked review prototype. The [design kit](design/figma/README.md) includes its reproducible scene definitions, product brief and native verification record.
 
 ![Truthful execution laboratory](docs/execution-lab.png)
 

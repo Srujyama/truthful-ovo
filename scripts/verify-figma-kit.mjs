@@ -19,8 +19,8 @@ for(const [i,screen] of screens.entries()){
  assert.doesNotMatch(text,/sk-proj-|-----BEGIN .*PRIVATE KEY|<Image/i);
  assert.match(toJSX(screen),/^<Frame /);
 }
-for(const [name,models]of [['screens',saved.screens],['boards',saved.boards],['components',saved.components]])assert.deepEqual(JSON.parse(await readFile(`design/figma/generated/${name}.jsx.json`,'utf8')),models.map(toJSX));
-assert.equal(saved.boards.length,spec.sections.length);assert.equal(saved.components.length,12);
+for(const [name,models]of [['screens',saved.screens],['boards',saved.boards],['components',saved.components],['overlays',saved.overlays]])assert.deepEqual(JSON.parse(await readFile(`design/figma/generated/${name}.jsx.json`,'utf8')),models.map(toJSX));
+assert.equal(saved.overlays.length,hotspots-navigationLinks);assert.equal(saved.boards.length,spec.sections.length);assert.equal(saved.components.length,12);
 const preview=await readFile('design/figma/generated/preview.html','utf8');
 for(const id of ids)assert.ok(preview.includes(`id="${id}"`));
 assert.ok(preview.includes('prefers-reduced-motion'));assert.ok(preview.includes('focus-visible'));assert.ok(preview.includes('Concept'));

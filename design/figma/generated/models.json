@@ -18970,5 +18970,1727 @@
         }
       ]
     }
+  ],
+  "overlays": [
+    {
+      "type": "Frame",
+      "name": "review-note:evidence-finding:Claim draft",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Claim draft · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Alternate tab state on the same frame; approve only the exact supported draft.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:evidence-finding:Analyze evidence",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Analyze evidence · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Reanalysis clears earlier claim approval and rechecks original inputs.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:portfolio:Shared ledger",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Shared ledger · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Alternate case information tab; conserves the shared credit balance.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:renewal-decision:Change the comparison assumptions",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Change the comparison assumptions · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Expand explicit what-if fields; this does not change a proposal.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:exact-approval:Approve exact action",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Approve exact action · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "State changes from Needs approval to Approved when current policy permits.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:race-witness:Replay report",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Replay report · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Verify contained state, trace, search counts and result.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:race-repair:Replay report",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Replay report · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "The working app implements this control within the current screen. This design review explains the state; it does not execute the application command.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:authority-approval:Approve exact action",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Approve exact action · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Approve the new Pipeline preserve-original action.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:authority-scope:Delegate to worker",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Delegate to worker · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Optional child uses a fresh key and cannot widen action, audience, amount, obligation or parent lifetime.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:authority-scope:Revoke root grant",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Revoke root grant · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Refuses new uses under the root and its children.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:authority-scope:Revise supporting source",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Revise supporting source · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Invalidates the old approval basis; a signature cannot revive it.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:execution-receipt:Retry identical request",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Retry identical request · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Returns the earlier signed receipt and records no second effect.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:execution-receipt:Attempt another execution",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Attempt another execution · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "A fresh use of the consumed root is refused.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:packet-verification:Verify signed packet",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Verify signed packet · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Unpinned issuer is refused; explicit trusted issuer enables recorded-history verification.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:packet-verification:Alter checkpoint signature",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Alter checkpoint signature · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "Reverify to show a named rejection rather than a success badge.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:mobile-approval:Approve exact action",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Approve exact action · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "The working app implements this control within the current screen. This design review explains the state; it does not execute the application command.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:mobile-witness:Replay report",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Replay report · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "The working app implements this control within the current screen. This design review explains the state; it does not execute the application command.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:mobile-receipt:Retry identical request",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Retry identical request · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "The working app implements this control within the current screen. This design review explains the state; it does not execute the application command.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:mobile-receipt:Pin this demo issuer",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Pin this demo issuer · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "The working app implements this control within the current screen. This design review explains the state; it does not execute the application command.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Frame",
+      "name": "review-note:mobile-receipt:Verify signed packet",
+      "props": {
+        "w": 520,
+        "h": 450,
+        "flex": "col",
+        "gap": 20,
+        "p": 28,
+        "bg": "var:paper",
+        "stroke": "var:panel-rule",
+        "rounded": 12
+      },
+      "children": [
+        {
+          "type": "Text",
+          "name": "Reviewed control",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 26,
+            "weight": "semibold",
+            "color": "var:ink"
+          },
+          "text": "Verify signed packet · review note",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Behavior explanation",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 16,
+            "weight": "regular",
+            "color": "var:ink"
+          },
+          "text": "The working app implements this control within the current screen. This design review explains the state; it does not execute the application command.",
+          "children": []
+        },
+        {
+          "type": "Text",
+          "name": "Simulation boundary",
+          "props": {
+            "w": 464,
+            "font": "Manrope",
+            "size": 13,
+            "weight": "regular",
+            "color": "var:assurance-muted"
+          },
+          "text": "Static design annotation. No approval, grant, replay, source change, or financial effect is executed here.",
+          "children": []
+        },
+        {
+          "type": "Frame",
+          "name": "annotation-close",
+          "props": {
+            "w": 220,
+            "h": 44,
+            "flex": "row",
+            "gap": 0,
+            "items": "center",
+            "justify": "center",
+            "px": 18,
+            "py": 12,
+            "bg": "var:forest",
+            "rounded": 7
+          },
+          "children": [
+            {
+              "type": "Text",
+              "name": "Return label",
+              "props": {
+                "w": 184,
+                "font": "Manrope",
+                "size": 13,
+                "weight": "semibold",
+                "color": "var:paper"
+              },
+              "text": "Return to the screen",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
   ]
 }

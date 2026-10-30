@@ -4,7 +4,7 @@
 
 Team OVO · v4 development build · Design content and prototype plan
 
-This specification describes the working product and one explicitly labeled concept. Its companion [screen map](FIGMA_SCREEN_MAP.json) provides frame IDs, viewports, entries, actions, destinations and annotations. These files do not establish that native Figma layers or a cloud design file have been created. The design artifact’s actual creation and verification must be recorded separately. Video work is outside this task.
+This specification describes the working product and one explicitly labeled concept. Its companion [screen map](FIGMA_SCREEN_MAP.json) provides frame IDs, viewports, entries, actions, destinations and annotations. The completed [native Figma file](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) contains 17 editable screens, 7 story boards, 12 components and 13 color variables. Its separately checked creation, cloud version, exact links and visual-review scope are recorded in the [native record](../design/figma/native-record.json). Twenty review-note overlays explain controls that do not navigate to another screen. Video work is outside this task.
 
 ## Product brief
 
