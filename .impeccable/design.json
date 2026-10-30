@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T04:29:14.173113+00:00",
+  "generatedAt": "2026-10-30T06:06:43.004877+00:00",
   "title": "Design System: Truthful",
   "extensions": {
     "colorMeta": {
@@ -195,6 +195,10 @@
       "annotation": {
         "displayName": "Readable annotation",
         "purpose": "Decision-critical labels, status, and provenance."
+      },
+      "portfolio-total": {
+        "displayName": "Compact portfolio total",
+        "purpose": "Assurance totals at both desktop and mobile widths."
       }
     },
     "shadows": [
@@ -207,6 +211,11 @@
         "name": "evidence-drawer",
         "value": "-15px 0 70px #172b2420",
         "purpose": "Floating source document."
+      },
+      {
+        "name": "workspace-options",
+        "value": "0 10px 40px #20252b26",
+        "purpose": "Temporary administration popup; working panels remain flat."
       }
     ],
     "motion": [
@@ -308,7 +317,7 @@
   ],
   "narrative": {
     "northStar": "The working ledger",
-    "overview": "A working ledger for inspecting financial evidence and exact commands. Neutral white navigation and graphite typography frame quiet paper surfaces; fine rules carry structure while forest marks actions and selected context. The interface is compact and operational, with readable annotations and explicit financial states.\n\nPublic Sans supplies a single interface voice. Ordered steps, source records, financial amounts, and selected detail share the same visual grammar across execution, authority, assurance, evidence, and guided cases. Imagery is absent; Lucide line icons support labels.\n\nThe user-selected philosophy draws on [Apple\u2019s design foundations](https://developer.apple.com/videos/play/wwdc2025/359/) for clear structure, location, and next actions, and [Ramp\u2019s approach to financial software](https://ramp.com/blog/midday-joining-ramp) for reducing the work around a financial task. Truthful applies these principles through finance-first navigation, compact records, and progressive disclosure. This is an application of those principles, with Truthful\u2019s own visual identity; it implies no affiliation or copied brand interface.",
+    "overview": "A working ledger for inspecting financial evidence and exact commands. Neutral white navigation and graphite typography frame quiet paper surfaces; fine rules carry structure while forest marks actions and selected context. The interface is compact and operational, with readable annotations and explicit financial states.\n\nPublic Sans supplies a single interface voice. Ordered steps, source records, financial amounts, and selected detail share the same visual grammar across execution, authority, assurance, evidence, and guided cases. Imagery is absent; Lucide line icons support labels.\n\nThe user-selected philosophy draws on [Apple’s design foundations](https://developer.apple.com/videos/play/wwdc2025/359/) for clear structure, location, and next actions, and [Ramp’s approach to financial software](https://ramp.com/blog/midday-joining-ramp) for reducing the work around a financial task. Truthful applies these principles through finance-first navigation, compact records, and progressive disclosure. This is an application of those principles, with Truthful’s own visual identity; it implies no affiliation or copied brand interface.",
     "keyCharacteristics": [
       "Neutral white shell and fine rule separation.",
       "Compact controls with explicit named states.",
@@ -335,7 +344,9 @@
     "dos": [
       "Do use the shared Public Sans interface family and tabular numerals for financial values.",
       "Do keep evidence, named status, and the selected financial effect inspectable together.",
-      "Do preserve mobile stacking, readable annotations, and visible keyboard focus."
+      "Do preserve mobile stacking, readable annotations, and visible keyboard focus.",
+      "Do keep portfolio totals separate from workspace administration and place the selected commitment’s original next action before its financial ledger on mobile.",
+      "Do name blocked operations, retain exact evidence revisions, and provide a focused return to the action review."
     ],
     "donts": [
       "Don't reintroduce the rejected sage navigation identity.",

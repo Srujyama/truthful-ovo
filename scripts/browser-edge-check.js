@@ -23,8 +23,9 @@ async (page) => {
   await page.getByRole('button',{name:'Analyze evidence',exact:true}).click();
   await results.getByText('Not due yet',{exact:true}).waitFor();
   await results.getByRole('tab',{name:'Claim draft',exact:true}).click();
-  await page.getByRole('textbox',{name:'Follow-up draft'}).fill('Please apply the credit early.');
-  require(await results.getByRole('button',{name:'Approve claim',exact:true}).isDisabled(),'Future promise cannot be approved even with a custom draft');
+  require(await page.getByRole('textbox',{name:'Follow-up draft'}).isDisabled(),'Scheduled evidence cannot be edited into an early recovery draft');
+  require(await results.getByRole('button',{name:'Approve claim',exact:true}).isDisabled(),'Future promise cannot be approved');
+  require((await results.locator('#claim-availability').innerText()).includes('not overdue'),'Scheduled claim explains why approval is unavailable');
   await page.getByRole('button',{name:'Load example',exact:true}).click();
   await page.waitForFunction(() => !document.querySelector('.analyze-button').disabled);
   await page.evaluate(() => {
@@ -40,7 +41,7 @@ async (page) => {
   await page.setViewportSize({width:390,height:844});
   require(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),'Mobile workbench has no horizontal overflow');
   await page.getByRole('button',{name:'Toggle navigation'}).click();
-  await page.getByRole('button',{name:'Commitments 4',exact:true}).click();
+  await page.getByRole('button',{name:'Guided cases 4',exact:true}).click();
   require(await page.getByRole('heading',{name:'Guided cases'}).isVisible(),'Mobile navigation reaches guided cases');
   require(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),'Mobile guided case has no horizontal overflow');
   await page.setViewportSize({width:1440,height:1000});

@@ -26,7 +26,7 @@ const response = body => ({
 });
 const envelope = (workspace, revision, result = {}) => ({workspace, revision, result, integrity: {valid: true}});
 
-async function harness(t, {commandReply, resetReply, refreshReply = envelope(newerWorkspace, 2)} = {}) {
+async function harness(t, {commandReply, resetReply, refreshReply = envelope(newerWorkspace, 2), stallAt = null, expectedMode = 'server'} = {}) {
   const states = [], effects = [], calls = [], ready = deferred();
   let stateIndex = 0, workspaceReads = 0;
   const mock = {
@@ -44,6 +44,10 @@ async function harness(t, {commandReply, resetReply, refreshReply = envelope(new
     localStorage: {getItem: () => null, setItem: () => assert.fail('Server-mode test wrote browser storage.')},
     async fetch(url, options = {}) {
       calls.push({url, options});
+      if(stallAt && url.endsWith(stallAt)) return new Promise((resolve,reject)=>{
+        if(options.signal?.aborted) reject(new DOMException('Request aborted','AbortError'));
+        else options.signal?.addEventListener('abort',()=>reject(new DOMException('Request aborted','AbortError')),{once:true});
+      });
       if (url.endsWith('/health')) return response({ok: true});
       if (url.endsWith('/session')) return response({actor: context.actor, csrfToken: 'review-csrf'});
       if (url.endsWith('/workspace')) return response(++workspaceReads === 1 ? envelope(initialWorkspace, 0) : refreshReply);
@@ -72,7 +76,7 @@ async function harness(t, {commandReply, resetReply, refreshReply = envelope(new
   const cleanup = effects[0]();
   t.after(cleanup);
   await ready.promise;
-  assert.equal(states[1], 'server');
+  assert.equal(states[1], expectedMode);
   return {api, calls, workspace: () => states[0]};
 }
 
@@ -112,4 +116,12 @@ test('normal command and reset replies still adopt their current snapshots', asy
   await h.api.resetDemo();
   assert.deepEqual(h.workspace(), initialWorkspace);
   assert.equal(JSON.parse(h.calls.find(call => call.url.endsWith('/demo/reset')).options.body).expectedRevision, 1);
+});
+
+for (const stallAt of ['/session','/workspace']) test(`a stalled initialization ${stallAt} request falls back without replacing server data`, {timeout:5000}, async t => {
+  const h = await harness(t,{stallAt,expectedMode:'browser'});
+  const stalled = h.calls.find(c=>c.url.endsWith(stallAt));
+  assert.ok(stalled.options.signal instanceof AbortSignal,'All initialization requests must share the timeout signal.');
+  assert.equal(stalled.options.signal.aborted,true);
+  assert.deepEqual(h.workspace(),initialWorkspace);
 });

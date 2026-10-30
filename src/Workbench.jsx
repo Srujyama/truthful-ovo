@@ -3,6 +3,7 @@ import { ArrowDownToLine, ArrowRight, Check, CheckCheck, ChevronDown, ChevronRig
 import { analyzeEvidence } from './engine/index.mjs';
 import { createCase, approveCase, verifyCase, readCases, saveCase, packetFor, summaryCsv, emailFor, STORAGE_KEY } from './recovery.mjs';
 import './workbench.css';
+import { evidenceActions, previewEvidencePortfolio } from './evidence-ui.mjs';
 
 const initial = { vendor: 'Pipeline CRM', asOf: '2026-10-28', promiseText: '', invoiceCsv: '', replyText: '' };
 const examples = [
@@ -30,7 +31,7 @@ function switchTab(event, keys, current, set, prefix) {
   event.preventDefault(); set(keys[next]); document.getElementById(`${prefix}-${keys[next]}`)?.focus();
 }
 
-export default function Workbench({ notify, onWalkthrough, onPromote }) {
+export default function Workbench({ notify, onWalkthrough, onPromote, portfolioWorkspace, portfolioRole, portfolioBusy = false }) {
   const [form, setForm] = useState(initial);
   const [record, setRecord] = useState(null);
   const [draft, setDraft] = useState('');
@@ -43,12 +44,28 @@ export default function Workbench({ notify, onWalkthrough, onPromote }) {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [exampleId, setExampleId] = useState('pipeline');
   const [storageError, setStorageError] = useState('');
+  const [portfolioPreview, setPortfolioPreview] = useState(null);
   const fileInput = useRef(null), operation = useRef(0);
   useEffect(() => () => { operation.current++; }, []);
   const report = record?.report;
   const approved = record?.audit.some(event => event.type === 'CLAIM_APPROVED');
   const supported = report && report.status !== 'unsupported';
-  const canApprove = supported && report.requiresApproval && !report.replyReviewRequired && !report.condition && report.outstandingCents > 0 && Boolean(draft.trim()) && !approved;
+  const actions = evidenceActions(report, { approved, draft });
+  const canApprove = actions?.approval.allowed;
+  const portfolioEligible = Boolean(onPromote && actions?.portfolio.allowed);
+  const previewCurrent = portfolioPreview?.report === report && portfolioPreview?.workspace === portfolioWorkspace && portfolioPreview?.role === portfolioRole && portfolioPreview?.busy === portfolioBusy;
+  const portfolioAction = !portfolioEligible ? actions?.portfolio : !portfolioWorkspace ? { allowed:false, pending:true, reason:'The shared portfolio is still connecting.', next:'Wait for the portfolio workspace to load before continuing.' } : previewCurrent ? portfolioPreview.result : { allowed:false, pending:true, reason:'Checking this evidence against the shared portfolio and your current role.', next:'Wait for the import preview before continuing.' };
+  useEffect(() => {
+    if (!portfolioEligible || !portfolioWorkspace) return;
+    let cancelled = false;
+    const context = { report, workspace:portfolioWorkspace, role:portfolioRole, busy:portfolioBusy };
+    previewEvidencePortfolio(portfolioWorkspace, report, { actorRole:portfolioRole, busy:portfolioBusy }).then(result => {
+      if (!cancelled) setPortfolioPreview({ ...context, result });
+    }).catch(error => {
+      if (!cancelled) setPortfolioPreview({ ...context, result:{ allowed:false, reason:error.message || 'The portfolio import could not be checked.', next:'Resolve the evidence or ledger conflict before importing. Your open evidence is unchanged.' } });
+    });
+    return () => { cancelled = true; };
+  }, [report, portfolioWorkspace, portfolioRole, portfolioBusy, portfolioEligible]);
   const tabs = [['promiseText','Promise',Mail],['invoiceCsv','Invoice credits',FileText],['replyText','Vendor reply',Link2]];
 
   function update(key, value) {
@@ -90,9 +107,10 @@ export default function Workbench({ notify, onWalkthrough, onPromote }) {
     finally { if(ticket === operation.current) setLoading(false); }
   }
 
-  async function addPortfolio(){setLoading(true);setError('');try{await onPromote(report);}catch(e){setError(e.message);}finally{setLoading(false);}}
+  async function addPortfolio(){if(!portfolioAction?.allowed || loading)return;setLoading(true);setError('');try{await onPromote(report);}catch(e){setError(e.message);}finally{setLoading(false);}}
 
   async function approve() {
+    if(!canApprove || loading)return;
     const ticket = ++operation.current;
     setLoading(true); setError('');
     try { const next = await approveCase(record, draft); if(ticket !== operation.current) return; setRecord(next); persist(next); notify('Original claim approved locally. No message sent.'); }
@@ -130,6 +148,7 @@ export default function Workbench({ notify, onWalkthrough, onPromote }) {
 
   return <main className="lab-main">
     <div className="lab-heading"><div><h1>Evidence lab</h1><p>Reconcile a vendor promise against applied invoice credits.</p></div><button className="button secondary" onClick={onWalkthrough}><Play size={15}/>Guided demo</button></div>
+    <ol className="evidence-progression" aria-label="Evidence workflow"><li className={report ? 'complete' : 'current'}><span>1</span>Analyze evidence</li><li className={report ? approved ? 'complete' : 'current' : ''}><span>2</span>Review result and claim</li><li><span>3</span>Add to portfolio</li></ol>
     <div className="lab-toolbar"><div className="engine-status"><ShieldCheck size={15}/><span>Evidence stays on this device</span></div><button className="text-button" onClick={() => setHistoryOpen(!historyOpen)} aria-expanded={historyOpen}><FolderOpen size={15}/>Saved cases <span className="count-label">{cases.length}</span><ChevronDown size={14}/></button></div>
     {historyOpen && <section className="saved-cases" aria-label="Saved evidence cases"><div className="section-heading"><h2>Saved in this browser</h2><button className="text-button" onClick={clearCases}><Trash2 size={14}/>Clear saved cases</button></div>{cases.length ? cases.map(c => <button key={c.id} className="saved-case" onClick={() => openSaved(c)}><span><strong>{c.report.vendor}</strong><small>{new Date(c.createdAt).toLocaleString()} · {stateLabels[c.report.status]}</small></span><strong>{c.report.status !== 'unsupported' && c.report.outstandingCents != null ? money(c.report.outstandingCents) : '—'}</strong><ChevronRight size={16}/></button>) : <p>No saved cases. Analyze a document set to create one.</p>}</section>}
     {(error || storageError) && <div className="lab-error" role="alert"><AlertTriangle size={17}/><p>{error || storageError}</p><button className="icon-button" aria-label="Dismiss error" onClick={() => {setError('');setStorageError('');}}><X size={16}/></button></div>}
@@ -154,10 +173,12 @@ export default function Workbench({ notify, onWalkthrough, onPromote }) {
           <div className="finding-tabs" role="tablist" aria-label="Result details">{[['findings','Evidence'],['claim','Claim draft'],['audit','Audit trail']].map(([key,label]) => <button key={key} role="tab" id={`result-${key}`} aria-controls="result-panel" tabIndex={detailTab === key ? 0 : -1} onKeyDown={e => switchTab(e,['findings','claim','audit'],detailTab,setDetailTab,'result')} aria-selected={detailTab === key} onClick={() => setDetailTab(key)}>{label}{key === 'audit' && <span>{record.audit.length}</span>}</button>)}</div>
           <div className="finding-content" id="result-panel" role="tabpanel" aria-labelledby={`result-${detailTab}`}>
             {detailTab === 'findings' && <>{report.replyReviewRequired && <div className="terms-alert"><AlertTriangle size={18}/><p>The reply is outside the supported rules. Review its terms before preparing a claim.</p></div>}<div className="reasoning-list">{(report.reasoning || []).map((step,i) => <div className="reasoning-row" key={i}><span className={`reasoning-check ${supported ? "" : "needs-review"}`}>{supported ? <Check size={13}/> : <AlertTriangle size={13}/>}</span><div><strong>{step.label}</strong><p>{step.detail}</p><div className="citation-links">{(step.citationIds || []).map(id => { const cite = report.citations.find(c => c.id === id); return cite && <button key={id} onClick={() => setCitation(citation?.id === id ? null : cite)}><FileText size={11}/>{cite.label || cite.source}<ArrowRight size={11}/></button>; })}</div></div></div>)}</div>{(report.errors || []).map((warning,i) => <p className="finding-warning" key={`e${i}`}><AlertTriangle size={14}/>{typeof warning === 'string' ? warning : warning.message}</p>)}{(report.warnings || []).map((warning,i) => <p className="finding-warning" key={i}><AlertTriangle size={14}/>{typeof warning === 'string' ? warning : warning.message}</p>)}{citation && <div className="citation-detail"><div><strong>{citation.label || citation.source}</strong><button className="icon-button" aria-label="Close citation" onClick={() => setCitation(null)}><X size={14}/></button></div><blockquote>{citation.quote}</blockquote><small>Exact passage from the imported {citation.source}. Characters {citation.start}–{citation.end}.</small></div>}{report.invoiceMatches?.length > 0 && <details className="matched-invoices"><summary>{report.invoiceMatches.length} matched invoice {report.invoiceMatches.length === 1 ? 'credit' : 'credits'}<ChevronDown size={14}/></summary>{report.invoiceMatches.map((row,i) => <div key={i}><span><strong>{row.invoiceId}</strong><small>{row.description}</small></span><strong>{money(row.amountCents)}</strong></div>)}</details>}</>}
-            {detailTab === 'claim' && <div className="live-claim"><p>Follow up under the original terms. Review the draft before recording approval.</p><label className="sr-only" htmlFor="live-draft">Follow-up draft</label><textarea id="live-draft" value={draft} disabled={!supported || approved || loading} onChange={e => setDraft(e.target.value)} placeholder="A supported, unconditional outstanding promise is needed for a draft."/><div className="claim-actions">{approved ? <><span><CheckCheck size={16}/>Approval recorded</span><button className="button secondary" onClick={() => download(emailFor(record),'truthful-claim.eml','message/rfc822')}><Mail size={15}/>Download draft</button></> : <><small>No email is sent.</small><button className="button primary" onClick={approve} disabled={!canApprove || loading}><ShieldCheck size={15}/>Approve claim</button></>}</div></div>}
+            {detailTab === 'claim' && <div className="live-claim"><p>Follow up under the original terms. Approval records the exact draft locally; it does not send an email or approve a portfolio action.</p><label className="sr-only" htmlFor="live-draft">Follow-up draft</label><textarea id="live-draft" value={draft} disabled={!supported || !report.requiresApproval || approved || loading} onChange={e => setDraft(e.target.value)} placeholder="A supported, unconditional outstanding promise is needed for a draft."/><div className="evidence-next-step" id="claim-availability"><strong>{approved ? 'Claim approval recorded' : canApprove ? 'Ready for your review' : 'Claim approval unavailable'}</strong><p>{actions.approval.reason}</p><p>{actions.approval.next}</p></div><div className="claim-actions">{approved ? <><span><CheckCheck size={16}/>Approval recorded</span><button className="button secondary" onClick={() => download(emailFor(record),'truthful-claim.eml','message/rfc822')}><Mail size={15}/>Download unsent draft</button></> : <><small>No email is sent.</small><button className="button primary" onClick={approve} disabled={!canApprove || loading} aria-describedby="claim-availability"><ShieldCheck size={15}/>Approve claim</button></>}</div></div>}
             {detailTab === 'audit' && <div className="live-audit">{record.audit.map(event => <div key={event.hash}><span className="audit-node"><Check size={13}/></span><div><strong>{event.type === 'EVIDENCE_ANALYZED' ? 'Evidence analyzed' : 'Original claim approved'}</strong><p>{new Date(event.at).toLocaleString()}{event.payload.actor ? ` · ${event.payload.actor}` : ''}</p><code title={event.hash}>{event.hash.slice(0,20)}…</code></div></div>)}<p className="audit-note">Hash-linked local record. Export includes the original documents and exact approved draft. It detects changes relative to this chain; it does not authenticate the source or reviewer.</p></div>}
           </div>
-          <div className="finding-footer">{onPromote&&supported&&!report.condition&&!report.replyCondition&&!report.replyReviewRequired&&<button className="button secondary" onClick={addPortfolio} disabled={loading}>Add to portfolio<ArrowRight size={14}/></button>}<span><ShieldCheck size={14}/>{approved ? 'Approval preserved' : 'Review before approval'}</span><div><button className="button secondary" onClick={() => download(summaryCsv(record),'truthful-recovery.csv','text/csv;charset=utf-8')}>CSV<ArrowDownToLine size={14}/></button><button className="button primary" onClick={() => download(JSON.stringify(packetFor(record),null,2),'truthful-evidence-packet.json')}><ArrowDownToLine size={15}/>Export evidence</button></div></div>
+          {detailTab !== 'claim' && <div className="evidence-next-step"><strong>{approved ? 'Claim approval recorded' : canApprove ? 'Next: review the claim draft' : 'Claim approval unavailable'}</strong><p>{actions.approval.reason}</p><p>{actions.approval.next}</p>{report.requiresApproval && <button className="button secondary claim-review-button" onClick={() => {setDetailTab('claim'); requestAnimationFrame(() => document.getElementById('result-claim')?.focus());}}>{approved ? 'View approved draft' : 'Review claim draft'}<ArrowRight size={14}/></button>}</div>}
+          {onPromote && <div className="portfolio-handoff"><div id="portfolio-availability"><strong>{portfolioAction.pending ? 'Checking portfolio availability' : portfolioAction.allowed ? 'Continue in the shared portfolio' : 'Portfolio import unavailable'}</strong><p>{portfolioAction.reason}</p><p>{portfolioAction.next}</p></div><button className="button primary" onClick={addPortfolio} disabled={!portfolioAction.allowed || loading} aria-describedby="portfolio-availability">Add to portfolio<ArrowRight size={14}/></button></div>}
+          <div className="finding-footer"><span><ShieldCheck size={14}/>{approved ? 'Exact-draft approval preserved' : 'Evidence exports include review status'}</span><div><button className="button secondary" onClick={() => download(summaryCsv(record),'truthful-recovery.csv','text/csv;charset=utf-8')}>CSV<ArrowDownToLine size={14}/></button><button className="button secondary" onClick={() => download(JSON.stringify(packetFor(record),null,2),'truthful-evidence-packet.json')}><ArrowDownToLine size={15}/>Export evidence</button></div></div>
         </>}
       </section>
     </div>

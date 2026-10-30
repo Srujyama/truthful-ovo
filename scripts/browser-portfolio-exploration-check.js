@@ -1,8 +1,11 @@
 async page=>{
  const checks=[];const assert=(condition,label)=>{if(!condition)throw new Error(label);checks.push(label);};
  const click=name=>page.getByRole('button',{name,exact:true}).click();
+ const openOptions=async()=>{const options=page.locator('.workspace-options');if(!await options.evaluate(el=>el.open))await options.locator('summary').click();};
+ const setRole=async role=>{await openOptions();await page.getByRole('combobox',{name:'Demo actor role'}).selectOption(role);await page.waitForFunction(expected=>{const field=document.querySelector('[aria-label="Demo actor role"]');return field?.value===expected&&!field.disabled;},role);await page.keyboard.press('Escape');};
+ const reset=async()=>{await openOptions();await click('Reset demo workspace');await click('Confirm reset');await page.getByRole('button',{name:'Confirm reset',exact:true}).waitFor({state:'detached'});await page.waitForFunction(()=>!document.querySelector('[aria-label="Demo actor role"]').disabled);await page.keyboard.press('Escape');};
  await page.setViewportSize({width:1440,height:960});await click('Assurance');
- await page.getByRole('combobox',{name:'Demo actor role'}).selectOption('admin');await click('Reset demo workspace');await click('Confirm reset');
+ await page.getByRole('heading',{name:'Commitment portfolio',level:1}).waitFor();await setRole('admin');await reset();
  await page.getByRole('button',{name:/^Decision room/}).click();await page.locator('.decision-row').filter({hasText:'Pipeline CRM'}).filter({hasText:'Preserve original terms'}).click();await click('Approve exact action');
  await page.getByRole('button',{name:'Record approved action',exact:true}).waitFor();
  const before=await page.evaluate(async()=>{

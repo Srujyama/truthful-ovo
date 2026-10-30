@@ -70,11 +70,11 @@ export default function useAssurance() {
           if(ticket === operation.current) useBrowser();
           return;
         }
-        let session = await request('/session');
-        if (!session.actor) session = await request('/session',{method:'POST',body:JSON.stringify({role:'admin'})});
+        let session = await request('/session',{signal:controller.signal});
+        if (!session.actor) session = await request('/session',{method:'POST',body:JSON.stringify({role:'admin'}),signal:controller.signal});
         if(ticket !== operation.current) return;
         current.current.csrfToken = session.csrfToken;
-        const result = await request('/workspace');
+        const result = await request('/workspace',{signal:controller.signal});
         if(ticket !== operation.current) return;
         adopt(result.workspace,{mode:'server',revision:result.revision,actor:session.actor,csrfToken:session.csrfToken,integrity:result.integrity});
       } catch (e) {

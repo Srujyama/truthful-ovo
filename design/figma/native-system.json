@@ -122,447 +122,495 @@
   ],
   "instances": [
     {
-      "id": "16:20367",
+      "id": "24:28894",
       "componentId": "3:21",
       "rootId": "3:134",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20371",
+      "id": "24:28898",
       "componentId": "3:21",
       "rootId": "3:213",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20374",
-      "componentId": "3:21",
-      "rootId": "3:213",
-      "sourceName": "Truthful Button / kind=Primary, state=Default"
-    },
-    {
-      "id": "16:20377",
+      "id": "24:28901",
       "componentId": "3:28",
       "rootId": "3:213",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20383",
+      "id": "24:28904",
+      "componentId": "3:21",
+      "rootId": "3:213",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "24:28910",
       "componentId": "3:28",
       "rootId": "3:312",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20386",
-      "componentId": "3:21",
-      "rootId": "3:312",
-      "sourceName": "Truthful Button / kind=Primary, state=Default"
-    },
-    {
-      "id": "16:20389",
+      "id": "24:28913",
       "componentId": "3:28",
       "rootId": "3:312",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20395",
+      "id": "24:28916",
+      "componentId": "3:21",
+      "rootId": "3:312",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "24:28919",
+      "componentId": "3:28",
+      "rootId": "3:312",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "24:28926",
       "componentId": "3:46",
       "rootId": "3:422",
       "sourceName": "Truthful State / Needs approval"
     },
     {
-      "id": "16:20397",
+      "id": "24:28928",
       "componentId": "3:28",
       "rootId": "3:422",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20400",
+      "id": "24:28931",
       "componentId": "3:21",
       "rootId": "3:422",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20405",
+      "id": "24:28936",
       "componentId": "3:46",
       "rootId": "3:495",
       "sourceName": "Truthful State / Needs approval"
     },
     {
-      "id": "16:20407",
+      "id": "24:28938",
       "componentId": "3:46",
       "rootId": "3:495",
       "sourceName": "Truthful State / Needs approval"
     },
     {
-      "id": "16:20409",
-      "componentId": "3:21",
-      "rootId": "3:495",
-      "sourceName": "Truthful Button / kind=Primary, state=Default"
-    },
-    {
-      "id": "16:20412",
+      "id": "24:28940",
       "componentId": "3:28",
       "rootId": "3:495",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20417",
+      "id": "24:28943",
+      "componentId": "3:28",
+      "rootId": "3:495",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "24:28946",
+      "componentId": "3:21",
+      "rootId": "3:495",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "24:28949",
+      "componentId": "3:28",
+      "rootId": "3:495",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "24:28956",
       "componentId": "3:21",
       "rootId": "3:579",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20421",
+      "id": "24:28960",
       "componentId": "3:28",
       "rootId": "3:655",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20424",
+      "id": "24:28963",
       "componentId": "3:28",
       "rootId": "3:655",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20429",
+      "id": "24:28968",
       "componentId": "3:21",
       "rootId": "3:747",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20432",
+      "id": "24:28971",
       "componentId": "3:28",
       "rootId": "3:747",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20437",
+      "id": "24:28976",
       "componentId": "3:28",
       "rootId": "3:824",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20440",
+      "id": "24:28979",
       "componentId": "3:28",
       "rootId": "3:824",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20445",
+      "id": "24:28984",
       "componentId": "3:46",
       "rootId": "3:910",
       "sourceName": "Truthful State / Needs approval"
     },
     {
-      "id": "16:20447",
+      "id": "24:28986",
       "componentId": "3:21",
       "rootId": "3:910",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20450",
+      "id": "24:28989",
       "componentId": "3:21",
       "rootId": "3:910",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20453",
+      "id": "24:28992",
       "componentId": "3:21",
       "rootId": "3:910",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20455",
+      "id": "24:28994",
       "componentId": "3:28",
       "rootId": "3:910",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20457",
+      "id": "24:28996",
       "componentId": "3:28",
       "rootId": "3:910",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20461",
+      "id": "24:29000",
       "componentId": "3:39",
       "rootId": "3:999",
       "sourceName": "Truthful State / Approved"
     },
     {
-      "id": "16:20463",
+      "id": "24:29002",
       "componentId": "3:28",
       "rootId": "3:999",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20465",
+      "id": "24:29004",
       "componentId": "3:28",
       "rootId": "3:999",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20468",
+      "id": "24:29007",
       "componentId": "3:21",
       "rootId": "3:999",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20471",
+      "id": "24:29010",
       "componentId": "3:28",
       "rootId": "3:999",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20474",
+      "id": "24:29013",
       "componentId": "3:28",
       "rootId": "3:999",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20481",
-      "componentId": "3:21",
-      "rootId": "3:1097",
-      "sourceName": "Truthful Button / kind=Primary, state=Default"
-    },
-    {
-      "id": "16:20484",
-      "componentId": "3:28",
-      "rootId": "3:1097",
-      "sourceName": "Truthful Button / kind=Secondary, state=Default"
-    },
-    {
-      "id": "16:20487",
+      "id": "24:29020",
       "componentId": "3:21",
       "rootId": "3:1097",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20493",
+      "id": "24:29023",
+      "componentId": "3:28",
+      "rootId": "3:1097",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "24:29026",
+      "componentId": "3:21",
+      "rootId": "3:1097",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "24:29032",
       "componentId": "3:28",
       "rootId": "3:1171",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20496",
+      "id": "24:29035",
       "componentId": "3:28",
       "rootId": "3:1171",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20498",
+      "id": "24:29037",
       "componentId": "3:21",
       "rootId": "3:1171",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20501",
+      "id": "24:29040",
       "componentId": "3:28",
       "rootId": "3:1171",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20507",
+      "id": "24:29046",
       "componentId": "3:21",
       "rootId": "3:1231",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20510",
+      "id": "24:29049",
       "componentId": "3:28",
       "rootId": "3:1231",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20515",
+      "id": "24:29054",
       "componentId": "3:46",
       "rootId": "3:1288",
       "sourceName": "Truthful State / Needs approval"
     },
     {
-      "id": "16:20517",
-      "componentId": "3:21",
-      "rootId": "3:1288",
-      "sourceName": "Truthful Button / kind=Primary, state=Default"
-    },
-    {
-      "id": "16:20520",
+      "id": "24:29056",
       "componentId": "3:28",
       "rootId": "3:1288",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20525",
+      "id": "24:29059",
+      "componentId": "3:21",
+      "rootId": "3:1288",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "24:29062",
+      "componentId": "3:28",
+      "rootId": "3:1288",
+      "sourceName": "Truthful Button / kind=Secondary, state=Default"
+    },
+    {
+      "id": "24:29068",
       "componentId": "3:28",
       "rootId": "3:1320",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20528",
+      "id": "24:29071",
       "componentId": "3:21",
       "rootId": "3:1320",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20533",
+      "id": "24:29076",
       "componentId": "3:28",
       "rootId": "3:1370",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20536",
+      "id": "24:29079",
       "componentId": "3:28",
       "rootId": "3:1370",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:20539",
+      "id": "24:29082",
       "componentId": "3:21",
       "rootId": "3:1370",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20545",
+      "id": "24:29088",
       "componentId": "3:21",
       "rootId": "3:1403",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20549",
+      "id": "24:29092",
       "componentId": "3:21",
       "rootId": "3:1410",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20553",
+      "id": "24:29096",
       "componentId": "3:21",
       "rootId": "3:1417",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20557",
+      "id": "24:29100",
       "componentId": "3:21",
       "rootId": "3:1424",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20561",
+      "id": "24:29104",
       "componentId": "3:21",
       "rootId": "3:1431",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20565",
+      "id": "24:29108",
       "componentId": "3:21",
       "rootId": "3:1438",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20569",
+      "id": "24:29112",
       "componentId": "3:21",
       "rootId": "3:1445",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20573",
+      "id": "24:29116",
       "componentId": "3:21",
       "rootId": "3:1452",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20577",
+      "id": "24:29120",
       "componentId": "3:21",
       "rootId": "3:1459",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20581",
+      "id": "24:29124",
       "componentId": "3:21",
       "rootId": "3:1466",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20585",
+      "id": "24:29128",
       "componentId": "3:21",
       "rootId": "3:1473",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20589",
+      "id": "24:29132",
       "componentId": "3:21",
       "rootId": "3:1480",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20593",
+      "id": "24:29136",
       "componentId": "3:21",
       "rootId": "3:1487",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20597",
+      "id": "24:29140",
       "componentId": "3:21",
       "rootId": "3:1494",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20601",
+      "id": "24:29144",
       "componentId": "3:21",
       "rootId": "3:1501",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20605",
+      "id": "24:29148",
       "componentId": "3:21",
       "rootId": "3:1508",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20609",
+      "id": "24:29152",
       "componentId": "3:21",
       "rootId": "3:1515",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20613",
+      "id": "24:29156",
       "componentId": "3:21",
       "rootId": "3:1522",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20617",
+      "id": "24:29160",
       "componentId": "3:21",
       "rootId": "3:1529",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20621",
+      "id": "24:29164",
       "componentId": "3:21",
       "rootId": "3:1536",
       "sourceName": "Truthful Button / kind=Primary, state=Default"
     },
     {
-      "id": "16:20625",
+      "id": "24:29168",
       "componentId": "3:28",
       "rootId": "12:6155",
       "sourceName": "Truthful Button / kind=Secondary, state=Default"
     },
     {
-      "id": "16:21626",
+      "id": "24:29172",
+      "componentId": "3:21",
+      "rootId": "23:24772",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "24:29176",
+      "componentId": "3:21",
+      "rootId": "23:24783",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "24:29180",
+      "componentId": "3:21",
+      "rootId": "23:24799",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "24:29184",
+      "componentId": "3:21",
+      "rootId": "23:24860",
+      "sourceName": "Truthful Button / kind=Primary, state=Default"
+    },
+    {
+      "id": "25:29743",
       "componentId": "3:21",
       "rootId": "16:12949",
       "sourceName": "Truthful Button / kind=Primary, state=Default",
       "example": true
     },
     {
-      "id": "16:21628",
+      "id": "25:29745",
       "componentId": "3:28",
       "rootId": "16:12949",
       "sourceName": "Truthful Button / kind=Secondary, state=Default",
       "example": true
     },
     {
-      "id": "16:21630",
+      "id": "25:29747",
       "componentId": "3:27",
       "rootId": "16:12949",
       "sourceName": "Truthful Button / kind=Primary, state=Disabled",
@@ -582,7 +630,7 @@
       "name": "Truthful / Title / 18 SemiBold",
       "size": 18,
       "fontStyle": "SemiBold",
-      "usage": 7
+      "usage": 8
     },
     {
       "id": "S:3c345b79860c4450f1983c7ceb520503b84105e9,",
@@ -596,35 +644,35 @@
       "name": "Truthful / Body / 14 Regular",
       "size": 14,
       "fontStyle": "Regular",
-      "usage": 29
+      "usage": 33
     },
     {
       "id": "S:393b34b6ff05bd6c7e847cbdebf8f1e5d30d806b,",
       "name": "Truthful / Display / 36 SemiBold",
       "size": 36,
       "fontStyle": "SemiBold",
-      "usage": 6
+      "usage": 8
     },
     {
       "id": "S:bc1892ea41cda9bf98791c9f2feb5f17772753ef,",
       "name": "Truthful / Heading / 26 SemiBold",
       "size": 26,
       "fontStyle": "SemiBold",
-      "usage": 23
+      "usage": 27
     },
     {
       "id": "S:48c2dd6b568cb2b65ee0691c3e06489531721b90,",
       "name": "Truthful / Title / 20 SemiBold",
       "size": 20,
       "fontStyle": "SemiBold",
-      "usage": 6
+      "usage": 9
     },
     {
       "id": "S:68560582b42ffa0bc7c41856a3c1ac49312de336,",
       "name": "Truthful / Title / 23 SemiBold",
       "size": 23,
       "fontStyle": "SemiBold",
-      "usage": 7
+      "usage": 10
     },
     {
       "id": "S:65f618218c3b73062110e526339501d7d47fa25c,",
@@ -638,21 +686,28 @@
       "name": "Truthful / Body / 13 SemiBold",
       "size": 13,
       "fontStyle": "SemiBold",
-      "usage": 94
+      "usage": 99
     },
     {
       "id": "S:99c89e70f6dafdf91469b08571730d165ec12d59,",
       "name": "Truthful / Label / 12 Regular",
       "size": 12,
       "fontStyle": "Regular",
-      "usage": 219
+      "usage": 252
     },
     {
       "id": "S:c015471fa6a02d8b673f62eae17a19e26098b147,",
       "name": "Truthful / Body / 13 Regular",
       "size": 13,
       "fontStyle": "Regular",
-      "usage": 169
+      "usage": 174
+    },
+    {
+      "id": "S:760071304b0027d2907f7d0b653c6107bd815b3f,",
+      "name": "Truthful / Label / 12 SemiBold",
+      "size": 12,
+      "fontStyle": "SemiBold",
+      "usage": 97
     },
     {
       "id": "S:5effca70ea8209a3e5949dbafc987e13e8e31a99,",
@@ -666,21 +721,14 @@
       "name": "Truthful / Title / 17 SemiBold",
       "size": 17,
       "fontStyle": "SemiBold",
-      "usage": 11
-    },
-    {
-      "id": "S:760071304b0027d2907f7d0b653c6107bd815b3f,",
-      "name": "Truthful / Label / 12 SemiBold",
-      "size": 12,
-      "fontStyle": "SemiBold",
-      "usage": 76
+      "usage": 10
     },
     {
       "id": "S:507810e1677e23585adae4b9a57a7b0a7115c20a,",
       "name": "Truthful / Title / 21 SemiBold",
       "size": 21,
       "fontStyle": "SemiBold",
-      "usage": 9
+      "usage": 8
     },
     {
       "id": "S:6a48136d0caee3c8eeca062fe92d4735737ba7ae,",
@@ -690,25 +738,11 @@
       "usage": 26
     },
     {
-      "id": "S:2de113be839e75d0f2c9ff533134d4be82d33e9e,",
-      "name": "Truthful / Body / 16 SemiBold",
-      "size": 16,
-      "fontStyle": "SemiBold",
-      "usage": 4
-    },
-    {
       "id": "S:06f3016a7332a2fe6e805ffd85d3af5270424199,",
       "name": "Truthful / Body / 14 SemiBold",
       "size": 14,
       "fontStyle": "SemiBold",
-      "usage": 13
-    },
-    {
-      "id": "S:98a4b0b7455d0277aa2843c73a9758b54e708ea9,",
-      "name": "Truthful / Display / 38 SemiBold",
-      "size": 38,
-      "fontStyle": "SemiBold",
-      "usage": 3
+      "usage": 15
     },
     {
       "id": "S:07b45f1dd71666d7588d872ee49106778818bbce,",
@@ -805,15 +839,15 @@
     }
   ],
   "bindingsSummary": {
-    "colorBoundNodes": 1260,
-    "spatialBindings": 2710,
-    "styledTextNodes": 797,
-    "fillRelationships": 1116
+    "colorBoundNodes": 1353,
+    "spatialBindings": 2890,
+    "styledTextNodes": 871,
+    "fillRelationships": 1200
   },
   "proofs": {
     "inheritedStyleSwap": {
       "passed": true,
-      "sourceInstanceId": "16:20367",
+      "sourceInstanceId": "24:28894",
       "swaps": [
         {
           "properties": {
@@ -834,7 +868,7 @@
       ],
       "statusStateSwap": {
         "passed": true,
-        "sourceInstanceId": "16:20395",
+        "sourceInstanceId": "24:28926",
         "beforeState": "Needs approval",
         "targetState": "Approved",
         "observed": "Approved"
@@ -842,7 +876,7 @@
     },
     "statusVariantSwap": {
       "passed": true,
-      "sourceInstanceId": "16:20395",
+      "sourceInstanceId": "24:28926",
       "beforeState": "Needs approval",
       "targetState": "Approved",
       "observed": "Approved"
@@ -856,7 +890,7 @@
       "passed": true,
       "componentId": "3:21",
       "property": "cornerRadius",
-      "sourceInstanceId": "16:20367",
+      "sourceInstanceId": "24:28894",
       "before": 6,
       "observed": 7
     },
@@ -911,10 +945,10 @@
     "16:20796"
   ],
   "notice": "Explicit variant states, linked instances and clone-only editing/resize proofs. Resize checks cover the recorded representative widths, not arbitrary responsive parity for every screen.",
-  "verifiedAt": "2026-10-30T04:55:04.080Z",
+  "verifiedAt": "2026-10-30T06:14:07.680Z",
   "review": "design/figma/system-review.json",
   "cloudVersion": {
-    "id": "2416005136496065741",
-    "label": "Truthful · Native system · verified"
+    "id": "2416031173672268873",
+    "label": "Truthful · Finance review journeys · verified"
   }
 }

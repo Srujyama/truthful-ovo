@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {screenModels} from './figma-screen-models.mjs';
+import {createDemoWorkspace,evaluateWorkspace} from '../src/assurance/index.mjs';
 import {palette,toJSX} from './build-figma-kit.mjs';
 const spec=JSON.parse(await readFile('docs/FIGMA_SCREEN_MAP.json','utf8'));
 const saved=JSON.parse(await readFile('design/figma/generated/models.json','utf8'));
@@ -14,6 +15,7 @@ for(const [i,screen] of screens.entries()){
  const found=[];let text='';
  function walk(n){assert.ok(['Frame','Text','Rectangle','Line'].includes(n.type));assert.ok(n.name);if(n.type==='Text'){textCount++;assert.ok(n.props.size>=12,n.name+' is smaller than12px');assert.equal(n.props.font,'Public Sans');assert.ok(n.props.w);text+=' '+n.text;}if(n.name.startsWith('hotspot:'))found.push(n.name.slice(8));for(const [k,v]of Object.entries(n.props)){if(typeof v==='number')assert.ok(Number.isFinite(v));if(typeof v==='string'&&v.startsWith('var:'))assert.ok(palette[v.slice(4)],'Missing token '+v);}for(const c of n.children||[])walk(c);}
  walk(screen);
+ for(const label of found)assert.ok(source.actions.some(a=>a.label===label),'Undeclared visible hotspot '+source.id+': '+label);
  for(const action of source.actions){assert.ok(targetIds.has(action.targetId));assert.ok(found.includes(action.label),source.id+' lacks hotspot '+action.label);hotspots++;if(action.targetId===source.id)noteLinks++;else if(action.navigation==='overlay')menuOpeners++;else navigationLinks++;}
  if(source.status==='concept')assert.match(text,/CONCEPT/);
  if(source.id.startsWith('authority-')||source.id==='execution-receipt'||source.id==='mobile-receipt')assert.match(text,/isolated|separate synthetic workspace/i);
@@ -26,5 +28,17 @@ assert.equal(saved.navigationOverlays.length,(spec.overlays||[]).length);
 for(const overlay of spec.overlays||[]){const model=saved.navigationOverlays.find(n=>n.name===overlay.id);assert.ok(model);for(const action of overlay.actions){assert.ok(ids.has(action.targetId));assert.ok(JSON.stringify(model).includes('hotspot:'+action.label));}}
 const preview=await readFile('design/figma/generated/preview.html','utf8');
 for(const id of ids)assert.ok(preview.includes(`id="${id}"`));
+assert.ok(preview.includes('font-family:&quot;Public Sans&quot;'),'Preview style attributes must escape font-family quotes');
 assert.ok(preview.includes('prefers-reduced-motion'));assert.ok(preview.includes('focus-visible'));assert.ok(preview.includes('Concept'));
-console.log(`PASS ${screens.length} editable screen models; ${textCount} readable text layers; ${hotspots} declared hotspots (${navigationLinks} screen navigation links; ${menuOpeners} mobile menu openers); ${saved.boards.length} product boards; ${saved.components.length} component specimens; ${Object.keys(palette).length} defined color tokens. Native Figma persistence is a separate check.`);
+const menuDestinations=(spec.overlays||[]).reduce((sum,o)=>sum+o.actions.length,0);
+
+
+// Exact source references in the authored review must match its actual seed basis.
+const view=evaluateWorkspace(createDemoWorkspace(),{asOf:'2026-10-28',knownAt:'2026-10-28T23:59:59.999Z'});
+const action=view.actions.find(a=>a.id==='action-pipeline-preserve');
+const expectedHandles=action.basis.sourceRevisions.map(r=>r.id+'@'+r.revision).sort();
+const actualHandles=[];function boundHandles(n){if(n.type==='Text'&&n.name.startsWith('Bound source: '))actualHandles.push(n.text);for(const child of n.children||[])boundHandles(child);}
+boundHandles(screens.find(n=>n.name==='exact-approval'));assert.deepEqual(actualHandles.sort(),expectedHandles,'Every exact bound source must be a separate readable label');
+const sourceAction=spec.screens.find(s=>s.id==='exact-approval').actions.find(a=>a.reviewSource),sourceBinding=sourceAction.reviewSource;
+const source=view.sourceVersions.find(s=>s.id+'@'+s.revision===sourceBinding.handle);assert.ok(source,'Representative source must resolve the bound revision');assert.equal(sourceBinding.kind,source.kind);assert.equal(sourceBinding.label+'\n'+sourceBinding.quote,source.text,'Source quote must exactly match the recorded synthetic revision');
+console.log(`PASS ${screens.length} editable screen models; ${textCount} readable text layers; ${hotspots+menuDestinations} declared mapped interactions (${hotspots} screen controls + ${menuDestinations} menu destinations); ${hotspots} declared screen hotspots (${navigationLinks} screen navigation links; ${menuOpeners} mobile menu openers); ${saved.boards.length} product boards; ${saved.components.length} component specimens; ${Object.keys(palette).length} defined color tokens. Native Figma persistence is a separate check.`);

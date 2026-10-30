@@ -16,7 +16,7 @@ async (page) => {
   await results.getByRole('button',{name:'Approve claim',exact:true}).click();
   await results.getByText('Approval recorded',{exact:true}).waitFor();
   const emailDownload = page.waitForEvent('download');
-  await results.getByRole('button',{name:'Download draft',exact:true}).click();
+  await results.getByRole('button',{name:'Download unsent draft',exact:true}).click();
   await (await emailDownload).saveAs('output/playwright/approved-claim.eml');
   const packetDownload = page.waitForEvent('download');
   await results.getByRole('button',{name:'Export evidence',exact:true}).click();
@@ -56,9 +56,9 @@ async (page) => {
   await page.getByText('A new condition. Not a recovered credit.',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Keep original terms',exact:true}).click();
   await page.getByRole('button',{name:'Issue credit',exact:true}).click();
-  require((await page.getByRole('region',{name:'Commitment totals'}).innerText()).includes('$900'),'Issued credit does not increase savings');
+  require((await page.getByRole('region',{name:'Guided demo totals'}).innerText()).includes('$900'),'Issued credit does not increase savings');
   await page.getByRole('button',{name:'Apply credit',exact:true}).click();
-  require((await page.getByRole('region',{name:'Commitment totals'}).innerText()).includes('$2,900'),'Applied credit increases verified savings to $2,900');
+  require((await page.getByRole('region',{name:'Guided demo totals'}).innerText()).includes('$2,900'),'Applied credit increases verified savings to $2,900');
   await page.getByRole('button',{name:'View applied credit',exact:true}).click();
   require((await page.getByRole('dialog').innerText()).includes('CM-NC-204'),'Verified credit opens its matching invoice');
   await page.getByRole('button',{name:'Close source evidence',exact:true}).click();

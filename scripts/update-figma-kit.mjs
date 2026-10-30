@@ -1,3 +1,4 @@
+import {expectedRoots,bootstrapInventory,validateRootInventory,snapshotRootCatalog} from './figma-root-inventory.mjs';
 import { applyNativeSystem, invalidateNativeSystem } from "./figma-native-system.mjs";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
@@ -25,6 +26,12 @@ const models = JSON.parse(
   await readFile("design/figma/generated/models.json", "utf8"),
 );
 const spec = JSON.parse(await readFile("docs/FIGMA_SCREEN_MAP.json", "utf8"));
+const allowedNewRootNames=[...spec.screens.flatMap(s=>s.actions.filter(a=>a.targetId===s.id).map(a=>`review-note:${s.id}:${a.label}`)),...(spec.overlays||[]).filter(o=>o.kind==='navigation').map(o=>o.id)];
+const priorSystem=JSON.parse(await readFile('design/figma/native-system.json','utf8'));
+const reviewedBoards=previous.rootInventory?null:JSON.parse(await readFile('design/figma/reviewed-root-identities.json','utf8'));
+const rootInventory=bootstrapInventory({record:previous,system:priorSystem,reviewedBoards});
+const expectedRootInventory=expectedRoots(models);
+let authorizedRoots;
 const stagingDigest = createHash("sha256")
   .update(JSON.stringify({ models, palette }))
   .digest("hex");
@@ -53,6 +60,8 @@ const bound = `if(figma.root.getPluginData('truthful-design-kit')!==${JSON.strin
 await evaluate(
   `${bound}await figma.loadAllPagesAsync();return {document:figma.root.name};`,
 );
+const readCatalog=()=>evaluate(`${bound}return await (${snapshotRootCatalog.toString()})();`);
+authorizedRoots=validateRootInventory({expected:expectedRootInventory,allowedNewNames:allowedNewRootNames,inventory:rootInventory,live:(await readCatalog()).roots,marker});
 // Only a stage carrying this kit's ownership marker may be resumed or rebuilt.
 // The digest covers styles, geometry, content and palette—not just root names.
 await evaluate(
@@ -101,6 +110,7 @@ for (const type of [
     console.log(`Staged ${type} ${i + 1}–${Math.min(i + 2, jsx.length)}`);
   }
 }
+const noteGridStep=Math.max(540,...models.overlays.map(n=>n.props.h+20));
 const all = [
   ...models.boards,
   ...models.components,
@@ -115,8 +125,9 @@ for (const model of all) {
   );
 }
 const preflight = await evaluate(
-  `${bound}const stage=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)});const expected=${JSON.stringify(all.map((n) => n.name))};if(stage.children.length!==expected.length)throw new Error('Unexpected staged roots');for(const name of expected){if(stage.children.filter(n=>n.name===name).length!==1)throw new Error('Duplicate staged root');const live=figma.root.children.filter(p=>p!==stage).flatMap(p=>[...new Map([...p.children,...p.findAll(n=>n.type==='COMPONENT')].map(n=>[n.id,n])).values()]).filter(n=>(n.getPluginData('truthful-component-source')||n.name)===name);if(live.length!==1&&!(live.length===0&&${JSON.stringify((models.navigationOverlays || []).map((n) => n.name))}.includes(name)))throw new Error('Missing/duplicate owned live root: '+name);}return {roots:expected.length};`,
+ `${bound}const stage=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)});const expected=${JSON.stringify(all.map(n=>n.name))};if(stage.children.length!==expected.length)throw new Error('Unexpected staged roots');for(const name of expected)if(stage.children.filter(n=>n.name===name).length!==1)throw new Error('Duplicate staged root');return {roots:expected.length};`,
 );
+authorizedRoots=validateRootInventory({expected:expectedRootInventory,allowedNewNames:allowedNewRootNames,inventory:rootInventory,live:(await readCatalog()).roots,marker});
 console.log("Preflight", preflight);
 // A saved version is a concrete restore point before the live replacement.
 const restore = await evaluate(
@@ -148,6 +159,7 @@ const pendingRecord = {
   interactionInventory: null,
   verifiedAt: null,
   nativeLibrary: null,
+  rootInventory: authorizedRoots,
   nativeSystem: null,
 };
 await writeFile(
@@ -161,11 +173,13 @@ await evaluate(
 // Preserve original live roots (and component identities) by transplanting staged children.
 for (const name of all.map((n) => n.name))
   await evaluate(
-    `${bound}const stage=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)}),fresh=stage.children.find(n=>n.name===${JSON.stringify(name)}),live=figma.root.children.filter(p=>p!==stage).flatMap(p=>[...new Map([...p.children,...p.findAll(n=>n.type==='COMPONENT')].map(n=>[n.id,n])).values()]).find(n=>(n.getPluginData('truthful-component-source')||n.name)===${JSON.stringify(name)});if(!fresh)throw new Error('Staged root missing');if(!live){if(!${JSON.stringify((models.navigationOverlays || []).map((n) => n.name))}.includes(${JSON.stringify(name)}))throw new Error('Owned root missing');const added=fresh.clone();figma.root.children.find(p=>p.name==='Product flow').appendChild(added);added.x=6500;added.y=4300;return {added:added.name,id:added.id};}for(const child of [...live.children])child.remove();for(const property of ['layoutMode','primaryAxisSizingMode','counterAxisSizingMode','primaryAxisAlignItems','counterAxisAlignItems','itemSpacing','paddingTop','paddingBottom','paddingLeft','paddingRight','fills','strokes','strokeWeight','cornerRadius','clipsContent'])if(fresh[property]!==undefined)live[property]=JSON.parse(JSON.stringify(fresh[property]));live.resize(fresh.width,fresh.height);for(const child of [...fresh.children])live.appendChild(child.clone());return {updated:live.name,id:live.id};`,
+    `${bound}const stage=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)}),fresh=stage?.children.find(n=>n.name===${JSON.stringify(name)}),authorized=${JSON.stringify(authorizedRoots.roots.find(n=>n.name===name)||null)};if(!fresh||stage.getPluginData('truthful-staging-owner')!==${JSON.stringify(marker)}||stage.getPluginData('truthful-staging-digest')!==${JSON.stringify(stagingDigest)}||fresh.getPluginData('truthful-staged-complete')!==${JSON.stringify(stagingDigest)})throw new Error('Staged root or ownership missing');const matches=figma.root.children.filter(p=>p!==stage).flatMap(p=>[...new Map([...p.children,...p.findAll(n=>n.type==='COMPONENT')].map(n=>[n.id,n])).values()]).filter(n=>(n.getPluginData('truthful-component-source')||n.name)===${JSON.stringify(name)});let live=null;if(authorized){live=await figma.getNodeByIdAsync(authorized.id);let page=live?.parent;while(page&&page.type!=='PAGE')page=page.parent;if(matches.length!==1||matches[0].id!==authorized.id||!live||live.type!==authorized.type||page?.name!==authorized.page)throw new Error('Recorded live root identity changed');if(authorized.ownerRequired&&(live.getPluginData('truthful-owned-root')!==${JSON.stringify(marker)}||live.getPluginData('truthful-source-root')!==${JSON.stringify(name)}))throw new Error('Owned root marker changed');}else{if(matches.length||!${JSON.stringify(allowedNewRootNames)}.includes(${JSON.stringify(name)}))throw new Error('New root collision or undeclared root');const added=fresh.clone();added.setPluginData('truthful-owned-root',${JSON.stringify(marker)});added.setPluginData('truthful-source-root',${JSON.stringify(name)});figma.root.children.find(p=>p.name==='Product flow').appendChild(added);return {added:added.name,id:added.id};}for(const child of [...live.children])child.remove();for(const property of ['layoutMode','primaryAxisSizingMode','counterAxisSizingMode','primaryAxisAlignItems','counterAxisAlignItems','itemSpacing','paddingTop','paddingBottom','paddingLeft','paddingRight','fills','strokes','strokeWeight','cornerRadius','clipsContent'])if(fresh[property]!==undefined)live[property]=JSON.parse(JSON.stringify(fresh[property]));live.resize(fresh.width,fresh.height);for(const child of [...fresh.children])live.appendChild(child.clone());return {updated:live.name,id:live.id};`,
   );
 const record = await evaluate(
-  `${bound}const page=figma.root.children.find(p=>p.name==='Product flow'),frames=new Map(page.children.map(n=>[n.name,n])),screens=${JSON.stringify(spec.screens)};let links=0;const overlays=[];for(const source of screens){const root=frames.get(source.id);for(const action of source.actions){const note=source.id===action.targetId,target=frames.get(note?'review-note:'+source.id+':'+action.label:action.targetId);if(!target)throw new Error('Missing destination');const controls=root.findAll(n=>n.name==='hotspot:'+action.label);if(!controls.length)throw new Error('Missing control');for(const control of controls)await control.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',navigation:note||action.navigation==='overlay'?'OVERLAY':'NAVIGATE',destinationId:target.id,transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);if(note){const close=target.findOne(n=>n.name==='annotation-close');await close.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);overlays.push({name:target.name,nodeId:target.id,width:target.width,height:target.height,textLayers:target.findAll(n=>n.type==='TEXT').length});}links++;}}const navigationOverlays=[];for(const menu of ${JSON.stringify(spec.overlays || [])}){const root=frames.get(menu.id);for(const action of menu.actions){const control=root.findOne(n=>n.name==='hotspot:'+action.label),target=frames.get(action.targetId);if(!control||!target)throw new Error('Missing navigation menu control or target');await control.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',navigation:'NAVIGATE',destinationId:target.id,transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);links++;}await root.findOne(n=>n.name==='annotation-close').setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);navigationOverlays.push({name:root.name,nodeId:root.id,width:root.width,height:root.height,textLayers:root.findAll(n=>n.type==='TEXT').length});}page.flowStartingPoints=[['portfolio','Commitment review'],['evidence-input','Evidence to portfolio'],['race-cutoff','Adverse state · bounded cutoff'],['race-repair','Authored repair · separate model'],['connected-handoff-concept','Concept · selected-case handoff'],['mobile-approval','Mobile review']].map(([id,name])=>({nodeId:frames.get(id).id,name}));const staging=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)});if(staging.children.length!==${all.length})throw new Error('Staging source roots changed');await figma.setCurrentPageAsync(figma.root.children.find(p=>p.name==='Read me'));staging.remove();return {links,overlays,navigationOverlays,frames:screens.map(s=>{const n=frames.get(s.id);return {id:s.id,nodeId:n.id,width:n.width,height:n.height,textLayers:n.findAll(n=>n.type==='TEXT').length};})};`,
+  `${bound}const page=figma.root.children.find(p=>p.name==='Product flow'),frames=new Map(page.children.map(n=>[n.name,n])),screens=${JSON.stringify(spec.screens)};let links=0;const overlays=[];for(const source of screens){const root=frames.get(source.id);root.setPluginData('truthful-screen',JSON.stringify({id:source.id,status:source.status,purpose:source.purpose,annotations:source.annotations}));for(const action of source.actions){const note=source.id===action.targetId,target=frames.get(note?'review-note:'+source.id+':'+action.label:action.targetId);if(!target)throw new Error('Missing destination');const controls=root.findAll(n=>n.name==='hotspot:'+action.label);if(!controls.length)throw new Error('Missing control');for(const control of controls){control.setPluginData('interaction-note',action.note||'Review-state navigation. This prototype executes no financial command.');await control.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',navigation:note||action.navigation==='overlay'?'OVERLAY':'NAVIGATE',destinationId:target.id,transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);}if(note){target.x=4700+(overlays.length%3)*600;target.y=Math.floor(overlays.length/3)*${noteGridStep};const close=target.findOne(n=>n.name==='annotation-close');await close.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);overlays.push({name:target.name,nodeId:target.id,width:target.width,height:target.height,textLayers:target.findAll(n=>n.type==='TEXT').length});}links++;}}const navigationOverlays=[];for(const menu of ${JSON.stringify(spec.overlays || [])}){const root=frames.get(menu.id);for(const action of menu.actions){const control=root.findOne(n=>n.name==='hotspot:'+action.label),target=frames.get(action.targetId);if(!control||!target)throw new Error('Missing navigation menu control or target');await control.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',navigation:'NAVIGATE',destinationId:target.id,transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);links++;}await root.findOne(n=>n.name==='annotation-close').setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);navigationOverlays.push({name:root.name,nodeId:root.id,width:root.width,height:root.height,textLayers:root.findAll(n=>n.type==='TEXT').length});}page.flowStartingPoints=[['portfolio','Commitment review'],['evidence-input','Evidence to portfolio'],['race-cutoff','Adverse state · bounded cutoff'],['race-repair','Authored repair · separate model'],['connected-handoff-concept','Concept · selected-case handoff'],['mobile-approval','Mobile review']].map(([id,name])=>({nodeId:frames.get(id).id,name}));const staging=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)});if(staging.children.length!==${all.length})throw new Error('Staging source roots changed');await figma.setCurrentPageAsync(figma.root.children.find(p=>p.name==='Read me'));staging.remove();return {links,overlays,navigationOverlays,frames:screens.map(s=>{const n=frames.get(s.id);return {id:s.id,nodeId:n.id,width:n.width,height:n.height,textLayers:n.findAll(n=>n.type==='TEXT').length};})};`,
 );
+const completedRootInventory=validateRootInventory({expected:expectedRootInventory,allowedNewNames:allowedNewRootNames,inventory:authorizedRoots,live:(await readCatalog()).roots,marker});
+assert.equal(completedRootInventory.roots.length,expectedRootInventory.length,'Completed root inventory is incomplete');
 const nativeSystem = await applyNativeSystem({evaluate,marker,fileKey:previous.fileKey});
 await writeFile(
   "design/figma/native-record.json",
@@ -173,6 +187,7 @@ await writeFile(
     {
       ...pendingRecord,
       ...record,
+      rootInventory:completedRootInventory,
       nativeSystem:{manifest:"design/figma/native-system.json",sets:nativeSystem.sets.length,instances:nativeSystem.instances.length},
       status: "redesigned-native-pending-visual-review",
       redesignedAt: new Date().toISOString(),

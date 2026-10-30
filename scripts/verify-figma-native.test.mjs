@@ -19,7 +19,7 @@ function fixture(){
  const frames=spec.screens.map((screen,i)=>({id:screen.id,nodeId:`55:${i+1}`,width:screen.viewport.width,height:screen.viewport.height}));
  const overlays=models.overlays.map((model,i)=>({name:model.name,nodeId:`77:${i+1}`,width:model.props.w,height:model.props.h,textLayers:countText(model)}));
  const navigationOverlays=(models.navigationOverlays||[]).map((model,i)=>({name:model.name,nodeId:`88:${i+1}`,width:model.props.w,height:model.props.h,textLayers:countText(model)}));
- const record={schemaVersion:1,status:'verified-native',fileKey:'MockTruthful',fileUrl:'https://www.figma.com/design/MockTruthful/Offline-test',frames,overlays,navigationOverlays,links:spec.screens.reduce((sum,screen)=>sum+screen.actions.length,0)};
+ const record={schemaVersion:1,status:'verified-native',fileKey:'MockTruthful',fileUrl:'https://www.figma.com/design/MockTruthful/Offline-test',frames,overlays,navigationOverlays,links:spec.screens.reduce((sum,screen)=>sum+screen.actions.length,0)+spec.overlays.reduce((sum,o)=>sum+o.actions.length,0)};
  const live={marker:'truthful-ovo-design-v1:MockTruthful',flowStartingPoints:[{nodeId:frames.find(f=>f.id===(spec.designPhilosophy?.defaultEntry||'evidence-input')).nodeId,name:'Main review'}],frames:spec.screens.map(screen=>{
   const model=models.screens.find(n=>n.name===screen.id),controls=[];
   function visit(node){
@@ -50,15 +50,17 @@ async function harness(t,mutate=()=>{}){
  return ()=>exec(process.execPath,[verifier],{cwd:directory,env:{...process.env,FIGMA_CLI_JS:mockCli},timeout:10000,maxBuffer:1000000});
 }
 
-test('offline full fixture verifies 17 screens, 21 screen navigation links, 20 review notes, a mobile menu, 13 colors and 12 components',async t=>{
+test('offline full fixture verifies the complete declared screen, note and menu flow',async t=>{
  const {record,live}=fixture();
- assert.equal(record.frames.length,17);assert.equal(record.links,44);assert.equal(record.overlays.length,20);assert.equal(live.colors.length,13);assert.equal(live.components.length,12);
- const controls=live.frames.slice(0,17).flatMap(f=>f.controls);
- assert.equal(new Set(controls.filter(c=>c.reactions[0].actions[0].navigation==='OVERLAY').map(c=>c.reactions[0].actions[0].destinationId)).size,21);
- assert.equal(spec.screens.flatMap(s=>s.actions.filter(a=>a.targetId!==s.id&&a.navigation!=='overlay')).length,21);
- assert.equal(live.frames.filter(f=>f.controls.some(c=>c.name==='annotation-close')).length,21);
+ const screenNavigation=spec.screens.flatMap(s=>s.actions.filter(a=>a.targetId!==s.id&&a.navigation!=='overlay'));
+ const noteActions=spec.screens.flatMap(s=>s.actions.filter(a=>a.targetId===s.id));
+ assert.equal(record.frames.length,spec.screens.length);assert.equal(record.links,spec.screens.reduce((sum,s)=>sum+s.actions.length,0)+spec.overlays.reduce((sum,o)=>sum+o.actions.length,0));assert.equal(record.overlays.length,noteActions.length);assert.equal(live.colors.length,Object.keys(palette).length);assert.equal(live.components.length,models.components.length);
+ const controls=live.frames.slice(0,spec.screens.length).flatMap(f=>f.controls);
+ assert.equal(new Set(controls.filter(c=>c.reactions[0].actions[0].navigation==='OVERLAY').map(c=>c.reactions[0].actions[0].destinationId)).size,noteActions.length+spec.overlays.length);
+ assert.equal(new Set(live.frames.slice(0,spec.screens.length).flatMap(f=>f.controls.filter(c=>c.reactions[0].actions[0].navigation==='NAVIGATE').map(c=>f.name+'|'+c.name))).size,screenNavigation.length);
+ assert.equal(live.frames.filter(f=>f.controls.some(c=>c.name==='annotation-close')).length,noteActions.length+spec.overlays.length);
  const run=await harness(t);const {stdout}=await run();
- assert.match(stdout,/PASS actual Figma document: 17 native screen IDs/);
+ assert.ok(stdout.includes(`PASS actual Figma document: ${spec.screens.length} native screen IDs`));
 });
 test('an incorrect cross-frame NODE destination is rejected despite retaining every control and reaction',async t=>{
  const run=await harness(t,({live})=>{live.frames[0].controls[0].reactions[0].actions[0].destinationId=live.frames.at(-1).id;});
@@ -78,3 +80,5 @@ test('the main prototype entry must remain the declared financial task',async t=
  const run=await harness(t,({live})=>{live.flowStartingPoints[0].nodeId='wrong-entry';});
  await assert.rejects(run(),error=>{assert.equal(error.code,1);assert.match(error.stderr,/main prototype entry/);return true;});
 });
+
+test('a stale mapped-link total is rejected',async t=>{const run=await harness(t,({record})=>{record.links--;});await assert.rejects(run(),error=>{assert.match(error.stderr,/Mapped-link inventory/);return true;});});

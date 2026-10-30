@@ -9,7 +9,7 @@
       "identityPolicy": "Resolve native identities and current verification status from the manifest; do not cache node IDs here.",
       "collections": {
         "color": "Truthful",
-        "spacingAndRadius": "Truthful \u00b7 Layout"
+        "spacingAndRadius": "Truthful · Layout"
       },
       "componentSets": [
         {
@@ -70,11 +70,24 @@
         "limitation": "Representative clone probes only; not arbitrary-width responsiveness or financial execution."
       },
       "handoffFrames": [
-        "Handoff \u00b7 Start here",
-        "Handoff \u00b7 Review and implementation",
-        "Handoff \u00b7 Component properties"
+        "Handoff · Start here",
+        "Handoff · Review and implementation",
+        "Handoff · Component properties"
       ],
-      "verificationPolicy": "Read current manifest status/proofs and native gates. This sidecar is system guidance, not proof of native persistence."
+      "verificationPolicy": "Read current manifest status/proofs and native gates. This sidecar is system guidance, not proof of native persistence.",
+      "currentArchitecture": {
+        "screens": 17,
+        "retainedMasters": 12,
+        "componentSets": 2,
+        "linkedInstances": 82,
+        "activeTextStyles": 22,
+        "localTextStylesRetained": 24,
+        "spatialVariables": 11,
+        "mappedReviewInteractions": 53,
+        "originalMappingsRetained": 47,
+        "closeReturns": 25,
+        "recordedRootIdentities": 61
+      }
     },
     "shadows": [],
     "motion": [],

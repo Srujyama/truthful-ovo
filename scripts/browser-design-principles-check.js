@@ -33,8 +33,14 @@ async page => {
   require((await page.getByRole('combobox', {name: 'Selected commitment'}).innerText()).includes('NC-SLA-2026'), 'Mobile records retain their exact commitment references');
   require(!await page.getByRole('combobox', {name: 'Demo actor role'}).isVisible(), 'Mobile workspace utilities start disclosed');
   await page.getByText('Portfolio overview', {exact: true}).click();
-  require(await page.locator('.assurance-totals').isVisible() && await page.getByRole('combobox', {name: 'Demo actor role'}).isVisible(), 'All portfolio totals and role controls remain reachable');
+  require(await page.locator('.assurance-totals').isVisible(), 'Portfolio overview discloses all portfolio totals');
+  require(!await page.getByRole('combobox', {name: 'Demo actor role'}).isVisible(), 'Portfolio totals do not expand separate workspace utilities');
   await page.getByText('Portfolio overview', {exact: true}).click();
+  await page.locator('.workspace-options>summary').click();
+  require(await page.getByRole('combobox', {name: 'Demo actor role'}).isVisible(), 'Workspace options discloses the actual role controls');
+  await page.keyboard.press('Escape');
+  require(!await page.getByRole('combobox', {name: 'Demo actor role'}).isVisible(), 'Escape closes workspace options');
+  require(await page.locator('.workspace-options>summary').evaluate(el => el === document.activeElement), 'Closing workspace options returns focus to its summary');
   await page.getByRole('combobox', {name: 'Selected commitment'}).selectOption('nimbus-sla');
   await page.locator('.assurance-case>header').getByRole('heading', {name: 'Nimbus Cloud', exact: true}).waitFor();
   require(await page.locator('.portfolio-rows').isHidden(), 'Mobile record selection exposes the real selected detail without a tall queue');
@@ -46,7 +52,7 @@ async page => {
   require(firstScreen, 'Selected name, exact reference, status and balance fit the first mobile viewport');
   require(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Mobile portfolio remains within the viewport');
   await click('Toggle navigation');
-  await click('Commitments 4');
+  await click('Guided cases 4');
   await page.getByRole('combobox', {name: 'Selected guided case'}).selectOption('pipeline');
   await page.locator('.case-header').getByRole('heading', {name: 'Pipeline CRM', exact: true}).waitFor();
   require(await page.locator('.commitment-list').isHidden(), 'Mobile guided picker changes the actual case');

@@ -6,26 +6,59 @@
       "name": "Handoff · Start here",
       "title": "Change one system. Keep every screen coherent.",
       "sections": [
-        {"heading": "Start with the financial task", "body": "The main prototype begins at Commitment review. Follow a promise, inspect the exact reference and supporting evidence, then review the next action. Execution and signed verification are separate technical review tasks."},
-        {"heading": "Edit the component, not a detached copy", "body": "Buttons use Style and State variants. Label is an exposed text property. Status components keep their explicit state names. Select an instance and use its properties; edit the main component when the change should reach every linked use. Keep instances attached."},
-        {"heading": "Use the shared styles and variables", "body": "Color variables retain financial meaning. Shared Public Sans text styles govern repeated hierarchy. Spacing and radius variables govern repeated layout values. Change a system value once instead of nudging individual layers."},
-        {"heading": "Resize content with care", "body": "Use Auto Layout, Fill container and Hug contents where tested. Desktop and mobile review frames are intentionally separate compositions. The system record identifies the exact widths and content probes that passed; it does not claim every frame is fluid at every width."}
+        {
+          "heading": "Start with the financial task",
+          "body": "Begin in Commitment portfolio. Select a promise and use its next action to review that exact reference. Inspect bound evidence revisions, return to the same action, and check the role required for approval or local recording. Execution and signed verification remain separate technical review tasks."
+        },
+        {
+          "heading": "Edit the component, not a detached copy",
+          "body": "Buttons use Style and State variants. Label is an exposed text property. Status components keep their explicit state names. Select an instance and use its properties; edit the main component when the change should reach every linked use. Keep instances attached."
+        },
+        {
+          "heading": "Use the shared styles and variables",
+          "body": "Color variables retain financial meaning. Shared Public Sans text styles govern repeated hierarchy. Spacing and radius variables govern repeated layout values. Change a system value once instead of nudging individual layers."
+        },
+        {
+          "heading": "Resize content with care",
+          "body": "Use Auto Layout, Fill container and Hug contents where tested. Desktop and mobile review frames are intentionally separate compositions. The system record identifies the exact widths and content probes that passed; it does not claim every frame is fluid at every width."
+        }
       ]
     },
     {
       "name": "Handoff · Review and implementation",
       "title": "A design state must have an implementation meaning.",
       "sections": [
-        {"heading": "Keep the financial states distinct", "body": "Promised is not issued. Issued is not applied. A conditional offer is not an accepted agreement. An approval is not execution. An inconclusive search is not a safety verdict. A signed receipt is not proof of external settlement."},
-        {"heading": "Keep the prototype honest", "body": "The original 47 mapped interactions and 21 close returns are review navigation. Same-screen financial commands open clearly labeled notes. This file executes no approval, source revision, grant, payment or vendor transaction. The selected-case authority handoff is explicitly a concept."},
-        {"heading": "Hand off exact references", "body": "Use docs/FIGMA_SCREEN_MAP.json for screen IDs, modeled states, routes and alternate-state notes. App implementation lives in src/Assurance.jsx, src/Workbench.jsx and src/ExecutionLab.jsx. Financial rules remain in src/assurance, src/engine, src/explorer and src/authority."},
-        {"heading": "Verify edits before delivery", "body": "Inspect desktop and mobile exports after system changes. Check long labels, missing fonts, clipping and component links. Run design:check, design:verify-native and design:verify-system. Native-system.json records actual instances, styles, bindings and tested probes. Save a new named cloud version after review."}
+        {
+          "heading": "Keep the financial states distinct",
+          "body": "Promised is not issued. Issued is not applied. A conditional offer is not an accepted agreement. An approval is not execution. An inconclusive search is not a safety verdict. A signed receipt is not proof of external settlement."
+        },
+        {
+          "heading": "Keep the prototype honest",
+          "body": "All 53 mapped interactions and 25 close returns are review navigation. The original 47 mappings are retained. Same-screen financial commands open clearly labeled notes. This file executes no approval, source revision, grant, payment or vendor transaction. The selected-case authority handoff is explicitly a concept."
+        },
+        {
+          "heading": "Hand off exact references",
+          "body": "Use docs/FIGMA_SCREEN_MAP.json for screen IDs, modeled states, routes and alternate-state notes. App implementation lives in src/Assurance.jsx, src/Workbench.jsx and src/ExecutionLab.jsx. Financial rules remain in src/assurance, src/engine, src/explorer and src/authority."
+        },
+        {
+          "heading": "Verify edits before delivery",
+          "body": "Inspect desktop and mobile exports after system changes. Check long labels, missing fonts, clipping and component links. Run design:check, design:verify-native and design:verify-system. Native-system.json records actual instances, styles, bindings and tested probes. Save a new named cloud version after review."
+        }
       ]
     }
   ],
   "sources": [
-    {"title": "Figma · Component architecture", "url": "https://www.figma.com/best-practices/component-architecture/"},
-    {"title": "Figma · Creating and organizing variants", "url": "https://www.figma.com/best-practices/creating-and-organizing-variants/"},
-    {"title": "Figma · Auto Layout", "url": "https://help.figma.com/hc/en-us/articles/5731482952599-Toggle-on-auto-layout-in-designs"}
+    {
+      "title": "Figma · Component architecture",
+      "url": "https://www.figma.com/best-practices/component-architecture/"
+    },
+    {
+      "title": "Figma · Creating and organizing variants",
+      "url": "https://www.figma.com/best-practices/creating-and-organizing-variants/"
+    },
+    {
+      "title": "Figma · Auto Layout",
+      "url": "https://help.figma.com/hc/en-us/articles/5731482952599-Toggle-on-auto-layout-in-designs"
+    }
   ]
 }

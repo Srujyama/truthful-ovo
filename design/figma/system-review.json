@@ -1,83 +1,91 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-10-30T04:55:04.080Z",
-  "initialScope": [
-    "output/figma-system/portfolio.png",
-    "output/figma-system/approval.png",
-    "output/figma-system/race.png",
-    "output/figma-system/mobile.png",
-    "output/figma-system/library.png",
-    "output/figma-system/properties.png",
-    "output/figma-system/handoff-start.png",
-    "output/figma-system/handoff-review.png"
-  ],
-  "initialFindings": [
-    "Button Hover variants need visible differentiation",
-    "Remove repeated Handoff eyebrow headings"
-  ],
-  "confirmationScope": [
-    "output/figma-system/library.png",
-    "output/figma-system/handoff-start.png",
-    "output/figma-system/handoff-review.png"
-  ],
-  "confirmationVerdict": "Both requested fixes resolved; no visible regressions from the fix batch. This confirmation scores the fixes, not a new whole-surface review.",
-  "sourceReview": "No unresolved P1/P2 findings after source and independent-gate repairs.",
+  "reviewedAt": "2026-10-30T06:14:07.680Z",
+  "scope": "UI continuation:11appcaptures and12nativeexports; existingApple/Rampworkingledgerdirection",
+  "disposition": "ship",
+  "report": "design/figma/SYSTEM_FINISH_REVIEW.md",
+  "sourceReview": "Independent review accepted finance selection/import-role repairs, native ownership/exact-ID protection, cross-file retry refusal, and preview escaping. No unresolved P1/P2 findings in reviewed scope.",
   "exports": [
     {
-      "path": "output/figma-system/portfolio.png",
-      "sha256": "ce8a305dde9775ed5f3b105444767ad04923c61b42a29bd3593a833a3fdc7e0d",
-      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+      "path": "output/figma-system/ui-portfolio.png",
+      "sha256": "36e65917c6396dcf6aaaff58b3d9c0f86ac181d6cd60686a1da3e69f0b5cb87a",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
     },
     {
-      "path": "output/figma-system/approval.png",
-      "sha256": "fe334627d7f2cc0b7fd59e87fa3a57789edaba48515971bc57324f82a0ba39e9",
-      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+      "path": "output/figma-system/ui-approval.png",
+      "sha256": "41e2c1b76bec1842116e75d43751c528540e9a403d3fc0d0a52edd76af0bd7d8",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
     },
     {
-      "path": "output/figma-system/race.png",
-      "sha256": "225669a53f7a45803bd26082c03b6c3a91a32c30120d4bb343c27fa851309fb7",
-      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+      "path": "output/figma-system/ui-source-note.png",
+      "sha256": "0e00523f1126900ea1c0a30a2f687e5304a2a17a4f3132086c7688a6b146bf47",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
     },
     {
-      "path": "output/figma-system/mobile.png",
-      "sha256": "3f1b85d85de5c2ea929b3bbd1d7c0312d0cb3b519cb1e15849a0382db661593b",
-      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+      "path": "output/figma-system/ui-evidence-input.png",
+      "sha256": "a95f4a3c7659a698bc5496d0e3fcc1ba87fe3f05a2714560748ceb6525fc0758",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
     },
     {
-      "path": "output/figma-system/library.png",
+      "path": "output/figma-system/ui-evidence.png",
+      "sha256": "87c32b9c73f8871ca83977a7aa12682bc32d8a6eeaa0931145dc7b60f127c0bc",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/ui-mobile.png",
+      "sha256": "eb8cf005bcbb88251c5160e50a7aa0ee833bf17b2add2fc3a262ea00d8ccd64c",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/ui-options-note.png",
+      "sha256": "56d72353235cfe7a7372e9b15155ce7695b97fd143cf70d05bc799206df3d7ef",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/ui-claim-note.png",
+      "sha256": "20bd4a035d2e2c0819fe7c7963ebbd7b38ef8a1ab2eeed7e467f4a7ffaf40818",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/ui-mobile-note.png",
+      "sha256": "656065007719b3b83e54b043fb7814ca314f6a2632baf01dfcabf1f5913fa70b",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+    },
+    {
+      "path": "output/figma-system/ui-library.png",
       "sha256": "a93018b12a23031569f5eb8244f099ae2155b3ee9e039ce9dfe57f63410f7baf",
-      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
     },
     {
-      "path": "output/figma-system/properties.png",
-      "sha256": "2433912e3ad48770c8114d2dff0329f82252adf61683432c19dabcfa72c05e37",
-      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+      "path": "output/figma-system/ui-handoff-start.png",
+      "sha256": "347a17b847a3922dcbb061bc9c47467bfdc7b24185c22a531056e31e90e5b304",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
     },
     {
-      "path": "output/figma-system/handoff-start.png",
-      "sha256": "692f02769ce960b603a47489080798a58a90440f43aeb317487b9dae24534d09",
-      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
-    },
-    {
-      "path": "output/figma-system/handoff-review.png",
-      "sha256": "c02b0bd0bac5daec6dc66ab058bcf31bfc479a1574eb4ecf53d6c72d5ac6999d",
-      "provenance": "Native Figma Plugin API export from reviewed file 8j4pwtsGDI4seljHPNeUkI"
+      "path": "output/figma-system/ui-handoff-review.png",
+      "sha256": "9955dda169f16ec7fd775cd2970ad73def4fb32d3fde38eb237788550e1a2cdf",
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
     }
   ],
   "audit": {
-    "roots": 53,
+    "roots": 57,
     "missingFonts": 0,
     "clipping": [],
     "buttonInheritance": {
-      "count": 65,
+      "count": 73,
       "exceptions": []
     },
-    "screenTexts": 653,
-    "instances": 74
+    "screenTexts": 710,
+    "instances": 82
   },
   "cloudVersion": {
-    "id": "2416005136496065741",
-    "label": "Truthful · Native system · verified"
+    "id": "2416031173672268873",
+    "label": "Truthful · Finance review journeys · verified"
   },
-  "prototypePlayback": "No new manual prototype-player playback; reactions verified separately through native API."
+  "nativeControls": {
+    "mappedInteractions": 53,
+    "originalMappingsRetained": 47,
+    "closeReturns": 25
+  },
+  "prototypePlayback": "No new manual prototype-player playback. Exact reactions are independently checked through the native API."
 }

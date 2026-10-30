@@ -1,12 +1,20 @@
 async (page) => {
   const checks=[];
   const require=(ok,message)=>{if(!ok)throw new Error(message);checks.push(message);};
-  const click=name=>page.getByRole('button',{name,exact:true}).click();
-  const reset=async()=>{await click('Reset demo workspace');await click('Confirm reset');await page.getByRole('button',{name:'Confirm reset',exact:true}).waitFor({state:'detached'});await page.waitForFunction(()=>!document.querySelector('[aria-label="Demo actor role"]').disabled);};
+  const click=async name=>{
+    if(['Dismiss renewal','Dismiss date change','Review renewal','Review date change'].includes(name)&&await page.locator('.amendment-branches').count()&&!await page.locator('.amendment-branches').evaluate(n=>n.open))await page.locator('.amendment-branches>summary').click();
+    await page.getByRole('button',{name,exact:true}).click();
+  };
+  const openOptions=async()=>{const options=page.locator('.workspace-options');if(!await options.evaluate(el=>el.open))await options.locator('summary').click();};
+  const setRole=async role=>{await openOptions();await page.getByRole('combobox',{name:'Demo actor role'}).selectOption(role);await page.waitForFunction(expected=>{const field=document.querySelector('[aria-label="Demo actor role"]');return field?.value===expected&&!field.disabled;},role);await page.keyboard.press('Escape');};
+  const reset=async()=>{await openOptions();await click('Reset demo workspace');await click('Confirm reset');await page.getByRole('button',{name:'Confirm reset',exact:true}).waitFor({state:'detached'});await page.waitForFunction(()=>!document.querySelector('[aria-label="Demo actor role"]').disabled);await page.keyboard.press('Escape');};
+  const exportPacket=async path=>{await openOptions();const packet=page.waitForEvent('download');await click('Export audit packet');await (await packet).saveAs(path);await page.keyboard.press('Escape');};
   await click('Assurance');
+  await page.getByRole('heading',{name:'Commitment portfolio',level:1}).waitFor();
+  await openOptions();
   await page.getByText(/^(Local SQLite service|Browser workspace)$/).waitFor();
   const mode=await page.getByText(/^(Local SQLite service|Browser workspace)$/).innerText();
-  await page.getByRole('combobox',{name:'Demo actor role'}).selectOption('admin');
+  await setRole('admin');
   await reset();
   require((await page.locator('.assurance-totals').innerText()).includes('$900.00'),'Seed counts applied credit separately from issued credit');
   await page.getByRole('button',{name:/^Decision room/}).click();
@@ -36,16 +44,15 @@ async (page) => {
   const latest=new Date().toISOString().slice(0,10);
   await page.getByRole('textbox',{name:'Knowledge cutoff date'}).fill(latest);
   require((await page.locator('.assurance-amount').innerText()).includes('Nov 15, 2026'),'Later knowledge includes the accepted schedule when effective');
-  const historicalDownload=page.waitForEvent('download');await click('Export audit packet');
-  await (await historicalDownload).saveAs('output/playwright/assurance-historical.json');
+  await exportPacket('output/playwright/assurance-historical.json');
   checks.push('Historical projection exports as a verifiable evidence packet');
   await click('Return to latest'); await reset();
   await page.getByRole('button',{name:/^Decision room/}).click();
-  await page.getByRole('combobox',{name:'Demo actor role'}).selectOption('viewer');
-  await page.waitForTimeout(150); await click('Approve exact action');
-  await page.getByRole('alert').filter({hasText:/FORBIDDEN|not permitted|not authorized|role|requires approver/i}).waitFor();
-  checks.push('Read-only identity is rejected by the actual mutation boundary');
-  await page.getByRole('combobox',{name:'Demo actor role'}).selectOption('admin'); await page.waitForTimeout(150);
+  await page.locator('.decision-row').filter({hasText:'Pipeline CRM'}).filter({hasText:'Preserve original terms'}).click();
+  await setRole('viewer');
+  require(await page.getByRole('button',{name:'Approve exact action',exact:true}).isDisabled(),'Read-only identity cannot approve the actual selected action');
+  require((await page.locator('.decision-case .mutation-reason').last().innerText()).includes('Requires approver or admin role. Current role: viewer.'),'Read-only approval explains the required role before mutation');
+  await setRole('admin');
   await click('Approve exact action'); await click('Portfolio');await click('Evidence graph');
   await page.getByRole('button',{name:/^Original duplicate-seat correction Source revision/}).click();
   await click('Revise this source');
@@ -53,6 +60,7 @@ async (page) => {
   await revision.fill((await revision.inputValue())+'\nSynthetic verification note: later evidence received.');
   await click('Save source revision');
   await page.getByRole('button',{name:/^Decision room/}).click();
+  await page.locator('.decision-row').filter({hasText:'Pipeline CRM'}).filter({hasText:'Preserve original terms'}).click();
   await page.getByRole('button',{name:'Create fresh proposal',exact:true}).waitFor();
   require(await page.getByRole('button',{name:'Record approved action',exact:true}).count()===0,'Changed source invalidates the earlier approval in the UI');
   await click('Create fresh proposal');await click('Approve exact action');await click('Record approved action');
@@ -75,7 +83,7 @@ async (page) => {
   await page.getByLabel('Supporting source text').fill('SYNTHETIC reversal notice: USD 300 of INV-PC-1026 / PC-SEATS-2026 is reversed.');
   await click('Record reversal');await page.locator('.assurance-amount').getByText('$1,800.00',{exact:true}).waitFor();
   require((await page.locator('.assurance-amount').innerText()).includes('$1,800.00'),'Reversal reopens the original promise by the actual reversed amount');
-  await page.reload();await click('Assurance');await page.getByText(mode,{exact:true}).waitFor();
+  await page.reload();await click('Assurance');await page.getByRole('heading',{name:'Commitment portfolio',level:1}).waitFor();await openOptions();await page.getByText(mode,{exact:true}).waitFor();await page.keyboard.press('Escape');
   require((await page.locator('.assurance-amount').innerText()).includes('$1,800.00'),'Reload retains the changed financial state');
   await click('Failure lab');await click('Run all cases');
   await page.getByText('9/9 authored cases passed',{exact:true}).waitFor();
@@ -101,7 +109,7 @@ async (page) => {
   await click('Analyze evidence');await click('Add to portfolio');
   await page.getByRole('heading',{name:'Verification Vendor',exact:true}).waitFor();
   require((await page.locator('.assurance-amount').innerText()).includes('$1,500.00'),'New supported vendor imports into the real shared portfolio atomically');
-  const packet=page.waitForEvent('download');await click('Export audit packet');await (await packet).saveAs('output/playwright/assurance-latest.json');
+  await exportPacket('output/playwright/assurance-latest.json');
   require((await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)),'Desktop assurance has no horizontal overflow');
   await page.setViewportSize({width:390,height:844});
   require((await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)),'Mobile assurance has no horizontal overflow');

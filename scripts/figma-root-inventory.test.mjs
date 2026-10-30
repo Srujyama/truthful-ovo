@@ -1,0 +1,17 @@
+import test from'node:test';import assert from'node:assert/strict';import{validateRootInventory}from'./figma-root-inventory.mjs';
+const marker='truthful-ovo-design-v1:target',old={name:'portfolio',id:'old:1',page:'Product flow',type:'FRAME'},note={name:'review-note:portfolio:Workspace options',page:'Product flow',type:'FRAME'};
+const fixture=()=>({expected:[old,note],allowedNewNames:[note.name],inventory:{fileKey:'target',roots:[old]},live:[old],marker});
+test('a declared missing review note may be created',()=>{assert.equal(validateRootInventory(fixture()).roots.length,1);});
+test('a same-name user note is rejected',()=>{const c=fixture();c.live.push({...note,id:'user:1'});assert.throws(()=>validateRootInventory(c),/collision or wrong owner/);});
+test('a new note carrying another owner is rejected',()=>{const c=fixture();c.live.push({...note,id:'user:1',owner:'another',sourceRoot:note.name});assert.throws(()=>validateRootInventory(c),/collision or wrong owner/);});
+test('a partially added owned note resumes and records its exact ID',()=>{const c=fixture();c.live.push({...note,id:'ours:1',owner:marker,sourceRoot:note.name});const result=validateRootInventory(c);assert.equal(result.roots[1].id,'ours:1');assert.equal(result.roots[1].ownerRequired,true);});
+test('a replacement of an original root ID is rejected',()=>{const c=fixture();c.live[0]={...old,id:'user:2'};assert.throws(()=>validateRootInventory(c),/ID replaced/);});
+test('a recorded root cannot be silently recreated',()=>{const c=fixture();c.live=[];assert.throws(()=>validateRootInventory(c),/Recorded root missing/);});
+test('an owned retry requires its exact source-root identity',()=>{const c=fixture();c.live.push({...note,id:'ours:1',owner:marker,sourceRoot:'different'});assert.throws(()=>validateRootInventory(c),/collision or wrong owner/);});
+test('a resumed note retains ownership requirements after recording',()=>{const c=fixture();c.live.push({...note,id:'ours:1',owner:marker,sourceRoot:note.name});c.inventory=validateRootInventory(c);c.live[1].owner='foreign';assert.throws(()=>validateRootInventory(c),/marker changed/);});
+
+test('push retry rejects a missing matching local record',async()=>{const{validateExistingPushRecord}=await import('./figma-root-inventory.mjs');assert.throws(()=>validateExistingPushRecord('target',null),/no matching local record/);});
+test('push retry rejects a record for the previous file',async()=>{const{validateExistingPushRecord}=await import('./figma-root-inventory.mjs');assert.throws(()=>validateExistingPushRecord('new-target',{fileKey:'old-target',rootInventory:{fileKey:'old-target'}}),/another Figma file/);});
+test('push retry rejects an inventory for a different target',async()=>{const{validateExistingPushRecord}=await import('./figma-root-inventory.mjs');assert.throws(()=>validateExistingPushRecord('target',{fileKey:'target',rootInventory:{fileKey:'other'}}),/inventory belongs to another/);});
+test('push retry rejects an unrecorded inventory',async()=>{const{validateExistingPushRecord}=await import('./figma-root-inventory.mjs');assert.throws(()=>validateExistingPushRecord('target',{fileKey:'target'}),/no trusted root inventory/);});
+test('push retry accepts its matching file and inventory',async()=>{const{validateExistingPushRecord}=await import('./figma-root-inventory.mjs');const r={fileKey:'target',rootInventory:{fileKey:'target'}};assert.equal(validateExistingPushRecord('target',r),r);});

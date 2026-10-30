@@ -7,7 +7,7 @@ related_targets: ["scripts/figma-native-system.mjs","design/figma/native-system.
 
 # Native Figma craft
 
-Mode: Operate for product screens and component editing; Read for handoff guidance. Preserve the Apple/Ramp visual world, product truth and the original 17 screen identities and 47 review interactions.
+Mode: Operate for product screens and component editing; Read for handoff guidance. Preserve the Apple/Ramp visual world, product truth and the original 17 screen identities and 47 review interactions, with 53 mappings now in total.
 
 ## Direction contract
 
@@ -24,3 +24,8 @@ FORM: Figma-native refinement, explicitly requested by the user; no identity cho
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 Acceptance: native sets/properties/instances, shared styles and spatial variable use checked independently against live API; meaningful negative regression fixtures; existing screen text/route/color/component identity checks; content/resize probes and clipping/font scan; exported desktop/mobile/library/handoff inspection. New system application must be rerunnable and hooked into fresh import/update, with prior proof invalidated before mutation. No app source, billing, sharing, video or external transaction changes.
+
+
+## Finance journey continuation
+
+The selected commitment exposes its own original-claim review. Workspace administration is disclosed, portfolio records are compact, and Guided demo navigation is separated from the shared portfolio. Exact action review exposes all nine bound source handles and an editable revision-6 source note with a contextual return. Authored role/claim/mobile notes explain alternate states without executing commands. Partial financial states use amber consistently with the app. Current native scope: 17 screens, 710 text layers, 53 mapped interactions and 25 close returns. Record inventory protection and live API checks remain mandatory.

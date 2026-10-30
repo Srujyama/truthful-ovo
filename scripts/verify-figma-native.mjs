@@ -11,6 +11,7 @@ catch{console.error('NOT VERIFIED: native Figma import has no completed record. 
 assert.equal(record.status,'verified-native','Native frames must be exported, visually inspected and recorded as verified-native before this gate passes.');
 const spec=JSON.parse(await readFile('docs/FIGMA_SCREEN_MAP.json','utf8'));
 const models=JSON.parse(await readFile('design/figma/generated/models.json','utf8'));
+assert.equal(record.links,spec.screens.reduce((sum,s)=>sum+s.actions.length,0)+(spec.overlays||[]).reduce((sum,o)=>sum+o.actions.length,0),'Mapped-link inventory is stale');
 assert.equal(record.frames.length,spec.screens.length);assert.equal(new Set(record.frames.map(f=>f.id)).size,spec.screens.length);
 for(const s of spec.screens)assert.ok(record.frames.some(f=>f.id===s.id),'Review record lacks '+s.id);
 const cli=process.env.FIGMA_CLI_JS||join(homedir(),'Downloads/Coding/claude-tools/figma-cli/src/index.js');

@@ -1,3 +1,4 @@
+import {expectedRoots,snapshotRootCatalog,validateRootInventory,validateExistingPushRecord} from './figma-root-inventory.mjs';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
@@ -15,7 +16,11 @@ if(!args.includes('--file-url')||!/^https:\/\/(www\.)?figma\.com\/design\/[A-Za-
 const fileKey=new URL(url).pathname.split('/')[2];
 const marker=`truthful-ovo-design-v1:${fileKey}`;
 await build();await mkdir('output/figma-native',{recursive:true});
-if(args.includes('--plan')){console.log(JSON.stringify({fileUrl:url,method:'figma-cli plugin mode',pages:['Read me','Product flow','Design system'],screens:17,boards:7,componentSpecimens:12,colorVariables:13,nativeMutation:false},null,2));process.exit(0);}
+const models=JSON.parse(await readFile('design/figma/generated/models.json','utf8'));
+const spec=JSON.parse(await readFile('docs/FIGMA_SCREEN_MAP.json','utf8'));
+const noteGridStep=Math.max(540,...models.overlays.map(n=>n.props.h+20));
+const allowedNewNames=[...spec.screens.flatMap(s=>s.actions.filter(a=>a.targetId===s.id).map(a=>`review-note:${s.id}:${a.label}`)),...(spec.overlays||[]).map(o=>o.id)];
+if(args.includes('--plan')){console.log(JSON.stringify({fileUrl:url,method:'figma-cli plugin mode',pages:['Read me','Product flow','Design system','Handoff'],screens:models.screens.length,boards:models.boards.length,componentSpecimens:models.components.length,colorVariables:Object.keys(JSON.parse(await readFile('design/figma/generated/tokens.json','utf8'))).length,mappedInteractions:spec.screens.reduce((sum,s)=>sum+s.actions.length,0)+(spec.overlays||[]).reduce((sum,o)=>sum+o.actions.length,0),reviewNotes:models.overlays.length,nativeMutation:false},null,2));process.exit(0);}
 async function run(commandArgs){
  const {stdout,stderr}=await exec(process.execPath,[cli,...commandArgs],{cwd:process.cwd(),env:process.env,timeout:90000,maxBuffer:2000000});
  const output=stdout.replace(/\u001b\[[0-9;]*m/g,'');
@@ -34,15 +39,16 @@ const attestationPath=args.includes('--target-attestation')?args[args.indexOf('-
 const attestation=attestationPath?JSON.parse(await readFile(attestationPath,'utf8')):null;
 const targetBinding=validateTargetBinding(initial,{fileUrl:url,attestation,now:new Date().toISOString()});
 if(!initial.marker&&initial.pages.some(p=>p.count!==0))throw new Error('Target is not empty and was not created by this kit. Use a new blank file.');
+let previousRecord=null;
 if(initial.marker){
+ try{previousRecord=JSON.parse(await readFile('design/figma/native-record.json','utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
+ validateExistingPushRecord(fileKey,previousRecord);
+ validateRootInventory({expected:expectedRoots(models),allowedNewNames,inventory:previousRecord.rootInventory,live:(await evaluate(`return await (${snapshotRootCatalog.toString()})();`)).roots,marker});
  const restore=await evaluate(`return {version:await figma.saveVersionHistoryAsync('Before kit synchronization','Restore point before reusable kit scene synchronization.')};`);
- let prior={};try{prior=JSON.parse(await readFile('design/figma/native-record.json','utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
- await writeFile('design/figma/native-record.json',JSON.stringify({...prior,status:'synchronizing-native-pending-review',cloudVersion:null,visualReview:null,nativeApiVerification:null,geometryVerification:null,nativeSystem:null,restoreVersion:restore.version},null,2)+'\n');
+ await writeFile('design/figma/native-record.json',JSON.stringify({...previousRecord,status:'synchronizing-native-pending-review',cloudVersion:null,visualReview:null,nativeApiVerification:null,geometryVerification:null,nativeSystem:null,restoreVersion:restore.version},null,2)+'\n');
 }
 await invalidateNativeSystem(fileKey);
 await evaluate(`figma.root.setPluginData('truthful-design-kit',${JSON.stringify(marker)});if(figma.root.children.length===1&&figma.root.children[0].children.length===0)figma.root.children[0].name='Read me';return {prepared:true};`);
-const models=JSON.parse(await readFile('design/figma/generated/models.json','utf8'));
-const spec=JSON.parse(await readFile('docs/FIGMA_SCREEN_MAP.json','utf8'));
 const existing=await evaluate(`await figma.loadAllPagesAsync();return {nodes:figma.root.children.flatMap(p=>[...p.children,...p.findAll(n=>n.type==='COMPONENT')].map(n=>({name:n.getPluginData('truthful-component-source')||n.name,type:n.type,page:p.name,id:n.id}))),collections:(await figma.variables.getLocalVariableCollectionsAsync()).map(c=>c.name)};`);
 if(!existing.collections.includes('Truthful'))await run(['import',resolve('design/figma/generated/tokens.json'),'--collection','Truthful']);
 for(const [type,page]of [['components','Design system'],['boards','Read me'],['screens','Product flow'],['overlays','Product flow'],['navigationOverlays','Product flow']]){
@@ -50,10 +56,12 @@ for(const [type,page]of [['components','Design system'],['boards','Read me'],['s
  for(let i=0;i<jsx.length;i+=2){
   const batch=jsx.slice(i,i+2).filter((s,j)=>!existing.nodes.some(n=>n.page===page&&n.name===models[type][i+j].name));
   if(!batch.length)continue;
+  const batchNames=models[type].slice(i,i+2).filter(n=>!existing.nodes.some(old=>old.page===page&&old.name===n.name)).map(n=>n.name);
   const path=resolve(`output/figma-native/${type}-${i}.json`);await writeFile(path,JSON.stringify(batch));
   console.log(`Creating ${type} ${i+1}–${Math.min(i+2,jsx.length)} in ${page}…`);
   await evaluate(`if(figma.root.getPluginData('truthful-design-kit')!==${JSON.stringify(marker)})throw new Error('Wrong design document.');return {targetChecked:true};`);
   await run(['render-batch','--file',path,'--page',page,'--collection','Truthful',...(type==='components'?['--as-component']:[])]);
+  await evaluate(`if(figma.root.getPluginData('truthful-design-kit')!==${JSON.stringify(marker)})throw new Error('Wrong target');const page=figma.root.children.find(p=>p.name===${JSON.stringify(page)});for(const name of ${JSON.stringify(batchNames)}){const matches=page.children.filter(n=>n.name===name);if(matches.length!==1||${JSON.stringify(existing.nodes.map(n=>n.id))}.includes(matches[0].id))throw new Error('Created root collision');matches[0].setPluginData('truthful-owned-root',${JSON.stringify(marker)});matches[0].setPluginData('truthful-source-root',name);}return {marked:true};`);
  }
 }
 // The CLI warns instead of throwing if an --as-component conversion fails.
@@ -80,12 +88,23 @@ const wire=await evaluate(`
 if(figma.root.getPluginData('truthful-design-kit')!==${JSON.stringify(marker)})throw new Error('Wrong design document.');
 await figma.loadAllPagesAsync();const page=figma.root.children.find(p=>p.name==='Product flow');await figma.setCurrentPageAsync(page);
 const specification=${JSON.stringify(spec.screens)};const frames=new Map(page.children.filter(n=>n.type==='FRAME').map(n=>[n.name,n]));let links=0;const notes=[];
-for(let i=0;i<specification.length;i++){const s=specification[i],frame=frames.get(s.id);if(!frame)throw new Error('Missing frame '+s.id);frame.x=(i%3)*1540;frame.y=Math.floor(i/3)*1090;frame.setPluginData('truthful-screen',JSON.stringify({id:s.id,status:s.status,purpose:s.purpose,annotations:s.annotations}));for(const action of s.actions){const isNote=action.targetId===s.id;const destination=frames.get(isNote?'review-note:'+s.id+':'+action.label:action.targetId);if(!destination)throw new Error('Missing prototype destination');if(isNote){destination.x=4700+(notes.length%3)*600;destination.y=Math.floor(notes.length/3)*540;const close=destination.findOne(n=>n.name==='annotation-close');await close.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);notes.push({name:destination.name,nodeId:destination.id,width:destination.width,height:destination.height,textLayers:destination.findAll(n=>n.type==='TEXT').length});}const targets=frame.findAll(n=>n.name==='hotspot:'+action.label);if(!targets.length)throw new Error('Missing hotspot '+s.id+': '+action.label);for(const target of targets){await target.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:destination.id,navigation:isNote||action.navigation==='overlay'?'OVERLAY':'NAVIGATE',transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);target.setPluginData('interaction-note',action.note||'Review-state navigation. This prototype executes no financial command.');}links++;}}
+for(let i=0;i<specification.length;i++){const s=specification[i],frame=frames.get(s.id);if(!frame)throw new Error('Missing frame '+s.id);frame.x=(i%3)*1540;frame.y=Math.floor(i/3)*1090;frame.setPluginData('truthful-screen',JSON.stringify({id:s.id,status:s.status,purpose:s.purpose,annotations:s.annotations}));for(const action of s.actions){const isNote=action.targetId===s.id;const destination=frames.get(isNote?'review-note:'+s.id+':'+action.label:action.targetId);if(!destination)throw new Error('Missing prototype destination');if(isNote){destination.x=4700+(notes.length%3)*600;destination.y=Math.floor(notes.length/3)*${noteGridStep};const close=destination.findOne(n=>n.name==='annotation-close');await close.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);notes.push({name:destination.name,nodeId:destination.id,width:destination.width,height:destination.height,textLayers:destination.findAll(n=>n.type==='TEXT').length});}const targets=frame.findAll(n=>n.name==='hotspot:'+action.label);if(!targets.length)throw new Error('Missing hotspot '+s.id+': '+action.label);for(const target of targets){await target.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',destinationId:destination.id,navigation:isNote||action.navigation==='overlay'?'OVERLAY':'NAVIGATE',transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);target.setPluginData('interaction-note',action.note||'Review-state navigation. This prototype executes no financial command.');}links++;}}
 const navigationOverlays=[];for(const menu of ${JSON.stringify(spec.overlays||[])}){const root=frames.get(menu.id);root.x=6500;root.y=4300;for(const action of menu.actions){const control=root.findOne(n=>n.name==='hotspot:'+action.label),target=frames.get(action.targetId);if(!control||!target)throw new Error('Missing mobile menu destination');await control.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',navigation:'NAVIGATE',destinationId:target.id,transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);links++;}await root.findOne(n=>n.name==='annotation-close').setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);navigationOverlays.push({name:root.name,nodeId:root.id,width:root.width,height:root.height,textLayers:root.findAll(n=>n.type==='TEXT').length});}
 page.flowStartingPoints=[['portfolio','Commitment review'],['evidence-input','Evidence to portfolio'],['race-cutoff','Adverse state · bounded cutoff'],['race-repair','Authored repair · separate model'],['connected-handoff-concept','Concept · selected-case handoff'],['mobile-approval','Mobile review']].map(([id,name])=>({nodeId:frames.get(id).id,name}));
 const readme=figma.root.children.find(p=>p.name==='Read me');for(let i=0;i<readme.children.length;i++){readme.children[i].x=(i%2)*1540;readme.children[i].y=Math.floor(i/2)*1060;}
 await figma.setCurrentPageAsync(readme);figma.viewport.scrollAndZoomIntoView([readme.children[0]]);return {links,overlays:notes,navigationOverlays,frames:specification.map(s=>({id:s.id,nodeId:frames.get(s.id).id,width:frames.get(s.id).width,height:frames.get(s.id).height,textLayers:frames.get(s.id).findAll(n=>n.type==='TEXT').length}))};`);
 const nativeSystem=await applyNativeSystem({evaluate,marker,fileKey});
-const record={nativeSystem:{manifest:'design/figma/native-system.json',sets:nativeSystem.sets.length,instances:nativeSystem.instances.length},schemaVersion:1,status:'created-native-pending-visual-review',fileUrl:url,fileKey,targetBinding,createdAt:new Date().toISOString(),method:'figma-cli plugin mode',...wire};
+// A newly attested empty file contains only roots rendered by this invocation.
+// Existing files acquire identity inventories through the guarded updater;
+// never bootstrap their ownership by adopting current same-name nodes here.
+let rootInventory=null;
+if(!initial.marker){
+ const catalog=(await evaluate(`return await (${snapshotRootCatalog.toString()})();`)).roots;
+ rootInventory={schemaVersion:1,fileKey,roots:expectedRoots(models).map(wanted=>{const matches=catalog.filter(n=>n.name===wanted.name&&n.page===wanted.page&&n.type===wanted.type);if(matches.length!==1)throw new Error('Created root inventory mismatch: '+wanted.name);return {...wanted,id:matches[0].id};})};
+}else{
+ rootInventory=validateRootInventory({expected:expectedRoots(models),allowedNewNames,inventory:previousRecord.rootInventory,live:(await evaluate(`return await (${snapshotRootCatalog.toString()})();`)).roots,marker});
+}
+
+const record={...(rootInventory?{rootInventory}:{}),nativeSystem:{manifest:'design/figma/native-system.json',sets:nativeSystem.sets.length,instances:nativeSystem.instances.length},schemaVersion:1,status:'created-native-pending-visual-review',fileUrl:url,fileKey,targetBinding,createdAt:new Date().toISOString(),method:'figma-cli plugin mode',...wire};
 await writeFile('design/figma/native-record.json',JSON.stringify(record,null,2)+'\n');
 console.log(`Created ${wire.frames.length} native screen frames and ${wire.links} mapped review links. Export and inspect native frames before claiming the Figma build verified.`);

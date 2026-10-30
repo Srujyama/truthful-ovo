@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "status": "reviewed-root-identities",
+  "fileKey": "8j4pwtsGDI4seljHPNeUkI",
+  "provenance": "Reviewed T25 native API audit and cloud version 2416005136496065741; only these seven legacy board identities are bootstrapped.",
+  "roots": [
+    {
+      "id": "3:53",
+      "name": "board-start"
+    },
+    {
+      "id": "3:62",
+      "name": "board-problem"
+    },
+    {
+      "id": "3:67",
+      "name": "board-economics"
+    },
+    {
+      "id": "3:73",
+      "name": "board-ritual"
+    },
+    {
+      "id": "3:79",
+      "name": "board-system"
+    },
+    {
+      "id": "3:106",
+      "name": "board-trust"
+    },
+    {
+      "id": "3:112",
+      "name": "board-roadmap"
+    }
+  ],
+  "reviewedAt": "2026-10-30T05:58:52.262Z"
+}

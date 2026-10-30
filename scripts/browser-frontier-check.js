@@ -2,9 +2,12 @@ async page=>{
  const checks=[],errors=[];page.on('pageerror',e=>errors.push(e.message));
  const require=(condition,message)=>{if(!condition)throw new Error(message);checks.push(message);};
  const click=name=>page.getByRole('button',{name,exact:true}).click();
+ const openOptions=async()=>{const options=page.locator('.workspace-options');if(!await options.evaluate(el=>el.open))await options.locator('summary').click();};
+ const setRole=async role=>{await openOptions();await page.getByRole('combobox',{name:'Demo actor role'}).selectOption(role);await page.waitForFunction(expected=>{const field=document.querySelector('[aria-label="Demo actor role"]');return field?.value===expected&&!field.disabled;},role);await page.keyboard.press('Escape');};
+ const reset=async()=>{await openOptions();await click('Reset demo workspace');await click('Confirm reset');await page.getByRole('button',{name:'Confirm reset',exact:true}).waitFor({state:'detached'});await page.waitForFunction(()=>!document.querySelector('[aria-label="Demo actor role"]').disabled);await page.keyboard.press('Escape');};
  await page.setViewportSize({width:1440,height:960});
- await click('Assurance');await page.getByRole('combobox',{name:'Demo actor role'}).selectOption('admin');
- await click('Reset demo workspace');await click('Confirm reset');await click('Execution lab');
+ await click('Assurance');await page.getByRole('heading',{name:'Commitment portfolio',level:1}).waitFor();await setRole('admin');
+ await reset();await click('Execution lab');
  await click('Explore schedules');await page.getByText('Unsafe effect found',{exact:true}).waitFor();
  require((await page.locator('.execution-result-heading').first().innerText()).includes('4 steps'),'BFS retains the four-step unsafe credit witness');
  await page.locator('.trace-program button').filter({hasText:'Unsafe effect'}).click();

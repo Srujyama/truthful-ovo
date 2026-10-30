@@ -6,6 +6,10 @@
 
 ## Goal
 
+Continue the app and native Figma UI: make the actual finance workflow coherent from evidence import to selected-case review, exact evidence inspection, role-correct approval and local recording. Improve first viewport composition, compact records, task hierarchy, mobile navigation, truthful blocked/empty/recovery states and guided-demo scope. Preserve Apple/Ramp working-ledger identity and financial reducer guarantees. Verify desktop/mobile/intermediate, historical evidence isolation, imported case continuity, roles, keyboard and both local-service/static modes. Reflect changed flows in editable native Figma with independent source/visual review, documentation and pushed source. No videos, public deployment or external transactions.
+
+Prior completed milestone:
+
 Native Figma craft: preserve the Apple/Ramp visual direction while turning isolated specimens into a maintainable native system. Real component sets, editable properties and linked screen instances; shared type styles and useful spatial variables; content/resize/master propagation probes; visible handoff guidance; reproducible updates and independent live verification. Keep17screenIDs,47interactions, financial truth and prior cloud restore history. No app changes, videos or public deployment.
 
 Prior completed milestone:
@@ -155,6 +159,27 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       accept: npm run design:check && npm run design:verify-native && npm run design:verify-system
       notes: Actual component sets/properties and on-screen linked instances, shared type styles, useful spacing/radius bindings, real content and resize probes, clear native handoff; keep17screenIDs/47flows andApple/Rampstyle. Inspect rendered native outputs and independently review source/system proof. No app redesign, video or release.; Native Figma system complete:2sets/12retainedmasters/74instances/24styles/11FLOATs; real editing+resize probes, all17screenIDs/653texts/47mappedflows+21CLOSE preserved. Full updater reproduced. Independent source findings repaired, eight exports inspected and two final visual fixes scored resolved.53ownedroots0clips0missingfonts;65Buttons inherit master styling.38offlinechecks and both live native gates pass; cloudversion2416005136496065741. Native guide+sidecar+handoff+review records complete. No videos or release.
       took: 14m
+- [x] T26 · Complete selected-case review, evidence continuity and role clarity
+      files: src/Assurance.jsx, src/assurance-ui.mjs, src/assurance-ui.test.mjs
+      accept: node --test src/assurance-ui.test.mjs
+      notes: Importedcase→ownreview→approve→record; exactboundsources; nofutureevidenceinhistoricalview; role-awaremutationexplanations; truthfulledgerempties.; Eight helper/reducer regressions pass; importedcase→ownreview→approve→record, exactsource revision+focus, historicalunknownremoval, rolematrix andrecorded/pendingprecedence verifiedinbrowserbothmodes.
+      took: 31m
+- [x] T27 · Clarify evidence progression and separate guided-demo navigation
+      files: src/Workbench.jsx, src/App.jsx
+      accept: npm run build
+      notes: Specificblockedapprovalreasons, truthfulhandoff, guidedrecordsnavscope, realaccountaffordances, mobilemenuEscape/backdrop/focus.; Explicitblockedreasons+actualimportpreflight, guidednavscope, accessiblemobilemenu;11evidencehelperfixtures andrealbrowserkeyboard/importpaths pass. Source findings repaired and independently accepted.
+      took: 32m
+- [x] T28 · Improve task hierarchy, responsive layout and loading recovery
+      files: src/product-ui.css, src/ui.jsx, src/useAssurance.js, src/useAssurance.test.mjs
+      accept: npm run check
+      notes: LeadownsCSS/browser/services; compactfirstviewport,rowlayout,selectedtaskCTA,accessiblemenus; boundedinitializationfetches/recoverystate; retain allflows.; Compactheader/register, firstviewportnextaction, mobileactionpicker, alternative-term disclosures, nonblockingtoasts andboundedinit recovery. App11capture independentvisualreviewship;32realbrowserassertions EACHstatic/SQLite plus99retainedworkflowassertions pass.
+      took: 32m
+- [x] T29 · Integrate and independently review app and native Figma UI journeys
+      files: design/figma, scripts/figma-screen-models.mjs, docs/FIGMA_SCREEN_MAP.json, DESIGN.md, .impeccable/design.json
+      accept: npm run check && npm run design:check && npm run design:verify-native && npm run design:verify-system
+      deps: T26, T27, T28
+      notes: Requirementtoevidence matrix/browserflowchecks desktop390/1440/intermediate,server/static,role/history/importjourney; independentreviewrepairs; nativeflows/screens/properties/docs synced,exportreview,cloudversion,pushbranch.; App/nativejourneycomplete.177applicationtests,52design/ownershipregressions,bothlivenativegatespass.167browserassertions:32newjourneyEACHstatic+SQLite,99retainedflows,4service-errorrecovery.Independent11app/12nativeexportsreviewship; sourceP2repairsaccepted.17screen/12masterIDsretained,710texts,53mappedroutes,25CLOSE,82instances,22activestyles/24local,11FLOATs,61rootinventoryIDs.57nativeownedroots0clips/0missingfonts,7editingresizeprobespass. Cloudversion2416031173672268873. Docs/source/sidecarsupdated. No videos/publicdeployment.
+      took: 1m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -197,3 +222,11 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · set T24 · notes
 - 2026-10-29 · started T25 · Build a reusable native Figma system and verifiable handoff
 - 2026-10-29 · done T25 · Build a reusable native Figma system and verifiable handoff
+- 2026-10-29 · started T26 · Complete selected-case review, evidence continuity and role clarity
+- 2026-10-29 · started T27 · Clarify evidence progression and separate guided-demo navigation
+- 2026-10-29 · started T28 · Improve task hierarchy, responsive layout and loading recovery
+- 2026-10-29 · done T26 · Complete selected-case review, evidence continuity and role clarity
+- 2026-10-29 · done T27 · Clarify evidence progression and separate guided-demo navigation
+- 2026-10-29 · done T28 · Improve task hierarchy, responsive layout and loading recovery
+- 2026-10-29 · started T29 · Integrate and independently review app and native Figma UI journeys
+- 2026-10-29 · done T29 · Integrate and independently review app and native Figma UI journeys

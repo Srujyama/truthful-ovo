@@ -16,7 +16,7 @@
   },
   "createdAt": "2026-10-30T02:45:23.746Z",
   "method": "figma-cli plugin mode",
-  "links": 47,
+  "links": 53,
   "overlays": [
     {
       "name": "review-note:evidence-finding:Claim draft",
@@ -33,8 +33,22 @@
       "textLayers": 4
     },
     {
+      "name": "review-note:evidence-finding:Review claim draft",
+      "nodeId": "23:24772",
+      "width": 520,
+      "height": 520,
+      "textLayers": 4
+    },
+    {
       "name": "review-note:portfolio:Shared ledger",
       "nodeId": "3:1417",
+      "width": 520,
+      "height": 450,
+      "textLayers": 4
+    },
+    {
+      "name": "review-note:portfolio:Workspace options",
+      "nodeId": "23:24783",
       "width": 520,
       "height": 450,
       "textLayers": 4
@@ -52,6 +66,13 @@
       "width": 520,
       "height": 450,
       "textLayers": 4
+    },
+    {
+      "name": "review-note:exact-approval:Original duplicate-seat correction · revision 6",
+      "nodeId": "23:24799",
+      "width": 520,
+      "height": 560,
+      "textLayers": 7
     },
     {
       "name": "review-note:race-witness:Replay report",
@@ -131,6 +152,13 @@
       "textLayers": 4
     },
     {
+      "name": "review-note:mobile-approval:Review next action",
+      "nodeId": "23:24860",
+      "width": 352,
+      "height": 600,
+      "textLayers": 4
+    },
+    {
       "name": "review-note:mobile-witness:Replay report",
       "nodeId": "3:1515",
       "width": 520,
@@ -165,105 +193,105 @@
       "nodeId": "3:134",
       "width": 1440,
       "height": 960,
-      "textLayers": 37
+      "textLayers": 41
     },
     {
       "id": "evidence-finding",
       "nodeId": "3:213",
       "width": 1440,
       "height": 960,
-      "textLayers": 52
+      "textLayers": 60
     },
     {
       "id": "portfolio",
       "nodeId": "3:312",
       "width": 1440,
       "height": 960,
-      "textLayers": 60
+      "textLayers": 82
     },
     {
       "id": "renewal-decision",
       "nodeId": "3:422",
       "width": 1440,
       "height": 960,
-      "textLayers": 39
+      "textLayers": 40
     },
     {
       "id": "exact-approval",
       "nodeId": "3:495",
       "width": 1440,
       "height": 960,
-      "textLayers": 45
+      "textLayers": 53
     },
     {
       "id": "race-setup",
       "nodeId": "3:579",
       "width": 1440,
       "height": 960,
-      "textLayers": 39
+      "textLayers": 40
     },
     {
       "id": "race-witness",
       "nodeId": "3:655",
       "width": 1440,
       "height": 960,
-      "textLayers": 46
+      "textLayers": 47
     },
     {
       "id": "race-cutoff",
       "nodeId": "3:747",
       "width": 1440,
       "height": 960,
-      "textLayers": 38
+      "textLayers": 39
     },
     {
       "id": "race-repair",
       "nodeId": "3:824",
       "width": 1440,
       "height": 960,
-      "textLayers": 43
+      "textLayers": 44
     },
     {
       "id": "authority-approval",
       "nodeId": "3:910",
       "width": 1440,
       "height": 960,
-      "textLayers": 47
+      "textLayers": 48
     },
     {
       "id": "authority-scope",
       "nodeId": "3:999",
       "width": 1440,
       "height": 960,
-      "textLayers": 52
+      "textLayers": 53
     },
     {
       "id": "execution-receipt",
       "nodeId": "3:1097",
       "width": 1440,
       "height": 960,
-      "textLayers": 36
+      "textLayers": 37
     },
     {
       "id": "packet-verification",
       "nodeId": "3:1171",
       "width": 1440,
       "height": 960,
-      "textLayers": 29
+      "textLayers": 30
     },
     {
       "id": "connected-handoff-concept",
       "nodeId": "3:1231",
       "width": 1440,
       "height": 960,
-      "textLayers": 28
+      "textLayers": 29
     },
     {
       "id": "mobile-approval",
       "nodeId": "3:1288",
       "width": 390,
       "height": 844,
-      "textLayers": 20
+      "textLayers": 25
     },
     {
       "id": "mobile-witness",
@@ -282,36 +310,22 @@
   ],
   "visualReview": {
     "record": "design/figma/system-review.json",
-    "scope": [
-      "output/figma-system/portfolio.png",
-      "output/figma-system/approval.png",
-      "output/figma-system/race.png",
-      "output/figma-system/mobile.png",
-      "output/figma-system/library.png",
-      "output/figma-system/properties.png",
-      "output/figma-system/handoff-start.png",
-      "output/figma-system/handoff-review.png"
-    ],
-    "confirmation": [
-      "output/figma-system/library.png",
-      "output/figma-system/handoff-start.png",
-      "output/figma-system/handoff-review.png"
-    ],
-    "disposition": "reviewed; two material fixes resolved"
+    "scope": "UI continuation:11appcaptures and12nativeexports; existingApple/Rampworkingledgerdirection",
+    "disposition": "ship"
   },
   "fileName": "Truthful · OVO · Product design",
   "cloudVersion": {
+    "id": "2416031173672268873",
+    "label": "Truthful · Finance review journeys · verified"
+  },
+  "prototypePlayback": null,
+  "redesignedAt": "2026-10-30T06:05:49.484Z",
+  "previousCloudVersion": {
     "id": "2416005136496065741",
     "label": "Truthful · Native system · verified"
   },
-  "prototypePlayback": null,
-  "redesignedAt": "2026-10-30T04:51:04.361Z",
-  "previousCloudVersion": {
-    "id": "2415993476214323512",
-    "label": "Truthful · Apple/Ramp principles · verified"
-  },
   "restoreVersion": {
-    "id": "2415999558439770576"
+    "id": "2416030696929627377"
   },
   "fontMapping": {
     "family": "Public Sans",
@@ -319,22 +333,22 @@
   },
   "nativeApiVerification": {
     "screens": 17,
-    "screenTextLayers": 653,
-    "mappedInteractions": 47,
-    "closeReturns": 21,
+    "screenTextLayers": 710,
+    "mappedInteractions": 53,
+    "closeReturns": 25,
     "defaultEntry": "portfolio",
     "systemGate": "design:verify-system"
   },
   "geometryVerification": {
-    "roots": 53,
+    "roots": 57,
     "missingFonts": 0,
     "clipping": [],
     "buttonInheritance": {
-      "count": 65,
+      "count": 73,
       "exceptions": []
     },
-    "screenTexts": 653,
-    "instances": 74
+    "screenTexts": 710,
+    "instances": 82
   },
   "navigationOverlays": [
     {
@@ -346,16 +360,18 @@
     }
   ],
   "interactionInventory": {
-    "mappedInteractions": 47,
-    "closeReturns": 21
+    "mappedInteractions": 53,
+    "originalMappingsRetained": 47,
+    "closeReturns": 25
   },
   "manualPlaybackAttempt": null,
-  "verifiedAt": "2026-10-30T04:55:04.080Z",
+  "verifiedAt": "2026-10-30T06:14:07.680Z",
   "nativeLibrary": {
     "sets": 2,
     "masters": 12,
-    "instances": 74,
-    "textStyles": 24,
+    "instances": 82,
+    "activeTextStyles": 22,
+    "localTextStyles": 24,
     "spatialVariables": 11
   },
   "designPhilosophy": {
@@ -370,6 +386,382 @@
   "nativeSystem": {
     "manifest": "design/figma/native-system.json",
     "sets": 2,
-    "instances": 74
+    "instances": 82
+  },
+  "rootInventory": {
+    "schemaVersion": 1,
+    "fileKey": "8j4pwtsGDI4seljHPNeUkI",
+    "roots": [
+      {
+        "name": "board-start",
+        "page": "Read me",
+        "type": "FRAME",
+        "id": "3:53"
+      },
+      {
+        "name": "board-problem",
+        "page": "Read me",
+        "type": "FRAME",
+        "id": "3:62"
+      },
+      {
+        "name": "board-economics",
+        "page": "Read me",
+        "type": "FRAME",
+        "id": "3:67"
+      },
+      {
+        "name": "board-ritual",
+        "page": "Read me",
+        "type": "FRAME",
+        "id": "3:73"
+      },
+      {
+        "name": "board-system",
+        "page": "Read me",
+        "type": "FRAME",
+        "id": "3:79"
+      },
+      {
+        "name": "board-trust",
+        "page": "Read me",
+        "type": "FRAME",
+        "id": "3:106"
+      },
+      {
+        "name": "board-roadmap",
+        "page": "Read me",
+        "type": "FRAME",
+        "id": "3:112"
+      },
+      {
+        "name": "Truthful Button / kind=Primary, state=Default",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:21"
+      },
+      {
+        "name": "Truthful Button / kind=Primary, state=Hover",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:22"
+      },
+      {
+        "name": "Truthful Button / kind=Primary, state=Disabled",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:27"
+      },
+      {
+        "name": "Truthful Button / kind=Secondary, state=Default",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:28"
+      },
+      {
+        "name": "Truthful Button / kind=Secondary, state=Hover",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:33"
+      },
+      {
+        "name": "Truthful Button / kind=Secondary, state=Disabled",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:34"
+      },
+      {
+        "name": "Truthful State / Approved",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:39"
+      },
+      {
+        "name": "Truthful State / Unsafe effect",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:40"
+      },
+      {
+        "name": "Truthful State / Inconclusive",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:45"
+      },
+      {
+        "name": "Truthful State / Needs approval",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:46"
+      },
+      {
+        "name": "Truthful State / Consumed once",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:51"
+      },
+      {
+        "name": "Truthful State / Stale approval",
+        "page": "Design system",
+        "type": "COMPONENT",
+        "id": "3:52"
+      },
+      {
+        "name": "evidence-input",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:134"
+      },
+      {
+        "name": "evidence-finding",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:213"
+      },
+      {
+        "name": "portfolio",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:312"
+      },
+      {
+        "name": "renewal-decision",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:422"
+      },
+      {
+        "name": "exact-approval",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:495"
+      },
+      {
+        "name": "race-setup",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:579"
+      },
+      {
+        "name": "race-witness",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:655"
+      },
+      {
+        "name": "race-cutoff",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:747"
+      },
+      {
+        "name": "race-repair",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:824"
+      },
+      {
+        "name": "authority-approval",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:910"
+      },
+      {
+        "name": "authority-scope",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:999"
+      },
+      {
+        "name": "execution-receipt",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1097"
+      },
+      {
+        "name": "packet-verification",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1171"
+      },
+      {
+        "name": "connected-handoff-concept",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1231"
+      },
+      {
+        "name": "mobile-approval",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1288"
+      },
+      {
+        "name": "mobile-witness",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1320"
+      },
+      {
+        "name": "mobile-receipt",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1370"
+      },
+      {
+        "name": "review-note:evidence-finding:Claim draft",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1403"
+      },
+      {
+        "name": "review-note:evidence-finding:Analyze evidence",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1410"
+      },
+      {
+        "name": "review-note:evidence-finding:Review claim draft",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "23:24772",
+        "ownerRequired": true
+      },
+      {
+        "name": "review-note:portfolio:Shared ledger",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1417"
+      },
+      {
+        "name": "review-note:portfolio:Workspace options",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "23:24783",
+        "ownerRequired": true
+      },
+      {
+        "name": "review-note:renewal-decision:Change the comparison assumptions",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1424"
+      },
+      {
+        "name": "review-note:exact-approval:Approve exact action",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1431"
+      },
+      {
+        "name": "review-note:exact-approval:Original duplicate-seat correction · revision 6",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "23:24799",
+        "ownerRequired": true
+      },
+      {
+        "name": "review-note:race-witness:Replay report",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1438"
+      },
+      {
+        "name": "review-note:race-repair:Replay report",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1445"
+      },
+      {
+        "name": "review-note:authority-approval:Approve exact action",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1452"
+      },
+      {
+        "name": "review-note:authority-scope:Delegate to worker",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1459"
+      },
+      {
+        "name": "review-note:authority-scope:Revoke root grant",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1466"
+      },
+      {
+        "name": "review-note:authority-scope:Revise supporting source",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1473"
+      },
+      {
+        "name": "review-note:execution-receipt:Retry identical request",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1480"
+      },
+      {
+        "name": "review-note:execution-receipt:Attempt another execution",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1487"
+      },
+      {
+        "name": "review-note:packet-verification:Verify signed packet",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1494"
+      },
+      {
+        "name": "review-note:packet-verification:Alter checkpoint signature",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1501"
+      },
+      {
+        "name": "review-note:mobile-approval:Approve exact action",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1508"
+      },
+      {
+        "name": "review-note:mobile-approval:Review next action",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "23:24860",
+        "ownerRequired": true
+      },
+      {
+        "name": "review-note:mobile-witness:Replay report",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1515"
+      },
+      {
+        "name": "review-note:mobile-receipt:Retry identical request",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1522"
+      },
+      {
+        "name": "review-note:mobile-receipt:Pin this demo issuer",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1529"
+      },
+      {
+        "name": "review-note:mobile-receipt:Verify signed packet",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "3:1536"
+      },
+      {
+        "name": "mobile-navigation",
+        "page": "Product flow",
+        "type": "FRAME",
+        "id": "12:6155"
+      }
+    ]
   }
 }

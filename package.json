@@ -7,7 +7,7 @@
     "dev": "node scripts/dev.mjs",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
-    "test": "node --test src/domain.test.mjs src/recovery.test.mjs src/useAssurance.test.mjs src/engine/*.test.mjs src/assurance/*.test.mjs src/assuranceImport.test.mjs src/economics.test.mjs src/explorer/*.test.mjs src/authority/*.test.mjs server/*.test.mjs",
+    "test": "node --test src/domain.test.mjs src/recovery.test.mjs src/useAssurance.test.mjs src/engine/*.test.mjs src/assurance/*.test.mjs src/assuranceImport.test.mjs src/economics.test.mjs src/explorer/*.test.mjs src/authority/*.test.mjs server/*.test.mjs src/assurance-ui.test.mjs src/evidence-ui.test.mjs",
     "verify:submission": "node scripts/verify-submission.mjs",
     "check": "npm test && npm run evaluate && npm run evaluate:assurance && npm run verify:submission && npm run verify:depth && npm run verify:frontier && npm run build",
     "analyze": "node scripts/analyze.mjs",
@@ -22,7 +22,7 @@
     "verify:exploration": "node scripts/verify-exploration.mjs",
     "verify:authority": "node scripts/verify-authority.mjs",
     "design:build": "node scripts/build-figma-kit.mjs",
-    "design:check": "node scripts/verify-figma-kit.mjs && node --test scripts/figma-target-binding.test.mjs scripts/verify-figma-native.test.mjs scripts/verify-figma-system.test.mjs",
+    "design:check": "node scripts/verify-figma-kit.mjs && node --test scripts/figma-target-binding.test.mjs scripts/verify-figma-native.test.mjs scripts/verify-figma-system.test.mjs scripts/figma-root-inventory.test.mjs",
     "design:verify-native": "node scripts/verify-figma-native.mjs",
     "design:push": "node scripts/push-figma-kit.mjs",
     "design:verify-system": "node scripts/verify-figma-system.mjs"

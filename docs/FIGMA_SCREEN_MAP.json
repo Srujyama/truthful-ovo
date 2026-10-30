@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "title": "Truthful \u00b7 Product design and execution review",
-  "product": "Truthful \u00b7 OVO",
+  "title": "Truthful · Product design and execution review",
+  "product": "Truthful · OVO",
   "sourceVersion": "v4 development build",
   "capturePolicy": "Use actual app states and synthetic records. Specified frames are a design plan; this file does not assert that a Figma file or native layers have already been created.",
   "sections": [
     {
       "id": "start",
-      "title": "Truthful \u00b7 OVO",
-      "eyebrow": "Product design review \u00b7 development build",
+      "title": "Truthful · OVO",
+      "eyebrow": "Product design review · development build",
       "headline": "Follow the promise to the invoice.",
       "body": "Review outstanding credits, inspect the supporting evidence, and make the next financial decision with the original terms intact.",
       "label": "All examples and counterparties are synthetic."
@@ -17,7 +17,7 @@
       "id": "problem",
       "title": "The job to be done",
       "headline": "Recover what is owed without buying a worse deal.",
-      "body": "A finance lead needs to distinguish a promise from applied value, see the economic cost of changed terms, and keep yesterday\u2019s permission from authorizing today\u2019s action.",
+      "body": "A finance lead needs to distinguish a promise from applied value, see the economic cost of changed terms, and keep yesterday’s permission from authorizing today’s action.",
       "persona": "Finance operator reviewing vendor concessions and renewals.",
       "trigger": "A promised credit only partly reaches the invoice; the reply adds a renewal condition.",
       "desiredOutcome": "A source-backed outstanding balance, a deliberate terms decision, a current exact approval, and an inspectable local action record."
@@ -25,14 +25,14 @@
     {
       "id": "economics",
       "title": "The anchor case",
-      "headline": "$2,400 promised \u2192 $900 applied \u2192 $1,500 open",
-      "body": "Fictional Pipeline CRM. Its contingent $1,500 benefit carries $2,400 of incremental renewal spend against the explicit same-horizon baseline: \u2212$900 net incremental value. Preserving original terms does not create applied savings.",
+      "headline": "$2,400 promised → $900 applied → $1,500 open",
+      "body": "Fictional Pipeline CRM. Its contingent $1,500 benefit carries $2,400 of incremental renewal spend against the explicit same-horizon baseline: −$900 net incremental value. Preserving original terms does not create applied savings.",
       "label": "Illustrative USD values from the authored case; no customer result or ROI claim."
     },
     {
       "id": "ritual",
       "title": "One review ritual, explicit boundaries",
-      "headline": "Evidence \u2192 portfolio \u2192 exact approval \u2192 bounded stress test \u2192 scoped grant \u2192 local effect \u2192 pinned-root verification",
+      "headline": "Evidence → portfolio → exact approval → bounded stress test → scoped grant → local effect → pinned-root verification",
       "body": "Evidence import and portfolio-copy exploration are connected. The authority lab is currently Pipeline-focused. Browser signing uses an isolated ephemeral workspace; it does not sign the browser portfolio. An arbitrary selected-case handoff is shown only as a concept."
     },
     {
@@ -106,14 +106,14 @@
   "screens": [
     {
       "id": "evidence-input",
-      "title": "01 \u00b7 Start with the source",
+      "title": "01 · Start with the source",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Make the supported inputs and local processing boundary clear.",
-      "entry": "Evidence lab \u2192 Load example \u2192 Partial credit.",
+      "entry": "Evidence lab → Load example → Partial credit.",
       "actions": [
         {
           "label": "Analyze evidence",
@@ -123,13 +123,14 @@
       "annotations": [
         "Show Promise / Invoice credits / Vendor reply input tabs and the explicit vendor/date.",
         "Text, EML and CSV import; PDF text must be exported first. Rules-based extraction.",
-        "No inbox connector, uploaded PDF understanding, or live model is implied."
+        "No inbox connector, uploaded PDF understanding, or live model is implied.",
+        "The visible progression is Analyze evidence → Review result and claim → Add to portfolio. No analysis result is implied before Analyze evidence."
       ],
       "state": "Pipeline example loaded, not yet analyzed."
     },
     {
       "id": "evidence-finding",
-      "title": "02 \u00b7 Find the missing $1,500",
+      "title": "02 · Find the missing $1,500",
       "viewport": {
         "width": 1440,
         "height": 960
@@ -151,25 +152,35 @@
           "label": "Analyze evidence",
           "targetId": "evidence-finding",
           "note": "Reanalysis clears earlier claim approval and rechecks original inputs."
+        },
+        {
+          "label": "Review claim draft",
+          "targetId": "evidence-finding",
+          "returnLabel": "Return to the evidence finding",
+          "note": "Review the exact original-terms draft and its citations before recording claim approval. Approval is local and sends no email; it does not approve a portfolio action.\nAlternate blocked state: The matched invoice credits fully cover the promise. No outstanding credit remains to claim. Review the matched invoices. You can add the completed record to the portfolio.\nConditional or changed replies remain excluded from portfolio import. Resolve the terms with supporting evidence before importing. Approval of an original-terms follow-up does not accept the condition.",
+          "reviewBodySize": 14,
+          "reviewHeight": 520
         }
       ],
       "annotations": [
         "$2,400 promised, $900 verified applied, $1,500 outstanding.",
         "Exact reference PC-SEATS-2026 outranks an amount-only match.",
         "The citation quote and character offsets come from the supplied text; they do not authenticate the vendor.",
-        "Claim approval is distinct from an action approval; downloading EML sends no message."
+        "Claim approval is distinct from an action approval; downloading EML sends no message.",
+        "The next-step panel gives the exact reason and next step for unsupported, conditional, future-due, fully applied and empty-draft states; disabled buttons do not substitute for an explanation.",
+        "Portfolio import retains its own boundary. An original-terms draft approval does not accept changed terms or authorize a portfolio action."
       ]
     },
     {
       "id": "portfolio",
-      "title": "03 \u00b7 Follow the financial state",
+      "title": "03 · Follow the financial state",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Separate recoverable, applied, issued and conditional value; retain lineage.",
-      "entry": "Assurance \u2192 Portfolio, Pipeline selected, Evidence graph tab.",
+      "entry": "Assurance → Portfolio, Pipeline selected, Evidence graph tab.",
       "actions": [
         {
           "label": "Renewal offer: $900.00 worse than baseline",
@@ -187,28 +198,43 @@
           "label": "Shared ledger",
           "targetId": "portfolio",
           "note": "Alternate case information tab; conserves the shared credit balance."
+        },
+        {
+          "label": "Workspace options",
+          "targetId": "portfolio",
+          "note": "Closed by default. Explore the mechanism, export the audit packet, and inspect the selectable demo role here. Reset requires an explicit confirmation in the app. Browser workspace has no server authority; Local SQLite enforces roles at its boundary. This prototype note changes no role, record or workspace.",
+          "reviewBodySize": 14,
+          "reviewHeight": 450
+        },
+        {
+          "label": "Review next action",
+          "targetId": "exact-approval",
+          "note": "Open the existing original-terms action for the currently selected commitment. Imported commitments prepare and review their own action; they never fall back to the authored Pipeline action."
         }
       ],
       "annotations": [
         "Use the authored Pipeline case for the main review sequence; imported cases retain their own identity.",
-        "Sources \u2192 commitment/terms \u2192 ledger \u2192 action/approval are real recorded relationships.",
+        "Sources → commitment/terms → ledger → action/approval are real recorded relationships.",
         "Effective on and Known by are separate historical controls; historical views disable writes.",
-        "Issued credit and an approved local action are excluded from verified applied savings."
+        "Issued credit and an approved local action are excluded from verified applied savings.",
+        "Workspace options is a closed utility disclosure; the portfolio summary and selected-case next action remain primary.",
+        "Guided cases, Demo activity and Demo sources belong to a separate Guided demo group. They are not imported shared-portfolio records.",
+        "Imported-case continuity: select that commitment, review its own original claim, approve with an allowed demo role and record locally. No email, payment or connected vendor effect is implied."
       ]
     },
     {
       "id": "renewal-decision",
-      "title": "04 \u00b7 Expose the cost of the offer",
+      "title": "04 · Expose the cost of the offer",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Explain why a nominal credit can have negative incremental value.",
-      "entry": "Decision room \u2192 Pipeline renewal proposal.",
+      "entry": "Decision room → Pipeline renewal proposal.",
       "actions": [
         {
-          "label": "Pipeline CRM \u00b7 Preserve original terms",
+          "label": "Pipeline CRM · Preserve original terms",
           "targetId": "exact-approval",
           "note": "Select the existing preserve-original action in the decision queue."
         },
@@ -219,7 +245,7 @@
         }
       ],
       "annotations": [
-        "Contingent credit $1,500; incremental renewal cost $2,400; net incremental value \u2212$900.",
+        "Contingent credit $1,500; incremental renewal cost $2,400; net incremental value −$900.",
         "Keep the explicit baseline visible; do not call the remaining credit free money.",
         "A later vendor proposal changes no accepted terms until an exact approved acceptance takes effect.",
         "Record a reason when dismissing a conflicting alternative; never silently delete its history."
@@ -227,24 +253,44 @@
     },
     {
       "id": "exact-approval",
-      "title": "05 \u00b7 Approve the current exact action",
+      "title": "05 · Approve the current exact action",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Make the scope of a finance review inspectable.",
-      "entry": "Decision room \u2192 Pipeline Preserve original terms; inspect authorization basis.",
+      "entry": "Decision room → Pipeline Preserve original terms; inspect the exact bound evidence revisions.",
       "actions": [
         {
           "label": "Approve exact action",
           "targetId": "exact-approval",
-          "note": "State changes from Needs approval to Approved when current policy permits."
+          "note": "State changes from Needs approval to Approved when current policy permits. Alternate analyst state: Requires approver or admin role. Current role: analyst. Historical view is read only. Return to latest records to make changes. After approval, Record approved action still needs executor or admin; no external transaction is performed."
         },
         {
           "label": "Execution lab",
           "targetId": "race-setup",
           "note": "Navigate, then select the approved action under Current approved portfolio actions."
+        },
+        {
+          "label": "Return to commitment",
+          "targetId": "portfolio",
+          "note": "Return to the same selected commitment; source inspection does not reset the review context."
+        },
+        {
+          "label": "Original duplicate-seat correction · revision 6",
+          "targetId": "exact-approval",
+          "returnLabel": "Return to this action review",
+          "reviewHeight": 560,
+          "note": "Recorded source: pipeline-promise@6 · email.\nSYNTHETIC ASSURANCE EXAMPLE\nWe will credit USD 2,400 on your October 1, 2026 invoice for duplicate seats. Reference PC-SEATS-2026. This correction does not require a renewal.\nAll nine exact bound handles remain listed in the action review, including sources outside this commitment. Return closes this inspection and keeps the same action.",
+          "reviewBodySize": 14,
+          "reviewSource": {
+            "handle": "pipeline-promise@6",
+            "kind": "email",
+            "label": "SYNTHETIC ASSURANCE EXAMPLE",
+            "quote": "We will credit USD 2,400 on your October 1, 2026 invoice for duplicate seats. Reference PC-SEATS-2026. This correction does not require a renewal.",
+            "context": "All nine exact bound handles remain listed in the action review, including sources outside this commitment. Return closes this inspection and keeps the same action."
+          }
         }
       ],
       "annotations": [
@@ -252,19 +298,22 @@
         "No additional contractual obligation; no applied savings recorded by preserving original terms.",
         "Changed evidence or policy requires a fresh proposal/review.",
         "Selectable demo identities are not production organizational authentication.",
-        "Alternate working-app state: after exact approval, Record approved action permits direct local execution. That post-approval control is not rendered as a hotspot in this review frame. Exploration is not a mandatory gate in the current app."
+        "Alternate working-app state: after exact approval, Record approved action permits direct local execution. That post-approval control is not rendered as a hotspot in this review frame. Exploration is not a mandatory gate in the current app.",
+        "This authored action binds all nine listed source handles. The representative opener resolves pipeline-promise@6, never silently the newest revision.",
+        "A source outside the selected commitment can still be bound by the action. An unavailable bound revision has an explicit unavailable state.",
+        "Role-dependent alternate states show the exact reason beside disabled actions. Changing a selectable demo role establishes no production identity."
       ]
     },
     {
       "id": "race-setup",
-      "title": "06 \u00b7 Challenge a copy of the actual approval",
+      "title": "06 · Challenge a copy of the actual approval",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Show the exact snapshot and finite hypothetical program before exploration.",
-      "entry": "Race explorer \u2192 Current approved portfolio actions \u2192 Pipeline Preserve original; choose a supporting-source revision.",
+      "entry": "Race explorer → Current approved portfolio actions → Pipeline Preserve original; choose a supporting-source revision.",
       "actions": [
         {
           "label": "Explore schedules",
@@ -286,7 +335,7 @@
     },
     {
       "id": "race-witness",
-      "title": "07 \u00b7 Inspect the unsafe effect",
+      "title": "07 · Inspect the unsafe effect",
       "viewport": {
         "width": 1440,
         "height": 960
@@ -316,14 +365,14 @@
     },
     {
       "id": "race-cutoff",
-      "title": "08 \u00b7 Preserve uncertainty at the bound",
+      "title": "08 · Preserve uncertainty at the bound",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Show resource exhaustion as an honest incomplete result.",
-      "entry": "Authored Two consumers, one credit \u2192 ten-state budget \u2192 Explore schedules.",
+      "entry": "Authored Two consumers, one credit → ten-state budget → Explore schedules.",
       "actions": [
         {
           "label": "State budget: 2,000 states",
@@ -344,14 +393,14 @@
     },
     {
       "id": "race-repair",
-      "title": "09 \u00b7 A permitted continuation",
+      "title": "09 · A permitted continuation",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Demonstrate a concrete repair that still completes the declared goal.",
-      "entry": "Authored Two consumers, one credit \u2192 2,000-state run \u2192 Inspect repaired plan.",
+      "entry": "Authored Two consumers, one credit → 2,000-state run → Inspect repaired plan.",
       "actions": [
         {
           "label": "Replay report",
@@ -372,14 +421,14 @@
     },
     {
       "id": "authority-approval",
-      "title": "10 \u00b7 Finance approves the signing-lab action",
+      "title": "10 · Finance approves the signing-lab action",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Establish which workspace and action the issuer will bind.",
-      "entry": "Execution lab \u2192 Signed authority \u2192 Prepare fresh action.",
+      "entry": "Execution lab → Signed authority → Prepare fresh action.",
       "actions": [
         {
           "label": "Approve exact action",
@@ -401,14 +450,14 @@
     },
     {
       "id": "authority-scope",
-      "title": "11 \u00b7 Issue only the required scope",
+      "title": "11 · Issue only the required scope",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Make limits, lifetime, identity binding and attenuation visible.",
-      "entry": "Approved signing-lab Pipeline action \u2192 claim limit USD 1,500 \u2192 lifetime 120 seconds \u2192 Issue signed grant.",
+      "entry": "Approved signing-lab Pipeline action → claim limit USD 1,500 → lifetime 120 seconds → Issue signed grant.",
       "actions": [
         {
           "label": "Delegate to worker",
@@ -439,14 +488,14 @@
     },
     {
       "id": "execution-receipt",
-      "title": "12 \u00b7 Recheck and record once",
+      "title": "12 · Recheck and record once",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Explain the difference between one effect and a harmless retry.",
-      "entry": "Use a valid fresh signing-lab grant before expiry \u2192 Record delegated action.",
+      "entry": "Use a valid fresh signing-lab grant before expiry → Record delegated action.",
       "actions": [
         {
           "label": "Retry identical request",
@@ -472,14 +521,14 @@
     },
     {
       "id": "packet-verification",
-      "title": "13 \u00b7 Trust deliberately; verify the record",
+      "title": "13 · Trust deliberately; verify the record",
       "viewport": {
         "width": 1440,
         "height": 960
       },
       "status": "implemented",
       "purpose": "Show independent trust and detectable tampering without overstating offline evidence.",
-      "entry": "Export signed evidence \u2192 Download public trust key separately \u2192 Pin this demo issuer \u2192 Verify signed packet.",
+      "entry": "Export signed evidence → Download public trust key separately → Pin this demo issuer → Verify signed packet.",
       "actions": [
         {
           "label": "Verify signed packet",
@@ -497,7 +546,7 @@
         }
       ],
       "annotations": [
-        "No issuer is trusted until explicitly pinned; pinning a demo key establishes no real organization\u2019s identity.",
+        "No issuer is trusted until explicitly pinned; pinning a demo key establishes no real organization’s identity.",
         "Verification checks included signed lifecycle/grants/requests, checkpoint and the recorded reducer effect.",
         "It cannot prove current revocation, global unspentness, source authenticity/completeness or external settlement.",
         "Offline success is evidence about the recorded checkpoint, never permission for another execution."
@@ -505,7 +554,7 @@
     },
     {
       "id": "connected-handoff-concept",
-      "title": "14 \u00b7 One selected case across the boundary",
+      "title": "14 · One selected case across the boundary",
       "viewport": {
         "width": 1440,
         "height": 960
@@ -525,7 +574,7 @@
         }
       ],
       "annotations": [
-        "CONCEPT \u2014 retain a visible concept label in the frame and prototype hotspot.",
+        "CONCEPT — retain a visible concept label in the frame and prototype hotspot.",
         "Carry immutable case/action identity, workspace identity, source/approval basis and analysis report digest.",
         "Rerun eligibility at issue and execute; a successful exploration report never grants authority.",
         "Do not imply that browser-local portfolio records are already signed by the isolated browser issuer."
@@ -533,7 +582,7 @@
     },
     {
       "id": "mobile-approval",
-      "title": "Mobile \u00b7 Exact approval",
+      "title": "Mobile · Exact approval",
       "viewport": {
         "width": 390,
         "height": 844
@@ -555,17 +604,27 @@
           "label": "Navigation",
           "targetId": "mobile-navigation",
           "navigation": "overlay"
+        },
+        {
+          "label": "Review next action",
+          "targetId": "mobile-approval",
+          "reviewWidth": 352,
+          "reviewHeight": 600,
+          "returnLabel": "Return to this case review",
+          "note": "Current case: Pipeline CRM · PC-SEATS-2026. Review next action opens this commitment’s original-terms review; imported cases retain their own identity. The selected review shows the exact amount, current policy and supporting revisions.\nApprove exact action records only when the current role and policy allow. Alternate analyst state: Requires approver or admin role. Current role: analyst. No credit is applied by approval.",
+          "reviewBodySize": 14
         }
       ],
       "annotations": [
         "Stack the decision queue and detail; do not compress the amount or authorization basis into unreadable metadata.",
         "Primary action remains in document flow; preserve visible focus and labeled state.",
-        "No new mobile-only financial behavior is implied."
+        "No new mobile-only financial behavior is implied.",
+        "The current-case next action stays under its financial summary. The review-context prototype note keeps this case identity; it performs no proposal or approval."
       ]
     },
     {
       "id": "mobile-witness",
-      "title": "Mobile \u00b7 Selected transition",
+      "title": "Mobile · Selected transition",
       "viewport": {
         "width": 390,
         "height": 844
@@ -598,7 +657,7 @@
     },
     {
       "id": "mobile-receipt",
-      "title": "Mobile \u00b7 Authority and verification",
+      "title": "Mobile · Authority and verification",
       "viewport": {
         "width": 390,
         "height": 844
@@ -664,14 +723,14 @@
   ],
   "designPhilosophy": {
     "direction": "Ramp-inspired financial workflow with Apple-inspired clarity and progressive disclosure",
-    "interpretation": "Applied principles, not affiliation or a copy of either company\u2019s visual identity.",
+    "interpretation": "Applied principles, not affiliation or a copy of either company’s visual identity.",
     "sources": [
       {
-        "title": "Apple \u2014 Design foundations from idea to interface",
+        "title": "Apple — Design foundations from idea to interface",
         "url": "https://developer.apple.com/videos/play/wwdc2025/359/"
       },
       {
-        "title": "Ramp \u2014 Midday is joining Ramp",
+        "title": "Ramp — Midday is joining Ramp",
         "url": "https://ramp.com/blog/midday-joining-ramp"
       }
     ],
