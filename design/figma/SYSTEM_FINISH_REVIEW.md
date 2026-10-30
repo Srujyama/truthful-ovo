@@ -39,3 +39,7 @@ None. This ship verdict covers visual finish and product clarity in the supplied
 ## keep
 
 Keep the selected case, exact evidence, named financial state and role-correct next action together; retain the explicit separation between local recording, applied credit and static native review navigation.
+
+## Native editor label correction
+
+The prior export review missed Figma’s purple component-set labels, which are excluded from PNG exports and overlapped authored captions in the user’s screenshot. The library now reflows from measured content heights and reserves a 96-unit editor-label band above both sets. Four actual native editor-window captures at 50%, 70% and each family at 100% show clear separation. Independent visual/source review accepted the repair after ownership-safe caption lookup was corrected. Live library geometry is now checked, with negative regressions for collisions and a measured-height reflow fixture. Current scoped disposition: ship. Cloud version 2416032624820026877. Product-screen compositions and all 82 instance IDs retained; prior product/browser and editing-probe evidence remains historical, not newly rerun by this correction.

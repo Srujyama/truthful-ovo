@@ -8,7 +8,21 @@ import {pathToFileURL} from 'node:url';
 
 // Native component architecture is applied after scene construction. Source names
 // remain stable metadata; Figma variant names expose actual editable properties.
-async function nativeSystemProgram(config){
+// Figma's native component-set names sit above the exported node bounds.
+// Reserve an explicit editor-label band; PNG export geometry cannot see it.
+export function layoutNativeLibrary(guide,groups){
+  let cursor=guide.y+guide.height+32;
+  const layout=[];
+  for(const {role,node,heading}of groups){
+    heading.x=24;heading.y=cursor;
+    node.x=0;node.y=heading.y+heading.height+96;
+    layout.push({role,setId:node.id,headingId:heading.id,headingY:heading.y,setY:node.y,editorLabelClearance:96});
+    cursor=node.y+node.height+56;
+  }
+  return {editorLabelClearance:96,groups:layout};
+}
+
+async function nativeSystemProgram(config,layoutLibrary){
   const marker=config.marker;
   if(figma.root.getPluginData('truthful-design-kit')!==marker)throw new Error('Wrong connected kit');
   if(figma.fileKey&&figma.fileKey!==config.fileKey)throw new Error('Wrong native file key');
@@ -239,7 +253,7 @@ async function nativeSystemProgram(config){
     await figma.setCurrentPageAsync(systemPage);probePage.remove();
   }
   for(const [name,proof]of Object.entries(proofs))if(!proof.passed)throw new Error('Native system probe failed: '+name+' '+JSON.stringify(proof));
-  let guide=systemPage.children.find(n=>n.name==='Library / Editing guide');
+  let guide=systemPage.children.find(n=>n.name==='Library / Editing guide'&&n.getPluginData('truthful-system-owner')===marker);
   if(!guide){guide=figma.createFrame();systemPage.appendChild(guide);}
   for(const child of [...guide.children])child.remove();
   guide.name='Library / Editing guide';guide.setPluginData('truthful-system-owner',marker);guide.layoutMode='VERTICAL';guide.primaryAxisSizingMode='AUTO';guide.counterAxisSizingMode='FIXED';guide.itemSpacing=12;guide.paddingLeft=24;guide.paddingRight=24;guide.paddingTop=24;guide.paddingBottom=24;guide.resize(800,100);guide.x=0;guide.y=0;guide.fills=[{type:'SOLID',color:{r:1,g:1,b:1}}];
@@ -251,6 +265,7 @@ async function nativeSystemProgram(config){
   for(const [name,characters,y]of [['Library / Button variant key','BUTTONS · columns Default / Hover / Disabled · rows Primary / Secondary',170],['Library / Status variant key','STATUS · explicit financial and authorization states',470]]){
     let text=systemPage.children.find(n=>n.name===name&&n.getPluginData('truthful-system-owner')===marker);if(!text){text=figma.createText();systemPage.appendChild(text);}text.name=name;text.setPluginData('truthful-system-owner',marker);text.fontName={family:'Public Sans',style:'SemiBold'};text.fontSize=12;text.characters=characters;text.textAutoResize='WIDTH_AND_HEIGHT';text.fills=[{type:'SOLID',color:{r:32/255,g:37/255,b:43/255}}];text.x=24;text.y=y;const style=textStyles.find(s=>s.size===12&&s.fontStyle==='SemiBold');if(style)await text.setTextStyleIdAsync(style.id);libraryLabels.push(text.id);
   }
+  const libraryLayout=layoutLibrary(guide,sets.map(s=>({role:s.role,node:systemPage.findOne(n=>n.id===s.id),heading:systemPage.children.find(n=>libraryLabels.includes(n.id)&&n.name===`Library / ${s.role} variant key`)})));
   const handoff={pageId:null,frames:[]};
   if(config.handoff){
     let page=figma.root.children.find(p=>p.name==='Handoff'&&p.getPluginData('truthful-system-owner')===marker);
@@ -286,7 +301,7 @@ async function nativeSystemProgram(config){
     handoff.frames.push({id:example.id,name:example.name,textLayers:example.findAll(n=>n.type==='TEXT').length});
   }
   const summary={colorBoundNodes:ownNodes.filter(n=>{const vars=n.boundVariables||{};return vars.fills||vars.strokes||Array.isArray(n.fills)&&n.fills.some(p=>p.boundVariables?.color)||Array.isArray(n.strokes)&&n.strokes.some(p=>p.boundVariables?.color);}).length,spatialBindings,styledTextNodes:textStyles.reduce((sum,s)=>sum+s.usage,0),fillRelationships};
-  return {schemaVersion:1,status:'native-system-pending-review',fileKey:config.fileKey,sets,instances,textStyles,numberVariables,colorExceptions,bindingsSummary:summary,proofs,handoff,libraryGuideId:guide.id,libraryLabels,notice:'Explicit variant states, linked instances and clone-only editing/resize proofs. Resize checks cover the recorded representative widths, not arbitrary responsive parity for every screen.'};
+  return {schemaVersion:1,status:'native-system-pending-review',fileKey:config.fileKey,sets,instances,textStyles,numberVariables,colorExceptions,bindingsSummary:summary,proofs,handoff,libraryGuideId:guide.id,libraryLabels,libraryLayout,notice:'Explicit variant states, linked instances and clone-only editing/resize proofs. Resize checks cover the recorded representative widths, not arbitrary responsive parity for every screen.'};
 }
 
 export async function invalidateNativeSystem(fileKey){
@@ -298,7 +313,7 @@ export async function applyNativeSystem({evaluate,marker,fileKey}){
   const models=JSON.parse(await readFile('design/figma/generated/models.json','utf8'));
   const rootNames=[...models.screens,...models.boards,...models.overlays,...(models.navigationOverlays||[])].map(n=>n.name);
   let handoff=null;try{handoff=JSON.parse(await readFile('design/figma/handoff.json','utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
-  const result=await evaluate(`return await (${nativeSystemProgram.toString()})(${JSON.stringify({marker,fileKey,rootNames,components:models.components.map(n=>n.name),handoff})});`);
+  const result=await evaluate(`return await (${nativeSystemProgram.toString()})(${JSON.stringify({marker,fileKey,rootNames,components:models.components.map(n=>n.name),handoff})},${layoutNativeLibrary.toString()});`);
   await writeFile('design/figma/native-system.json',JSON.stringify(result,null,2)+'\n');
   return result;
 }

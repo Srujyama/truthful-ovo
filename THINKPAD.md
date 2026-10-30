@@ -180,6 +180,11 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       deps: T26, T27, T28
       notes: Requirementtoevidence matrix/browserflowchecks desktop390/1440/intermediate,server/static,role/history/importjourney; independentreviewrepairs; nativeflows/screens/properties/docs synced,exportreview,cloudversion,pushbranch.; App/nativejourneycomplete.177applicationtests,52design/ownershipregressions,bothlivenativegatespass.167browserassertions:32newjourneyEACHstatic+SQLite,99retainedflows,4service-errorrecovery.Independent11app/12nativeexportsreviewship; sourceP2repairsaccepted.17screen/12masterIDsretained,710texts,53mappedroutes,25CLOSE,82instances,22activestyles/24local,11FLOATs,61rootinventoryIDs.57nativeownedroots0clips/0missingfonts,7editingresizeprobespass. Cloudversion2416031173672268873. Docs/source/sidecarsupdated. No videos/publicdeployment.
       took: 1m
+- [x] T30 · Fix component-library editor label collisions and verify native canvas
+      files: scripts/figma-native-system.mjs, scripts/verify-figma-system.mjs, scripts/verify-figma-system.test.mjs, design/figma
+      accept: npm run design:check && npm run design:verify-native && npm run design:verify-system
+      notes: User screenshot reveals purple native ComponentSet labels overlap authored captions. Reflow from measured guide/heading heights with reserved editor-label space; verify actual Figma window at50/70/100percent, preserve product screens/components/instances, recordnewcloudversion andpushsource.; Actual Figma editor inspected at50/70percent and bothfamilies100percent; independent review accepted collision repair and ownership-safe regeneration.57 offline regressions plus both actual native gates pass. Existing17screens,12masters and82instanceIDs retained. Cloudversion2416032624820026877; artifact hashes and scoped review recorded; source readyforbranchpush.
+      took: 6m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -230,3 +235,5 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · done T28 · Improve task hierarchy, responsive layout and loading recovery
 - 2026-10-29 · started T29 · Integrate and independently review app and native Figma UI journeys
 - 2026-10-29 · done T29 · Integrate and independently review app and native Figma UI journeys
+- 2026-10-29 · started T30 · Fix component-library editor label collisions and verify native canvas
+- 2026-10-29 · done T30 · Fix component-library editor label collisions and verify native canvas

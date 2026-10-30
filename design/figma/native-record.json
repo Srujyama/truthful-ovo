@@ -310,22 +310,22 @@
   ],
   "visualReview": {
     "record": "design/figma/system-review.json",
-    "scope": "UI continuation:11appcaptures and12nativeexports; existingApple/Rampworkingledgerdirection",
+    "scope": "Native component-library editor label spacing; actual editor at 50%,70% and family-specific100%. Prior product-screen review retained separately.",
     "disposition": "ship"
   },
   "fileName": "Truthful · OVO · Product design",
   "cloudVersion": {
-    "id": "2416031173672268873",
-    "label": "Truthful · Finance review journeys · verified"
+    "id": "2416032624820026877",
+    "label": "Truthful · Editor label spacing · verified"
   },
   "prototypePlayback": null,
   "redesignedAt": "2026-10-30T06:05:49.484Z",
   "previousCloudVersion": {
-    "id": "2416005136496065741",
-    "label": "Truthful · Native system · verified"
+    "id": "2416031173672268873",
+    "label": "Truthful · Finance review journeys · verified"
   },
   "restoreVersion": {
-    "id": "2416030696929627377"
+    "id": "2416039273993038761"
   },
   "fontMapping": {
     "family": "Public Sans",
@@ -340,15 +340,12 @@
     "systemGate": "design:verify-system"
   },
   "geometryVerification": {
-    "roots": 57,
+    "scope": "Live system gate:17 product screens plus library heading/set geometry",
+    "screens": 17,
     "missingFonts": 0,
     "clipping": [],
-    "buttonInheritance": {
-      "count": 73,
-      "exceptions": []
-    },
-    "screenTexts": 710,
-    "instances": 82
+    "instances": 82,
+    "editorLabelClearance": 96
   },
   "navigationOverlays": [
     {
@@ -365,7 +362,7 @@
     "closeReturns": 25
   },
   "manualPlaybackAttempt": null,
-  "verifiedAt": "2026-10-30T06:14:07.680Z",
+  "verifiedAt": "2026-10-30T06:30:47.495772+00:00",
   "nativeLibrary": {
     "sets": 2,
     "masters": 12,
@@ -763,5 +760,21 @@
         "id": "12:6155"
       }
     ]
+  },
+  "previousVisualReview": {
+    "record": "design/figma/system-review.json",
+    "scope": "UI continuation:11appcaptures and12nativeexports; existingApple/Rampworkingledgerdirection",
+    "disposition": "ship"
+  },
+  "previousGeometryVerification": {
+    "roots": 57,
+    "missingFonts": 0,
+    "clipping": [],
+    "buttonInheritance": {
+      "count": 73,
+      "exceptions": []
+    },
+    "screenTexts": 710,
+    "instances": 82
   }
 }

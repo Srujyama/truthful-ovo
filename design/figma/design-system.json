@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T04:53:56.252682+00:00",
+  "generatedAt": "2026-10-30T06:30:47.495772+00:00",
   "title": "Design System: Truthful native Figma",
   "extensions": {
     "nativeFigma": {
@@ -87,6 +87,13 @@
         "originalMappingsRetained": 47,
         "closeReturns": 25,
         "recordedRootIdentities": 61
+      },
+      "editorCanvasLayout": {
+        "source": "../../scripts/figma-native-system.mjs",
+        "guideToCaption": 32,
+        "captionToSet": 96,
+        "familyToNextCaption": 56,
+        "policy": "Measure guide/heading heights; reserve native editor-label band and inspect actual Figma window because exports omit those labels."
       }
     },
     "shadows": [],

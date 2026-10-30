@@ -71,6 +71,19 @@ export function validateSystem(manifest,record,live){
  for(const frame of manifest.handoff.frames){const actual=live.handoff.frames.find(f=>f.id===frame.id);assert.equal(actual?.type,'FRAME');assert.ok(actual.textLayers>0);}
  assert.ok(live.handoff.instances>=3,'Handoff needs editable examples');
  assert.equal(live.libraryGuide?.type,'FRAME');assert.ok(live.libraryGuide.textLayers>=3);
+ assert.equal(manifest.libraryLabels.length,2,'Library keys missing');
+ const bounds=live.libraryGuide.bounds;
+ let previousBottom=bounds.y+bounds.height;
+ for(const role of ['Button','Status']){
+  const set=live.sets.find(s=>s.id===manifest.sets.find(s=>s.role===role).id);
+  const label=live.libraryLabels.find(n=>n.name===`Library / ${role} variant key`);
+  assert.ok(label&&manifest.libraryLabels.includes(label.id),'Missing native library heading');
+  assert.equal(label.type,'TEXT');
+  assert.ok(label.bounds.y-previousBottom>=31.5,'Library heading collides with preceding content');
+  assert.ok(set.bounds.y-(label.bounds.y+label.bounds.height)>=95.5,'Library heading intrudes into Figma editor label band');
+  previousBottom=set.bounds.y+set.bounds.height;
+ }
+
  assert.deepEqual(live.probePages,[],'Temporary proof pages remain');
  for(const name of ['labelOverride','masterPropagation','buttonResize','portfolioResize','mobileResize','inheritedStyleSwap','statusVariantSwap'])assert.equal(manifest.proofs?.[name]?.passed,true,'Failed or absent native probe: '+name);
  assert.equal(manifest.proofs.masterPropagation.observed,manifest.proofs.masterPropagation.before+1);
@@ -83,12 +96,13 @@ export function validateSystem(manifest,record,live){
 }
 
 export async function collectSystem(cli,manifest,record){
- const config={setIds:manifest.sets.map(s=>s.id),instanceIds:manifest.instances.map(i=>i.id),screenIds:record.frames.map(f=>f.nodeId),rootIds:[...new Set(manifest.instances.map(i=>i.rootId))],handoff:manifest.handoff,libraryGuideId:manifest.libraryGuideId,styleIds:manifest.textStyles.map(s=>s.id),variableIds:manifest.numberVariables.map(v=>v.id)};
+ const config={setIds:manifest.sets.map(s=>s.id),instanceIds:manifest.instances.map(i=>i.id),screenIds:record.frames.map(f=>f.nodeId),rootIds:[...new Set(manifest.instances.map(i=>i.rootId))],handoff:manifest.handoff,libraryGuideId:manifest.libraryGuideId,libraryLabelIds:manifest.libraryLabels,styleIds:manifest.textStyles.map(s=>s.id),variableIds:manifest.numberVariables.map(v=>v.id)};
  const codeFor=(section,start=0)=>`(async () => {
  await figma.loadAllPagesAsync();const c=${JSON.stringify({...config,section,start})};
  const get=id=>figma.getNodeByIdAsync(id);const page=n=>{while(n&&n.type!=='PAGE')n=n.parent;return n?.name;};
+ const box=n=>({x:n.x,y:n.y,width:n.width,height:n.height});
  const defs=n=>n.parent?.type==='COMPONENT_SET'?n.parent.componentPropertyDefinitions:n.componentPropertyDefinitions;
- const sets=[];for(const id of c.setIds){const n=await get(id);sets.push(n?{id,type:n.type,name:n.name,page:page(n),children:n.children.map(v=>({id:v.id,type:v.type,properties:v.variantProperties,fillSignature:JSON.stringify(v.fills.map(p=>({type:p.type,color:p.color,opacity:p.opacity??1,visible:p.visible!==false}))),sourceName:v.getPluginData('truthful-component-source'),definitions:defs(v),labelReference:v.findOne(x=>x.type==='TEXT'&&x.name==='Label')?.componentPropertyReferences?.characters}))}:{id});}
+ const sets=[];for(const id of c.setIds){const n=await get(id);sets.push(n?{id,type:n.type,name:n.name,page:page(n),bounds:box(n),children:n.children.map(v=>({id:v.id,type:v.type,properties:v.variantProperties,fillSignature:JSON.stringify(v.fills.map(p=>({type:p.type,color:p.color,opacity:p.opacity??1,visible:p.visible!==false}))),sourceName:v.getPluginData('truthful-component-source'),definitions:defs(v),labelReference:v.findOne(x=>x.type==='TEXT'&&x.name==='Label')?.componentPropertyReferences?.characters}))}:{id});}
  const instances=[];for(const id of c.instanceIds){const n=await get(id);if(!n){instances.push({id});continue;}let ancestor=n;while(ancestor&&!c.rootIds.includes(ancestor.id))ancestor=ancestor.parent;instances.push({id,type:n.type,rootId:ancestor?.id,componentId:n.type==='INSTANCE'?(await n.getMainComponentAsync())?.id:null,properties:n.componentProperties,label:n.findOne(x=>x.type==='TEXT')?.characters});}
  function clips(root){const bad=[];for(const t of root.findAll(n=>n.type==='TEXT')){const b=t.absoluteBoundingBox;let p=t.parent;while(p&&p.type!=='PAGE'){if(p===root||p.clipsContent){const a=p.absoluteBoundingBox;if(!b||!a||b.x<a.x-.5||b.y<a.y-.5||b.x+b.width>a.x+a.width+.5||b.y+b.height>a.y+a.height+.5)bad.push({text:t.id,ancestor:p.id});}if(p===root)break;p=p.parent;}}return bad;}
  const screens=[];for(const id of c.screenIds){const n=await get(id);if(!n)continue;const texts=n.findAll(x=>x.type==='TEXT');let spatialBindings=0,colorBoundNodes=0;for(const x of [n,...n.findAll()]){const b=x.boundVariables||{};for(const field of ['itemSpacing','paddingLeft','paddingRight','paddingTop','paddingBottom','cornerRadius'])if(c.variableIds.includes(b[field]?.id))spatialBindings++;if(b.fills||b.strokes||Array.isArray(x.fills)&&x.fills.some(p=>p.boundVariables?.color)||Array.isArray(x.strokes)&&x.strokes.some(p=>p.boundVariables?.color))colorBoundNodes++;}screens.push({id,textCount:texts.length,styledCount:texts.filter(t=>c.styleIds.includes(t.textStyleId)).length,missingFonts:texts.filter(t=>t.hasMissingFont).length,clipping:clips(n),instanceIds:n.findAll(x=>x.type==='INSTANCE').map(x=>x.id),spatialBindings,colorBoundNodes});}
@@ -96,12 +110,13 @@ export async function collectSystem(cli,manifest,record){
  const collections=await figma.variables.getLocalVariableCollectionsAsync();const numberVariables=(await figma.variables.getLocalVariablesAsync('FLOAT')).map(v=>{const col=collections.find(x=>x.id===v.variableCollectionId);return {id:v.id,name:v.name,type:v.resolvedType,collection:col?.name,value:v.valuesByMode[col?.modes[0].modeId]};});
 
  const h=await get(c.handoff.pageId),g=await get(c.libraryGuideId);const handoff=h?{type:h.type,name:h.name,frames:[],instances:h.findAll(x=>x.type==='INSTANCE').length}:null;if(h)for(const frame of c.handoff.frames){const f=await get(frame.id);handoff.frames.push({id:frame.id,type:f?.type,textLayers:f?.findAll(x=>x.type==='TEXT').length});}
- const result={marker:figma.root.getPluginData('truthful-design-kit'),sets,instances,screens,textStyles,numberVariables,handoff,libraryGuide:g?{type:g.type,textLayers:g.findAll(x=>x.type==='TEXT').length}:null,probePages:figma.root.children.filter(p=>/native system probes/.test(p.name)).map(p=>p.id)};return c.section==='instances'?{instances:instances.slice(c.start,c.start+20)}:Object.fromEntries(c.section.map(k=>[k,result[k]]));
+ const libraryLabels=[];for(const id of c.libraryLabelIds){const n=await get(id);if(n)libraryLabels.push({id:n.id,name:n.name,type:n.type,bounds:box(n)});}
+ const result={libraryLabels,marker:figma.root.getPluginData('truthful-design-kit'),sets,instances,screens,textStyles,numberVariables,handoff,libraryGuide:g?{type:g.type,bounds:box(g),textLayers:g.findAll(x=>x.type==='TEXT').length}:null,probePages:figma.root.children.filter(p=>/native system probes/.test(p.name)).map(p=>p.id)};return c.section==='instances'?{instances:instances.slice(c.start,c.start+20)}:Object.fromEntries(c.section.map(k=>[k,result[k]]));
  })()`;
  const live={instances:[]};
  // The bridge limits one evaluation's output. Bounded read batches prevent a
  // truncated JSON result from concealing missing native nodes.
- const groups=[[['marker','sets'],0],[['screens','textStyles','numberVariables','handoff','libraryGuide','probePages'],0],...Array.from({length:Math.ceil(config.instanceIds.length/20)},(_,i)=>['instances',i*20])];
+ const groups=[[['marker','sets','libraryLabels'],0],[['screens','textStyles','numberVariables','handoff','libraryGuide','probePages'],0],...Array.from({length:Math.ceil(config.instanceIds.length/20)},(_,i)=>['instances',i*20])];
  for(const [section,start]of groups){
   const {stdout}=await promisify(execFile)(process.execPath,[cli,'eval',codeFor(section,start)],{timeout:60000,maxBuffer:1000000});
   const raw=stdout.replace(/\u001b\[[0-9;]*m/g,'');assert.ok(!raw.includes('✗'),raw);const result=JSON.parse(raw.slice(raw.indexOf('{'),raw.lastIndexOf('}')+1));

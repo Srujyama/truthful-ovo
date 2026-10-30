@@ -945,10 +945,31 @@
     "16:20796"
   ],
   "notice": "Explicit variant states, linked instances and clone-only editing/resize proofs. Resize checks cover the recorded representative widths, not arbitrary responsive parity for every screen.",
-  "verifiedAt": "2026-10-30T06:14:07.680Z",
+  "verifiedAt": "2026-10-30T06:30:47.495772+00:00",
   "review": "design/figma/system-review.json",
   "cloudVersion": {
-    "id": "2416031173672268873",
-    "label": "Truthful · Finance review journeys · verified"
+    "id": "2416032624820026877",
+    "label": "Truthful · Editor label spacing · verified"
+  },
+  "libraryLayout": {
+    "editorLabelClearance": 96,
+    "groups": [
+      {
+        "role": "Button",
+        "setId": "16:12355",
+        "headingId": "16:20795",
+        "headingY": 178,
+        "setY": 288,
+        "editorLabelClearance": 96
+      },
+      {
+        "role": "Status",
+        "setId": "16:12356",
+        "headingId": "16:20796",
+        "headingY": 584,
+        "setY": 694,
+        "editorLabelClearance": 96
+      }
+    ]
   }
 }

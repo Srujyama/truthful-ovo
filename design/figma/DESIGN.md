@@ -61,6 +61,8 @@ Public Sans remains the interface family. The native file retains 24 local text 
 
 Auto Layout preserves authored desktop and mobile compositions. Fill container is used where child widths already match the available space; text uses Hug height where content should grow. Repeated spacing and radius values bind to FLOAT variables in `Truthful · Layout`. One-off layout values remain local.
 
+The native library flows from the measured editing-guide and caption heights: 32 units before the first caption, 96 units between each caption bottom and its component-set bounds, and 56 units after a family before the next caption. The 96-unit band reserves room for Figma’s native purple set labels. Those labels do not appear in PNG exports, so library changes also require actual editor-window inspection at the reviewed zoom levels.
+
 Desktop screens are authored at 1440 × 960 and mobile at 390 × 844. Clone probes additionally check portfolio at 1280 wide, mobile approval at 430 wide, and a 164-wide button with a long label. These are specific checks, not a claim of arbitrary-width responsiveness across all screens.
 
 ## Elevation & Depth

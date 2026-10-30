@@ -29,3 +29,7 @@ Acceptance: native sets/properties/instances, shared styles and spatial variable
 ## Finance journey continuation
 
 The selected commitment exposes its own original-claim review. Workspace administration is disclosed, portfolio records are compact, and Guided demo navigation is separated from the shared portfolio. Exact action review exposes all nine bound source handles and an editable revision-6 source note with a contextual return. Authored role/claim/mobile notes explain alternate states without executing commands. Partial financial states use amber consistently with the app. Current native scope: 17 screens, 710 text layers, 53 mapped interactions and 25 close returns. Record inventory protection and live API checks remain mandatory.
+
+## Native editor collision repair
+
+Library layout follows measured guide and caption heights with 96 units reserved before each set for native editor labels. Inspect the actual editor as well as exports; the reviewed50/70/100percent views resolve the reported collision. Captions and guide remain ownership scoped.

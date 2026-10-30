@@ -9,62 +9,75 @@
     {
       "path": "output/figma-system/ui-portfolio.png",
       "sha256": "36e65917c6396dcf6aaaff58b3d9c0f86ac181d6cd60686a1da3e69f0b5cb87a",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-approval.png",
       "sha256": "41e2c1b76bec1842116e75d43751c528540e9a403d3fc0d0a52edd76af0bd7d8",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-source-note.png",
       "sha256": "0e00523f1126900ea1c0a30a2f687e5304a2a17a4f3132086c7688a6b146bf47",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-evidence-input.png",
       "sha256": "a95f4a3c7659a698bc5496d0e3fcc1ba87fe3f05a2714560748ceb6525fc0758",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-evidence.png",
       "sha256": "87c32b9c73f8871ca83977a7aa12682bc32d8a6eeaa0931145dc7b60f127c0bc",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-mobile.png",
       "sha256": "eb8cf005bcbb88251c5160e50a7aa0ee833bf17b2add2fc3a262ea00d8ccd64c",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-options-note.png",
       "sha256": "56d72353235cfe7a7372e9b15155ce7695b97fd143cf70d05bc799206df3d7ef",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-claim-note.png",
       "sha256": "20bd4a035d2e2c0819fe7c7963ebbd7b38ef8a1ab2eeed7e467f4a7ffaf40818",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-mobile-note.png",
       "sha256": "656065007719b3b83e54b043fb7814ca314f6a2632baf01dfcabf1f5913fa70b",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-library.png",
       "sha256": "a93018b12a23031569f5eb8244f099ae2155b3ee9e039ce9dfe57f63410f7baf",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873",
+      "supersededBy": "editorCanvasReview; old PNG excluded editor labels and does not show current library positions"
     },
     {
       "path": "output/figma-system/ui-handoff-start.png",
       "sha256": "347a17b847a3922dcbb061bc9c47467bfdc7b24185c22a531056e31e90e5b304",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     },
     {
       "path": "output/figma-system/ui-handoff-review.png",
       "sha256": "9955dda169f16ec7fd775cd2970ad73def4fb32d3fde38eb237788550e1a2cdf",
-      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI"
+      "provenance": "Native Figma Plugin API export from 8j4pwtsGDI4seljHPNeUkI",
+      "cloudVersionId": "2416031173672268873"
     }
   ],
   "audit": {
@@ -76,16 +89,76 @@
       "exceptions": []
     },
     "screenTexts": 710,
-    "instances": 82
+    "instances": 82,
+    "cloudVersionId": "2416031173672268873"
   },
   "cloudVersion": {
-    "id": "2416031173672268873",
-    "label": "Truthful · Finance review journeys · verified"
+    "id": "2416032624820026877",
+    "label": "Truthful · Editor label spacing · verified"
   },
   "nativeControls": {
     "mappedInteractions": 53,
     "originalMappingsRetained": 47,
     "closeReturns": 25
   },
-  "prototypePlayback": "No new manual prototype-player playback. Exact reactions are independently checked through the native API."
+  "prototypePlayback": "No new manual prototype-player playback. Exact reactions are independently checked through the native API.",
+  "previousExportCloudVersion": {
+    "id": "2416031173672268873",
+    "label": "Truthful · Finance review journeys · verified"
+  },
+  "editorCanvasReview": {
+    "reviewedAt": "2026-10-30T06:30:47.495772+00:00",
+    "scope": "Native editor label collisions only; existing product-screen composition retained",
+    "disposition": "ship",
+    "captures": [
+      {
+        "path": "output/figma-editor-fix/editor-50.png",
+        "sha256": "06df01fb4b62560b2d7cb5c6e37db806961d36919da588b1aa7cb6e1afee5716",
+        "zoomPercent": 50,
+        "provenance": "Actual Figma macOS editor window captured with cu; includes native component-set labels, unlike Plugin API exports."
+      },
+      {
+        "path": "output/figma-editor-fix/editor-70-final.png",
+        "sha256": "ad002637563a01ea7e9e9c23441bbd76c3cf59087d71eda750b3654fcc9ce70b",
+        "zoomPercent": 70,
+        "provenance": "Actual Figma macOS editor window captured with cu; includes native component-set labels, unlike Plugin API exports."
+      },
+      {
+        "path": "output/figma-editor-fix/editor-100-buttons.png",
+        "sha256": "b54081d8a2789a9efbdfd37af63f7bbdccc2d94f9a34ba6b052266636c6a0a77",
+        "zoomPercent": 100,
+        "provenance": "Actual Figma macOS editor window captured with cu; includes native component-set labels, unlike Plugin API exports."
+      },
+      {
+        "path": "output/figma-editor-fix/editor-100-status.png",
+        "sha256": "c2c74b858dd66f4c87a156999478110b4f6056329ae0dbcf9498eb5810c986de",
+        "zoomPercent": 100,
+        "provenance": "Actual Figma macOS editor window captured with cu; includes native component-set labels, unlike Plugin API exports."
+      }
+    ],
+    "layout": {
+      "editorLabelClearance": 96,
+      "groups": [
+        {
+          "role": "Button",
+          "setId": "16:12355",
+          "headingId": "16:20795",
+          "headingY": 178,
+          "setY": 288,
+          "editorLabelClearance": 96
+        },
+        {
+          "role": "Status",
+          "setId": "16:12356",
+          "headingId": "16:20796",
+          "headingY": 584,
+          "setY": 694,
+          "editorLabelClearance": 96
+        }
+      ]
+    },
+    "independentReview": "All four actual editor captures inspected; scoped source ownership finding repaired and independently accepted. No remaining material findings.",
+    "regressionCoverage": "Live heading/guide/family clearances; four negative fixtures and measured-height reflow fixture.",
+    "notice": "The previous export-only visual pass missed native editor labels. These window captures establish clearance only at the inspected zooms."
+  }
 }
