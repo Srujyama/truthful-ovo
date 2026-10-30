@@ -105,7 +105,7 @@ components:
 
 A quiet, dense work surface pairs a vendor register with an evidence-bearing case. White panels, pale sage navigation, forest actions, and fine rules keep the monetary outcome prominent without turning every section into a separate dashboard tile.
 
-This record describes the implemented React workspace, evidence lab, and commitment-assurance extension, sampled from shared styles, workbench, case detail, and assurance source. The assurance portfolio, decision room, evidence graph, and failure lab preserve the same finance desk identity. Visible runtime labels distinguish browser-local records from the optional local SQLite service; neither mode performs a vendor transaction. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.
+This record describes the implemented React workspace, evidence lab, commitment-assurance extension, and execution lab, sampled from shared styles, workbench, case detail, assurance, and execution source. The assurance portfolio, decision room, evidence graph, and failure lab preserve the same finance desk identity. Visible runtime labels distinguish browser-local records from the optional local SQLite service; neither mode performs a vendor transaction. The evidence lab uses local rules to reconcile imported text and invoice credits, with exact source spans beside findings. The guided cases remain prepared demo content. Neither surface establishes live AI analysis or connected services.
 
 **Key Characteristics:**
 - Tabular amounts and explicit financial states.
@@ -143,6 +143,8 @@ The evidence lab uses a 28px, weight-650 heading with a 1.3 line height, becomin
 
 Assurance uses the assurance-headline, assurance-amount, and assurance-annotation roles. The heading becomes 27px and the case amount 35px at mobile widths. Portfolio totals are 28px, 25px at 1300px and below, and 27px on mobile. Net economics uses 32px, becoming 29px on mobile. Critical statuses, deadlines, provenance, graph labels, policy reasoning, and failure results remain at least 12px across assurance breakpoints.
 
+The execution lab reuses the assurance heading role, becoming 27px on mobile, with 23px task headings (21px at 1000px and below), 18px verdict headings (17px on mobile), and 13px body text. Critical states, trace steps, bounds, grant facts, receipt identifiers, and trust fingerprints remain at least 12px. Editable scenario and signed-evidence JSON deliberately use `ui-monospace, SFMono-Regular, monospace` at 12px with 1.9 line height; this is code typography, not the display face.
+
 **The Readable Assurance Rule.** Keep assurance decision-critical annotations at 12px or larger; inherited tiny metadata is not a precedent.
 
 The inherited guided cases and secondary lab annotations still carry 8–11px text. These are recorded as legibility debt, not a recommended label scale for future surfaces. The scan also identifies 19 distinct font sizes across the build; they are not a newly approved uniform type ramp.
@@ -158,6 +160,8 @@ At 950px the rail narrows to 175px. At 760px it becomes a toggleable overlay, th
 The evidence lab has a 1580px maximum container with 34px horizontal gutters, a 24px gap, and input/result columns of `minmax(310px, .85fr)` and `minmax(420px, 1.15fr)`. At 1200px its gutters become 24px and the gap 18px. At 1000px the panels stack input before result and the container caps at 850px. At 760px gutters become 16px and panel content uses 18–19px padding. The lab has no fixed bottom dock.
 
 Assurance has a 1590px maximum container and 32px horizontal gutters, narrowing to 24px at 1300px and 16px at 760px. Portfolio and decision views use a 22px-gap master/detail grid with `minmax(280px, .68fr)` and `minmax(0, 1.55fr)` columns. At 1100px they stack, with portfolio rows in two columns; decision rows become full-width on mobile. Four totals become two columns at 760px. The failure lab uses a scenario list beside a flexible result, stacking at 760px. Its actions remain in normal flow. Graph records occupy four columns, becoming two on mobile, where connectors are hidden and named relationships remain available.
+
+The execution lab reuses the 1590px maximum width and 32px gutters, narrowing to 24px at 1300px and 16px at 760px. Paired execution verdicts share a divided paper container, stacking at 760px. Its ordered trace and selected-transition inspector use a 22px gap and `minmax(280px, .85fr)` / `minmax(0, 1.25fr)` columns, stacking at 1000px. Approval, scope, and execution occupy three columns, two at 1300px with execution spanning the row, and one at 1000px. Actions stay in normal flow and wrap or become full-width on mobile.
 
 ## Elevation & Depth
 
@@ -214,6 +218,18 @@ The decision room places contingent credit, incremental renewal cost, and net va
 Evidence graph nodes reuse the source radius and pale paper/sage/amber fills. Causal paths and arrowheads use graph-link with a 1.4px path stroke against paper. Named relationship text accompanies the geometry; source selection reveals quoted evidence, record metadata, and revision controls. Node titles may clamp to three lines; the full title and relationship list remain available.
 
 Failure cases use a selectable list beside a bordered result, an explicit passed/failed verdict, named checks, and expandable recorded/rejected steps. The advanced command editor uses 12px monospace. Assurance case entry is a .25s easing from 1px blur to clear, disabled for reduced motion. Assurance controls use 2px forest focus outlines with 3px offset; primary/secondary actions have 39px minimum height.
+
+### Execution laboratory
+
+A portfolio-copy note names the selected vendor and commitment reference, snapshot revision, and retained source revisions. Adversarial source and clock inputs are explicitly hypothetical. The note states that exploration creates no approval, grant, or live portfolio change; custom edited programs are labeled user-supplied.
+
+Paired selectable verdicts compare the actual bounded cached-check reference and guarded execution. Each presents a named result, search extent, and outcome text; selected states use sage, negative red, or inconclusive amber wash. Not-run, loading, error, and resource-cutoff states remain distinct. An inconclusive search is not presented as a green safety verdict.
+
+Numbered trace rows express actual execution order. Selection reveals the command, actor, before/after revision, observed credit capacity, reducer decision, and time in an adjacent paper inspector. Unsafe effects use named red labels. The repair inset keeps rationale, inspected continuation, safe terminal completion counts, and incomplete branches visible together; custom programs explicitly state when no automatic repair exists.
+
+The authority workflow keeps exact finance approval, bounded signed scope, and one-use execution in separate flat panels. Scope facts expose amount, lifetime, delegation depth, approval basis, and consumed/revoked state. A receipt shows the committed revision change and identifier. The trust area requires an explicit demo-issuer pin beside its fingerprint, with a separate signed-JSON editor and named verification outcome. Runtime labels distinguish isolated browser authority from SQLite execution; notices state the limits of offline verification.
+
+Execution panels reuse the panel and control radii, thin rules, and 2px forest focus outline with 3px offset. Primary and secondary actions have a 40px minimum height; text actions have 32px minimum height. The inspector clears from 0.7px blur over .25s with `cubic-bezier(.16,1,.3,1)`; loading uses the existing .8s spinner rhythm. Reduced-motion preferences disable both animations.
 
 ## Do's and Don'ts
 

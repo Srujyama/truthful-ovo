@@ -6,6 +6,10 @@
 
 ## Goal
 
+Frontier expansion (2026-10-29 Pacific): research dated primary releases/specifications/papers through current time; implement a bounded multi-agent interleaving explorer using real financial transitions, replayable shortest unsafe-effect witnesses for a deliberately naive reference harness, guarded comparison, explicit resource exhaustion, deterministic repair and legitimate completion; implement exact-action Ed25519 delegation, subject possession, monotonic scope narrowing, revocation/expiry/current-basis checking and atomic one-use SQLite execution, verifier-signed portable receipts checked against separately pinned trust roots; make both mechanisms usable in a responsive execution lab with honest static/memory versus server labels; independent review, actual browser tests, and research/product documentation. User steering explicitly defers video work and submission/release packaging; retain the current public v3 deployment and focus on the development build. Preserve v3 paths and external T9. No claims of protocol conformance, global proof, authenticated source truth, external settlement or live LLM safety.
+
+Prior milestone:
+
 Depth expansion (2026-10-29): implement financial commitment assurance beyond per-case recovery. Observable completion: multi-case portfolio with globally conserved credit allocations, effective-date and knowledge-date replay, proposed/accepted versioned amendments, reversals, policy- and revision-bound action approvals, explicit counterfactual economics, causal evidence graph, executable adversarial scenarios with inspectable failures, real local SQLite/HTTP persistence and enforced session roles/idempotency/optimistic concurrency, browser-local hosted fallback honestly labeled, source-backed differentiation research, updated technical demo and docs, independent code/design review, integrated checks and live publication. Keep all prior working paths. Live-model work remains gated by unanswered credential choice; no fake runtime AI or external send/payment/integration claims.
 
 Prior milestone:
@@ -26,6 +30,8 @@ A polished, working localhost finance demo named Truthful. The two-minute flow d
 - User said go on after recommended real finance workspace. Nimbus is opening example; Pipeline demonstrates breadth.
 
 ## Open questions
+
+User steering (October29 Pacific): no further videos; not at demo/submission stage. Media and new release packaging are deferred. Existing drafts/artifacts are preserved without further publication. Product work continues, including testing actual approved portfolio actions against their contained evidence and ledger state.
 
 External T9 remains open: runtime AI credential/direction choice; accepted-host video sharing; original track, attendance and team consent. Current depth expansion continues independently. V3 assurance is implemented and published. The final accepted-host v3 video link still needs verification; the v2 Drive copy is owner-only and a new connector upload could not be grounded by readback.
 
@@ -68,7 +74,7 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - [ ] T9 · Resolve external submission decisions and accepted-host video sharing
       files: docs/delivery.json, scripts/verify-submission-ready.mjs
       accept: node scripts/verify-submission-ready.mjs
-      notes: External inputs pending: Drive anyone-link verification unsupported by connector and browser is controlled by another session; runtime AI reuse/create question unanswered; Round1 track, attendance and teammate consent unknown. No fabricated answers or automatic form submission.
+      notes: Deferred during current product-development stage after user explicitly stopped further video work. External Round1 track, attendance and teammate consent are unknown; runtime AI credential choice unanswered. No fabricated declarations or automatic form submission. Earlier public v3 delivery facts are preserved.
 - [x] T10 · Build temporal commitment assurance and globally conserved allocation engine
       files: src/assurance
       accept: node --test src/assurance/*.test.mjs
@@ -89,6 +95,26 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       files: src, server, .github, docs/delivery.json
       accept: npm run check && npm run verify:depth && node scripts/verify-delivery.mjs
       notes: Source d1481836 published; both GitHub workflows green;45 hosted UI assertions passed;181s public video equals inspected local bytes; public evidence packet replays. Final pad audit refuses completion solely because externalT9 is open.
+- [x] T15 · Research current frontier standards and defensible next product layer
+      files: docs/FRONTIER_RESEARCH.md
+      accept: node scripts/verify-frontier.mjs
+- [x] T16 · Build bounded action interleaving exploration and counterexample replay
+      files: src/explorer, scripts/verify-exploration.mjs
+      accept: node --test src/explorer/*.test.mjs
+- [x] T17 · Build signed constrained delegation with atomic execution and independent receipts
+      files: src/authority, server, scripts/verify-authority.mjs
+      accept: node --test src/authority/*.test.mjs server/*.test.mjs
+- [x] T18 · Integrate responsive execution laboratory and actual runtime workflows
+      files: src/ExecutionLab.jsx, src/execution-lab.css, src/useDelegation.js, src/App.jsx
+      accept: npm run check
+- [x] T19 · Independently review and validate frontier development build; release deferred by user
+      files: docs, README.md, scripts, package.json, .impeccable
+      accept: npm run check && node scripts/verify-frontier.mjs
+      notes: 156 tests and integrated fixture/replay/build checks green. Independent code and desktop/mobile design review passed after cutoff-verifier, reset-authority, receipt-refresh and asynchronous UI ordering fixes. SQLite/static portfolio checks pass. User deferred videos, publication and submission packaging; public v3 remains unchanged.
+- [x] T20 · Connect bounded exploration to current approved portfolio actions
+      files: src/explorer/portfolio.mjs, src/explorer/portfolio.test.mjs, src/ExecutionLab.jsx
+      accept: node --test src/explorer/portfolio.test.mjs
+      notes: Eight adapter tests and eight real browser checks in each of SQLite and static modes pass. Exact approved snapshot, explicit clock, hypothetical adverse event, current reducer rejection, packet replay, no live mutation and mobile overflow verified; independent design review ships.
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -106,3 +132,12 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · done T12 · Build portfolio, decision review, evidence graph, and adversarial lab
 - 2026-10-29 · done T13 · Validate differentiation and align deep build documentation and demo
 - 2026-10-29 · done T14 · Review integrated assurance system and publish validated upgrade
+- 2026-10-29 · done T15 · Research current frontier standards and defensible next product layer
+- 2026-10-29 · done T16 · Build bounded action interleaving exploration and counterexample replay
+- 2026-10-29 · done T17 · Build signed constrained delegation with atomic execution and independent receipts
+- 2026-10-29 · done T18 · Integrate responsive execution laboratory and actual runtime workflows
+- 2026-10-29 · done T20 · Connect bounded exploration to current approved portfolio actions
+- 2026-10-29 · set T20 · notes
+- 2026-10-29 · done T19 · Independently review and validate frontier development build; release deferred by user
+- 2026-10-29 · set T19 · notes
+- 2026-10-29 · set T9 · notes

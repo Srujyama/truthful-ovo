@@ -3,6 +3,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import { mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { createAuthorityManager } from './authority.mjs';
 
 const COOKIE = 'truthful_demo_session';
 const MAX_BODY = 256 * 1024;
@@ -178,12 +179,12 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
     if (!Number.isSafeInteger(revision) || revision < 0) fail(428, 'REVISION_REQUIRED', 'Provide the current server revision through expectedRevision or If-Match.');
     return revision;
   };
-  const write = (req, auth, data, command, url) => {
+  const write = (req, auth, data, command, url, authorityContext) => {
     if (['actor', 'role', 'userId'].some(key => Object.hasOwn(data, key))) fail(403, 'ACTOR_NOT_CLIENT_CONTROLLED', 'Actor and role come from the server session.');
     const expected = expectedRevision(req, data);
     const key = req.headers['idempotency-key'];
     if (typeof key !== 'string' || !/^[A-Za-z0-9._:-]{8,128}$/.test(key)) fail(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Use an 8–128 character Idempotency-Key for every write.');
-    const requestDigest = hash({ expectedRevision: expected, command });
+    const requestDigest = authorityContext?.requestDigest || hash({ expectedRevision: expected, command });
     db.exec('BEGIN IMMEDIATE');
     try {
       requireIntegrity();
@@ -199,6 +200,7 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
       const current = read();
       if (expected !== current.revision) fail(409, 'REVISION_CONFLICT', 'The workspace changed. Refresh before approving or applying this action.', { expectedRevision: expected, currentRevision: current.revision });
       const at = now();
+      authorityContext?.authorize(current, at);
       const persistedCommand = storedCommand(command);
       const reduced = applyStored(engine, current.state, current.initial, persistedCommand, auth.actor, at);
       const previous = db.prepare('SELECT entry_json FROM audit ORDER BY sequence DESC LIMIT 1').get();
@@ -207,12 +209,16 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
       const event = { ...unsigned, hash: hash(unsigned) };
       db.prepare('INSERT INTO audit VALUES(?,?)').run(revision, JSON.stringify(event));
       db.prepare("UPDATE workspace SET revision=?,state_json=?,updated_at=? WHERE id='demo'").run(revision, JSON.stringify(reduced.state), at);
-      const response = { ...projection({ state: reduced.state, revision }, url), result: reduced.result ?? null, audit: { sequence: event.sequence, hash: event.hash } };
+      if (command.type === '__DEMO_RESET__') authority.revokeOutstandingForReset(at, auth.actor);
+      const authorityResult = authorityContext?.afterWrite({ current, reduced, event, at, revision });
+      const response = { ...projection({ state: reduced.state, revision }, url), result: reduced.result ?? null, audit: { sequence: event.sequence, hash: event.hash }, ...(authorityResult ? { authority: authorityResult } : {}) };
       const responseJson = JSON.stringify(response);
       db.prepare('INSERT INTO idempotency VALUES(?,?,?,?,?,?)').run(auth.actor.id, key, requestDigest, responseJson, hash(responseJson), revision);
       db.exec('COMMIT'); return { response, replayed: false };
     } catch (error) { db.exec('ROLLBACK'); throw error; }
   };
+
+  const authority = createAuthorityManager({ db, now, engine, read, requireIntegrity, write });
 
   const server = createServer(async (req, res) => {
     try {
@@ -237,7 +243,19 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
         db.prepare('INSERT INTO sessions VALUES(?,?,?,?)').run(hash(token), JSON.stringify(auth.actor), csrf, Date.parse(now()) + SESSION_MS);
         json(res, 201, sessionPayload(auth), { 'Set-Cookie': `${COOKIE}=${token}; Path=/api; HttpOnly; SameSite=Strict; Max-Age=${SESSION_MS / 1000}` }); return;
       }
+      if (req.method === 'GET' && url.pathname === '/api/authority') { json(res, 200, authority.info()); return; }
+      if (req.method === 'GET' && url.pathname === '/api/authority/status') { json(res, 200, authority.status(url.searchParams.get('grantId'))); return; }
+      if (req.method === 'POST' && url.pathname === '/api/authority/execute') {
+        requireOrigin(req); const result = await authority.execute(req, await body(req), url);
+        json(res, 200, result.response, result.replayed ? { 'Idempotent-Replayed': 'true' } : {}); return;
+      }
       const auth = requireSession(req);
+      if (req.method === 'GET' && url.pathname === '/api/authority/export') { json(res, 200, readTransaction(() => { requireIntegrity(); return authority.exportPacket(); }), { 'Content-Disposition': 'attachment; filename="truthful-authority-evidence.json"' }); return; }
+      if (req.method === 'POST' && ['/api/authority/grants', '/api/authority/revoke'].includes(url.pathname)) {
+        requireOrigin(req); requireCsrf(req, auth); const input = await body(req);
+        const options = { actor: auth.actor, idempotencyKey: req.headers['idempotency-key'] };
+        json(res, 200, url.pathname.endsWith('/grants') ? authority.issueGrant(input, options) : authority.revokeGrant(input, options)); return;
+      }
       if (req.method === 'DELETE' && url.pathname === '/api/session') {
         requireOrigin(req); requireCsrf(req, auth); db.prepare('DELETE FROM sessions WHERE token_hash=?').run(auth.token_hash);
         json(res, 200, { signedOut: true }, { 'Set-Cookie': `${COOKIE}=; Path=/api; HttpOnly; SameSite=Strict; Max-Age=0` }); return;

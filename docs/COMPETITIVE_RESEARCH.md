@@ -8,9 +8,9 @@ Finding credits, matching invoices, negotiating renewals, citing sources, tracki
 
 ## Product and protocol matrix
 
-“Documented” below means the provider publicly describes it. Performance and customer results are not independently validated here. The Truthful columns have been reconciled with the implemented v3 model; deployment/recording verification is tracked separately by the lead. Implementation does not imply superior competitor performance.
+“Documented” below means the provider publicly describes it. Performance and customer results are not independently validated here. The Truthful columns describe the implemented financial foundation; deployment/recording verification is tracked separately by the lead. Implementation does not imply superior competitor performance.
 
-| Product / specification | Documented public scope | Truthful v3 actually present | Differentiation and novelty boundary |
+| Product / specification | Documented public scope | Truthful foundation actually present | Differentiation and novelty boundary |
 | --- | --- | --- | --- |
 | Ramp Bill Pay | Records vendor credits and applies them to bills, including partial applications. [Official help](https://support.ramp.com/vendor-credits-credit-memos-on-ramp-bill-pay/). | Separates promise/issuance/application with shared credit capacity, reversals, and local evidence entry. | Executable cross-commitment conservation and revision/authority checks. Do not say Ramp lacks credit management. |
 | Ramp Applied AI Solutions | Describes contract-to-invoice reconciliation and policy interpretation with source citations. [Official product page](https://ramp.com/applied-ai-solutions). | Bounded parser feeding an assurance model, exact spans, optional local transactional service; no connected enterprise service. | An inspectable replay showing exactly which adverse event blocks an action. Do not claim first contract reconciliation or superior extraction. |
@@ -37,6 +37,10 @@ The recent arXiv items below were opened directly and their titles, authors, dat
 | Fowler, *Bitemporal History*. [Author’s article](https://martinfowler.com/articles/bitemporal-history.html). | Explains the distinction between when a fact applied and when it became known. | Preserve effective time and observed/recorded time. A late correction should change current understanding without rewriting what an earlier operator could know. |
 
 The duplicate-reimbursement identifier was corrected during verification: **2609.37819**, not a guessed `2610.*` identifier. Titles alone and third-party paper summaries were not accepted as verification.
+
+## V4 mechanism beyond the foundation
+
+The implemented expansion adds a bounded full-history interleaving explorer, shortest effect witness and current-guard replay, fixed-family repair with separate legitimate-completion accounting, and real Ed25519 delegated local execution with pinned-root effect verification. The reference is a deliberately broken cached-check harness, not a competitor. Custom programs can be tested but do not receive general synthesized repair. The public signing lab is an isolated ephemeral fixture; optional SQLite mode is durable and atomic. See [dated frontier research](FRONTIER_RESEARCH.md) for the October 20 Visa pilot, October 24 permission/receipt Internet-Draft, current protocol versions, relevant counterexample/authority research, and falsifiers. None establishes that competitors lack equivalent mechanisms or that Truthful is first.
 
 ## Defensible positioning
 

@@ -1,8 +1,64 @@
-# Truthful v3: questions from engineers
+# Truthful v4: questions from engineers
 
 ## What changed beyond the original parser?
 
-The parser is now an entry point into a shared commitment-assurance system. The implemented core manages allocations across commitments, versioned amendment branches, effective/knowledge-time projections, policy-bound approval/execution, reversals, and explicit renewal economics. The optional HTTP/SQLite service adds a real transaction, actor-context, concurrency, retry, and audit boundary. The Failure lab executes adverse cases against the same reducer. See [architecture](ARCHITECTURE.md) and [technical deep dive](TECHNICAL_DEEP_DIVE.md).
+The parser feeds a financial state machine. V4 adds an explicit plan laboratory: generate adverse orderings, retain a shortest unsafe-effect witness, replay the same schedule at the real guard, inspect a bounded repair, then authorize an exact local execution using Ed25519 delegation. The HTTP/SQLite path atomically commits effect, capability use, audit, receipt, and retry response. See [architecture](ARCHITECTURE.md) and [technical deep dive](TECHNICAL_DEEP_DIVE.md).
+
+## What does the explorer actually enumerate?
+
+Enabled interleavings of the supplied finite actors’ ordered steps and explicit dependencies. Steps are cached checks/commits, real atomic commands, and clock changes. Breadth-first search uses full state/history, counters, clock, and cached checks for deduplication; equal balances alone do not merge histories. It has no partial-order reduction. Two actors with two ordered steps have exactly six terminal schedules. Five authored families and edited custom finite plans are supported.
+
+## Is the red result just a rejected command?
+
+No. A rejection at the current guard is a successful boundary. The intentionally naive reference reuses cached reducer events without current validation. Its actual committed effect is compared with the current reducer’s decision and independently checked conservation. Both modes receive the same program/order. The reference is deliberately broken teaching code, not an LLM, competitor, or representative production system.
+
+## What does “shortest” mean, and what happens at a cutoff?
+
+BFS retains the shortest unsafe-effect prefix under the supplied grammar and enabled orderings. This is step minimality within that finite model, not a universally minimal causal explanation. Depth/state/transition/time limits are explicit. A cutoff is inconclusive about absence of failures. A found witness remains replayable; the verifier checks its effects and reproduces the reported search or deterministic expanded-state prefix. A digest alone does not validate a cutoff report.
+
+## Does repair synthesize an arbitrary better program?
+
+No. Unchanged authored families have deterministic repairs with a fixed vocabulary; edited or unknown plans return no automatic repair. The credit repair preserves both distinct allocation intents and IDs, checking each atomically. The changed-source and amendment repairs introduce a fresh proposal and a distinct modeled finance approver. They do not elevate the executor, synthesize evidence, or silently change initial terms. Approver availability is a fixture assumption.
+
+## Could safety mean refusing every task?
+
+We count legitimate safe terminal completion separately from prevented unsafe effects. The deadline repair deliberately keeps both clock orders eligible: one terminal order completes, the expired order is refused. It reports one of two, not perfect completion. The credit repair cannot fulfill two $900 intentions from one $900 line. These finite schedule counts are not statistical accuracy or customer utility measurements.
+
+## What is signed, and what does “Maximum claim” constrain?
+
+A grant binds the exact approved action, basis and full approval-event digests, workspace/audience, target agent key, commitment/vendor/USD identity, amount/obligation limits, lifetime, and root nonce. Maximum claim bounds the modeled claim amount, not literal new spending or external payment. The hero action preserves original terms; recording it does not increase verified savings.
+
+## Why is a valid signature insufficient?
+
+The current action and basis, policy, time, revocation, scope, and unused root nonce must still pass inside the effect transaction. A supporting source change can stale an otherwise valid signed grant. The final agent must sign the request with the leaf private key; copying the public grant does not confer possession. No external identity or vendor authenticity follows from a valid demo signature.
+
+## Can delegation widen authority or give siblings separate uses?
+
+Children can narrow limits and validity and bind a new target key. They retain action, basis, workspace, audience, and root nonce. One root plus at most three children is supported. The parent agent signs the child; the leaf signs execution. Siblings share the one-use root, so executing through one consumes the capability for all. Unknown fields/caveats and widening are refused.
+
+## What is atomic about signed execution?
+
+The SQLite service checks current authority inside `BEGIN IMMEDIATE`, then commits the actual reducer effect, root-nonce consumption, authority audit, signed receipt, and cached response together. Concurrent new uses cannot both win; a failed write does not consume the grant. The browser authority demonstration uses serialized in-memory state instead, without durability or multi-user guarantees.
+
+## Can resetting the demo revive an old grant?
+
+No. Outstanding roots are permanently revoked inside the reset transaction, with retained signed lifecycle evidence. Recreating the same seeded action and even an identical approval does not revive an old grant. A regression reproduces that exact reset/reapproval case; an injected lifecycle-write failure must roll back both reset and grant status. Full approval-event hashing also binds the approving actor/event, not only its financial basis.
+
+## Why can retry succeed after expiry or revocation?
+
+An identical already-committed request returns its stored result. This reports the past transaction; it does not reevaluate permission for a new effect. Changing request identity/content or attempting a new use is subject to the live gate and consumed-root rejection. The UI exposes **Retry identical request** separately from **Attempt another execution**.
+
+## Isn’t exporting a public key and trusting it circular?
+
+Yes, if the verifier accepts the packet’s own claimed root. Ours requires a separately supplied pinned issuer. **Pin this demo issuer** makes that local trust decision explicit; the CLI takes an independent `--trust` file. It proves identity relative to that chosen demo key, not that the issuer is a verified finance organization. The local issuer key is demo SQLite configuration; production identity/key custody is outside scope.
+
+## What can the offline verifier prove, and what can it not know?
+
+It checks signatures, included lifecycle/checkpoint, grant/possession chain, shared one-use root, exact before/after financial state, current-authority checks at the recorded execution, and replayed effect against a pinned root. It cannot know current revocation, global unspentness across cloned databases, omitted events beyond the checkpoint, authentic vendor facts, trusted external time, or settlement. A receipt is historical evidence, not reusable execution permission.
+
+## Does this conform to AP2, UCP, or the October IETF draft?
+
+No. This is a custom Ed25519 local execution profile. AP2/UCP address substantial neighboring commerce/payment concepts, and the October 24 permission/receipt Internet-Draft is work in progress rather than an adopted standard. We claim no interoperability, passkey, hybrid/post-quantum signature, or protocol-conformance result. [Dated primary-source research](FRONTIER_RESEARCH.md).
 
 ## What is the specific user problem?
 
@@ -18,7 +74,7 @@ AI assisted development. The runtime is deterministic and does not call a live l
 
 ## Why should an engineer care about a rules engine?
 
-Because the rules must continue to hold across multiple cases and time. We demonstrate a duplicate allocation rejected without partial mutation, a late amendment visible only at the appropriate knowledge cutoff, a conflicting branch blocked until reasoned review, and a once-valid approval rejected after its basis changes. Those are executable state/effect properties, not just a prompt or dashboard.
+Because the rules must continue to hold across multiple cases and time. We demonstrate a duplicate allocation rejected without partial mutation, a late amendment visible only at the appropriate knowledge cutoff, a conflicting branch blocked until reasoned review, and a once-valid approval rejected after its basis changes. V4 makes the order itself inspectable: a new finite script can generate a replayable unsafe cached effect, expose what the live reducer prevents, and quantify whether the repaired program still finishes. Those are executable state/effect properties.
 
 ## What exactly is conserved?
 
@@ -66,7 +122,7 @@ No. Effective and future incremental obligations are retained separately from ve
 
 ## Is the public website the same as the server demo?
 
-It uses the same reducer, but has a different trust boundary. GitHub Pages serves static files and uses the clearly labeled browser workspace. It does not host Node, SQLite, or a shared authoritative ledger. `npm run dev` additionally starts a loopback HTTP/SQLite service with server-side role checks, transactions, revisions, persistent retries, and audit replay. The runtime banner identifies the mode.
+It uses the same reducer, but has a different trust boundary. GitHub Pages serves static files and uses the clearly labeled browser workspace. It does not host Node, SQLite, or a shared authoritative ledger. `npm run dev` additionally starts a loopback HTTP/SQLite service with server-side role checks, transactions, revisions, persistent retries, and audit replay. The runtime banner identifies the mode. In the public build, Signed authority is a separate ephemeral synthetic workspace; it does not sign or mutate the persisted browser portfolio. Its keys and authority state disappear on reload. The explorer also runs separate scenario state.
 
 ## Are the server’s users authenticated employees?
 
@@ -82,7 +138,7 @@ The server requires `expectedRevision` or `If-Match`. A stale request receives a
 
 ## Is the audit tamper-proof?
 
-No. Server entries bind command, actor, time, state digests, revisions, and previous hash. Replaying from the stored seed checks the persisted snapshot and export. Somebody controlling the entire database can replace the seed/history and recompute the hashes. There is no independent external anchor, authenticated vendor signature, or trusted clock attestation. Browser records have still less independent authority.
+No. Server entries bind command, actor, time, state digests, revisions, and previous hash. Replaying from the stored seed checks the persisted snapshot and export. Somebody controlling the entire database can replace the seed/history and recompute the hashes. There is no independent external anchor, authenticated vendor signature, or trusted clock attestation. V4 authority packets add a signed local checkpoint whose issuer must be pinned independently; a database rewrite without that signing key cannot manufacture that issuer’s signature. Control of the demo issuer key remains outside this protection. No local signature authenticates the vendor or complete external history.
 
 ## Can source text cause a real action?
 
@@ -90,11 +146,11 @@ No external action tool is connected. Text is evidence, not an instruction chann
 
 ## How is correctness tested?
 
-At this checkpoint the assurance suite has thirty-eight tests and nine authored scenarios with thirty-one checks, including legitimate completion after a block. Other suites cover extraction, cents math, imports, economics, local approval packets, and real HTTP/SQLite behavior. The lead records integrated browser/build results separately. Authored scenarios are regression evidence, not held-out accuracy, competitor performance, or formal proof.
+At this checkpoint the assurance suite has thirty-eight tests and nine authored scenarios with thirty-one checks, including legitimate completion after a block. Other suites cover extraction, cents math, imports, economics, local approval packets, and real HTTP/SQLite behavior. The inspected explorer checkpoint adds fourteen tests over five finite families; authority/authority-HTTP checks add thirty targeted tests. Those are separate component checkpoints. The lead’s integrated acceptance passed 145 tests and the authored fixture/scenario/prefix checks. The v4 acceptance replay-verified fifteen reports over five families; browser checks passed twenty-three assertions in each of SQLite and isolated production-preview modes, with actual packets verified by the pinned-root CLI. Counts include shared fixture prefixes and are not performance measurements. Current publication and any later rerun belong in [DELIVERY.md](DELIVERY.md). Authored scenarios are regression evidence, not held-out accuracy, competitor performance, or formal proof.
 
 ## Are these proof-carrying contracts or formal verification?
 
-No. We use runtime validation, deterministic reducers, regression tests, and replay checks. Existing research already studies proof-checked agent operations, temporal reconciliation admissibility, and formally verified invoice lifecycles. We cite it as grounding and a limit on novelty claims, not as a guarantee inherited by our JavaScript implementation. [Research review](COMPETITIVE_RESEARCH.md).
+No. We use bounded explicit-state exploration, runtime validation, deterministic reducers, regression tests, signatures, and replay checks. No SMT/Tamarin/TLA+ proof or general synthesis is implemented. Existing research already studies proof-checked agent operations, temporal reconciliation admissibility, and formally verified invoice lifecycles. We cite it as grounding and a limit on novelty claims, not as a guarantee inherited by our JavaScript implementation. [Research review](COMPETITIVE_RESEARCH.md).
 
 ## How would a pilot be evaluated?
 

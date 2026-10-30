@@ -1,12 +1,30 @@
 # Truthful · Team OVO
 
-**A credit can be real. The deal can still be wrong.**
+**Find the unsafe sequence. Repair the workflow. Verify the authority behind its effect.**
 
-Truthful follows vendor commitments through evidence, amendments, approval, invoice application, and reversal. It asks three separate questions: **what is owed, what is the net value of this decision, and is this exact action still authorized?** Built for the BBS × Ramp technical round.
+Truthful tests proposed financial workflows before their effects, then binds execution to exact current authority. Its financial engine follows vendor promises through changing terms, credits, and reversals. Built for the BBS × Ramp technical round.
 
-[Live browser demo](https://srujyama.github.io/truthful-ovo/) · [Narrated v3 demo](https://github.com/Srujyama/truthful-ovo/releases/tag/v3.0.0) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md) · [Submission status](docs/DELIVERY.md)
+[Development status](docs/DEVELOPMENT.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md) · [Frontier research](docs/FRONTIER_RESEARCH.md)
 
-![Truthful commitment assurance](docs/assurance.png)
+V4 is a local development build. Media and submission packaging are deferred; the existing public deployment remains the earlier v3 build.
+
+![Truthful execution laboratory](docs/execution-lab.png)
+
+## The v4 ritual
+
+**Execution lab → Race explorer → Explore schedules.** Two workers cache the same $900 credit. The explorer enumerates the six allowed program-order-preserving schedules and finds a four-step unsafe reference trace: $900 becomes $1,800 allocated. Select that effect, then inspect the current reducer’s rejection of the same raced allocation.
+
+**Inspect repaired plan** commits each original intent through an atomic current-state check. The claim finishes safely in both repaired orderings. Other scenarios race source revisions, claim deadlines, and competing amendments. Deadline repair honestly finishes only one of two orders; expiry still blocks the other. An unchanged benign workflow succeeds.
+
+Choose the 10-state budget to observe **inconclusive**, not a green pass. Inspect/edit the finite JSON program and export its replayable report. Custom plans are checked as supplied; automatic repair is restricted to known unchanged authored families. These are scripted proposals, not an LLM safety evaluation or a general program-synthesis system.
+
+To analyze a current portfolio action, review and approve it in **Assurance → Decision room**, then choose it under **Current approved portfolio actions** in Race explorer. Select no additional event, a hypothetical supporting-source revision, or its actual claim deadline. The copied model retains the exact approval and source versions; analysis adds no live events or grants.
+
+**Signed authority** separates finance approval, constrained delegation, and execution. Issue an Ed25519 grant, optionally sign a narrower child, and let its agent key prove possession. The boundary rechecks the exact action, full approval record, basis, policy, scope, expiry, revocation, expected revision, and unused root nonce. It consumes authority and records the local effect, audit, and signed receipt together. An exact retry returns its original receipt; a fresh use fails. Reset cannot revive an old grant.
+
+Export the signed packet and public trust key separately. Verification refuses an unpinned issuer or altered signature and replays the recorded financial effect. Browser mode runs real signatures in a clearly labeled **isolated ephemeral authority workspace**; it does not share the browser portfolio’s state. Server mode uses the local SQLite workspace. Private browser keys are held only in memory.
+
+The dated [frontier research](docs/FRONTIER_RESEARCH.md) explains the October 2026 developments behind this design, current protocol versions, what is implemented, and what would falsify the product argument. This is a custom Truthful profile; no AP2/UCP/MCP/A2A or IETF-draft conformance is claimed.
 
 ## Run the full build
 
@@ -44,12 +62,22 @@ The earlier **Guided demo** remains available: a covered nine-hour Nimbus outage
 ```sh
 npm run check
 npm run verify:depth
+npm run verify:frontier
 npm run verify:assurance-packet -- output/playwright/assurance-latest.json
 ```
 
 The build contains financial unit tests, real HTTP/SQLite persistence and concurrency tests, evidence regressions, and authored synthetic evaluations. These establish specified model behavior, **not held-out accuracy or formal verification**. Browser acceptance scripts in `scripts/` exercise the real rendered flows in both local-service and static modes using the Playwright CLI.
 
 **Export audit packet** includes sources, temporal projection, financial state, and decisions. In local-service mode it also includes the command chain, actor context, and initial state for replay. The verifier detects a changed exported state or chain relative to the stored seed. Someone controlling the entire database can rewrite that seed and recompute the chain; hashes do not authenticate evidence or establish settlement finality.
+
+The frontier artifacts have their own independent verifiers:
+
+```sh
+npm run verify:exploration -- --check /path/to/truthful-exploration.json
+npm run verify:authority -- /path/to/truthful-authority-evidence.json --trust /path/to/truthful-pinned-issuer.json
+```
+
+The trust file must be pinned through an independently trusted process. A public key supplied with a packet does not establish identity. Signatures authenticate the selected key’s recorded statement; compromised issuer keys, cloned databases, omitted actions, current revocation, and real-world settlement remain outside offline proof.
 
 The earlier evidence CLI uses a separate packet format:
 

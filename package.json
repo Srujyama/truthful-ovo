@@ -1,15 +1,15 @@
 {
   "name": "truthful-ovo",
-  "version": "3.0.0",
+  "version": "4.0.0-dev.1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
-    "test": "node --test src/domain.test.mjs src/recovery.test.mjs src/engine/*.test.mjs src/assurance/*.test.mjs src/assuranceImport.test.mjs src/economics.test.mjs server/*.test.mjs",
+    "test": "node --test src/domain.test.mjs src/recovery.test.mjs src/useAssurance.test.mjs src/engine/*.test.mjs src/assurance/*.test.mjs src/assuranceImport.test.mjs src/economics.test.mjs src/explorer/*.test.mjs src/authority/*.test.mjs server/*.test.mjs",
     "verify:submission": "node scripts/verify-submission.mjs",
-    "check": "npm test && npm run evaluate && npm run evaluate:assurance && npm run verify:submission && npm run verify:depth && npm run build",
+    "check": "npm test && npm run evaluate && npm run evaluate:assurance && npm run verify:submission && npm run verify:depth && npm run verify:frontier && npm run build",
     "analyze": "node scripts/analyze.mjs",
     "verify:packet": "node scripts/verify-packet.mjs",
     "evaluate": "node src/engine/evaluate.mjs",
@@ -17,7 +17,10 @@
     "dev:server": "node server/start.mjs",
     "evaluate:assurance": "node src/assurance/evaluate.mjs",
     "verify:depth": "node scripts/verify-depth.mjs",
-    "verify:assurance-packet": "node scripts/verify-assurance-packet.mjs"
+    "verify:assurance-packet": "node scripts/verify-assurance-packet.mjs",
+    "verify:frontier": "node scripts/verify-frontier.mjs",
+    "verify:exploration": "node scripts/verify-exploration.mjs",
+    "verify:authority": "node scripts/verify-authority.mjs"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.2.8",

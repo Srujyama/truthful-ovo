@@ -1,95 +1,88 @@
-# Truthful v3 architecture
+# Truthful v4 architecture
 
-Truthful is a financial commitment assurance prototype. Its central object is a versioned obligation with conserved credit allocations, source lineage, proposed changes, and actions checked against current authority. The deterministic core runs in both the browser and an optional Node service.
+Truthful’s operator ritual is **test → inspect the counterexample → repair → approve → delegate → verify the recorded effect**. It combines a financial commitment model, a bounded scripted-program explorer, and a custom signed-authority boundary. The financial runtime is deterministic; no live LLM or external financial endpoint is connected.
 
 ```mermaid
-flowchart LR
-    UI[Portfolio / Decision room / Failure lab]
-    Hook[useAssurance transport]
-    Reducer[Pure assurance reducer]
-    Projection[Effective + known-time projection]
-    Browser[Browser localStorage]
-    HTTP[Loopback HTTP service]
-    SQLite[SQLite snapshot + command audit + retries]
-    Text[Promise text + credit CSV + reply]
-    Extract[Bounded evidence engine]
-    Import[Revalidate + prepare atomic commands]
-    Export[Audit packet + replay check]
-
-    UI --> Hook
-    Hook -->|static deployment| Reducer
-    Reducer --> Browser
-    Hook -->|local service available| HTTP
-    HTTP --> Reducer
-    HTTP --> SQLite
-    Reducer --> Projection --> UI
-    Text --> Extract --> Import --> Hook
-    HTTP --> Export
-    Browser --> Export
+flowchart TB
+    Evidence[Promise text + positive credit CSV] --> Import[Bounded extraction + atomic import]
+    Import --> Finance[Assurance reducer and projections]
+    Portfolio[Portfolio / Decision room] --> Finance
+    Program[Finite scripted program + bounds] --> Explorer[Breadth-first interleaving explorer]
+    Explorer --> Naive[Deliberately cached-check reference]
+    Explorer --> Guarded[Actual current-state reducer]
+    Guarded --> Finance
+    Explorer --> Witness[Shortest retained effect witness + replay packet]
+    Witness --> Repair[Known-family explicit repair]
+    Repair --> Explorer
+    Finance --> Approval[Exact current approval]
+    Approval --> Grant[Ed25519 grant to agent key]
+    Grant --> Gate[Signature + scope + basis + policy + live status]
+    Gate --> Atomic[Local effect + nonce + audit + receipt + retry result]
+    Atomic --> Receipt[Signed lifecycle and execution packet]
+    Root[Separately pinned issuer public key] --> Verify[Offline signature and effect replay]
+    Receipt --> Verify
 ```
 
-## Runtime modes
+## Runtime modes and data boundaries
 
-| Mode | Persistence and enforcement | Boundary |
+| Surface/mode | Actual state and enforcement | What it does not establish |
 | --- | --- | --- |
-| Local SQLite service | Real Node HTTP process, server-issued sessions, role checks, optimistic write revisions, atomic SQLite transactions, durable idempotent responses, replayable audit. | Selectable local demo identities are not organizational authentication. Only loopback interfaces/origins are supported. No external financial action. |
-| Browser workspace | Same reducer and projections, stored in localStorage. Whole command batches validate before replacing the open/saved workspace. | The browser owner controls the data and selected role. No shared authoritative backend, independent identity, or managed backup. |
-| Public GitHub Pages | Static application uses the labeled browser workspace fallback. | It does not run Node or SQLite. The public URL is not a hosted multi-user finance service. |
+| Public static Assurance | Same financial reducer and browser-local portfolio persistence. | No authoritative shared backend or organizational identity. |
+| Race explorer | Independent finite scenario initial states; naive and guarded execution of the same program/orderings. | Not a live model or competitor evaluation; it does not mutate the open portfolio. |
+| Public Signed authority | Real Web Crypto Ed25519 signatures in an **isolated synthetic workspace**, with ephemeral keys and in-memory serialized use state. | It does not sign/modify the public persisted portfolio, survive reload, or provide independent server authority. |
+| Optional local HTTP/SQLite service | Real sessions/roles, optimistic revisions, atomic batches, durable retries, audit replay, signed grants, live revocation, root-nonce consumption, and signed receipts. | Selectable demo human roles are not verified employees; loopback service is not a production hosted identity/payment platform. |
 
-`npm run dev` starts the optional service and Vite together. `npm run dev:web` runs the frontend alone. Node 24 or later is required for the local service’s built-in SQLite support. Startup checks availability rather than treating configured code as a connected backend. The runtime banner names the active mode.
+`npm run dev` starts Node and Vite together; `npm run dev:web` serves the frontend alone. The app detects live service availability and labels browser fallback. GitHub Pages serves static files, not Node/SQLite. Existing guided Nimbus and Evidence lab report stores remain separate from the shared assurance portfolio.
 
 ## Code map
 
-| File | Responsibility |
+| File/module | Responsibility |
 | --- | --- |
-| [`src/Assurance.jsx`](../src/Assurance.jsx) | Portfolio, source/version graph, replay dates, Decision room, branch decisions, ledger editor, mandate editor, and executable Failure lab. |
-| [`src/useAssurance.js`](../src/useAssurance.js) | Service discovery, demo sessions, transport, revision handling, browser fallback, reset, and consistent export snapshot. |
-| [`src/assurance/core.mjs`](../src/assurance/core.mjs) | Pure command reducer, temporal projection, financial checks, amendment branching, action simulation/approval/execution, and causal graph. |
-| [`src/assurance/fixtures.mjs`](../src/assurance/fixtures.mjs) | Fictional four-vendor seed and its source-backed event sequence. |
-| [`src/assurance/scenarios.mjs`](../src/assurance/scenarios.mjs) | Nine executable authored scenarios, including expected rejections and resulting-state assertions. |
-| [`server/service.mjs`](../server/service.mjs) | Loopback HTTP, server actor context, CSRF/origin checks, SQLite transaction boundary, concurrency, durable retries, audit export/replay. |
-| [`src/economics.mjs`](../src/economics.mjs) | Same-horizon renewal comparison from explicitly entered monthly cost assumptions. |
-| [`src/assuranceImport.mjs`](../src/assuranceImport.mjs) | Revalidates evidence documents and prepares an atomic import, preserving the legacy adapter’s invoice identity. |
-| [`src/Workbench.jsx`](../src/Workbench.jsx) and [`src/engine/index.mjs`](../src/engine/index.mjs) | Supported-format evidence ingestion, exact source spans, credit-ledger reconciliation, and the Add to portfolio path. |
-| [`src/recovery.mjs`](../src/recovery.mjs) | Separate evidence-lab report snapshots, exact-draft approval, thirty saved reports, JSON/CSV/unsent EML exports. |
-| [`src/domain.mjs`](../src/domain.mjs) | Earlier guided Nimbus SLA calculations and scenario replay; separate from the assurance workspace. |
+| [`src/ExecutionLab.jsx`](../src/ExecutionLab.jsx) | Race explorer, finite-program editing, search verdicts, trace inspection, repairs, signed-authority workflow, pinned-key verification, and tamper demonstration. |
+| [`src/explorer/index.mjs`](../src/explorer/index.mjs) | BFS schedule exploration, guarded/reference replay, shortest witnesses, bounded reports, fixed-family repair, and packet verification. |
+| [`src/explorer/scenarios.mjs`](../src/explorer/scenarios.mjs) | Five explicit scripted families with actors, dependencies, initial evidence, goals, and properties. |
+| [`src/useDelegation.js`](../src/useDelegation.js) | Agent keys, issuance/delegation requests, exact retries, revocation, UI packet export, and deliberate trust pinning. |
+| [`src/authority/index.mjs`](../src/authority/index.mjs) | Strict custom profiles, canonical/domain-separated signing, Ed25519 verification, attenuation, key possession, current-basis checks, and offline effect replay. |
+| [`src/authority/memory.mjs`](../src/authority/memory.mjs) | Separate ephemeral browser authority workspace; serialized lifecycle and one-use execution. |
+| [`server/authority.mjs`](../server/authority.mjs) | Persisted issuer, grants, revocation, atomic delegated execution hooks, lifecycle records, receipts, and signed checkpoint export. |
+| [`server/service.mjs`](../server/service.mjs) | Loopback HTTP/session boundary, SQLite transaction ownership, revisions, retries, audit replay, and authority routes. |
+| [`src/Assurance.jsx`](../src/Assurance.jsx), [`src/useAssurance.js`](../src/useAssurance.js) | Portfolio, Decision room, earlier Failure lab, history/graph/ledger controls, service transport, and browser fallback. |
+| [`src/assurance/core.mjs`](../src/assurance/core.mjs) | Financial event reducer, conserved allocations, temporal projection, branch decisions, and canonical approval basis. |
+| [`src/assuranceImport.mjs`](../src/assuranceImport.mjs), [`src/engine/index.mjs`](../src/engine/index.mjs) | Source revalidation, supported text/credit-ledger processing, exact spans, stable legacy invoice identity, and atomic promotion. |
 
-## State and financial semantics
+## Search semantics
 
-The assurance workspace is an append-only domain event sequence with a base policy and event revision. Inputs and commands are not mutated. Each accepted fact has an actor, observation time, financial effective date, command identity, and source/version references. Projection produces commitments, credit lines, allocations, amendments, actions, totals, and graph edges.
+A finite plan specifies initial state/time, ordered actor programs, optional dependencies, a goal, and fixed financial/authorization properties. Operations include speculative `check`, cached `commit`, actual current-state `command`/`atomic`, and explicit simulation-clock advancement.
 
-An issued memo can reserve credit capacity through allocation but contributes zero verified value. Application requires invoice evidence. All allocations share one credit-line capacity across cases. Exact vendor identity, USD currency, and commitment reference must agree. Multiple or absent candidates are quarantined until an approver records an explicit source-backed resolution. Verified attribution is capped by the accepted promise; excess applied value remains separately observable.
+The reference commits cached reducer events without rechecking current state. The guarded path calls the real reducer at effect time. Both receive identical programs and eligible schedules; no alternate credit math is substituted. Full workspace/history, program counters, clock, and cached observations enter canonical state identity; equal balances do not merge distinct histories.
 
-Reversals reduce ledger backing and the associated attribution. A partial reversal across several claims requires explicit causal allocation amounts. Recording/allocation/reversal/identity commands cannot be future-dated, closing the path where two invisible future allocations could each consume the same current capacity. Future due dates and approved future amendments remain supported.
+BFS retains a shortest unsafe-effect prefix within the supplied plan and explored bounds. Rejected invalid attempts are successful guards, not invariant failures. Depth, states, transitions, and wall time are bounded. A cutoff is inconclusive; absence of a witness does not generalize beyond the explored model. The verifier checks digest, retained traces/effects, and search counts; time-cutoff reports reproduce the exact deterministic BFS prefix.
 
-## Versioned terms and authority
+Repairs are deterministic transformations for unchanged authored families. Custom/edited programs can be explored and replayed but receive `repair:null`, not an unrelated template. Completion and unsafe effects are separate results. Deadline repair preserves both clock orderings: one completes, one correctly refuses expired authority.
 
-Conflicting pending amendments cannot silently overwrite the original agreement. Incompatible patched fields or renewal economics block acceptance. Finance dismisses an alternative with a retained reason/actor event, then prepares a fresh action. Proposals bind the accepted branch, current term revision, and supporting source versions. A fresh action cannot revive an intrinsically stale amendment.
+## Signed authority and atomic effect
 
-A supported explicit replacement may supersede an accepted but not-yet-effective **nonfinancial schedule** amendment, naming its predecessor and covering every patched field. Renewal cancellation/replacement is outside that bounded model and is refused. All prior proposals, decisions, and replacement edges remain in history.
+The custom grant binds issuer/key ID, workspace/audience, one exact approved action/commitment/vendor/currency, agent public key, action/full-approval-event/basis digests, maximum claim amount, maximum incremental obligation, validity window, and shared root nonce. Unknown caveats fail closed. The maximum claim is a bound on the modeled action amount, **not a literal new-spend budget**.
 
-Actions pass through proposed, approved, stale/blocked, and locally executed states. Approval binds canonical action content, policy version/content, commitment revision, material event revision, and current source revisions. New material evidence, ledger facts, terms, or policy invalidate pending approval conservatively, even if the update concerns another case. Execution rechecks policy and current basis; it is one-use. A passing check records a local simulation, not a vendor transaction.
+A child is signed by its parent agent and can narrow amount/lifetime while preserving the action, audience, basis, and obligation constraints. A signed request proves possession of the leaf key. The local server rechecks current approval, policy, time, revocation, scope, revision, and unused root under the same SQLite write transaction as the reducer effect, consumption, audit, signed receipt, and cached response.
 
-## Temporal projection
+An identical committed retry returns its prior receipt, even after subsequent expiry/revocation; it is not a fresh execution. A new use of the consumed root is rejected, including through another child. Signing a valid grant does not revive a stale approval. Outstanding roots are permanently revoked atomically on a demo reset, preventing reused seeded IDs/approvals from resurrecting authority. The UI’s original-terms action records no new savings or external transaction.
 
-`evaluateWorkspace(workspace, {asOf, knownAt})` separates financial effective dates from observation time. A late-recorded amendment can change a retrospective assessment without appearing in an earlier knowledge view. Historical UI comparisons disable writes. The underlying export may retain the complete event history so the projection can be reproduced; a historical cutoff is a query, not an access-control boundary.
+## Financial foundation
 
-Missing evidence remains unknown. Bitemporal replay does not establish that an external source has finished posting, prove absence of a later application, or guarantee settlement finality.
+Credits have one shared capacity after reversals. Exact identity and source-backed ambiguity resolution constrain allocation. Issued memos reserve capacity but verify nothing until invoice application. Verified attribution is capped by accepted promise value. Reversals are causal new records, not deleted history.
 
-## Evidence import and separate storage
+Competing amendments require reasoned dismissal and a fresh current review. Proposals bind accepted branch/source versions; fresh actions cannot revive stale proposals. Supported explicit supersession is bounded to accepted future nonrenewal terms without creating/cancelling a renewal obligation. Effective and known-time projections retain historical knowledge without claiming source completeness. Material updates invalidate pending approvals conservatively.
 
-The evidence lab accepts one explicit supported USD promise, a positive applied-credit CSV, and an optional reply. Exact citations use half-open JavaScript UTF-16 indices. The CSV is a credit-ledger adapter, not arbitrary gross-invoice understanding.
+## Verification formats are separate
 
-Add to portfolio reruns extraction against original documents, rejects unresolved conditions/replies, checks existing terms, and prepares source/commitment/credit/allocation commands. The legacy adapter has one credit per vendor invoice: changing its reference cannot invent a second line. Explicit multiple-line identities belong in the structured API. The batch commits entirely or leaves the portfolio unchanged. Importing facts does not transfer an evidence-lab email approval into assurance action authority.
+| Packet | Verifier |
+| --- | --- |
+| Assurance workspace/server export | `node scripts/verify-assurance-packet.mjs packet.json` replays complete domain commands and compares projections/invariants/server record when present. |
+| Exploration report | `node scripts/verify-exploration.mjs --check report.json` replays retained schedules and bounded search/prefix claims. |
+| Signed authority evidence | `node scripts/verify-authority.mjs packet.json --trust pinned-issuers.json` verifies a separately trusted issuer, lifecycle, grant/request signatures, and actual reducer effect. |
+| Earlier Evidence lab report | `node scripts/verify-packet.mjs packet.json` verifies that separate report/draft hash-chain format. |
 
-The guided walkthrough state, the evidence lab’s thirty saved reports, and the assurance workspace are distinct stores. Reset controls describe their scope. An assurance service reset restores the seed while retaining server command audit history; browser reset replaces that browser workspace.
+A self-selected embedded key is not a trust anchor. Pinning the synthetic lab issuer deliberately is a demonstration trust decision, not proof of an organization’s identity. Offline signatures attest the included recorded history/effect at a checkpoint; they cannot establish current revocation, global unspentness across forks, source authenticity, external settlement, or completeness of omitted history.
 
-## Service, exports, and trust
-
-The server derives actor/time from its session and clock, refuses client-supplied outer actor fields, and applies the same reducer. `expectedRevision` prevents a stale writer from overwriting newer state. SQLite commits snapshot, command audit entry, and cached idempotent response together. Identical requests with the same actor/key return the recorded response after restart; changed input under that key is rejected.
-
-Server audit entries bind command, actor, timestamp, before/after state digests, revisions, and prior hash. Replay from the stored seed checks snapshot consistency. Browser-mode exports do not acquire server authority by containing the same event schema. Server-mode exports use the server’s returned workspace snapshot rather than a stale tab copy.
-
-Hashes and replay check internal consistency relative to the supplied seed/history. They do not authenticate source issuers, verify an actual person, anchor time independently, or prevent a database owner from replacing and rehashing the entire record. Production identity, authenticated adapters, independent retention, and external action integrations remain outside this prototype. No live LLM, inbox, payment, vendor, or Ramp connection is claimed.
-
-See [TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md) for invariants, adversarial sequences, API examples, and evaluation limits.
+The project does not implement AP2/UCP/MCP/A2A conformance, passkeys, post-quantum signatures, a general synthesizer, an SMT/TLA+ proof system, or a live-model benchmark. See [TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md) for APIs/invariants and [FRONTIER_RESEARCH.md](FRONTIER_RESEARCH.md) for dated primary sources and the limits of the wedge.

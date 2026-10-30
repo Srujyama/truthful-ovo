@@ -74,7 +74,7 @@ async (page) => {
   await page.getByLabel('Supporting source text').fill('SYNTHETIC reversal notice: USD 300 of INV-PC-1026 / PC-SEATS-2026 is reversed.');
   await click('Record reversal');await page.waitForTimeout(150);
   require((await page.locator('.assurance-amount').innerText()).includes('$1,800.00'),'Reversal reopens the original promise by the actual reversed amount');
-  await page.reload();await page.getByText(mode,{exact:true}).waitFor();
+  await page.reload();await click('Assurance');await page.getByText(mode,{exact:true}).waitFor();
   require((await page.locator('.assurance-amount').innerText()).includes('$1,800.00'),'Reload retains the changed financial state');
   await click('Failure lab');await click('Run all cases');
   await page.getByText('9/9 authored cases passed',{exact:true}).waitFor();

@@ -85,9 +85,10 @@ export default function useAssurance() {
   },[]);
 
   async function refresh() {
-    if(current.current.mode !== 'server') return;
+    if(current.current.mode !== 'server') return current.current.workspace;
     const result = await request('/workspace');
     if(result.revision >= current.current.revision) adopt(result.workspace,{revision:result.revision,integrity:result.integrity});
+    return current.current.workspace;
   }
 
   async function commands(batch) {
@@ -104,7 +105,8 @@ export default function useAssurance() {
         const reply = await request(endpoint,{method:'POST',headers:{'Idempotency-Key':crypto.randomUUID()},body:JSON.stringify(envelope)});
         if(ticket !== operation.current) return null;
         next = reply.workspace; result = reply.result;
-        adopt(next,{revision:reply.revision,integrity:reply.integrity});
+        if(reply.revision >= current.current.revision) adopt(next,{revision:reply.revision,integrity:reply.integrity});
+        next = current.current.workspace;
       } else {
         next = live.workspace;
         const now = new Date(Math.max(Date.now(),Date.parse(next.events.at(-1)?.observedAt || 0))).toISOString();
@@ -150,7 +152,7 @@ export default function useAssurance() {
     try {
       if(current.current.mode === 'server') {
         const reply = await request('/demo/reset',{method:'POST',headers:{'Idempotency-Key':crypto.randomUUID()},body:JSON.stringify({confirm:'RESET_DEMO_WORKSPACE',expectedRevision:current.current.revision})});
-        adopt(reply.workspace,{revision:reply.revision,integrity:reply.integrity});
+        if(reply.revision >= current.current.revision) adopt(reply.workspace,{revision:reply.revision,integrity:reply.integrity});
       } else {
         if(current.current.actor.role !== 'admin') throw new Error('Use the demo admin role to reset the workspace.');
         const next=createDemoWorkspace(); localStorage.setItem(KEY,JSON.stringify(next));

@@ -1,10 +1,10 @@
 # Depth strategy: financial commitment assurance
 
-This strategy was prepared October 29, 2026 and reconciled with the implemented v3 assurance engine, optional HTTP/SQLite service, importer, and UI. The earlier parser remains the evidence entry path. The current domain checkpoint has thirty-eight tests and nine authored scenarios with thirty-one checks. Integrated browser/build/publication evidence remains the lead’s responsibility in [DELIVERY.md](DELIVERY.md).
+This strategy was prepared October 29, 2026 and reconciled with the v3 financial foundation and v4 explorer/authority modules. The earlier parser remains the evidence entry path. The inspected component checkpoints are thirty-eight assurance tests and nine scenarios/thirty-one checks, fourteen explorer tests/five families, and thirty authority/authority-HTTP tests. These are separate checkpoints, not a rerun aggregate. Integrated browser/build/publication evidence is recorded by the lead in [DELIVERY.md](DELIVERY.md).
 
 ## The coherent wedge
 
-Make one question the product: **“Can we still take this action, and what evidence makes the answer true?”**
+Make one question the product: **“How can this plan fail before its effect, and what current authority permits the legitimate continuation?”**
 
 The answer must account for the binding promise, its amendments, which credits remain available, what the operator knew at the time, the full economics of any new obligation, and the authority available now. A finance operator gets a decision queue; an engineer gets an executable state machine and a reproducible failure trace.
 
@@ -12,7 +12,7 @@ The strongest demonstration is not another credit found. It is an apparently att
 
 Credit lifecycle automation, source-linked records, agent guardrails, and temporal reasoning already exist in products and research. Our case for differentiation is the integrated, inspectable behavior under adverse events. See [competitive research](COMPETITIVE_RESEARCH.md).
 
-## Implemented v3 status
+## Implemented financial foundation
 
 | Mechanism | Actual implementation | Remaining boundary |
 | --- | --- | --- |
@@ -26,6 +26,16 @@ Credit lifecycle automation, source-linked records, agent guardrails, and tempor
 | Durable boundary | Optional loopback HTTP/SQLite service with session role context, revisions, transactions, persistent retries, audit hashing/replay. | Public GitHub Pages is browser-local fallback; hash consistency does not prove authenticity. |
 
 The integrated mechanisms are described in [TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md). The concrete acceptance workflow and current controls are in [DEMO_SCRIPT.md](DEMO_SCRIPT.md).
+
+## V4 makes the plan itself inspectable
+
+The new operator ritual is **test → witness → repair → approve → delegate → verify**. The bounded BFS explorer generates enabled orderings of explicit actor programs; it does not choose a canned verdict. A deliberately unsafe cached-check reference and the actual guard receive the same scripts/orderings. Full-history state identity preserves temporal differences, shortest unsafe prefixes expose actual effects, and independently replayable reports make the counterexample inspectable.
+
+Repairs are fixed-family transformations only for unchanged authored programs. They retain roles, distinct allocation intents, and adverse clock orders. Completion is measured separately from prevention. The deadline repair deliberately finishes one of two orders; it neither extends the deadline nor calls refusal success. Custom programs remain explorable/verifiable but have no automatic repair outside the known unchanged families.
+
+The permitted next action can be granted to an Ed25519 agent key, narrowed to another key, and executed through a live current-state gate. Shared-root nonce consumption, reducer effect, audit, signed receipt, and retry result commit atomically in SQLite. The offline verifier uses an independently supplied trusted root and replays the included execution. The public browser signing lab uses a separate ephemeral synthetic workspace, not the persisted finance portfolio.
+
+These are implemented modules, not claims of general synthesis, formal proof, protocol conformance, live LLM performance, production identity, external settlement, or market novelty. [Dated research and falsifiers](FRONTIER_RESEARCH.md), [technical mechanics](TECHNICAL_DEEP_DIVE.md).
 
 ## One operator workflow
 
@@ -56,9 +66,9 @@ A separate question is whether absent evidence is final. A posting stream may be
 
 ## Three-minute technical demo
 
-The current hero sequence and actual controls are specified in [DEMO_SCRIPT.md](DEMO_SCRIPT.md): Portfolio gap, negative renewal economics, reasoned branch dismissal and fresh exact-action approval, a two-cutoff temporal comparison, executed stale-approval and duplicate-allocation failures, an atomic legitimate application, and export. Failure-lab scenarios use independent seeds; the advanced command console deliberately mutates the open workspace.
+The v4 hero sequence and actual controls are specified in [DEMO_SCRIPT.md](DEMO_SCRIPT.md): generated unsafe effect, paired current guard, bounded repair/utility, exact approval, signed root/child delegation, one local execution, identical retry versus refused new use, separately pinned verification, and signature tampering. The finance appendix retains the negative renewal economics, reasoned branch dismissal, two-cutoff history, reversals, atomic evidence import, and legitimate applied credit. Each lab labels its state boundary.
 
-Every number and gate in the recording must execute. Counterparties and external effects are simulated. The existing v2 recording is older explanatory material and is not evidence that the v3 mechanisms were recorded.
+Every number and gate in the recording must execute. Counterparties and external effects are simulated. Existing v2/v3 recordings are older explanatory material, not evidence that the v4 ritual was recorded.
 
 ## Engineering acceptance and evaluation
 
@@ -70,11 +80,11 @@ The primary score is the resulting financial state and authorized effects. A con
 | Isolation | Vendor, USD currency, reference, and ledger-line identity checks constrain allocation. Multiple legal entities are not separately modeled; unsupported identity mappings require review. |
 | Amendments | Only valid accepted revisions change binding terms. Conflicting branches hold the case. A rejected amendment leaves totals and valid versions intact. |
 | Temporal replay | Same event log and cutoffs give the same projection. Events not yet observed are absent from earlier knowledge views; later knowledge does not rewrite the recorded past. |
-| Action freshness | Changed obligation, evidence, ledger, or policy invalidates affected approval; claim deadlines are rechecked at execution. There is no separate employee-grant revocation or approval-TTL model. |
+| Action freshness | Changed obligation, evidence, ledger, or policy invalidates affected approval; claim deadlines are rechecked at execution. Financial approval has no separate employee-identity/TTL model; v4 delegated grants add their own explicit expiry, revocation, agent-key possession, and shared-root use state. |
 | Legitimate progress | A fresh valid proposal can succeed after the block is resolved; safety cannot mean rejecting every action. |
 | Reversals | A reversal is a new traceable event, restoring the proper available capacity without deleting history or double-releasing value. |
 | Economics | One-time credit and new term cost use one declared horizon; baseline assumptions are visible; the original correction is not counted again as new negotiation savings. |
-| Replay/export | Export contains the source/event lineage and enough schema/version information to reproduce supported projections and explain each block. Integrity hashes are not authenticity proofs. |
+| Replay/export | Separate verifiers replay financial commands, bounded exploration, and signed authority. Integrity hashes alone are not authenticity proofs; authority signatures require a separately trusted issuer and concern only the included historical checkpoint. |
 | Hostile evidence | An instruction embedded in source evidence cannot directly create approval, allocation, or an external action. Future LLM integration requires its own tests. |
 
 Use authored scenario suites and seeded event-sequence tests for development. Label them regression tests, not independent accuracy. A deliberately naive baseline can demonstrate known failure modes only if its behavior and assumptions are published; do not call it “GPT,” “Ramp,” or a competitor without running that actual system under a fair, documented comparison.
@@ -93,10 +103,10 @@ A pilot would measure incremental credits actually applied and operator effort a
 
 **“Are these proofs?”** Ordinary invariant tests and runtime preconditions are not formal proofs. Existing research already explores proof-checked agent operations and formally verified invoice lifecycles. Describe our actual verifier and trust boundary precisely. [Proof-Carrying Contracts](https://arxiv.org/abs/2610.28484), [verified invoice lifecycle](https://arxiv.org/abs/2609.37819).
 
-**“Does the export prove the vendor agreed?”** It proves consistency relative to the included evidence/events and implemented checker. Authentic identity, external settlement, nonrepudiation, and independent record retention need real trust infrastructure.
+**“Does the export prove the vendor agreed?”** It proves consistency relative to the included evidence/events and implemented checker. A v4 signature authenticates the included record relative to a separately trusted local key. Authentic organizational/vendor identity, external settlement, globally complete revocation/use state, and independent retention require real trust infrastructure.
 
 **“What makes this a useful product?”** A finance lead must be able to understand the block, resolve it, and finish the legitimate job with less review effort than the current workflow. That must be tested with operators. Engineering sophistication alone does not establish demand.
 
 ## Status reconciliation
 
-The conflict-quarantine target is implemented, including retained dismissal and intrinsically stale amendment bases; it is no longer a future-work item. The optional service is also implemented and independently exercised through ephemeral HTTP/SQLite checks. Verified organizational identity, live source/model connectors, independent audit anchoring, and finance-reviewed held-out evaluation remain distinct product gates. This strategy does not replace the lead’s integrated acceptance or publication record.
+Conflict quarantine, the optional transactional service, bounded exploration, catalog repairs, and scoped signed execution are implemented. Retained dismissal and intrinsic amendment-basis staleness remain part of the financial foundation. Independent component review and ephemeral HTTP/SQLite checks do not replace integrated rendering, full acceptance, or signed-out publication checks. Verified organizational identity, live source/model connectors, independent audit anchoring, and finance-reviewed held-out evaluation remain distinct product gates. This strategy does not replace the lead’s integrated acceptance or publication record.
