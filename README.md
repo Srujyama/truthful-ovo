@@ -61,6 +61,16 @@ The public GitHub Pages app runs the same financial engine in a clearly labeled 
 
 The earlier **Guided demo** remains available: a covered nine-hour Nimbus outage produces a $2,000 SLA claim, a conditional reply, and distinct issued/applied states. Evidence-lab draft approval produces an unsent EML; it does not authorize an assurance action.
 
+## Follow a credit through fulfillment
+
+Select a commitment, open **Shared ledger**, and choose **Record credit**. Supply the memo or invoice reference, its stable line identity, exact USD amount, effective date, and source text. Record an issued memo or an applied invoice credit; optional partial attribution leaves the rest available. Review the financial preview before confirming. An issued credit never creates verified applied value.
+
+Each credit exposes **Attribute credit**, **Add invoice evidence**, and **Prepare reversal** as applicable. Invoice application uses the existing line. Reversals identify exactly which attributed amounts lose backing. Bound source revisions remain inspectable, and the source/ledger batch commits atomically. Duplicate physical lines, excess attribution, invalid dates, and wrong roles are refused.
+
+**Propose changed terms** prepares amount, due-date, deadline, condition, or renewal changes for the selected commitment. The original agreement remains active until a separate approver approves the exact action and an executor records it. Renewal proposals require an explicit baseline and incremental cost; policy restrictions remain visible. The case summary retains the original amount beside changed accepted terms.
+
+These forms work in local SQLite and browser-local modes. They record supplied evidence; no issuer is authenticated or contacted. Ambiguous credits still require explicit approver resolution through the command console. See the [workflow verification record](docs/CREDIT_WORKFLOW_REVIEW.md).
+
 ## Verify and replay
 
 ```sh

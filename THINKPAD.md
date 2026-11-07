@@ -6,6 +6,10 @@
 
 ## Goal
 
+Continue the finance product with source-backed operator workflows for new issued/applied credit lines, partial attribution, invoice application, explicit causal reversals, and proposed changes to selected commitments. Observable acceptance: exact physical line identity and conserved capacity; issued value never counted as applied; atomic source/financial writes; immutable original terms until exact approval/execution; current-role/history restrictions; stale preview invalidation; source-revision graph lineage; temporal replay and portable exports; SQLite/browser-local persistence; actual desktop/mobile/intermediate journeys; independent review and repairs. Preserve existing Apple/Ramp working-ledger system and all previous capabilities. No videos, public deployment, external transactions or new AI credential work.
+
+Prior completed milestone:
+
 Continue the app and native Figma UI: make the actual finance workflow coherent from evidence import to selected-case review, exact evidence inspection, role-correct approval and local recording. Improve first viewport composition, compact records, task hierarchy, mobile navigation, truthful blocked/empty/recovery states and guided-demo scope. Preserve Apple/Ramp working-ledger identity and financial reducer guarantees. Verify desktop/mobile/intermediate, historical evidence isolation, imported case continuity, roles, keyboard and both local-service/static modes. Reflect changed flows in editable native Figma with independent source/visual review, documentation and pushed source. No videos, public deployment or external transactions.
 
 Prior completed milestone:
@@ -185,6 +189,24 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       accept: npm run design:check && npm run design:verify-native && npm run design:verify-system
       notes: User screenshot reveals purple native ComponentSet labels overlap authored captions. Reflow from measured guide/heading heights with reserved editor-label space; verify actual Figma window at50/70/100percent, preserve product screens/components/instances, recordnewcloudversion andpushsource.; Actual Figma editor inspected at50/70percent and bothfamilies100percent; independent review accepted collision repair and ownership-safe regeneration.57 offline regressions plus both actual native gates pass. Existing17screens,12masters and82instanceIDs retained. Cloudversion2416032624820026877; artifact hashes and scoped review recorded; source readyforbranchpush.
       took: 6m
+- [x] T31 · Build source-backed credit lifecycle adapter and conservation checks
+      files: src/credit-workflow.mjs, src/credit-workflow.test.mjs, src/assurance/core.mjs
+      accept: node --test src/credit-workflow.test.mjs
+      notes: Inspected adapter and integrated pure preflight with current-state confirmation.
+      attempts: 1
+      took: 6m
+- [x] T32 · Author source-backed amendments through existing exact-action review
+      files: src/amendment-workflow.mjs, src/amendment-workflow.test.mjs, src/AmendmentEditor.jsx, src/amendment-editor.css
+      accept: node --test src/amendment-workflow.test.mjs
+      notes: Independent renewal-only finding repaired; editor integrated, with permanent preview invalidation and pending submission lock.
+      attempts: 1
+      took: 6m
+- [x] T33 · Integrate credit forms and independently verify finance journeys
+      files: src/CreditWorkspace.jsx, src/credit-workspace.css, src/Assurance.jsx, scripts/browser-credit-workflow-check.js, scripts/browser-credit-recovery-check.js, scripts/verify-credit-workflows.mjs, scripts/browser-assurance-check.js, package.json, README.md, docs/DEVELOPMENT.md, docs/CREDIT_WORKFLOW_REVIEW.md
+      accept: npm run check && npm run verify:credit-workflows
+      deps: T31, T32
+      notes: Independent source and desktop/mobile/900px visual reviews returned ship after renewal-only, cleared reversal, sibling-key and current-accepted-amount repairs. New journeys 82 and retained assurance 54 real browser assertions pass across SQLite and production browser-local modes. Six exported packets replay to exact conserved balances and full closure. 202 automated checks, authored evaluations, frontier/depth verifiers and build pass. No videos, release or external transactions. Native Figma retains the prior milestone; new forms are application scope.
+      took: 10m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -237,3 +259,12 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-10-29 · done T29 · Integrate and independently review app and native Figma UI journeys
 - 2026-10-29 · started T30 · Fix component-library editor label collisions and verify native canvas
 - 2026-10-29 · done T30 · Fix component-library editor label collisions and verify native canvas
+- 2026-11-06 · started T31 · Build source-backed credit lifecycle adapter and conservation checks
+- 2026-11-06 · started T32 · Author source-backed amendments through existing exact-action review
+- 2026-11-06 · done T31 (attempt 1) · verified: Focused lifecycle and assurance tests pass, with source-revision allocation edges, duplicate protection, role and temporal guards, exact causal reversals and legacy replay.
+- 2026-11-06 · done T32 (attempt 1) · verified: Eleven focused tests cover source-backed proposals, immutable originals, future terms, conflicts, renewal economics, role restrictions and source requirements.
+- 2026-11-06 · started T33 · Integrate credit forms and independently verify finance journeys
+- 2026-11-06 · set T31 · files=src/credit-workflow.mjs, src/credit-workflow.test.mjs, src/assurance/core.mjs
+- 2026-11-06 · set T33 · files=src/CreditWorkspace.jsx, src/credit-workspace.css, src/Assurance.jsx, scripts/browser-credit-workflow-check.js, scripts/browser-credit-recovery-check.js, scripts/verify-credit-workflows.mjs, scripts/browser-assurance-check.js, package.json, README.md, docs/DEVELOPMENT.md, docs/CREDIT_WORKFLOW_REVIEW.md, accept
+- 2026-11-06 · done T33 · Integrate credit forms and independently verify finance journeys
+- 2026-11-06 · Current credit/amendment application milestone completed with T31–T33 verified. Whole-plan finish audit reports only pre-existing deferred T9; no video/submission declarations or public release performed. New UI forms are not represented as updated native Figma screens.
