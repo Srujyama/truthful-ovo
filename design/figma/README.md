@@ -1,6 +1,10 @@
 # Truthful · Figma product design
 
-The kit contains 17 screen reconstructions (14 desktop and 3 mobile), 7 product-story boards, 12 component masters organized into two variant sets and 13 named color definitions. Text and surfaces are scene data, not screenshots. The separate selected-case authority handoff is explicitly labeled as a concept.
+The expanded source kit contains **69 screen reconstructions (55 desktop and 14 mobile), 14 product-story boards, 12 component masters in two variant sets, and 13 named colors**. It adds 52 distinct financial states to the retained 17-screen baseline. Text and surfaces are editable scene data, not screenshots. The separate selected-case authority handoff remains explicitly labeled as a concept.
+
+**Native status:** the new expansion is prepared and visually checked in the source gallery; it has not been saved into Figma. The recorded native baseline remains the previously verified 17 screens. Figma Desktop currently reports view-only plugin access and FigCli is disconnected. No new cloud version, native screen count, or native propagation proof is claimed.
+
+The expanded local review includes operations, vendor records, exact source revisions, activity, temporal reports, credit recording/application/attribution/reversal, ambiguity resolution, amendment authoring, exact approval and mobile layouts. All 69 screens and 14 boards passed rendered content, geometry, font and mapped-action checks. Its 483 mapped interactions navigate or explain authored states; they do not execute financial commands. See [the expansion record](../../docs/WORKSPACE_EXPANSION.md).
 
 Open [the local visual review](generated/preview.html), [the product specification](../../docs/FIGMA_PRODUCT_SPEC.md), or [the screen map](../../docs/FIGMA_SCREEN_MAP.json). The HTML review offers linked states and keyboard navigation; it executes no financial commands. Six alternate working-app behaviors are annotations rather than phantom prototype controls. Cutoff and repair are separately authored review states.
 
@@ -9,6 +13,8 @@ Open [the local visual review](generated/preview.html), [the product specificati
 The user pinned Apple or Ramp as the design philosophy. The [applied principles](DESIGN_PHILOSOPHY.md) translate that into a portfolio-first entry, compact record rows, an outstanding-balance-first hierarchy, concise language and detail revealed at its relevant stage. This interpretation preserves Truthful’s existing visual identity and financial boundaries.
 
 ## Current native status
+
+The facts in this section describe the **last verified native baseline**, not the pending expansion above.
 
 The working-ledger redesign replaces the sage-tinted interface with graphite text, neutral paper surfaces, a restrained forest action color and Public Sans. Functional page names, visible programs and concise empty states replace the earlier promotional hierarchy.
 
@@ -23,6 +29,12 @@ The [native system guide](DESIGN.md) documents the shipped architecture. Button 
 The native postprocessor runs on both fresh import and update. It preserves original screen and master IDs on update, repairs interrupted owned migrations, invalidates previous proof before changes and rejects failed editing/resize probes. After review, `npm run design:verify-system` independently checks current native types, property bindings, instance ancestry, typography coverage, per-screen variable use, clipping and Handoff presence. `npm run design:check` includes negative regression fixtures that reject misleading records.
 
 ## Reproduce
+
+For the current expansion, run `node scripts/expand-figma-map.mjs`, `npm run design:build`, `npm run design:check`, and `node scripts/prepare-figma-expansion.mjs`. The resulting [expansion manifest](expansion-manifest.json) declares 60 exact new roots: 52 screens, seven boards and one navigation overlay. It binds the models and original file/root identities. It is a scope declaration, not invented operator attestation or native-save evidence.
+
+Once the exact existing file is editable and its installed FigCli plugin is connected, apply with `node scripts/update-figma-kit.mjs --expansion-manifest design/figma/expansion-manifest.json`. The updater stages the kit, saves a restore version, preserves original roots/components, validates destination pages/ownership, and places new roots in nonoverlapping bands. Review actual native exports before restoring verified status, then run both native gates. The gates currently refuse the old 53-interaction record against the new 483-interaction specification and report the absent native connection; they have not been bypassed.
+
+If the existing development plugin is missing, its manifest is `~/Downloads/Coding/claude-tools/figma-cli/plugin/manifest.json`. The shared CLI’s `connect --safe` starts the bridge without patching Figma. Use the existing target file, not a fresh import into the populated document.
 
 Run `node scripts/build-figma-kit.mjs`, then `node scripts/verify-figma-kit.mjs` from the repository root. Serve the root using a static server to view the HTML review. Public Sans’s bundled WOFF2 and its OFL license are in `assets/`.
 

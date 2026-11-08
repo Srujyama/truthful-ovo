@@ -644,3 +644,8 @@ h1, h2, h3 { text-wrap: balance; }
   .decision-record-picker { display: grid; gap: 8px; padding: 14px; color: var(--ui-muted); font-size: 12px; }
   .decision-record-picker select { width: 100%; min-width: 0; min-height: 44px; border: 1px solid #d5dbe0; border-radius: 5px; padding: 10px; color: var(--ui-ink); background: white; font: inherit; }
 }
+
+/* Expanded workspace navigation scrolls independently of the account controls. */
+.sidebar nav { min-height:0; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
+.sidebar-bottom { flex-shrink:0; }
+.sidebar nav button:nth-child(4) { margin-top:0; }

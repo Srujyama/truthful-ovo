@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "title": "Truthful · Product design and execution review",
   "product": "Truthful · OVO",
-  "sourceVersion": "v4 development build",
+  "sourceVersion": "v4 expanded finance workspace",
   "capturePolicy": "Use actual app states and synthetic records. Specified frames are a design plan; this file does not assert that a Figma file or native layers have already been created.",
   "sections": [
     {
@@ -101,6 +101,174 @@
         "Permissioned source and external-effect adapters",
         "Independent pilot evaluation and protocol-conformance work"
       ]
+    },
+    {
+      "id": "operations-expansion",
+      "title": "Finance work architecture",
+      "headline": "The next financial job leads the workspace.",
+      "body": "Operations prioritizes actual exceptions. Vendor, source, activity and report views all project the same recorded ledger.",
+      "rows": [
+        [
+          "Operations",
+          "Deadlines, conflicting terms, stale approvals and unused capacity."
+        ],
+        [
+          "Vendor record",
+          "Commitments, physical credit lines and exact source revisions."
+        ],
+        [
+          "Evidence and activity",
+          "What was supplied, which revision was used, who recorded the change."
+        ],
+        [
+          "Reports",
+          "Explicit financial and knowledge cutoffs; contingent value remains separate."
+        ]
+      ]
+    },
+    {
+      "id": "credit-fulfillment",
+      "title": "Credit fulfillment journey",
+      "headline": "Issued → attributed → applied → precisely reversed.",
+      "body": "A $350 promise receives a $300 memo. $100 is attributed first; $200 remains available. Application does not create another physical credit.",
+      "rows": [
+        [
+          "Issued memo",
+          "No verified applied value until invoice evidence exists."
+        ],
+        [
+          "Partial attribution",
+          "One line, one conserved balance across commitments."
+        ],
+        [
+          "Invoice application",
+          "Use a separate invoice source on the existing credit identity."
+        ],
+        [
+          "Causal reversal",
+          "Remove $50 and $100 from exact attributions; $150 remains verified."
+        ]
+      ]
+    },
+    {
+      "id": "amendment-authority",
+      "title": "Changed terms and authority",
+      "headline": "A proposal is evidence. Acceptance is a separate decision.",
+      "body": "Amount, schedule, conditions and renewal economics stay inspectable against the original agreement.",
+      "rows": [
+        [
+          "Analyst",
+          "Record the source, amendment proposal and exact review action together."
+        ],
+        [
+          "Approver",
+          "Approve the exact current action under the mandate and source basis."
+        ],
+        [
+          "Executor",
+          "Record approved terms once; new evidence can invalidate old permission."
+        ],
+        [
+          "Outcome",
+          "Original $350 retained. Accepted promise $400; verified $150; $250 remains."
+        ]
+      ]
+    },
+    {
+      "id": "resolution-handoff",
+      "title": "Ambiguous credit handoff",
+      "headline": "Clarification precedes assignment.",
+      "body": "A shared reference does not imply ownership. No operator may silently guess which commitment receives a credit.",
+      "rows": [
+        [
+          "Analyst evidence",
+          "Record a clarification source without assigning financial ownership."
+        ],
+        [
+          "Approver limits",
+          "Choose the exact revision and explicit maximum for each candidate."
+        ],
+        [
+          "Conservation",
+          "Limits cannot exceed available credit or erase active attribution."
+        ],
+        [
+          "Release",
+          "Quarantine can clear. Attribution and invoice application remain separate jobs."
+        ]
+      ]
+    },
+    {
+      "id": "state-coverage",
+      "title": "Operational state coverage",
+      "headline": "The exception is part of the product.",
+      "body": "Forms explain required evidence, role, current basis, duplicate identity, date and capacity before the final effect.",
+      "rows": [
+        [
+          "Empty and loading",
+          "A useful next action without fabricated records or applied value."
+        ],
+        [
+          "Role and history",
+          "Adjacent reasons explain why a write is unavailable."
+        ],
+        [
+          "Stale and conflicting",
+          "Discard old previews; preserve documents and incompatible proposals."
+        ],
+        [
+          "Failure and recovery",
+          "Atomic refusal keeps the draft; explicit retry checks current state."
+        ]
+      ]
+    },
+    {
+      "id": "responsive-expansion",
+      "title": "Responsive handoff",
+      "headline": "Keep the decision intact at every width.",
+      "body": "Desktop pairs records and evidence; mobile gives the selected task a continuous single-column reading order.",
+      "rows": [
+        [
+          "1440px desktop",
+          "Compact rail, selected record, source controls and financial preview."
+        ],
+        [
+          "900px intermediate",
+          "Filters and facts wrap without moving essential actions off the work surface."
+        ],
+        [
+          "390px mobile",
+          "Real record selection, stacked fields, clear totals and 44px actions."
+        ],
+        [
+          "Keyboard",
+          "Visible focus, native fields and disclosures, deliberate source-to-case returns."
+        ]
+      ]
+    },
+    {
+      "id": "expansion-boundaries",
+      "title": "Implementation and design evidence",
+      "headline": "A native design is editable. A working journey is executable.",
+      "body": "Both artifacts are verified separately. A screen link is never evidence that a financial command ran.",
+      "rows": [
+        [
+          "Application",
+          "Actual reducer, SQLite/browser persistence and exported evidence."
+        ],
+        [
+          "Native Figma",
+          "Editable text, auto-layout, linked components, shared styles and prototype destinations."
+        ],
+        [
+          "Verification",
+          "Original root identities retained; explicit expansion manifest; reviewed current exports."
+        ],
+        [
+          "Trust limits",
+          "Synthetic supplied evidence. No issuer authentication, live model, vendor contact or settlement."
+        ]
+      ]
     }
   ],
   "screens": [
@@ -118,6 +286,10 @@
         {
           "label": "Analyze evidence",
           "targetId": "evidence-finding"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -160,6 +332,10 @@
           "note": "Review the exact original-terms draft and its citations before recording claim approval. Approval is local and sends no email; it does not approve a portfolio action.\nAlternate blocked state: The matched invoice credits fully cover the promise. No outstanding credit remains to claim. Review the matched invoices. You can add the completed record to the portfolio.\nConditional or changed replies remain excluded from portfolio import. Resolve the terms with supporting evidence before importing. Approval of an original-terms follow-up does not accept the condition.",
           "reviewBodySize": 14,
           "reviewHeight": 520
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -210,6 +386,10 @@
           "label": "Review next action",
           "targetId": "exact-approval",
           "note": "Open the existing original-terms action for the currently selected commitment. Imported commitments prepare and review their own action; they never fall back to the authored Pipeline action."
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -242,6 +422,10 @@
           "label": "Change the comparison assumptions",
           "targetId": "renewal-decision",
           "note": "Expand explicit what-if fields; this does not change a proposal."
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -291,6 +475,10 @@
             "quote": "We will credit USD 2,400 on your October 1, 2026 invoice for duplicate seats. Reference PC-SEATS-2026. This correction does not require a renewal.",
             "context": "All nine exact bound handles remain listed in the action review, including sources outside this commitment. Return closes this inspection and keeps the same action."
           }
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -323,6 +511,10 @@
           "label": "Signed authority",
           "targetId": "authority-approval",
           "note": "Switches to the separate Pipeline-focused signing lab; this is not a selected-action handoff."
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -352,6 +544,10 @@
         {
           "label": "Signed authority",
           "targetId": "authority-approval"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -382,6 +578,10 @@
         {
           "label": "Signed authority",
           "targetId": "authority-approval"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -409,6 +609,10 @@
         {
           "label": "Signed authority",
           "targetId": "authority-approval"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -439,6 +643,10 @@
           "label": "Issue signed grant",
           "targetId": "authority-scope",
           "note": "Available once the current action is approved."
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -477,6 +685,10 @@
           "label": "Revise supporting source",
           "targetId": "authority-scope",
           "note": "Invalidates the old approval basis; a signature cannot revive it."
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -510,6 +722,10 @@
         {
           "label": "Export signed evidence",
           "targetId": "packet-verification"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -543,6 +759,10 @@
         {
           "label": "Prepare fresh action",
           "targetId": "authority-approval"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -571,6 +791,10 @@
         {
           "label": "Back to the implemented workflow",
           "targetId": "portfolio"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
         }
       ],
       "annotations": [
@@ -690,6 +914,2893 @@
         "The verifier success text must retain its offline/current-state limitations.",
         "Alternate working-app state: Prepare fresh action returns the signing lab to a newly proposed action, requiring approval again. That reset control is not rendered as a hotspot in this condensed mobile receipt frame."
       ]
+    },
+    {
+      "id": "operations-queue",
+      "title": "Operations queue",
+      "description": "Prioritize the next evidence-backed finance task.",
+      "purpose": "Prioritize the next evidence-backed finance task.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1040
+      },
+      "workspace": "operations",
+      "scene": {
+        "family": "operations",
+        "stage": "queue",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Review blocked work",
+          "targetId": "operations-blocked"
+        },
+        {
+          "label": "Open Pipeline",
+          "targetId": "vendor-detail"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "operations-blocked",
+      "title": "Blocked work",
+      "description": "Inspect the actual deadline, terms and authority restrictions.",
+      "purpose": "Inspect the actual deadline, terms and authority restrictions.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "workspace": "operations",
+      "scene": {
+        "family": "operations",
+        "stage": "blocked",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Review the original terms",
+          "targetId": "nimbus-deadline-review"
+        },
+        {
+          "label": "Open current queue",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "nimbus-deadline-review",
+      "title": "Nimbus claim deadline",
+      "description": "Inspect the actual missed claim window without opening another vendor.",
+      "purpose": "Inspect the actual missed claim window without opening another vendor.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1160
+      },
+      "workspace": "operations",
+      "scene": {
+        "family": "operations",
+        "stage": "deadline-review",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Return to queue",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "vendor-directory",
+      "title": "Vendors",
+      "description": "Compare commitments and conserved credit by vendor.",
+      "purpose": "Compare commitments and conserved credit by vendor.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1040
+      },
+      "workspace": "vendor",
+      "scene": {
+        "family": "vendor",
+        "stage": "directory",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Open Pipeline CRM",
+          "targetId": "vendor-detail"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "vendor-detail",
+      "title": "Pipeline CRM",
+      "description": "A vendor record linked to its commitments, evidence and credit.",
+      "purpose": "A vendor record linked to its commitments, evidence and credit.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1160
+      },
+      "workspace": "vendor",
+      "scene": {
+        "family": "vendor",
+        "stage": "detail",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Inspect vendor credits",
+          "targetId": "vendor-credits"
+        },
+        {
+          "label": "Review commitment",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "vendor-credits",
+      "title": "Pipeline credit ledger",
+      "description": "Inspect physical line identity and available capacity.",
+      "purpose": "Inspect physical line identity and available capacity.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1120
+      },
+      "workspace": "vendor",
+      "scene": {
+        "family": "vendor",
+        "stage": "credits",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Review Pipeline commitment",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Back to vendor",
+          "targetId": "vendor-detail"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "evidence-library",
+      "title": "Evidence library",
+      "description": "Find recorded sources without substituting a newer revision.",
+      "purpose": "Find recorded sources without substituting a newer revision.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "workspace": "library",
+      "scene": {
+        "family": "library",
+        "stage": "list",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Inspect exact revision",
+          "targetId": "evidence-revision"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "evidence-revision",
+      "title": "Recorded source revision",
+      "description": "Read the exact passage and its bound financial uses.",
+      "purpose": "Read the exact passage and its bound financial uses.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "workspace": "library",
+      "scene": {
+        "family": "library",
+        "stage": "revision",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Open related commitment",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Back to library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "northstar-credit-source",
+      "title": "Northstar credit evidence",
+      "description": "Inspect NR-MEMO-300 and its exact physical line evidence.",
+      "purpose": "Inspect NR-MEMO-300 and its exact physical line evidence.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "workspace": "library",
+      "scene": {
+        "family": "library",
+        "stage": "credit-source",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Return to Northstar credit",
+          "targetId": "credit-applied"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "resolution-source",
+      "title": "Credit assignment clarification",
+      "description": "Inspect the source revision supporting the explicit assignment limits.",
+      "purpose": "Inspect the source revision supporting the explicit assignment limits.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "workspace": "library",
+      "scene": {
+        "family": "library",
+        "stage": "resolution-source",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Return to resolution",
+          "targetId": "credit-resolution-review"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "workspace-activity",
+      "title": "Workspace activity",
+      "description": "Inspect recorded changes, actors and financial dates.",
+      "purpose": "Inspect recorded changes, actors and financial dates.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1120
+      },
+      "workspace": "audit",
+      "scene": {
+        "family": "audit",
+        "stage": "list",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Inspect allocation event",
+          "targetId": "workspace-event"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "workspace-event",
+      "title": "Allocation event",
+      "description": "Follow one recorded event to its credit, case and source.",
+      "purpose": "Follow one recorded event to its credit, case and source.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1120
+      },
+      "workspace": "audit",
+      "scene": {
+        "family": "audit",
+        "stage": "event",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Open source revision",
+          "targetId": "evidence-revision"
+        },
+        {
+          "label": "Back to activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "financial-report",
+      "title": "Financial report",
+      "description": "Separate recoverable, applied, issued and conditional value.",
+      "purpose": "Separate recoverable, applied, issued and conditional value.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "workspace": "report",
+      "scene": {
+        "family": "report",
+        "stage": "current",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Compare earlier knowledge",
+          "targetId": "report-history"
+        },
+        {
+          "label": "Review export scope",
+          "targetId": "report-export"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "report-history",
+      "title": "Historical financial report",
+      "description": "Project effective facts using only recorded knowledge.",
+      "purpose": "Project effective facts using only recorded knowledge.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1180
+      },
+      "workspace": "report",
+      "scene": {
+        "family": "report",
+        "stage": "history",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Return to current report",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Review export scope",
+          "targetId": "report-export"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "report-export",
+      "title": "Report export scope",
+      "description": "Inspect the selected cutoffs and internal-consistency limits.",
+      "purpose": "Inspect the selected cutoffs and internal-consistency limits.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "workspace": "report",
+      "scene": {
+        "family": "report",
+        "stage": "export",
+        "fixture": "seeded-portfolio",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Back to report",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-empty",
+      "title": "Credit fulfillment",
+      "description": "Start from an imported promise with no invented credit.",
+      "purpose": "Start from an imported promise with no invented credit.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1040
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "empty",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Record credit",
+          "targetId": "credit-register-issued"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-register-issued",
+      "title": "Record an issued credit",
+      "description": "Capture exact physical identity, amount, date and source.",
+      "purpose": "Capture exact physical identity, amount, date and source.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1480
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "register-issued",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Preview credit change",
+          "targetId": "credit-issued-preview"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-issued-preview",
+      "title": "Review issued credit",
+      "description": "Confirm issuance without counting it as applied value.",
+      "purpose": "Confirm issuance without counting it as applied value.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1320
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "issued-preview",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Record issued credit",
+          "targetId": "credit-issued-recorded"
+        },
+        {
+          "label": "Edit credit evidence",
+          "targetId": "credit-register-issued"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-issued-recorded",
+      "title": "Issued credit recorded",
+      "description": "A partially attributed memo remains pending invoice evidence.",
+      "purpose": "A partially attributed memo remains pending invoice evidence.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1160
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "issued-recorded",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Add invoice evidence",
+          "targetId": "credit-application"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-attribute",
+      "title": "Attribute available credit",
+      "description": "Use an exact remaining balance without creating a new credit.",
+      "purpose": "Use an exact remaining balance without creating a new credit.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1320
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "attribute",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Preview attribution",
+          "targetId": "credit-attribution-preview"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-attribution-preview",
+      "title": "Review attribution",
+      "description": "The selected case receives only conserved capacity.",
+      "purpose": "The selected case receives only conserved capacity.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "attribution-preview",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Record allocation",
+          "targetId": "credit-fully-attributed"
+        },
+        {
+          "label": "Edit attribution",
+          "targetId": "credit-attribute"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-application",
+      "title": "Record invoice application",
+      "description": "Add separate invoice evidence to the existing issued line.",
+      "purpose": "Add separate invoice evidence to the existing issued line.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1320
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "application",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Review applied credit",
+          "targetId": "credit-applied"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-applied",
+      "title": "Applied invoice credit",
+      "description": "Follow attributed invoice value while preserving line identity.",
+      "purpose": "Follow attributed invoice value while preserving line identity.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1160
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "applied",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Attribute available credit",
+          "targetId": "credit-attribute"
+        },
+        {
+          "label": "Review credit evidence",
+          "targetId": "northstar-credit-source"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-fully-attributed",
+      "title": "Credit fully attributed",
+      "description": "All invoice-backed capacity is attributed once, with $50 still outstanding.",
+      "purpose": "All invoice-backed capacity is attributed once, with $50 still outstanding.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1160
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "fully-attributed",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Prepare reversal",
+          "targetId": "credit-reversal"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-reversal",
+      "title": "Record a credit reversal",
+      "description": "Identify the exact attributions that lose backing.",
+      "purpose": "Identify the exact attributions that lose backing.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1440
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "reversal",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Preview reversal",
+          "targetId": "credit-reversal-preview"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-reversal-preview",
+      "title": "Review reversal effect",
+      "description": "A reversal reopens only the unsupported attributed value.",
+      "purpose": "A reversal reopens only the unsupported attributed value.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1240
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "reversal-preview",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Record reversal",
+          "targetId": "credit-reversed"
+        },
+        {
+          "label": "Edit reversed attributions",
+          "targetId": "credit-reversal"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-reversed",
+      "title": "Credit partially reversed",
+      "description": "Retain original value, reversal evidence and the reopened claim.",
+      "purpose": "Retain original value, reversal evidence and the reopened claim.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1180
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "reversed",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Propose changed terms",
+          "targetId": "amendment-draft"
+        },
+        {
+          "label": "Inspect credit activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-duplicate-error",
+      "title": "Duplicate invoice line",
+      "description": "Keep the draft while refusing another physical copy.",
+      "purpose": "Keep the draft while refusing another physical copy.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1320
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "duplicate-error",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Correct line identity",
+          "targetId": "credit-register-issued"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-role-blocked",
+      "title": "Credit evidence requires an analyst",
+      "description": "Explain the current role before any source or ledger write.",
+      "purpose": "Explain the current role before any source or ledger write.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1180
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "role-blocked",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Return to credit ledger",
+          "targetId": "credit-issued-recorded"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-historical",
+      "title": "Historical credit view",
+      "description": "Later credit facts remain absent and writes stay disabled.",
+      "purpose": "Later credit facts remain absent and writes stay disabled.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "historical",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Return to latest credit",
+          "targetId": "credit-reversed"
+        },
+        {
+          "label": "Inspect report cutoffs",
+          "targetId": "report-history"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-resolution-evidence",
+      "title": "Clarify an ambiguous credit",
+      "description": "An analyst records evidence before an approver assigns limits.",
+      "purpose": "An analyst records evidence before an approver assigns limits.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1400
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "resolution-evidence",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Record clarification evidence",
+          "targetId": "credit-resolution-review"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-resolution-review",
+      "title": "Review credit assignment limits",
+      "description": "Bind an exact clarification revision to explicit candidate limits.",
+      "purpose": "Bind an exact clarification revision to explicit candidate limits.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1460
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "resolution-review",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Record resolution",
+          "targetId": "credit-resolution-released"
+        },
+        {
+          "label": "Inspect clarification source",
+          "targetId": "resolution-source"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "credit-resolution-released",
+      "title": "Credit ownership resolved",
+      "description": "Release quarantine without creating credit or automatically attributing it.",
+      "purpose": "Release quarantine without creating credit or automatically attributing it.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1160
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "resolution-released",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Attribute resolved credit",
+          "targetId": "credit-attribute"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "amendment-draft",
+      "title": "Propose changed terms",
+      "description": "Choose explicit changes while preserving the current agreement.",
+      "purpose": "Choose explicit changes while preserving the current agreement.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1460
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "draft",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Preview changed terms",
+          "targetId": "amendment-preview"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "amendment-preview",
+      "title": "Review proposed terms",
+      "description": "Compare the original agreement with the supplied proposal.",
+      "purpose": "Compare the original agreement with the supplied proposal.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1280
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "preview",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Record proposal",
+          "targetId": "amendment-recorded"
+        },
+        {
+          "label": "Edit proposed terms",
+          "targetId": "amendment-draft"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "amendment-renewal-only",
+      "title": "A renewal is a material change",
+      "description": "Retain the credit explicitly and expose the added obligation.",
+      "purpose": "Retain the credit explicitly and expose the added obligation.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1440
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "renewal-only",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Review mandate refusal",
+          "targetId": "amendment-policy-blocked"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "amendment-policy-blocked",
+      "title": "Renewal acceptance is blocked",
+      "description": "The proposal may be retained; the current mandate still refuses it.",
+      "purpose": "The proposal may be retained; the current mandate still refuses it.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1240
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "policy-blocked",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Edit proposed terms",
+          "targetId": "amendment-draft"
+        },
+        {
+          "label": "Review original claim",
+          "targetId": "exact-approval"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "amendment-recorded",
+      "title": "Proposal ready for exact review",
+      "description": "Authoring, approval and execution remain separate permissions.",
+      "purpose": "Authoring, approval and execution remain separate permissions.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "recorded",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Review exact action",
+          "targetId": "amendment-approval"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "amendment-approval",
+      "title": "Approve Northstar proposed terms",
+      "description": "Review the exact $400 proposal and its current source basis.",
+      "purpose": "Review the exact $400 proposal and its current source basis.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1300
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "approval",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Approve exact action",
+          "targetId": "amendment-approved"
+        },
+        {
+          "label": "Return to proposed terms",
+          "targetId": "amendment-preview"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "amendment-approved",
+      "title": "Northstar approval recorded",
+      "description": "An approver has approved this action; execution is a separate role.",
+      "purpose": "An approver has approved this action; execution is a separate role.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1260
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "approved",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Record approved action",
+          "targetId": "amendment-executed"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "amendment-executed",
+      "title": "Accepted terms recorded",
+      "description": "Show the current accepted promise beside the retained original.",
+      "purpose": "Show the current accepted promise beside the retained original.",
+      "status": "implemented",
+      "viewport": {
+        "width": 1440,
+        "height": 1160
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "executed",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "desktop"
+      },
+      "actions": [
+        {
+          "label": "Continue credit fulfillment",
+          "targetId": "credit-reversed"
+        },
+        {
+          "label": "Inspect recorded activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
+      ],
+      "annotations": [
+        "Editable reconstruction of the local application. Prototype navigation does not execute financial commands.",
+        "Synthetic evidence; no connected issuer or external settlement."
+      ]
+    },
+    {
+      "id": "mobile-operations",
+      "title": "Operations queue",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive operations queue workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1380
+      },
+      "workspace": "operations",
+      "scene": {
+        "family": "operations",
+        "stage": "queue",
+        "fixture": "seeded-portfolio",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Open priority queue",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-vendors",
+      "title": "Vendors",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive vendor directory workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1440
+      },
+      "workspace": "vendor",
+      "scene": {
+        "family": "vendor",
+        "stage": "directory",
+        "fixture": "seeded-portfolio",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Open selected commitment",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-library",
+      "title": "Evidence library",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive library revision workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1560
+      },
+      "workspace": "library",
+      "scene": {
+        "family": "library",
+        "stage": "revision",
+        "fixture": "seeded-portfolio",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Open related case",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-report",
+      "title": "Financial report",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive report current workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1560
+      },
+      "workspace": "report",
+      "scene": {
+        "family": "report",
+        "stage": "current",
+        "fixture": "seeded-portfolio",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Inspect earlier knowledge",
+          "targetId": "report-history"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-credit-form",
+      "title": "Record issued credit",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive credit register-issued workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1860
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "register-issued",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Preview credit change",
+          "targetId": "mobile-credit-preview"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-credit-preview",
+      "title": "Review issued credit",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive credit issued-preview workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1620
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "issued-preview",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Record issued credit",
+          "targetId": "credit-issued-recorded"
+        },
+        {
+          "label": "Edit credit evidence",
+          "targetId": "mobile-credit-form"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-credit-reversal",
+      "title": "Reverse attributed credit",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive credit reversal-preview workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1680
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "reversal-preview",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Record reversal",
+          "targetId": "credit-reversed"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-resolution",
+      "title": "Review credit assignment limits",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive credit resolution-review workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1900
+      },
+      "workspace": "credit",
+      "scene": {
+        "family": "credit",
+        "stage": "resolution-review",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Record resolution",
+          "targetId": "credit-resolution-released"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-amendment",
+      "title": "Propose changed terms",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive amendment draft workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1820
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "draft",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Preview changed terms",
+          "targetId": "mobile-amendment-preview"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-amendment-preview",
+      "title": "Review proposed terms",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive amendment preview workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1580
+      },
+      "workspace": "amendment",
+      "scene": {
+        "family": "amendment",
+        "stage": "preview",
+        "fixture": "northstar-credit-lifecycle",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Record proposal",
+          "targetId": "amendment-recorded"
+        },
+        {
+          "label": "Edit proposed terms",
+          "targetId": "mobile-amendment"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
+    },
+    {
+      "id": "mobile-activity",
+      "title": "Workspace activity",
+      "description": "Complete the same financial job with inspectable evidence on a narrow screen.",
+      "purpose": "Responsive audit list workflow",
+      "status": "implemented",
+      "viewport": {
+        "width": 390,
+        "height": 1440
+      },
+      "workspace": "audit",
+      "scene": {
+        "family": "audit",
+        "stage": "list",
+        "fixture": "seeded-portfolio",
+        "device": "mobile"
+      },
+      "actions": [
+        {
+          "label": "Inspect recorded event",
+          "targetId": "workspace-event"
+        },
+        {
+          "label": "Navigation",
+          "targetId": "mobile-workspace-navigation",
+          "navigation": "overlay"
+        }
+      ],
+      "annotations": [
+        "Task-first mobile layout with full approval, evidence and financial meaning retained.",
+        "Static prototype navigation; no local or external financial action occurs in Figma."
+      ]
     }
   ],
   "overlays": [
@@ -698,10 +3809,14 @@
       "title": "Mobile workspace navigation",
       "viewport": {
         "width": 352,
-        "height": 320
+        "height": 400
       },
       "kind": "navigation",
       "actions": [
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
         {
           "label": "Exact action approval",
           "targetId": "mobile-approval"
@@ -718,6 +3833,48 @@
       "annotations": [
         "Navigation among modeled mobile review screens. This menu performs no financial action.",
         "Close returns to the current screen."
+      ]
+    },
+    {
+      "id": "mobile-workspace-navigation",
+      "kind": "navigation",
+      "viewport": {
+        "width": 352,
+        "height": 720
+      },
+      "actions": [
+        {
+          "label": "Operations",
+          "targetId": "operations-queue"
+        },
+        {
+          "label": "Assurance",
+          "targetId": "portfolio"
+        },
+        {
+          "label": "Vendors",
+          "targetId": "vendor-directory"
+        },
+        {
+          "label": "Evidence library",
+          "targetId": "evidence-library"
+        },
+        {
+          "label": "Workspace activity",
+          "targetId": "workspace-activity"
+        },
+        {
+          "label": "Financial reports",
+          "targetId": "financial-report"
+        },
+        {
+          "label": "Evidence lab",
+          "targetId": "evidence-input"
+        },
+        {
+          "label": "Execution lab",
+          "targetId": "race-setup"
+        }
       ]
     }
   ],

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "status": "source-verified-native-not-applied",
+  "recordedAt": "2026-11-08T07:04:42.404Z",
+  "fileKey": "8j4pwtsGDI4seljHPNeUkI",
+  "fileUrl": "https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI",
+  "source": {
+    "screens": 69,
+    "desktopScreens": 55,
+    "mobileScreens": 14,
+    "boards": 14,
+    "mappedInteractions": 483,
+    "declaredNewRoots": 60,
+    "artifacts": {
+      "docs/FIGMA_SCREEN_MAP.json": "f70da7e3e5928ccdaade81887be59357e9ab3a40e41b33cfd4e69dac499d03f1",
+      "design/figma/generated/models.json": "f6c808a638c81006db14d96a2183c6f34191e8e333b965f0894dd2a44f6e329e",
+      "design/figma/generated/preview.html": "82c205dfa727059356db230f7d146fdc469268ece4953a108e1f20d68662e7fa",
+      "design/figma/expansion-manifest.json": "b54f6560bbe93d4dddcb7e55182904a0768dfdf4f9ea9a0faccb7e172d3d8633"
+    }
+  },
+  "sourceGallery": {
+    "screenCount": 69,
+    "boardCount": 14,
+    "passed": true,
+    "scope": "Generated static gallery only; does not establish native Figma persistence.",
+    "clipping": 0,
+    "missingContent": 0,
+    "missingActions": 0,
+    "fontFailures": 0,
+    "frameOverflow": 0
+  },
+  "native": {
+    "applied": false,
+    "currentNativeStateRead": false,
+    "lastRecordedBaseline": {
+      "frames": 17,
+      "links": 53,
+      "cloudVersion": {
+        "id": "2416032624820026877",
+        "label": "Truthful · Editor label spacing · verified"
+      }
+    },
+    "blocker": "Figma Desktop reports plugins unavailable in view-only; FigCli is not connected. The existing native record does not establish the expanded source state.",
+    "requiredAction": "Open the exact existing Figma file with edit access and run Plugins > Development > FigCli.",
+    "applyCommand": "node scripts/update-figma-kit.mjs --expansion-manifest design/figma/expansion-manifest.json"
+  },
+  "notice": "Source verification and an authorized append-only migration plan do not establish native persistence. Do not promote this status to native-verified without native exports, review and both live gates."
+}

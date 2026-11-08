@@ -9,6 +9,9 @@ test('a replacement of an original root ID is rejected',()=>{const c=fixture();c
 test('a recorded root cannot be silently recreated',()=>{const c=fixture();c.live=[];assert.throws(()=>validateRootInventory(c),/Recorded root missing/);});
 test('an owned retry requires its exact source-root identity',()=>{const c=fixture();c.live.push({...note,id:'ours:1',owner:marker,sourceRoot:'different'});assert.throws(()=>validateRootInventory(c),/collision or wrong owner/);});
 test('a resumed note retains ownership requirements after recording',()=>{const c=fixture();c.live.push({...note,id:'ours:1',owner:marker,sourceRoot:note.name});c.inventory=validateRootInventory(c);c.live[1].owner='foreign';assert.throws(()=>validateRootInventory(c),/marker changed/);});
+test('append-only models cannot omit an inventoried original root',()=>{const c=fixture();c.expected=[note];assert.throws(()=>validateRootInventory(c),/Inventoried root omitted/);});
+test('an original model cannot move its recorded page or change type',()=>{for(const patch of [{page:'Read me'},{type:'COMPONENT'}]){const c=fixture();c.expected[0]={...old,...patch};assert.throws(()=>validateRootInventory(c),/Inventoried root .* changed/);}});
+test('unknown roots require exact declared authorization',()=>{const c=fixture();c.expected.push({name:'undeclared-screen',page:'Product flow',type:'FRAME'});assert.throws(()=>validateRootInventory(c),/not an allowed new/);});
 
 test('push retry rejects a missing matching local record',async()=>{const{validateExistingPushRecord}=await import('./figma-root-inventory.mjs');assert.throws(()=>validateExistingPushRecord('target',null),/no matching local record/);});
 test('push retry rejects a record for the previous file',async()=>{const{validateExistingPushRecord}=await import('./figma-root-inventory.mjs');assert.throws(()=>validateExistingPushRecord('new-target',{fileKey:'old-target',rootInventory:{fileKey:'old-target'}}),/another Figma file/);});

@@ -4,6 +4,7 @@ import { prepareCreditWorkflow } from './credit-workflow.mjs';
 import { mutationReason } from './assurance-ui.mjs';
 import { moneyToCents } from './engine/index.mjs';
 import './credit-workspace.css';
+import CreditResolution from './CreditResolution.jsx';
 
 const money = cents => new Intl.NumberFormat('en-US', {style:'currency',currency:'USD'}).format(cents/100);
 const today = () => new Date().toISOString().slice(0,10);
@@ -79,8 +80,9 @@ export default function CreditWorkspace({view,commitment,service,readOnly}) {
       <div><strong>{c.invoiceId}</strong><span className={`assurance-status ${c.status==='applied'?'verified':'issued'}`}>{c.status==='applied'?'Applied to invoice':'Issued, not applied'}</span></div>
       <p className="credit-line-id">Line {c.lineId} · {c.reference}</p>
       <dl><div><dt>Original credit</dt><dd>{money(c.amountCents)}</dd></div>{c.reversedCents>0&&<div><dt>Reversed</dt><dd>{money(c.reversedCents)}</dd></div>}<div><dt>Remaining ledger value</dt><dd>{money(c.availableCents)}</dd></div><div><dt>Attributed across commitments</dt><dd>{money(c.allocatedCents)}</dd></div><div><dt>Available to attribute</dt><dd>{money(c.unallocatedCents)}</dd></div></dl>
-      {c.quarantined&&<p className="credit-warning">{c.quarantineReason} Attribution is held until an approver records an explicit source-backed resolution in the Failure lab command console.</p>}
+      {c.quarantined&&<p className="credit-warning">{c.quarantineReason} Attribution is held until an approver records explicit source-backed assignment limits.</p>}
       {c.allocations.map(a=><p key={a.id}>{view.commitments.find(x=>x.id===a.commitmentId)?.reference || a.commitmentId}: {money(a.activeCents)} attributed{a.revokedCents>0?`, ${money(a.revokedCents)} reversed`:''}</p>)}
+      {(c.quarantined||c.resolution)&&<CreditResolution key={c.id} view={view} credit={c} service={service} readOnly={readOnly}/>}
       <CreditSources credit={c} view={view} workspace={service.workspace}/>
       <div className="credit-row-actions"><button className="text-button" disabled={service.busy||saving||c.quarantined||c.unallocatedCents===0} onClick={()=>open('allocate',c.id)}>Attribute credit<ArrowRight size={13}/></button>{c.status==='issued'&&<button className="text-button" disabled={service.busy||saving} onClick={()=>open('apply',c.id)}>Add invoice evidence<ArrowRight size={13}/></button>}<button className="text-button" disabled={service.busy||saving||c.availableCents===0} onClick={()=>open('reverse',c.id)}>Prepare reversal<ArrowRight size={13}/></button></div>
     </article>)}

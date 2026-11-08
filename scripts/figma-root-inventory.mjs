@@ -26,6 +26,14 @@ export function bootstrapInventory({record,system,reviewedBoards}){
 export function validateRootInventory({expected,allowedNewNames,inventory,live,marker}){
  const known=new Map(inventory.roots.map(n=>[n.name,n]));
  assert.equal(known.size,inventory.roots.length,'Duplicate inventoried root name');assert.equal(new Set(inventory.roots.map(n=>n.id)).size,inventory.roots.length,'Duplicate inventoried root ID');
+ const wantedByName=new Map(expected.map(n=>[n.name,n]));
+ assert.equal(wantedByName.size,expected.length,'Duplicate expected root name');
+ for(const recorded of inventory.roots){
+  const wanted=wantedByName.get(recorded.name);
+  assert.ok(wanted,'Inventoried root omitted from expected models: '+recorded.name);
+  assert.equal(wanted.page,recorded.page,'Inventoried root page changed: '+recorded.name);
+  assert.equal(wanted.type,recorded.type,'Inventoried root type changed: '+recorded.name);
+ }
  const allowed=new Set(allowedNewNames),resolved=[];
  for(const wanted of expected){
   const matches=live.filter(n=>n.name===wanted.name),recorded=known.get(wanted.name);

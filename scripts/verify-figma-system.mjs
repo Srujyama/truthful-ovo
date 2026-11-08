@@ -98,7 +98,7 @@ export function validateSystem(manifest,record,live){
 export async function collectSystem(cli,manifest,record){
  const config={setIds:manifest.sets.map(s=>s.id),instanceIds:manifest.instances.map(i=>i.id),screenIds:record.frames.map(f=>f.nodeId),rootIds:[...new Set(manifest.instances.map(i=>i.rootId))],handoff:manifest.handoff,libraryGuideId:manifest.libraryGuideId,libraryLabelIds:manifest.libraryLabels,styleIds:manifest.textStyles.map(s=>s.id),variableIds:manifest.numberVariables.map(v=>v.id)};
  const codeFor=(section,start=0)=>`(async () => {
- await figma.loadAllPagesAsync();const c=${JSON.stringify({...config,section,start})};
+ await figma.loadAllPagesAsync();const c=${JSON.stringify({...config,section,start,instanceIds:section==='instances'?config.instanceIds.slice(start,start+20):[],screenIds:section==='screens'?config.screenIds.slice(start,start+4):[]})};
  const get=id=>figma.getNodeByIdAsync(id);const page=n=>{while(n&&n.type!=='PAGE')n=n.parent;return n?.name;};
  const box=n=>({x:n.x,y:n.y,width:n.width,height:n.height});
  const defs=n=>n.parent?.type==='COMPONENT_SET'?n.parent.componentPropertyDefinitions:n.componentPropertyDefinitions;
@@ -111,16 +111,16 @@ export async function collectSystem(cli,manifest,record){
 
  const h=await get(c.handoff.pageId),g=await get(c.libraryGuideId);const handoff=h?{type:h.type,name:h.name,frames:[],instances:h.findAll(x=>x.type==='INSTANCE').length}:null;if(h)for(const frame of c.handoff.frames){const f=await get(frame.id);handoff.frames.push({id:frame.id,type:f?.type,textLayers:f?.findAll(x=>x.type==='TEXT').length});}
  const libraryLabels=[];for(const id of c.libraryLabelIds){const n=await get(id);if(n)libraryLabels.push({id:n.id,name:n.name,type:n.type,bounds:box(n)});}
- const result={libraryLabels,marker:figma.root.getPluginData('truthful-design-kit'),sets,instances,screens,textStyles,numberVariables,handoff,libraryGuide:g?{type:g.type,bounds:box(g),textLayers:g.findAll(x=>x.type==='TEXT').length}:null,probePages:figma.root.children.filter(p=>/native system probes/.test(p.name)).map(p=>p.id)};return c.section==='instances'?{instances:instances.slice(c.start,c.start+20)}:Object.fromEntries(c.section.map(k=>[k,result[k]]));
+ const result={libraryLabels,marker:figma.root.getPluginData('truthful-design-kit'),sets,instances,screens,textStyles,numberVariables,handoff,libraryGuide:g?{type:g.type,bounds:box(g),textLayers:g.findAll(x=>x.type==='TEXT').length}:null,probePages:figma.root.children.filter(p=>/native system probes/.test(p.name)).map(p=>p.id)};return typeof c.section==='string'?{[c.section]:result[c.section]}:Object.fromEntries(c.section.map(k=>[k,result[k]]));
  })()`;
- const live={instances:[]};
+ const live={instances:[],screens:[]};
  // The bridge limits one evaluation's output. Bounded read batches prevent a
  // truncated JSON result from concealing missing native nodes.
- const groups=[[['marker','sets','libraryLabels'],0],[['screens','textStyles','numberVariables','handoff','libraryGuide','probePages'],0],...Array.from({length:Math.ceil(config.instanceIds.length/20)},(_,i)=>['instances',i*20])];
+ const groups=[[['marker','sets','libraryLabels'],0],[['textStyles','numberVariables','handoff','libraryGuide','probePages'],0],...Array.from({length:Math.ceil(config.screenIds.length/4)},(_,i)=>['screens',i*4]),...Array.from({length:Math.ceil(config.instanceIds.length/20)},(_,i)=>['instances',i*20])];
  for(const [section,start]of groups){
   const {stdout}=await promisify(execFile)(process.execPath,[cli,'eval',codeFor(section,start)],{timeout:60000,maxBuffer:1000000});
   const raw=stdout.replace(/\u001b\[[0-9;]*m/g,'');assert.ok(!raw.includes('✗'),raw);const result=JSON.parse(raw.slice(raw.indexOf('{'),raw.lastIndexOf('}')+1));
-  if(section==='instances')live.instances.push(...result.instances);else Object.assign(live,result);
+  if(typeof section==='string'){assert.ok(Array.isArray(result[section]),'Missing native '+section+' batch');live[section].push(...result[section]);}else Object.assign(live,result);
  }
  return live;
 }

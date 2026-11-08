@@ -15,10 +15,25 @@ assert.equal(record.links,spec.screens.reduce((sum,s)=>sum+s.actions.length,0)+(
 assert.equal(record.frames.length,spec.screens.length);assert.equal(new Set(record.frames.map(f=>f.id)).size,spec.screens.length);
 for(const s of spec.screens)assert.ok(record.frames.some(f=>f.id===s.id),'Review record lacks '+s.id);
 const cli=process.env.FIGMA_CLI_JS||join(homedir(),'Downloads/Coding/claude-tools/figma-cli/src/index.js');
-const code=`(async () => {await figma.loadAllPagesAsync();const p=figma.root.children.find(p=>p.name==='Product flow');if(!p)throw new Error('Product flow missing');const c=(await figma.variables.getLocalVariableCollectionsAsync()).find(c=>c.name==='Truthful');return {marker:figma.root.getPluginData('truthful-design-kit'),flowStartingPoints:p.flowStartingPoints,frames:p.children.filter(n=>n.type==='FRAME').map(n=>({name:n.name,id:n.id,width:n.width,height:n.height,text:n.findAll(x=>x.type==='TEXT').length,fonts:[...new Set(n.findAll(x=>x.type==='TEXT').map(x=>x.fontName===figma.mixed?'MIXED':x.fontName.family))],controls:n.findAll(x=>x.name.startsWith('hotspot:')||x.name==='annotation-close').map(x=>({name:x.name,reactions:x.reactions.map(r=>({trigger:r.trigger&&r.trigger.type,actions:(r.actions||(r.action?[r.action]:[])).map(a=>({type:a.type,navigation:a.navigation,destinationId:a.destinationId}))}))}))})),components:figma.root.findAll(n=>n.type==='COMPONENT').map(n=>({name:n.getPluginData('truthful-component-source')||n.name,id:n.id})),colors:c?(await figma.variables.getLocalVariablesAsync('COLOR')).filter(v=>v.variableCollectionId===c.id).map(v=>({name:v.name,value:v.valuesByMode[c.modes[0].modeId]})):[]};})()`;
-const {stdout}=await promisify(execFile)(process.execPath,[cli,'eval',code],{timeout:60000,maxBuffer:1000000});
-const raw=stdout.replace(/\u001b\[[0-9;]*m/g,'');assert.ok(!raw.includes('✗'),raw);
-const live=JSON.parse(raw.slice(raw.indexOf('{'),raw.lastIndexOf('}')+1));
+// Keep each response below the CLI bridge output limit. Match both the exact
+// recorded ID and name so renamed/replaced/duplicate roots still fail closed.
+async function evaluate(code){
+ const {stdout}=await promisify(execFile)(process.execPath,[cli,'eval',code],{timeout:60000,maxBuffer:1000000});
+ const raw=stdout.replace(/\u001b\[[0-9;]*m/g,'');assert.ok(!raw.includes('✗'),raw);
+ const result=JSON.parse(raw.slice(raw.indexOf('{'),raw.lastIndexOf('}')+1));assert.ok(!result.error,result.error);return result;
+}
+const guard=`await figma.loadAllPagesAsync();if(figma.root.getPluginData('truthful-design-kit')!==${JSON.stringify(`truthful-ovo-design-v1:${record.fileKey}`)})throw new Error('Wrong native kit');if(figma.fileKey&&figma.fileKey!==${JSON.stringify(record.fileKey)})throw new Error('Wrong native file');const p=figma.root.children.find(p=>p.name==='Product flow');if(!p)throw new Error('Product flow missing');`;
+const metadata=await evaluate(`(async()=>{${guard}const c=(await figma.variables.getLocalVariableCollectionsAsync()).find(c=>c.name==='Truthful');return {marker:figma.root.getPluginData('truthful-design-kit'),flowStartingPoints:p.flowStartingPoints,components:figma.root.findAll(n=>n.type==='COMPONENT').map(n=>({name:n.getPluginData('truthful-component-source')||n.name,id:n.id})),colors:c?(await figma.variables.getLocalVariablesAsync('COLOR')).filter(v=>v.variableCollectionId===c.id).map(v=>({name:v.name,value:v.valuesByMode[c.modes[0].modeId]})):[]};})()`);
+const live={...metadata,frames:[]};
+const requested=[...record.frames.map(n=>({name:n.id,id:n.nodeId})),...(record.overlays||[]).map(n=>({name:n.name,id:n.nodeId})),...(record.navigationOverlays||[]).map(n=>({name:n.name,id:n.nodeId}))];
+assert.equal(new Set(requested.map(n=>n.id)).size,requested.length,'Duplicate recorded native root ID');
+assert.equal(new Set(requested.map(n=>n.name)).size,requested.length,'Duplicate recorded native root name');
+for(let start=0;start<requested.length;start+=4){
+ const batch=requested.slice(start,start+4);
+ const result=await evaluate(`(async()=>{${guard}const wanted=${JSON.stringify(batch)};return {frames:p.children.filter(n=>n.type==='FRAME'&&wanted.some(w=>w.name===n.name||w.id===n.id)).map(n=>({name:n.name,id:n.id,width:n.width,height:n.height,text:n.findAll(x=>x.type==='TEXT').length,fonts:[...new Set(n.findAll(x=>x.type==='TEXT').map(x=>x.fontName===figma.mixed?'MIXED':x.fontName.family))],controls:n.findAll(x=>x.name.startsWith('hotspot:')||x.name==='annotation-close').map(x=>({name:x.name,reactions:x.reactions.map(r=>({trigger:r.trigger&&r.trigger.type,actions:(r.actions||(r.action?[r.action]:[])).map(a=>({type:a.type,navigation:a.navigation,destinationId:a.destinationId}))}))}))}))};})()`);
+ assert.ok(Array.isArray(result.frames),'Missing native frame batch');
+ live.frames.push(...result.frames.filter(n=>batch.some(w=>w.name===n.name||w.id===n.id)));
+}
 assert.equal(live.marker,`truthful-ovo-design-v1:${record.fileKey}`);
 if(spec.designPhilosophy?.defaultEntry)assert.equal(live.flowStartingPoints?.[0]?.nodeId,record.frames.find(f=>f.id===spec.designPhilosophy.defaultEntry)?.nodeId,'The main prototype entry must start with the recorded finance task.');
 function textCount(n){return (n.type==='Text'?1:0)+(n.children||[]).reduce((sum,c)=>sum+textCount(c),0);}

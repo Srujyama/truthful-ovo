@@ -10,7 +10,9 @@ V4 is a local development build. Media and submission packaging are deferred; th
 
 The development UI has been redesigned as a working ledger: direct task headings, a visible authored agent program, compact workflow controls, neutral surfaces and readable Public Sans typography. All financial and authority flows are retained. The pinned [design philosophy](design/figma/DESIGN_PHILOSOPHY.md) applies Apple’s clarity and progressive disclosure to Ramp-style efficient finance workflows: portfolio first, exact records, and advanced tools on demand.
 
-The [native Figma design](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) contains 17 editable screens, 7 product boards, 12 components, 13 color variables and a linked review prototype. The [design kit](design/figma/README.md) includes its reproducible scene definitions, product brief and native verification record.
+The [expanded Figma source kit](design/figma/README.md) contains 69 editable screen models, 14 product boards and 483 mapped review interactions. Its complete source gallery is rendered and checked. The [native Figma file](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) retains its previously verified 17-screen baseline; saving the expansion is waiting for editable file access and a connected FigCli bridge. The [expansion record](docs/WORKSPACE_EXPANSION.md) separates source verification from native persistence.
+
+The application now includes **Operations**, **Vendors**, **Evidence library**, **Workspace activity**, and **Financial reports**. These project the shared ledger, with exact-source inspection, case/action navigation, independent financial/knowledge dates and exact-cent exports. Ambiguous credits have an analyst evidence → approver assignment-limit → analyst attribution workflow in the shared ledger.
 
 ![Truthful execution laboratory](docs/execution-lab.png)
 
@@ -69,7 +71,7 @@ Each credit exposes **Attribute credit**, **Add invoice evidence**, and **Prepar
 
 **Propose changed terms** prepares amount, due-date, deadline, condition, or renewal changes for the selected commitment. The original agreement remains active until a separate approver approves the exact action and an executor records it. Renewal proposals require an explicit baseline and incremental cost; policy restrictions remain visible. The case summary retains the original amount beside changed accepted terms.
 
-These forms work in local SQLite and browser-local modes. They record supplied evidence; no issuer is authenticated or contacted. Ambiguous credits still require explicit approver resolution through the command console. See the [workflow verification record](docs/CREDIT_WORKFLOW_REVIEW.md).
+These forms work in local SQLite and browser-local modes. They record supplied evidence; no issuer is authenticated or contacted. Ambiguous credits expose **Resolve credit attribution**: an analyst records clarification, an approver binds exact source-backed limits, then an analyst attributes within those limits. See the [credit workflow record](docs/CREDIT_WORKFLOW_REVIEW.md) and [current expansion](docs/WORKSPACE_EXPANSION.md).
 
 ## Verify and replay
 

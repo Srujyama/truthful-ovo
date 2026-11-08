@@ -6,6 +6,10 @@
 
 ## Goal
 
+Substantially expand the finance workspace and editable Figma product system. Deliver connected operations prioritization, vendor directory/detail, exact-revision evidence library, full-workspace activity, temporal reporting and source-backed analyst-to-approver credit ambiguity resolution. Extend Figma with content-driven desktop/mobile credit lifecycle, changed-terms, operations, evidence, vendor and report journeys plus useful flow/state/handoff boards. Preserve original17screenIDs and owned roots, component/style/variable identities, original financial capabilities and Apple/Ramp working-ledger direction. Safe append-only native migration, actual rendered inspection and independent review, functional browser checks in SQLite/static modes, portable evidence replay and pushed source establish completion. Native save requires editable exact file and connected FigCli; finish all independent work while reconnecting. No videos, public deployment, external transactions or runtime AI credential work.
+
+Prior completed milestone:
+
 Continue the finance product with source-backed operator workflows for new issued/applied credit lines, partial attribution, invoice application, explicit causal reversals, and proposed changes to selected commitments. Observable acceptance: exact physical line identity and conserved capacity; issued value never counted as applied; atomic source/financial writes; immutable original terms until exact approval/execution; current-role/history restrictions; stale preview invalidation; source-revision graph lineage; temporal replay and portable exports; SQLite/browser-local persistence; actual desktop/mobile/intermediate journeys; independent review and repairs. Preserve existing Apple/Ramp working-ledger system and all previous capabilities. No videos, public deployment, external transactions or new AI credential work.
 
 Prior completed milestone:
@@ -207,6 +211,28 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       deps: T31, T32
       notes: Independent source and desktop/mobile/900px visual reviews returned ship after renewal-only, cleared reversal, sibling-key and current-accepted-amount repairs. New journeys 82 and retained assurance 54 real browser assertions pass across SQLite and production browser-local modes. Six exported packets replay to exact conserved balances and full closure. 202 automated checks, authored evaluations, frontier/depth verifiers and build pass. No videos, release or external transactions. Native Figma retains the prior milestone; new forms are application scope.
       took: 10m
+- [x] T34 · Build connected operations queue, vendors, evidence library, activity and reports
+      files: src/Operations.jsx, src/operations.mjs, src/operations.test.mjs, src/operations.css, src/App.jsx, src/Assurance.jsx
+      accept: node --test src/operations.test.mjs
+      notes: Read-only model projections; no external connector or live AI claims.
+      attempts: 1
+      took: 24m
+- [x] T35 · Implement analyst evidence and approver credit resolution handoff
+      files: src/credit-resolution.mjs, src/credit-resolution.test.mjs, src/CreditResolution.jsx, src/credit-resolution.css, src/CreditWorkspace.jsx
+      accept: node --test src/credit-resolution.test.mjs
+      notes: Exact source revisions and candidate identities retained, historical active allocations protected, no invented assignment.
+      attempts: 1
+      took: 24m
+- [x] T36 · Prepare expanded editable Figma source and safe append-only migration
+      files: scripts/figma-expansion-catalog.mjs, scripts/figma-expansion-scenes.mjs, scripts/figma-expansion-manifest.mjs, scripts/figma-expansion-manifest.test.mjs, scripts/expand-figma-map.mjs, scripts/prepare-figma-expansion.mjs, scripts/record-expansion-status.mjs, scripts/figma-root-inventory.mjs, scripts/figma-root-inventory.test.mjs, scripts/figma-native-system.mjs, scripts/update-figma-kit.mjs, scripts/figma-screen-models.mjs, scripts/build-figma-kit.mjs, scripts/verify-figma-native.mjs, scripts/verify-figma-system.mjs, docs/FIGMA_SCREEN_MAP.json, design/figma
+      accept: npm run design:check
+      notes: 69 source screens (52 new) and14boards,483declaredinteractions,60exactappendroots. Independent renderedgallery verifies all83roots exacttext/fonts/actions/geometry, original-to-expandednavigation works. Safety fixture suite67passes with originalrootretention, exactmanifestbinding, ownedretrycleanup and boundednativepayloads. Native migration NOT applied: view-only/disconnectedbridge; sourceverified/nativepending status recorded, baselineproof retained. Required native persistence remainsT37.
+      took: 27m
+- [!] T37 · Verify native persistence, independent design review and integrated application journeys
+      files: scripts, docs, design/figma, README.md, PRODUCT.md
+      accept: npm run check && npm run design:check && npm run design:verify-native && npm run design:verify-system
+      deps: T34, T35, T36
+      notes: Application and source-gallery review complete:223automatedtests,134browserassertions,4replayedpackets/exactCSVs,67designregressions; independent source/visual findings repaired. Native record remains17screens/53links while newsource is69screens/483links. CLIreports Notconnected and nativeappPlugins reports Unavailable in view-only. Need editableexactfile + installedFigCliplugin connection, then preparedmanifestapply/nativeexports/independentreview/bothlivegates. No newnativeversionclaim.; Native persistence requires editing access to existing Figma file 8j4pwtsGDI4seljHPNeUkI and a connected FigCli plugin. Current app reports view-only plugins; CLI Not connected. All independent application/source work is complete and verified; exact migration command is recorded in docs/WORKSPACE_EXPANSION.md.
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -268,3 +294,13 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-11-06 · set T33 · files=src/CreditWorkspace.jsx, src/credit-workspace.css, src/Assurance.jsx, scripts/browser-credit-workflow-check.js, scripts/browser-credit-recovery-check.js, scripts/verify-credit-workflows.mjs, scripts/browser-assurance-check.js, package.json, README.md, docs/DEVELOPMENT.md, docs/CREDIT_WORKFLOW_REVIEW.md, accept
 - 2026-11-06 · done T33 · Integrate credit forms and independently verify finance journeys
 - 2026-11-06 · Current credit/amendment application milestone completed with T31–T33 verified. Whole-plan finish audit reports only pre-existing deferred T9; no video/submission declarations or public release performed. New UI forms are not represented as updated native Figma screens.
+- 2026-11-07 · started T34 · Build connected operations queue, vendors, evidence library, activity and reports
+- 2026-11-07 · started T35 · Implement analyst evidence and approver credit resolution handoff
+- 2026-11-07 · started T36 · Expand editable desktop and mobile Figma journeys with safe migration
+- 2026-11-07 · done T34 (attempt 1) · verified: Twelve projection tests pass. Real SQLite and static browser journeys verify every destination, exact source and case links, CSV/audit export, historical isolation and mobile layouts. Independent source/visual review repaired external-target continuity, unmatched-ledger tab context, fulfilled-state instructions and resolution-cap task filtering.
+- 2026-11-07 · done T35 (attempt 1) · verified: Nine tests pass with real backdated-cap regression. Browser verifies analyst source capture, separate approver limits, role-roundtrip preview invalidation, over-limit refusal, allowed attribution and reload.
+- 2026-11-07 · set T36 · files=scripts/figma-expansion-catalog.mjs, scripts/figma-expansion-scenes.mjs, scripts/figma-expansion-manifest.mjs, scripts/figma-expansion-manifest.test.mjs, scripts/expand-figma-map.mjs, scripts/prepare-figma-expansion.mjs, scripts/record-expansion-status.mjs, scripts/figma-root-inventory.mjs, scripts/figma-root-inventory.test.mjs, scripts/figma-native-system.mjs, scripts/update-figma-kit.mjs, scripts/figma-screen-models.mjs, scripts/build-figma-kit.mjs, scripts/verify-figma-native.mjs, scripts/verify-figma-system.mjs, docs/FIGMA_SCREEN_MAP.json, design/figma, accept, title
+- 2026-11-07 · done T36 · Prepare expanded editable Figma source and safe append-only migration
+- 2026-11-07 · set T37 · notes
+- 2026-11-07 · BLOCKED T37 · Verify native persistence, independent design review and integrated application journeys
+- 2026-11-07 · Massive expansion prepared and application delivered. Native expansion intentionally unapplied pending edit access/plugin; source/gallery verification is not native proof. T9 remains previously deferred. Reconnect then apply design/figma/expansion-manifest.json and inspect actual native exports before restoring verified status.

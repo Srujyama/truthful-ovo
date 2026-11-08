@@ -5,6 +5,7 @@ import {promisify} from 'node:util';
 import {homedir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {randomUUID} from 'node:crypto';
 
 // Native component architecture is applied after scene construction. Source names
 // remain stable metadata; Figma variant names expose actual editable properties.
@@ -313,7 +314,27 @@ export async function applyNativeSystem({evaluate,marker,fileKey}){
   const models=JSON.parse(await readFile('design/figma/generated/models.json','utf8'));
   const rootNames=[...models.screens,...models.boards,...models.overlays,...(models.navigationOverlays||[])].map(n=>n.name);
   let handoff=null;try{handoff=JSON.parse(await readFile('design/figma/handoff.json','utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
-  const result=await evaluate(`return await (${nativeSystemProgram.toString()})(${JSON.stringify({marker,fileKey,rootNames,components:models.components.map(n=>n.name),handoff})},${layoutNativeLibrary.toString()});`);
+  // Persist a transient, owned chunk spool in plugin data. The bridge clips large
+  // return values, so never return the complete growing instance/probe manifest
+  // from one evaluation. A unique key prevents concurrent/stale spool adoption.
+  const spoolKey=`truthful-system-result:${randomUUID()}`;
+  const config={marker,fileKey,rootNames,components:models.components.map(n=>n.name),handoff};
+  const spool=await evaluate(`const result=await (${nativeSystemProgram.toString()})(${JSON.stringify(config)},${layoutNativeLibrary.toString()});const data=JSON.stringify(result),key=${JSON.stringify(spoolKey)},size=2000,count=Math.ceil(data.length/size);for(let i=0;i<count;i++)figma.root.setPluginData(key+':'+i,data.slice(i*size,(i+1)*size));figma.root.setPluginData(key,JSON.stringify({marker:${JSON.stringify(marker)},fileKey:${JSON.stringify(fileKey)},count,length:data.length}));return {count,length:data.length};`);
+  assert.ok(Number.isInteger(spool.count)&&spool.count>0&&Number.isInteger(spool.length)&&spool.length>0,'Invalid native result spool');
+  const guard=`if(figma.root.getPluginData('truthful-design-kit')!==${JSON.stringify(marker)})throw new Error('Wrong connected kit');if(figma.fileKey&&figma.fileKey!==${JSON.stringify(fileKey)})throw new Error('Wrong file');const key=${JSON.stringify(spoolKey)},meta=JSON.parse(figma.root.getPluginData(key)||'null');if(!meta||meta.marker!==${JSON.stringify(marker)}||meta.fileKey!==${JSON.stringify(fileKey)}||meta.count!==${spool.count}||meta.length!==${spool.length})throw new Error('Native result spool changed');`;
+  let serialized='';
+  try{
+    for(let index=0;index<spool.count;index++){
+      const part=await evaluate(`${guard}return {index:${index},data:figma.root.getPluginData(key+':'+${index})};`);
+      assert.equal(part.index,index,'Native result chunk reordered');assert.equal(typeof part.data,'string','Native result chunk missing');
+      assert.equal(part.data.length,Math.min(2000,spool.length-index*2000),'Native result chunk truncated');serialized+=part.data;
+    }
+  }finally{
+    await evaluate(`${guard}for(let i=0;i<meta.count;i++)figma.root.setPluginData(key+':'+i,'');figma.root.setPluginData(key,'');return {cleared:true};`);
+  }
+  assert.equal(serialized.length,spool.length,'Native result length changed');
+  const result=JSON.parse(serialized);assert.equal(result.fileKey,fileKey,'Native system result belongs to another file');
+  assert.deepEqual(result.instances.map(i=>i.id).length,new Set(result.instances.map(i=>i.id)).size,'Native system result repeats an instance');
   await writeFile('design/figma/native-system.json',JSON.stringify(result,null,2)+'\n');
   return result;
 }

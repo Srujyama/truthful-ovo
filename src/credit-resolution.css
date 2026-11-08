@@ -1,0 +1,50 @@
+.credit-resolution { border-top: 1px solid var(--ui-rule, #e3e7eb); margin-top: 16px; color: var(--ui-ink, #20252b); font-size: 13px; }
+.credit-resolution > summary, .credit-resolution-evidence > summary, .credit-resolution-source > summary, .credit-resolution-current > summary { display: flex; align-items: center; gap: 9px; min-height: 44px; cursor: pointer; font-weight: 600; list-style: none; }
+.credit-resolution > summary > svg:last-child, .credit-resolution-evidence > summary > svg:last-child, .credit-resolution-source > summary > svg:last-child, .credit-resolution-current > summary > svg:last-child { margin-left: auto; flex: 0 0 auto; }
+.credit-resolution summary::-webkit-details-marker { display: none; }
+.credit-resolution[open] > summary > svg:last-child, .credit-resolution-evidence[open] > summary > svg:last-child, .credit-resolution-source[open] > summary > svg:last-child, .credit-resolution-current[open] > summary > svg:last-child { transform: rotate(180deg); }
+.credit-resolution-body { padding-bottom: 12px; }
+.credit-resolution-body p { margin: 0 0 16px; line-height: 1.7; max-width: 72ch; }
+.credit-resolution .credit-resolution-balance { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin: 18px 0; }
+.credit-resolution .credit-resolution-balance > div { display: block; }
+.credit-resolution-balance dt { font-size: 12px; color: var(--ui-muted, #626b75); margin-bottom: 5px; }
+.credit-resolution-balance dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.credit-resolution-evidence, .credit-resolution-assignment, .credit-resolution-current { border-top: 1px solid var(--ui-rule, #e3e7eb); margin-top: 16px; padding-top: 4px; }
+.credit-resolution h4 { display: flex; align-items: center; gap: 8px; margin: 16px 0; font-size: 14px; font-weight: 600; }
+.credit-resolution fieldset { margin: 0; padding: 0; border: 0; display: grid; gap: 16px; min-width: 0; }
+.credit-resolution label { display: grid; gap: 7px; min-width: 0; font-size: 12px; font-weight: 550; }
+.credit-resolution-fields { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr); gap: 16px; }
+.credit-resolution input, .credit-resolution textarea, .credit-resolution select { width: 100%; min-width: 0; box-sizing: border-box; font: inherit; color: var(--ui-ink, #20252b); background: var(--ui-paper, #fff); border: 1px solid var(--control-rule, #d5dbe0); border-radius: 5px; padding: 9px 11px; }
+.credit-resolution input, .credit-resolution select { min-height: 40px; }
+.credit-resolution textarea { min-height: 110px; resize: vertical; line-height: 1.7; }
+.credit-resolution input::placeholder, .credit-resolution textarea::placeholder { color: var(--ui-muted, #626b75); opacity: 1; }
+.credit-resolution small, .credit-resolution-help { color: var(--ui-muted, #626b75); font-size: 12px; line-height: 1.7; font-weight: 400; }
+.credit-resolution-limits { display: grid; }
+.credit-resolution-limits > label { display: grid; grid-template-columns: minmax(0,1fr) minmax(120px,160px); align-items: center; gap: 20px; border-bottom: 1px solid var(--ui-rule, #e3e7eb); padding: 14px 0; }
+.credit-resolution-limits > label > span { display: grid; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
+.credit-resolution-limits strong { font-size: 13px; }
+.credit-resolution-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 16px 0; }
+.credit-resolution-actions small { max-width: 44ch; }
+.credit-resolution-source { margin: 12px 0; }
+.credit-resolution-source > strong { display: block; padding-top: 8px; overflow-wrap: anywhere; }
+.credit-resolution-source blockquote { margin: 8px 0 16px; padding: 14px 16px; background: var(--ui-canvas, #f5f6f7); color: var(--ui-ink, #20252b); white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; max-height: 320px; overflow-y: auto; }
+.credit-resolution-source p { color: var(--ui-muted, #626b75); font-size: 12px; margin-top: 6px; }
+.credit-resolution-preview { border-top: 1px solid var(--ui-rule, #e3e7eb); margin-top: 20px; padding-top: 4px; }
+.credit-resolution-preview ul, .credit-resolution-current ul { list-style: none; padding: 0; margin: 0 0 16px; }
+.credit-resolution-preview li, .credit-resolution-current li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--ui-rule, #e3e7eb); overflow-wrap: anywhere; }
+.credit-resolution-current li > span { display: grid; gap: 4px; }
+.credit-resolution-preview li strong, .credit-resolution-current li strong { font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.credit-resolution-error { color: var(--ui-negative, #b23d37); }
+.credit-resolution-notice { color: var(--ui-accent, #176448); }
+.credit-resolution-empty { color: var(--ui-muted, #626b75); }
+.credit-resolution :disabled { cursor: not-allowed; }
+@media (max-width: 767px) {
+  .credit-resolution-fields { grid-template-columns: 1fr; }
+  .credit-resolution .credit-resolution-balance { grid-template-columns: 1fr; gap: 10px; }
+  .credit-resolution .credit-resolution-balance > div { display: flex; justify-content: space-between; gap: 16px; }
+  .credit-resolution-balance dt { margin: 0; }
+  .credit-resolution-limits > label { grid-template-columns: 1fr; gap: 10px; }
+  .credit-resolution-actions { flex-direction: column; align-items: stretch; }
+  .credit-resolution-actions .button { min-height: 44px; justify-content: center; }
+  .credit-resolution-preview li, .credit-resolution-current li { flex-direction: column; gap: 6px; }
+}

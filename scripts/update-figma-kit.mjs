@@ -1,3 +1,4 @@
+import {validateExpansionManifest} from './figma-expansion-manifest.mjs';
 import {expectedRoots,bootstrapInventory,validateRootInventory,snapshotRootCatalog} from './figma-root-inventory.mjs';
 import { applyNativeSystem, invalidateNativeSystem } from "./figma-native-system.mjs";
 import { createHash } from "node:crypto";
@@ -31,6 +32,9 @@ const priorSystem=JSON.parse(await readFile('design/figma/native-system.json','u
 const reviewedBoards=previous.rootInventory?null:JSON.parse(await readFile('design/figma/reviewed-root-identities.json','utf8'));
 const rootInventory=bootstrapInventory({record:previous,system:priorSystem,reviewedBoards});
 const expectedRootInventory=expectedRoots(models);
+const expansionArg=process.argv.indexOf('--expansion-manifest');
+const expansionManifest=expansionArg<0?null:JSON.parse(await readFile(process.argv[expansionArg+1],'utf8'));
+if(expansionManifest)allowedNewRootNames.push(...validateExpansionManifest({manifest:expansionManifest,record:previous,models,expected:expectedRootInventory}));
 let authorizedRoots;
 const stagingDigest = createHash("sha256")
   .update(JSON.stringify({ models, palette }))
@@ -60,8 +64,14 @@ const bound = `if(figma.root.getPluginData('truthful-design-kit')!==${JSON.strin
 await evaluate(
   `${bound}await figma.loadAllPagesAsync();return {document:figma.root.name};`,
 );
-const readCatalog=()=>evaluate(`${bound}return await (${snapshotRootCatalog.toString()})();`);
+async function readCatalog(){
+ const header=await evaluate(`${bound}const data=await (${snapshotRootCatalog.toString()})();return {ids:data.roots.map(n=>n.id)};`);
+ const roots=[];
+ for(let offset=0;offset<header.ids.length;offset+=16){const part=await evaluate(`${bound}const data=await (${snapshotRootCatalog.toString()})();return {roots:data.roots.slice(${offset},${offset+16})};`);assert.deepEqual(part.roots.map(n=>n.id),header.ids.slice(offset,offset+16),'Native root catalog changed while reading');roots.push(...part.roots);}
+ return {roots};
+}
 authorizedRoots=validateRootInventory({expected:expectedRootInventory,allowedNewNames:allowedNewRootNames,inventory:rootInventory,live:(await readCatalog()).roots,marker});
+
 // Only a stage carrying this kit's ownership marker may be resumed or rebuilt.
 // The digest covers styles, geometry, content and palette—not just root names.
 await evaluate(
@@ -128,6 +138,23 @@ const preflight = await evaluate(
  `${bound}const stage=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)});const expected=${JSON.stringify(all.map(n=>n.name))};if(stage.children.length!==expected.length)throw new Error('Unexpected staged roots');for(const name of expected)if(stage.children.filter(n=>n.name===name).length!==1)throw new Error('Duplicate staged root');return {roots:expected.length};`,
 );
 authorizedRoots=validateRootInventory({expected:expectedRootInventory,allowedNewNames:allowedNewRootNames,inventory:rootInventory,live:(await readCatalog()).roots,marker});
+
+// Only newly authorized roots receive new positions. Existing owned geometry stays intact.
+const ownedGeometry=await evaluate(`${bound}const result=[];for(const entry of ${JSON.stringify(authorizedRoots.roots)}){const n=await figma.getNodeByIdAsync(entry.id);if(!n)throw new Error('Owned root disappeared');result.push({name:entry.name,page:entry.page,x:n.x,y:n.y,w:n.width,h:n.height});}return {roots:result};`);
+const newPositions=new Map();
+for(const page of ['Read me','Product flow']) {
+ const old=ownedGeometry.roots.filter(n=>n.page===page);
+ let cursor=Math.max(0,...old.map(n=>n.y+n.h))+160;
+ const added=expectedRootInventory.filter(n=>n.page===page&&!authorizedRoots.roots.some(old=>old.name===n.name));
+ const primary=added.filter(n=>models.screens.some(m=>m.name===n.name)||models.boards.some(m=>m.name===n.name));
+ for(let index=0;index<primary.length;index+=3) {
+  const band=primary.slice(index,index+3);let bandHeight=0;
+  band.forEach((n,column)=>{const model=[...models.screens,...models.boards].find(m=>m.name===n.name);newPositions.set(n.name,{x:column*1540,y:cursor});bandHeight=Math.max(bandHeight,model.props.h||960);});cursor+=bandHeight+160;
+ }
+ const secondary=added.filter(n=>!primary.includes(n));let noteY=0;
+ for(const n of secondary){const model=[...models.overlays,...models.navigationOverlays].find(m=>m.name===n.name);newPositions.set(n.name,{x:4900,y:cursor+noteY});noteY+=(model?.props.h||480)+120;}
+}
+
 console.log("Preflight", preflight);
 // A saved version is a concrete restore point before the live replacement.
 const restore = await evaluate(
@@ -173,7 +200,7 @@ await evaluate(
 // Preserve original live roots (and component identities) by transplanting staged children.
 for (const name of all.map((n) => n.name))
   await evaluate(
-    `${bound}const stage=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)}),fresh=stage?.children.find(n=>n.name===${JSON.stringify(name)}),authorized=${JSON.stringify(authorizedRoots.roots.find(n=>n.name===name)||null)};if(!fresh||stage.getPluginData('truthful-staging-owner')!==${JSON.stringify(marker)}||stage.getPluginData('truthful-staging-digest')!==${JSON.stringify(stagingDigest)}||fresh.getPluginData('truthful-staged-complete')!==${JSON.stringify(stagingDigest)})throw new Error('Staged root or ownership missing');const matches=figma.root.children.filter(p=>p!==stage).flatMap(p=>[...new Map([...p.children,...p.findAll(n=>n.type==='COMPONENT')].map(n=>[n.id,n])).values()]).filter(n=>(n.getPluginData('truthful-component-source')||n.name)===${JSON.stringify(name)});let live=null;if(authorized){live=await figma.getNodeByIdAsync(authorized.id);let page=live?.parent;while(page&&page.type!=='PAGE')page=page.parent;if(matches.length!==1||matches[0].id!==authorized.id||!live||live.type!==authorized.type||page?.name!==authorized.page)throw new Error('Recorded live root identity changed');if(authorized.ownerRequired&&(live.getPluginData('truthful-owned-root')!==${JSON.stringify(marker)}||live.getPluginData('truthful-source-root')!==${JSON.stringify(name)}))throw new Error('Owned root marker changed');}else{if(matches.length||!${JSON.stringify(allowedNewRootNames)}.includes(${JSON.stringify(name)}))throw new Error('New root collision or undeclared root');const added=fresh.clone();added.setPluginData('truthful-owned-root',${JSON.stringify(marker)});added.setPluginData('truthful-source-root',${JSON.stringify(name)});figma.root.children.find(p=>p.name==='Product flow').appendChild(added);return {added:added.name,id:added.id};}for(const child of [...live.children])child.remove();for(const property of ['layoutMode','primaryAxisSizingMode','counterAxisSizingMode','primaryAxisAlignItems','counterAxisAlignItems','itemSpacing','paddingTop','paddingBottom','paddingLeft','paddingRight','fills','strokes','strokeWeight','cornerRadius','clipsContent'])if(fresh[property]!==undefined)live[property]=JSON.parse(JSON.stringify(fresh[property]));live.resize(fresh.width,fresh.height);for(const child of [...fresh.children])live.appendChild(child.clone());return {updated:live.name,id:live.id};`,
+    `${bound}const stage=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)}),fresh=stage?.children.find(n=>n.name===${JSON.stringify(name)}),authorized=${JSON.stringify(authorizedRoots.roots.find(n=>n.name===name)||null)};if(!fresh||stage.getPluginData('truthful-staging-owner')!==${JSON.stringify(marker)}||stage.getPluginData('truthful-staging-digest')!==${JSON.stringify(stagingDigest)}||fresh.getPluginData('truthful-staged-complete')!==${JSON.stringify(stagingDigest)})throw new Error('Staged root or ownership missing');const matches=figma.root.children.filter(p=>p!==stage).flatMap(p=>[...new Map([...p.children,...p.findAll(n=>n.type==='COMPONENT')].map(n=>[n.id,n])).values()]).filter(n=>(n.getPluginData('truthful-component-source')||n.name)===${JSON.stringify(name)});let live=null;if(authorized){live=await figma.getNodeByIdAsync(authorized.id);let page=live?.parent;while(page&&page.type!=='PAGE')page=page.parent;if(matches.length!==1||matches[0].id!==authorized.id||!live||live.type!==authorized.type||page?.name!==authorized.page)throw new Error('Recorded live root identity changed');if(authorized.ownerRequired&&(live.getPluginData('truthful-owned-root')!==${JSON.stringify(marker)}||live.getPluginData('truthful-source-root')!==${JSON.stringify(name)}))throw new Error('Owned root marker changed');}else{if(matches.length||!${JSON.stringify(allowedNewRootNames)}.includes(${JSON.stringify(name)}))throw new Error('New root collision or undeclared root');const descriptor=${JSON.stringify(expectedRootInventory.find(n=>n.name===name))},position=${JSON.stringify(newPositions.get(name)||null)},destination=figma.root.children.find(p=>p.name===descriptor.page);if(!destination||!position)throw new Error('Missing declared new-root page or placement');let added=null;try{added=fresh.clone();added.setPluginData('truthful-owned-root',${JSON.stringify(marker)});added.setPluginData('truthful-source-root',${JSON.stringify(name)});destination.appendChild(added);added.x=position.x;added.y=position.y;return {added:added.name,id:added.id};}catch(error){if(added&&!added.removed)added.remove();throw error;}}for(const child of [...live.children])child.remove();for(const property of ['layoutMode','primaryAxisSizingMode','counterAxisSizingMode','primaryAxisAlignItems','counterAxisAlignItems','itemSpacing','paddingTop','paddingBottom','paddingLeft','paddingRight','fills','strokes','strokeWeight','cornerRadius','clipsContent'])if(fresh[property]!==undefined)live[property]=JSON.parse(JSON.stringify(fresh[property]));live.resize(fresh.width,fresh.height);for(const child of [...fresh.children])live.appendChild(child.clone());return {updated:live.name,id:live.id};`,
   );
 const record = await evaluate(
   `${bound}const page=figma.root.children.find(p=>p.name==='Product flow'),frames=new Map(page.children.map(n=>[n.name,n])),screens=${JSON.stringify(spec.screens)};let links=0;const overlays=[];for(const source of screens){const root=frames.get(source.id);root.setPluginData('truthful-screen',JSON.stringify({id:source.id,status:source.status,purpose:source.purpose,annotations:source.annotations}));for(const action of source.actions){const note=source.id===action.targetId,target=frames.get(note?'review-note:'+source.id+':'+action.label:action.targetId);if(!target)throw new Error('Missing destination');const controls=root.findAll(n=>n.name==='hotspot:'+action.label);if(!controls.length)throw new Error('Missing control');for(const control of controls){control.setPluginData('interaction-note',action.note||'Review-state navigation. This prototype executes no financial command.');await control.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',navigation:note||action.navigation==='overlay'?'OVERLAY':'NAVIGATE',destinationId:target.id,transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);}if(note){target.x=4700+(overlays.length%3)*600;target.y=Math.floor(overlays.length/3)*${noteGridStep};const close=target.findOne(n=>n.name==='annotation-close');await close.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);overlays.push({name:target.name,nodeId:target.id,width:target.width,height:target.height,textLayers:target.findAll(n=>n.type==='TEXT').length});}links++;}}const navigationOverlays=[];for(const menu of ${JSON.stringify(spec.overlays || [])}){const root=frames.get(menu.id);for(const action of menu.actions){const control=root.findOne(n=>n.name==='hotspot:'+action.label),target=frames.get(action.targetId);if(!control||!target)throw new Error('Missing navigation menu control or target');await control.setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'NODE',navigation:'NAVIGATE',destinationId:target.id,transition:{type:'DISSOLVE',easing:{type:'EASE_OUT'},duration:0.15},preserveScrollPosition:false}]}]);links++;}await root.findOne(n=>n.name==='annotation-close').setReactionsAsync([{trigger:{type:'ON_CLICK'},actions:[{type:'CLOSE'}]}]);navigationOverlays.push({name:root.name,nodeId:root.id,width:root.width,height:root.height,textLayers:root.findAll(n=>n.type==='TEXT').length});}page.flowStartingPoints=[['portfolio','Commitment review'],['evidence-input','Evidence to portfolio'],['race-cutoff','Adverse state · bounded cutoff'],['race-repair','Authored repair · separate model'],['connected-handoff-concept','Concept · selected-case handoff'],['mobile-approval','Mobile review']].map(([id,name])=>({nodeId:frames.get(id).id,name}));const staging=figma.root.children.find(p=>p.name===${JSON.stringify(stagingName)});if(staging.children.length!==${all.length})throw new Error('Staging source roots changed');await figma.setCurrentPageAsync(figma.root.children.find(p=>p.name==='Read me'));staging.remove();return {links,overlays,navigationOverlays,frames:screens.map(s=>{const n=frames.get(s.id);return {id:s.id,nodeId:n.id,width:n.width,height:n.height,textLayers:n.findAll(n=>n.type==='TEXT').length};})};`,
@@ -214,5 +241,5 @@ await writeFile(
   ) + "\n",
 );
 console.log(
-  `Updated ${record.frames.length} native screens, 7 boards,12 components,13 colors,${record.overlays.length} notes; retained root IDs and rewired ${record.links} controls. Visual review required.`,
+  `Updated ${record.frames.length} native screens, ${models.boards.length} boards,12 components,13 colors,${record.overlays.length} notes; retained root IDs and rewired ${record.links} controls. Visual review required.`,
 );

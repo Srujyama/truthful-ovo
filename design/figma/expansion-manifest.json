@@ -1,0 +1,741 @@
+{
+  "schemaVersion": 1,
+  "kind": "truthful-append-only-design-expansion",
+  "fileKey": "8j4pwtsGDI4seljHPNeUkI",
+  "baselineInventoryDigest": "54ae57b7a44cbc54d779ecc6fe95fcb983ece437b7459a88d4737e9721766477",
+  "baselineRoots": [
+    {
+      "name": "authority-approval",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:910"
+    },
+    {
+      "name": "authority-scope",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:999"
+    },
+    {
+      "name": "board-economics",
+      "page": "Read me",
+      "type": "FRAME",
+      "id": "3:67"
+    },
+    {
+      "name": "board-problem",
+      "page": "Read me",
+      "type": "FRAME",
+      "id": "3:62"
+    },
+    {
+      "name": "board-ritual",
+      "page": "Read me",
+      "type": "FRAME",
+      "id": "3:73"
+    },
+    {
+      "name": "board-roadmap",
+      "page": "Read me",
+      "type": "FRAME",
+      "id": "3:112"
+    },
+    {
+      "name": "board-start",
+      "page": "Read me",
+      "type": "FRAME",
+      "id": "3:53"
+    },
+    {
+      "name": "board-system",
+      "page": "Read me",
+      "type": "FRAME",
+      "id": "3:79"
+    },
+    {
+      "name": "board-trust",
+      "page": "Read me",
+      "type": "FRAME",
+      "id": "3:106"
+    },
+    {
+      "name": "connected-handoff-concept",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1231"
+    },
+    {
+      "name": "evidence-finding",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:213"
+    },
+    {
+      "name": "evidence-input",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:134"
+    },
+    {
+      "name": "exact-approval",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:495"
+    },
+    {
+      "name": "execution-receipt",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1097"
+    },
+    {
+      "name": "mobile-approval",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1288"
+    },
+    {
+      "name": "mobile-navigation",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "12:6155"
+    },
+    {
+      "name": "mobile-receipt",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1370"
+    },
+    {
+      "name": "mobile-witness",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1320"
+    },
+    {
+      "name": "packet-verification",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1171"
+    },
+    {
+      "name": "portfolio",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:312"
+    },
+    {
+      "name": "race-cutoff",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:747"
+    },
+    {
+      "name": "race-repair",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:824"
+    },
+    {
+      "name": "race-setup",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:579"
+    },
+    {
+      "name": "race-witness",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:655"
+    },
+    {
+      "name": "renewal-decision",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:422"
+    },
+    {
+      "name": "review-note:authority-approval:Approve exact action",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1452"
+    },
+    {
+      "name": "review-note:authority-scope:Delegate to worker",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1459"
+    },
+    {
+      "name": "review-note:authority-scope:Revise supporting source",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1473"
+    },
+    {
+      "name": "review-note:authority-scope:Revoke root grant",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1466"
+    },
+    {
+      "name": "review-note:evidence-finding:Analyze evidence",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1410"
+    },
+    {
+      "name": "review-note:evidence-finding:Claim draft",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1403"
+    },
+    {
+      "name": "review-note:evidence-finding:Review claim draft",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "23:24772",
+      "ownerRequired": true
+    },
+    {
+      "name": "review-note:exact-approval:Approve exact action",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1431"
+    },
+    {
+      "name": "review-note:exact-approval:Original duplicate-seat correction · revision 6",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "23:24799",
+      "ownerRequired": true
+    },
+    {
+      "name": "review-note:execution-receipt:Attempt another execution",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1487"
+    },
+    {
+      "name": "review-note:execution-receipt:Retry identical request",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1480"
+    },
+    {
+      "name": "review-note:mobile-approval:Approve exact action",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1508"
+    },
+    {
+      "name": "review-note:mobile-approval:Review next action",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "23:24860",
+      "ownerRequired": true
+    },
+    {
+      "name": "review-note:mobile-receipt:Pin this demo issuer",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1529"
+    },
+    {
+      "name": "review-note:mobile-receipt:Retry identical request",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1522"
+    },
+    {
+      "name": "review-note:mobile-receipt:Verify signed packet",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1536"
+    },
+    {
+      "name": "review-note:mobile-witness:Replay report",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1515"
+    },
+    {
+      "name": "review-note:packet-verification:Alter checkpoint signature",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1501"
+    },
+    {
+      "name": "review-note:packet-verification:Verify signed packet",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1494"
+    },
+    {
+      "name": "review-note:portfolio:Shared ledger",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1417"
+    },
+    {
+      "name": "review-note:portfolio:Workspace options",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "23:24783",
+      "ownerRequired": true
+    },
+    {
+      "name": "review-note:race-repair:Replay report",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1445"
+    },
+    {
+      "name": "review-note:race-witness:Replay report",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1438"
+    },
+    {
+      "name": "review-note:renewal-decision:Change the comparison assumptions",
+      "page": "Product flow",
+      "type": "FRAME",
+      "id": "3:1424"
+    },
+    {
+      "name": "Truthful Button / kind=Primary, state=Default",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:21"
+    },
+    {
+      "name": "Truthful Button / kind=Primary, state=Disabled",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:27"
+    },
+    {
+      "name": "Truthful Button / kind=Primary, state=Hover",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:22"
+    },
+    {
+      "name": "Truthful Button / kind=Secondary, state=Default",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:28"
+    },
+    {
+      "name": "Truthful Button / kind=Secondary, state=Disabled",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:34"
+    },
+    {
+      "name": "Truthful Button / kind=Secondary, state=Hover",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:33"
+    },
+    {
+      "name": "Truthful State / Approved",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:39"
+    },
+    {
+      "name": "Truthful State / Consumed once",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:51"
+    },
+    {
+      "name": "Truthful State / Inconclusive",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:45"
+    },
+    {
+      "name": "Truthful State / Needs approval",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:46"
+    },
+    {
+      "name": "Truthful State / Stale approval",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:52"
+    },
+    {
+      "name": "Truthful State / Unsafe effect",
+      "page": "Design system",
+      "type": "COMPONENT",
+      "id": "3:40"
+    }
+  ],
+  "modelsDigest": "9fec15d6c7e4bf1e7bbb912f9c76677db27e0c463ee2099fc2fa305188bf1fb3",
+  "newRoots": [
+    {
+      "name": "amendment-approval",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "aec4084e36df114397de0dcbbba59c9841e3819d227565c1cac7db57e9f98980"
+    },
+    {
+      "name": "amendment-approved",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "19012108811fd63b68551c7c20b0fe6e009061c4fba098fdc1e89eb07f659858"
+    },
+    {
+      "name": "amendment-draft",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "ad94dd081b4e6f8d44e05fc141ad72a4e86311e8fdb88153ab2ec373aa1c1af0"
+    },
+    {
+      "name": "amendment-executed",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "03e8253c60e7fbd49ab0b1ee6546306e4424e98c96467423d88a39ff2b3d1077"
+    },
+    {
+      "name": "amendment-policy-blocked",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "caa7f28ca97c502eae7e62bc9c2a3300c9c2a61da1b8610e15e9993e544b37a9"
+    },
+    {
+      "name": "amendment-preview",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "497a704e775871c3585e9ac978f01dfa16ecdcc1665072ad327a6c8182fb3622"
+    },
+    {
+      "name": "amendment-recorded",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "1da4a7bc94fd716d60eda19996129dd7d98dfff10acfb0875948fd599169cfc3"
+    },
+    {
+      "name": "amendment-renewal-only",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "145f5abbba31fbf1e8ff8ee067e858c88512e0b69ad86f949d9009dafd18426e"
+    },
+    {
+      "name": "board-amendment-authority",
+      "page": "Read me",
+      "type": "FRAME",
+      "modelDigest": "d9b93d12a54a997622a69c3828e4a5b54ef0d018bfae437b4f350cd7e59248b7"
+    },
+    {
+      "name": "board-credit-fulfillment",
+      "page": "Read me",
+      "type": "FRAME",
+      "modelDigest": "9ae890d6a058578013032b64566101484ac2bd6b8c431e46e6c3ed858322c663"
+    },
+    {
+      "name": "board-expansion-boundaries",
+      "page": "Read me",
+      "type": "FRAME",
+      "modelDigest": "9e96713975b43b599787ea2e325cdeb724967498bb4ede56cdac0404224362d3"
+    },
+    {
+      "name": "board-operations-expansion",
+      "page": "Read me",
+      "type": "FRAME",
+      "modelDigest": "e5425685caecf51e82c295be651f49ac7911fc26807ccbd7510f126ddef297a4"
+    },
+    {
+      "name": "board-resolution-handoff",
+      "page": "Read me",
+      "type": "FRAME",
+      "modelDigest": "3bd892f3d8dbb3f9dcc3c11aee9d5a52ac9a2f4685f2c8aa19a562f6b71a751b"
+    },
+    {
+      "name": "board-responsive-expansion",
+      "page": "Read me",
+      "type": "FRAME",
+      "modelDigest": "3377c0fa840a693883881c8092e92a95316a6f8e9bf14fb271430874cea8f502"
+    },
+    {
+      "name": "board-state-coverage",
+      "page": "Read me",
+      "type": "FRAME",
+      "modelDigest": "00f384d540febe0157588bf00cdf7abee894d034c4d443cfc1dbe09642cff0ed"
+    },
+    {
+      "name": "credit-application",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "e14d8c6593424335f173ca265e2e6d5f43f0521bc85c8693574845518387990a"
+    },
+    {
+      "name": "credit-applied",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "22bce2954ecb2dc0bb93dcba570eb58a2de53b64acec96b72507890bbce452a9"
+    },
+    {
+      "name": "credit-attribute",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "b1771e6d4127797f2a3184a5e59e99984c451322a48417239727d30e8d025d1f"
+    },
+    {
+      "name": "credit-attribution-preview",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "719fe11c987865f14e77814a8c1ad84803678ffdb29d1ce01e1424e5c54f1c1f"
+    },
+    {
+      "name": "credit-duplicate-error",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "815e207c24884515cbb196b2ce9459b48fa2ee4c7d2b5b8afd185fadbd5835ce"
+    },
+    {
+      "name": "credit-empty",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "19901af7cd478841aac36a07ff51e2575f5616c8481f1e65aca6c77921d904e0"
+    },
+    {
+      "name": "credit-fully-attributed",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "221d8dbd7fc2c0d57d129f0ba76ad13df54942ed38bbac60fcde5267268d2486"
+    },
+    {
+      "name": "credit-historical",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "e5e4471d242b24647b7ddd34f8ee698ae8f6c7c2168cd6e68d352134038dc43e"
+    },
+    {
+      "name": "credit-issued-preview",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "376b33b5ccf427862ed0441d936c5f583537eeb347129cdbcc9bab89f0ad1928"
+    },
+    {
+      "name": "credit-issued-recorded",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "40e041e80de354ced7f81111d309296651f417400c08f4f361a50da0fef907d5"
+    },
+    {
+      "name": "credit-register-issued",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "697b10b04c768237ded2f49e22bd90c30fd3a595f79dfaba091c268565b7ca3c"
+    },
+    {
+      "name": "credit-resolution-evidence",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "c10aea8e21833751a09c84ffe170c34e2abf6ecf4006c7b503d85a2df20ac1c8"
+    },
+    {
+      "name": "credit-resolution-released",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "c27449c15b454f58630eda0dc9c6ed3b8fd2164b198b45743184be8901cbb612"
+    },
+    {
+      "name": "credit-resolution-review",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "6d45056b5841ce85d2f343b2e0fccf5c1c36c3cb68d65082f47c5fcbd640bf78"
+    },
+    {
+      "name": "credit-reversal",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "0938eb76b48e73cc02bdce17ca6c715f413add4feb8984f110cdd0eb47ad13cc"
+    },
+    {
+      "name": "credit-reversal-preview",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "c2dcb8b7cff3795c64cf974a5857c28ca07dd00213bc952cfa6583b8fbd17198"
+    },
+    {
+      "name": "credit-reversed",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "ab7776475f282ccdc1dcfb84985bf0db9712aa1a3454276c1753e37cbe7e032b"
+    },
+    {
+      "name": "credit-role-blocked",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "66220b0153b50e6b565ed3b81ed778023a61920e1f0cecebb46bd94facdd53a4"
+    },
+    {
+      "name": "evidence-library",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "f10205131482b35ea58dfba23daedec4f04530754de75cd09faff1c63058f99e"
+    },
+    {
+      "name": "evidence-revision",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "b572d0ad87eb87c5c161cf2d0104d578b0d69ea5dd94aec200ae289dbdd6741f"
+    },
+    {
+      "name": "financial-report",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "b6f506fa64af12c9b5fd1ac68161445d428b164c26e193ddc45f2f0b1187c10f"
+    },
+    {
+      "name": "mobile-activity",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "a22d9f4e405cea019779388fc3efae5469ae0949eab5697136b166d9a214a4f0"
+    },
+    {
+      "name": "mobile-amendment",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "4937003f2278cec9354184b5064f2256951e3d33e41234bff675148da1abc190"
+    },
+    {
+      "name": "mobile-amendment-preview",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "fc96635836d3b681ccdddabd1b19c96c92038e9cfae1e11ea41d891cb5616c0e"
+    },
+    {
+      "name": "mobile-credit-form",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "2ce73c474fb972aae5b21e420f4cea03fbf491f88aff45f1d60785d1d1496a28"
+    },
+    {
+      "name": "mobile-credit-preview",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "fbe6343a2e4ce6564d84a5468f48bb7fafd1a6ddb44d93d6b5fd9c531a5ef93a"
+    },
+    {
+      "name": "mobile-credit-reversal",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "6cfdedac3ebf696380222851b81f4254746a670b6be807fa8a9e3a0d0a433115"
+    },
+    {
+      "name": "mobile-library",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "84b98cb94283b482c6d76bde48b47a2b37255ccfd38accbe2ec4a3f59e5beb70"
+    },
+    {
+      "name": "mobile-operations",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "75ad52be3f8f1a96b51bff214e23d8b9622a5e4451c8c211acd135f166f9a01c"
+    },
+    {
+      "name": "mobile-report",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "256a85afbb5bdb60bf8913d91e9ba21c3041c754e0f2bf7aea13e391ceb43c22"
+    },
+    {
+      "name": "mobile-resolution",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "97de4778cce8bfdd7aa6e074a655e764973b75286880b120591ab61e528fd75f"
+    },
+    {
+      "name": "mobile-vendors",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "39d49fe91d59ce849f9bd5b73502dc1a4652fffe37e8597318e01eba6128f1e2"
+    },
+    {
+      "name": "mobile-workspace-navigation",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "bdb49ac9e5844ea7bf38f0062872c3fda02908d9c6ebe4c52a347ffaf4f4b1b5"
+    },
+    {
+      "name": "nimbus-deadline-review",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "0b7fdbc68ddab014ae6491275806ac40cc394f7a79ef0be4ffcadf5a6bfc3f09"
+    },
+    {
+      "name": "northstar-credit-source",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "87045062f954888413b6a08c27eaf387fe9871e2139532279d49c30651a8fb0c"
+    },
+    {
+      "name": "operations-blocked",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "bd38f062cd8807c564959834fe7bf2c85483e0044004883ad517284c1842e14b"
+    },
+    {
+      "name": "operations-queue",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "8df364ebf4246ff0ae326a698b0e091d166e02e6deb146e9d7e04ca68a85f395"
+    },
+    {
+      "name": "report-export",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "daca98209631f63f88816a52f83671bbc05edbe7ec67ee2cdce605485c61ae0a"
+    },
+    {
+      "name": "report-history",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "48a52c0b2c6065d4f556fea2e9298d6cf160d3891b6351efe80a37332d7ce141"
+    },
+    {
+      "name": "resolution-source",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "162e055632baa0686bbaf60cd1560fb1d16c7bce53b7559bce760793fbe21978"
+    },
+    {
+      "name": "vendor-credits",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "e8460797475c1cc6e0ea0537221884c165a7d8cee6013c344cbc11840933841a"
+    },
+    {
+      "name": "vendor-detail",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "38efcd6088f8123cb767c108e7645c456dddff0933e4def823cbb18998d09878"
+    },
+    {
+      "name": "vendor-directory",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "ebda61d8b6652c6047e38ffe6b98e881a4ae12154163f63a059e8f345e59d0ee"
+    },
+    {
+      "name": "workspace-activity",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "6ba1757e26d4475154474c26b1be8889e9a76bcb26f22ad8afba1ff6bc9b9e6f"
+    },
+    {
+      "name": "workspace-event",
+      "page": "Product flow",
+      "type": "FRAME",
+      "modelDigest": "7bafb484045cd3edf06fb0f2efa2e752c8753363c46bf507d8d9d41de8aa482e"
+    }
+  ]
+}
