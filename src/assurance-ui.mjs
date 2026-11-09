@@ -32,7 +32,7 @@ export function resolveEvidenceNode(view, selection) {
 
 export function selectDecisionAction(view, { selectedActionId, commitmentId } = {}) {
   const actions = view.actions.filter(action => view.commitments.some(c => c.id === action.commitmentId));
-  if (selectedActionId) return actions.find(action => action.id === selectedActionId) || null;
+  if (selectedActionId) return actions.find(action => action.id === selectedActionId && (!commitmentId || action.commitmentId === commitmentId)) || null;
   // An explicit case must never silently open another vendor's action.
   if (commitmentId) return actions.findLast(action => action.commitmentId === commitmentId) || null;
   return actions[0] || null;

@@ -11,8 +11,8 @@ export default function WorkspaceAccount({service}) {
   const managed=service.authMode==='managed-password',signedIn=managed&&Boolean(service.session?.user),session=service.session;
   const disabled=Boolean(pending||service.busy),checking=service.authStatus==='checking'||service.authMode==='detecting';
   const connectionError=service.authMode==='service-error';
-  const runtime=managed?'Managed · SQLite':service.mode==='server'?'Local demo · SQLite':service.mode==='browser'?'Browser-local demo':'Checking service';
-  const title=connectionError?'Workspace connection':signedIn?'Workspace account':managed?'Access your workspace':'Demo workspace';
+  const runtime=managed?'Team workspace':service.mode==='server'?'Example data · saved on this Mac':service.mode==='browser'?'Example data · saved in this browser':'Checking service';
+  const title=connectionError?'Connection':signedIn?'Workspace account':managed?'Sign in':'Demo workspace';
   const label=checking?'Connecting…':connectionError?'Service unavailable':managed?(signedIn?(session.workspace?.name||'Workspace account'):'Sign in'):'Demo account';
 
   useEffect(()=>{
@@ -61,7 +61,7 @@ export default function WorkspaceAccount({service}) {
       <header className="wa-heading"><div><h2 id={`${id}-title`}>{title}</h2><p>{runtime}</p></div><button type="button" className="wa-close" aria-label="Close account" onClick={close}><X size={20} aria-hidden="true"/></button></header>
       <div className="wa-body" aria-busy={Boolean(pending)}>
         {checking?<div className="wa-connection"><p>Checking the workspace service and your session…</p><p>Your workspace will appear when the connection is ready.</p></div>:connectionError?<div className="wa-connection"><p>The service responded with an error. Retry the connection to open your recorded workspace.</p></div>:managed&&!signedIn?<>
-          <p className="wa-intro">Sign in with your workspace account, or join using an invitation supplied by a workspace administrator.</p>
+          <p className="wa-intro">Sign in or use an invitation to join your team.</p>
           <div className="wa-access-options" aria-label="Account access"><button type="button" aria-pressed={access==='login'} disabled={disabled} onClick={()=>{setAccess('login');setError('');}}>Sign in</button><button type="button" aria-pressed={access==='invitation'} disabled={disabled} onClick={()=>{setAccess('invitation');setError('');}}>Join with invitation</button></div>
           {access==='login'?<form className="wa-form" onSubmit={event=>submit(event,'Signing in…',input=>service.login(input),()=>{setMessage('Signed in. Your workspace is ready.');})}>
             <label htmlFor={`${id}-email`}>Email<input id={`${id}-email`} name="email" type="email" autoComplete="username" maxLength={254} required disabled={disabled}/></label>
@@ -84,7 +84,7 @@ export default function WorkspaceAccount({service}) {
             <button type="submit" className="wa-secondary" disabled={disabled||!session.workspaces?.length}><Building2 size={16} aria-hidden="true"/>Switch workspace</button>
           </form>
           {!session.workspaces?.length&&<p className="wa-help">No active workspace membership is available. Ask an administrator for an invitation{session.user.systemAdmin?', or create a workspace below':''}.</p>}
-          <p className="wa-help">Your membership determines your role. Workspace records and financial authority remain separate for each workspace.</p>
+          <p className="wa-help">Your role applies to the selected workspace.</p>
           {service.actor.role==='admin'&&session.workspace&&<details className="wa-section"><summary>Invite a workspace member</summary><form className="wa-form" onSubmit={event=>submit(event,'Creating invitation…',input=>service.createInvitation({...input,...(!input.name.trim()?{name:undefined}:{})}),result=>{setInvitation({...result,workspaceName:session.workspace.name});setMessage('Invitation created. Copy the token and share it privately.');})}>
             <label htmlFor={`${id}-invite-email`}>Member email<input id={`${id}-invite-email`} name="email" type="email" autoComplete="off" maxLength={254} required disabled={disabled}/></label>
             <label htmlFor={`${id}-invite-name`}>Member name <span className="wa-optional">(optional)</span><input id={`${id}-invite-name`} name="name" maxLength={160} disabled={disabled}/></label>
@@ -100,12 +100,12 @@ export default function WorkspaceAccount({service}) {
             <label htmlFor={`${id}-new-password`}>New password<input id={`${id}-new-password`} name="newPassword" type="password" autoComplete="new-password" minLength={12} maxLength={256} required disabled={disabled}/></label>
             <p className="wa-help">Use 12–256 characters. Changing your password signs out all sessions.</p><button className="wa-primary" type="submit" disabled={disabled}><KeyRound size={16} aria-hidden="true"/>Change password</button>
           </form></details>
-          <div className="wa-signout"><span>Signed in with a managed account</span><button className="wa-secondary" type="button" disabled={disabled} onClick={()=>run('Signing out…',()=>service.logout(),()=>{setAccess('login');setMessage('Signed out.');})}><LogOut size={16} aria-hidden="true"/>Sign out</button></div>
+          <div className="wa-signout"><span>Signed in</span><button className="wa-secondary" type="button" disabled={disabled} onClick={()=>run('Signing out…',()=>service.logout(),()=>{setAccess('login');setMessage('Signed out.');})}><LogOut size={16} aria-hidden="true"/>Sign out</button></div>
         </>:<section className="wa-demo"><p>This is a fictional finance workspace. Demo identities let you try the analyst, approver and executor handoff. They are not account authentication.</p><label htmlFor={`${id}-demo-role`}>Fictional role<select id={`${id}-demo-role`} value={service.actor.role} disabled={disabled} onChange={event=>run('Changing demo role…',()=>service.changeRole(event.target.value))}>{roles.map(role=><option key={role}>{role}</option>)}</select></label><p className="wa-help">{service.mode==='browser'?'Records stay in this browser.':'Records are stored in the local demo service.'} No external transaction is executed.</p></section>}
         {(error||service.error)&&<p className="wa-error" role="alert">{error||service.error}</p>}
         {message&&<p className="wa-message" role="status">{message}</p>}
         {pending&&<p className="wa-pending" role="status">{pending}</p>}
-        <div className="wa-footer"><span>{managed&&service.workspace?`Workspace revision ${service.serverRevision}`:managed?'Managed accounts require a workspace invitation':connectionError?'Recorded workspace unavailable':'Demo data is synthetic'}</span><button type="button" className="wa-text" disabled={disabled||checking} onClick={()=>run('Checking connection…',()=>service.refreshSession())}>Retry connection</button></div>
+        <div className="wa-footer"><span>{managed&&service.workspace?`Workspace revision ${service.serverRevision}`:managed?'Join your team with an invitation':connectionError?'Recorded workspace unavailable':'Example data'}</span><button type="button" className="wa-text" disabled={disabled||checking} onClick={()=>run('Checking connection…',()=>service.refreshSession())}>Retry connection</button></div>
       </div>
     </dialog>
   </>;

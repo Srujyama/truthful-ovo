@@ -46,6 +46,7 @@ test('an explicit selected case without an action stays empty despite other vend
   assert.equal(selectDecisionAction(view,{commitmentId:'missing'}),null);
   assert.equal(selectDecisionAction(view,{commitmentId:'nimbus-sla',selectedActionId:'not-observed-yet'}),null);
   assert.equal(selectDecisionAction(view,{commitmentId:'pipeline-seats'}).commitmentId,'pipeline-seats');
+  assert.equal(selectDecisionAction(view,{commitmentId:'nimbus-sla',selectedActionId:'action-pipeline-preserve'}),null,'an exact action from another case must not override the requested case');
 });
 
 test('an older recorded action never hides a newer pending original claim after its evidence changes',()=>{

@@ -6,6 +6,11 @@
 
 ## Goal
 
+Overhaul the entire application after the user rejected the first Nomen-inspired build, especially the financial records. Replace poor composition and jargon with complete, plain-language, coherent user workflows across follow-ups, credits, tasks, companies, documents/intake/drafts, activity, reports, account, workflow tests/permissions, and guided examples. Eliminate product-facing ledger/assurance/lab/witness/mandate jargon and redundant instructional/disclaimer copy without changing supplied documents or internal financial meaning. Build from actual local ui studies and Aiden reference mechanisms, not Impeccable-only style rules, generic blue dashboard templates, or another palette overlay. Preserve exact identities, all monetary/role/replay/export/integration behavior, normal-motion continuity, mobile/keyboard/error/empty/loading states. Substantial composition and interaction changes must be rendered and operated, independently reviewed, repaired, and tested. Also improve reusable Claude frontend skills using the local ui/Aiden source and observed lessons; install discoverable self-contained reference-backed guidance, validate it and report actual skill changes without claiming model training. Root owns services, global shell/new credits/search, tests/integration, plan, git; three workers own disjoint financial case, read-only records, and document/execution UI. No native Goal requested, no public deployment or external account actions inferred.
+
+Previous Nomen milestone (user-rejected as sufficient UI quality):
+
+
 Adapt the user-pinned Nomen spatial camp mechanism into a complete, original Truthful financial clearing house and improve the actual website. Full original procedural town/world, real backend-derived stations and exact record navigation, immediately available conventional ledger, managed sign-in/accounts/workspaces, durable evidence/claims and selected actual execution must work. Preserve all existing financial and technical capabilities. Verify normal-motion gestures including reversal/cancel, pause/reduced motion, mobile/desktop composition, keyboard/long content, exact cents/record identity, actual user journeys and independent fresh visual/function review; repair material findings. Track requirement evidence in docs/NOMEN_ADAPTATION.md. User's Nomen direction supersedes frontend pause and incumbent visual identity where they conflict; product truth and backend invariants remain. No paid reference provider calls, native Figma change or public deployment is inferred.
 
 Prior completed backend milestone:
@@ -298,6 +303,20 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       deps: T46
       notes: Actual desktop/mobile comparison; independent functional/finish review repaired; managed archive claims and selected signed execution; browser verification includes normal reverse/cancel and courier pause/resume. Chrome automation does not expose real background visibility; actual scene clock suspension is verified by the shared helper regression. Older native Figma/submission tasks remain separate external blockers.
       took: 20m
+- [x] T48 · Overhaul every product screen and workflow from actual reference mechanisms
+      files: src, docs/UI_OVERHAUL.md
+      accept: npm run check
+      took: 49m
+- [x] T49 · Operate and independently review the complete redesigned application
+      files: scripts, docs/UI_OVERHAUL.md
+      accept: npm run verify:workspace-redesign
+      deps: T48
+      notes: Integrated rendered review and repairs complete. 230 unique workspace outcomes; 41 managed and 29 full-finance outcomes; credit workflows pass in SQLite and offline modes with eight replayed packets. 32 document/guided-example outcomes with four independently reproduced analyses and exact edited unsent email. Independent review closed wrong retained approval, active-scope draft leakage and phone credit history/focus. Every main route inspected at desktop/intermediate/phone widths; actual source focus and normal Office reversal/cancel/pause/resume verified. No public deployment or native Figma parity claim.
+- [x] T50 · Improve discoverable Claude frontend skills from local UI and Aiden studies
+      files: docs/FRONTEND_GUIDANCE.md, scripts/verify-frontend-guidance.py
+      accept: python3 scripts/verify-frontend-guidance.py
+      notes: Saved Claude/Codex guidance verified against the current 56-file original-study bundle after preserving a legitimate independent refresh. Both manifest schemas supported with strict hashes; 24 actual module paths, 69 local references, 61 backup records and all 23 existing Impeccable commands verify. Four discoverable Claude links; all six current starters typecheck/build; actual ProofGarden consequence and revert pass. Actual UI/Aiden source and operated mechanisms guide the design. No model training or active-session reload claim.
+      took: 31m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -397,3 +416,16 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-11-09 · set T47 · notes
 - 2026-11-09 · done T47 · Integrate redesigned workspace and verify real finance journeys
 - 2026-11-09 · Nomen clearing-house milestone verified:353automatedtests,39managedUIchecks independently replayed,29full-financeUIchecks,7route/mobilechecks; independent functional/visual repairs complete and design documents updated. pad finish refuses only existing T9 external submission/video and T37 native Figma access/plugin blockers; T46/T47 done. New local app is at http://127.0.0.1:5197. No public release/native Figma change inferred.
+- 2026-11-09 · started T48 · Overhaul every product screen and workflow from actual reference mechanisms
+- 2026-11-09 · started T50 · Improve discoverable Claude frontend skills from local UI and Aiden studies
+- 2026-11-09 · done T50 · Improve discoverable Claude frontend skills from local UI and Aiden studies
+- 2026-11-09 · done T48 · Overhaul every product screen and workflow from actual reference mechanisms
+- 2026-11-09 · started T49 · Operate and independently review the complete redesigned application
+- 2026-11-09 · set T50 · notes
+- 2026-11-09 · done T48 · Overhaul every product screen and workflow from actual reference mechanisms
+- 2026-11-09 · done T49 · Operate and independently review the complete redesigned application
+- 2026-11-09 · set T49 · notes
+
+- 2026-11-09 · Current overhaul tasks T48/T49/T50 verified: 356 automated tests and production build; real managed, SQLite, offline, record/export and guided workflows replayed; independent material findings repaired. Saved Claude skills and current original UI studies validated; compatibility recheck preserves the independent upstream 56-file refresh. Final whole historical pad audit refuses only pre-existing T9 deferred submission/video and T37 native Figma edit-access/plugin blockers. No new native Figma or public deployment claimed.
+- 2026-11-09 · done T49 · Operate and independently review the complete redesigned application
+- 2026-11-09 · done T50 · Improve discoverable Claude frontend skills from local UI and Aiden studies

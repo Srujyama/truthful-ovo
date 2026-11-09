@@ -1,25 +1,42 @@
-# Frontier development build
+# Development build
 
-Status: local v4 development. The user explicitly deferred further videos and submission packaging. Existing public delivery facts remain the earlier v3 release; no v4 release is being staged.
+Status: local v4 development. The current frontend implements the whole-application overhaul verified in [UI_OVERHAUL.md](UI_OVERHAUL.md). The user rejected the earlier Nomen adaptation as sufficient application design. Earlier passing tests and design reviews remain historical behavior evidence; they do not approve the new workspace.
 
-Backend milestone: [managed setup and API contract](BACKEND.md) · [requirement-to-evidence checklist](BACKEND_ACCEPTANCE.md). All existing product workflows now have server support, including durable evidence/previews, claim drafts/approval/unsent exports and execution reports/replay. The latest user direction resumes frontend work with the Nomen-inspired original clearing house; see [the adaptation record](NOMEN_ADAPTATION.md). Managed mode is separate from the retained demo; external mail, bank/payment feeds and live AI remain unconnected.
+The user deferred further videos and submission packaging. Existing public delivery facts remain the earlier v3 release. No new deployment, native Figma persistence or submission is claimed here.
 
-Implemented: bounded program-order exploration, shortest unsafe-effect witnesses for the published cached-check teaching harness, exact guarded replay, resource-cutoff prefix verification, fixed-family repairs with explicit completion, Ed25519 scoped/attenuated delegation, agent possession, revocation/expiry, full-approval binding, atomic SQLite one-use execution, signed outcome/lifecycle export and independently pinned-key verification.
+## Current application
 
-Earlier frontier validation checkpoint: 156 automated tests; 25 actual SQLite frontier UI assertions; 23 isolated-browser assertions; 45 preserved assurance/evidence/guided UI assertions. The execution lab and the later portfolio integration passed independent desktop/mobile design review. These are synthetic development checks, not independent model accuracy or formal proof.
+The default entry is **Follow-ups**, with full-width results and a selected case’s exact amounts, documents, credits, history and next action. **Credits** is a first-class view of actual credit notes and invoice adjustments. **Tasks**, **Companies**, **Documents**, **Activity** and **Reports** have separate task-specific compositions over the same financial records. Public Sans, dark ink, white working surfaces and restrained blue actions replace the previous pixel/paper treatment on operational screens.
 
-Current portfolio integration is implemented: choose an actual approved portfolio action, retain its exact evidence/ledger snapshot, and explore a hypothetical source revision or actual deadline ordering without changing live records or inventing approval. Eight browser checks in each of the SQLite and static build modes verify this path, including immutable live state, portable replay, and missing-deadline rejection.
+**Add documents** opens Document review. Browser mode retains local fictional reviews; managed mode retains source-analysis versions, reviewed imports and follow-up draft versions with separate analyst/approver roles and exact-version unsent exports. Selected records and drafts are retained across ordinary workspace navigation; exact routes must preserve identity and show unavailable states for missing targets.
 
-Run `npm run dev` and open http://127.0.0.1:5173. `npm run check` validates the development build. Research and actual trust limits are documented in FRONTIER_RESEARCH.md and TECHNICAL_DEEP_DIVE.md. No live LLM or external financial system is connected.
+**Office map** is a secondary original spatial overview. Its six buildings, anchored controls, pause/camera/reduced-motion behavior and real record links remain useful. [NOMEN_ADAPTATION.md](NOMEN_ADAPTATION.md) preserves that historical milestone and its evidence boundaries. [DESIGN.md](../DESIGN.md) records the current operational system and the separate Office treatment.
 
-Independent code review found and repaired response-ordering and superseded-run presentation races. Three hook regression tests check delayed command/reset responses against newer refreshes; two browser checks hold a real server response while inputs change. The recorded submission plan remains open because its external decisions are outside this development milestone.
+**Workflow tests** retains bounded program-order comparisons, current-action snapshots, custom scenarios, inconclusive resource cutoffs, replay/export and fixed-family repair. **Permissions** retains exact-action review, Ed25519 limits and narrower delegation, expiry/revocation, atomic one-use execution/retry and separately pinned-key verification. An explicit unavailable target must not silently become a different browser example.
 
-The current product UI uses the spatial clearing-house and coordinated ledger system in DESIGN.md. Vite ignores generated Figma HTML and output artifacts for hot reload so running the design CLI or capturing screenshots does not reset an in-progress product review. The Figma companion remains separately generated and verified through its connected native document.
+## Run and verify
 
-The default app entry is the financial portfolio. Use `http://127.0.0.1:5173/?view=execution` for a direct laboratory entry. `scripts/browser-design-principles-check.js` verifies the default route, disclosure access, keyboard focus, exact mobile references and first-viewport financial context through the existing Playwright CLI.
+Run `npm run dev` and open http://127.0.0.1:5173. The supervisor starts Vite and the local demo HTTP/SQLite service. `npm run dev:web` runs the browser-only UI; `npm run backend` starts managed mode after account bootstrap. See [BACKEND.md](BACKEND.md) for accounts and service setup. No API key is required for these deterministic workflows.
 
-The November 6 continuation adds operator-facing credit fulfillment and amendment authoring. New issued/applied lines, partial attribution, invoice evidence, causal reversals, and source-backed changed terms use the existing reducer and atomic service boundary. Each form previews the actual financial effect; editing inputs or changing workspace, role, or historical view discards that review. Allocation records now optionally bind source revisions into the evidence graph, while legacy command replay remains compatible. Current accepted promise amounts are visible with the original amount retained. See [credit workflow verification](CREDIT_WORKFLOW_REVIEW.md) for runtime evidence and reproduction.
+Useful reproduction entrypoints:
 
-This continuation extends the application. The native Figma record remains the previously verified UI milestone; these new form states are not claimed as native Figma screens. Public v3 delivery, video work, and submission decisions remain unchanged.
+```sh
+npm run check
+npm run test:workspace:all
+npm run verify:workspace-redesign
+python3 scripts/verify-frontend-guidance.py
+```
 
-The November 7 expansion adds five connected read-only workspace destinations and source-backed credit ambiguity resolution. The design source now contains 69 screen models, 14 boards and 483 mapped interactions; its full rendered gallery passes geometry, exact-text, font and navigation checks. The append-only native migration is prepared but not applied: the existing Figma file reports view-only plugin access and FigCli is disconnected. Current application and design evidence, exact remaining native action and recovery commands are recorded in [WORKSPACE_EXPANSION.md](WORKSPACE_EXPANSION.md).
+The browser command builds isolated production previews and exercises managed accounts, all workspace views, credit fulfillment/recovery in SQLite and offline browser mode, and the guided/document examples. Its companion verifier replays the actual downloads and checks the resulting records. The runner uses owned temporary services and never resets the developer’s saved workspace. The live acceptance checklist and verified outcomes belong in [UI_OVERHAUL.md](UI_OVERHAUL.md). Inspect normal-motion journeys, wide/intermediate/phone layouts, history, focus, exact records, recovery and meaningful empty/error/role states alongside automated checks.
+
+Direct local entries remain `?view=assurance` for Follow-ups, `?view=credits` for Credits, `?view=execution` for Workflow tests and `?view=world` for Office. Internal route/module names are retained for compatibility; product labels are plain task names.
+
+## Backend and earlier checkpoints
+
+The [managed setup and API contract](BACKEND.md) and [backend acceptance record](BACKEND_ACCEPTANCE.md) document durable evidence/previews, claim drafts/approval/unsent exports and execution reports/replay. Managed accounts and workspace membership are separate from selectable demo identities. External mail, bank/payment feeds and live AI remain unconnected.
+
+Earlier frontier records reported 156 automated tests, 25 SQLite UI assertions, 23 isolated-browser assertions and 45 preserved finance/evidence/guided assertions. Later portfolio integration recorded eight checks in each SQLite/static mode. Response-ordering and superseded-run repairs included delayed-response regressions. These counts describe those checkpoints, not the current overhaul’s test result or visual acceptance. Research and trust limits remain in [FRONTIER_RESEARCH.md](FRONTIER_RESEARCH.md) and [TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md).
+
+The November 6 continuation added operator-facing credit fulfillment and amendment authoring: issued/applied lines, partial assignment, invoice evidence, causal reversals and source-backed changed terms through the same atomic boundary. [CREDIT_WORKFLOW_REVIEW.md](CREDIT_WORKFLOW_REVIEW.md) records that checkpoint. The November 7 expansion added the connected workspace destinations and credit ambiguity resolution. Its 69 editable screen models, 14 boards and 483 mapped interactions belong to the earlier design source kit, not a claim of parity with the current overhaul. Native expansion remained blocked by view-only access and a disconnected FigCli bridge; [WORKSPACE_EXPANSION.md](WORKSPACE_EXPANSION.md) retains that evidence and recovery procedure.
+
+Vite ignores generated Figma HTML and output artifacts for hot reload, keeping captures and design generation from resetting an open product review. Public release, videos, native Figma work and external submission decisions remain separate from this development pass.

@@ -2,12 +2,12 @@ import {evaluateWorkspace} from '../assurance/index.mjs';
 import {operationQueue,eventLabel} from '../operations.mjs';
 
 export const STATIONS=Object.freeze([
- {id:'archive',name:'Evidence archive',short:'Archive',kind:'archive',x:250,y:245,description:'The original promise, with its paper trail intact.',section:'library'},
- {id:'review',name:'Review hall',short:'Review',kind:'review',x:570,y:205,description:'Changed terms and exact approvals. A proposal is never an agreement.',section:'assurance'},
- {id:'exchange',name:'Credit exchange',short:'Credits',kind:'exchange',x:845,y:305,description:'Issued, applied, attributed. Every credit keeps its own identity.',section:'assurance'},
- {id:'vault',name:'Verified vault',short:'Verified',kind:'vault',x:900,y:530,description:'Only invoice-backed, attributed credit belongs here.',section:'reports'},
- {id:'lab',name:'Execution observatory',short:'Execution',kind:'lab',x:580,y:525,description:'Test a proposed workflow, then inspect the authority behind its effect.',section:'execution'},
- {id:'dispatch',name:'Dispatch desk',short:'Dispatch',kind:'dispatch',x:285,y:485,description:'The next piece of work, ordered by what actually needs attention.',section:'operations'},
+ {id:'archive',name:'Documents',short:'Archive',kind:'archive',x:250,y:245,description:'Original documents and their saved versions.',section:'library'},
+ {id:'review',name:'Reviews',short:'Review',kind:'review',x:570,y:205,description:'Follow-ups waiting for a decision.',section:'assurance'},
+ {id:'exchange',name:'Credits',short:'Credits',kind:'exchange',x:845,y:305,description:'Credit notes and invoice adjustments.',section:'assurance'},
+ {id:'vault',name:'Completed',short:'Verified',kind:'vault',x:900,y:530,description:'Follow-ups fully covered by invoice credits.',section:'reports'},
+ {id:'lab',name:'Workflow tests',short:'Execution',kind:'lab',x:580,y:525,description:'Approved actions and workflow checks.',section:'execution'},
+ {id:'dispatch',name:'Tasks',short:'Dispatch',kind:'dispatch',x:285,y:485,description:'What needs your attention next.',section:'operations'},
 ]);
 export const money=cents=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:cents%100?2:0,maximumFractionDigits:2}).format((cents||0)/100);
 export const exactMoney=cents=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format((cents||0)/100);

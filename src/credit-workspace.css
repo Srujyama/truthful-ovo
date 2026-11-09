@@ -56,3 +56,39 @@
 }
 
 .case-financial-ledger small { display:block; color:var(--ui-muted); font-size:12px; margin-top:6px; line-height:1.6; }
+
+/* A credit is one record with separately named balances and source documents. */
+.credit-workspace .credit-ledger-heading { margin:22px 0 6px; align-items:center; }
+.credit-workspace .credit-ledger-heading p { font-size:13px; line-height:1.6; max-width:52ch; margin-bottom:0; }
+.credit-workspace .ledger-credit { padding:22px 0; }
+.credit-workspace .credit-record-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+.credit-record-heading>span:first-child { display:grid; gap:5px; min-width:0; }
+.credit-record-heading strong { font-size:15px; font-weight:600; overflow-wrap:anywhere; }
+.credit-record-heading small { color:var(--ui-muted); font-size:12px; line-height:1.5; }
+.credit-workspace .credit-line-id { margin-top:7px; font-size:12px; }
+.credit-workspace .credit-record-amounts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 24px; margin:20px 0 12px; padding:16px 0; border-block:1px solid var(--ui-rule); }
+.credit-workspace .credit-record-amounts>div { display:flex; justify-content:space-between; align-items:baseline; gap:14px; font-size:12px; }
+.credit-record-amounts dt { color:var(--ui-muted); line-height:1.6; }
+.credit-record-amounts dd { font-size:14px; font-weight:600; white-space:nowrap; }
+.credit-workspace .credit-sources { margin-top:12px; }
+.credit-workspace .credit-sources>summary { font-size:13px; }
+.credit-workspace .credit-row-actions { padding-top:8px; gap:18px!important; }
+.credit-workspace .credit-row-actions button { font-size:13px; }
+.credit-workspace .credit-editor { border:1px solid var(--ui-rule); border-radius:6px; margin-top:20px; background:var(--ui-paper); padding:0 18px; }
+.credit-workspace .credit-editor>summary { min-height:52px; font-size:14px; }
+.credit-workspace .credit-editor[open] { padding-bottom:20px; }
+.credit-workspace .credit-editor[open]>summary { border-bottom:1px solid var(--ui-rule); }
+.credit-workspace .credit-editor label { font-size:13px; }
+.credit-workspace .credit-editor input,.credit-workspace .credit-editor select,.credit-workspace .credit-editor textarea { font-size:14px; min-height:44px; }
+.credit-workspace .credit-editor textarea { line-height:1.75; }
+.credit-workspace .credit-preview-values { grid-template-columns:1fr; gap:0; padding:4px 0; }
+.credit-workspace .credit-preview-values>div { display:flex; align-items:baseline; justify-content:space-between; gap:20px; padding:11px 0; }
+.credit-workspace .credit-preview-values span { font-size:13px; }
+.credit-workspace .credit-preview-values strong { font-size:17px; margin:0; }
+.credit-workspace .credit-success { font-size:13px; }
+@media(max-width:700px) {
+  .credit-workspace .credit-record-amounts { grid-template-columns:1fr; gap:10px; }
+  .credit-workspace .credit-record-heading { flex-wrap:wrap; }
+  .credit-workspace .credit-ledger-heading { align-items:stretch; gap:14px; }
+  .credit-workspace .credit-editor { padding-inline:14px; }
+}

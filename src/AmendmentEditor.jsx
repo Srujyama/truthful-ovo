@@ -52,50 +52,50 @@ export default function AmendmentEditor({ view, commitment, service, readOnly, o
     finally { submitting.current=false;setSaving(false); }
   }
   return <details className="amendment-editor">
-    <summary>Propose changed terms<ChevronDown size={14}/></summary>
+    <summary>Add proposed changes<ChevronDown size={14}/></summary>
     <form onSubmit={review}>
-      <p>Record a vendor proposal against {commitment.reference}. The current agreement stays in force until an exact action is approved and recorded.</p>
+      <p>Record a vendor proposal against {commitment.reference}. Current terms stay active until the change is approved and recorded.</p>
       <fieldset disabled={!!reason}>
-        <legend>Terms to change</legend>
+        <legend>What is changing?</legend>
         <div className="amendment-field">
-          <label className="amendment-check"><input type="checkbox" checked={form.changes.promisedCents} onChange={e => selectField('promisedCents', e.target.checked)}/>Promise amount</label>
-          {form.changes.promisedCents && <label>Amended promise USD<input inputMode="decimal" value={form.promisedAmount} onChange={e => change('promisedAmount', e.target.value)}/></label>}
+          <label className="amendment-check"><input type="checkbox" checked={form.changes.promisedCents} onChange={e => selectField('promisedCents', e.target.checked)}/>Agreed amount</label>
+          {form.changes.promisedCents && <label>Proposed amount USD<input inputMode="decimal" value={form.promisedAmount} onChange={e => change('promisedAmount', e.target.value)}/></label>}
         </div>
         <div className="amendment-field">
           <label className="amendment-check"><input type="checkbox" checked={form.changes.dueDate} onChange={e => selectField('dueDate', e.target.checked)}/>Due date</label>
-          {form.changes.dueDate && <label>Amended due date<input type="date" value={form.dueDate} onChange={e => change('dueDate', e.target.value)}/></label>}
+          {form.changes.dueDate && <label>Proposed due date<input type="date" value={form.dueDate} onChange={e => change('dueDate', e.target.value)}/></label>}
         </div>
         <div className="amendment-field">
           <label className="amendment-check"><input type="checkbox" checked={form.changes.claimDeadline} onChange={e => selectField('claimDeadline', e.target.checked)}/>Claim deadline</label>
-          {form.changes.claimDeadline && <label>Amended claim deadline<input aria-label="Amended claim deadline" type="date" value={form.claimDeadline} onChange={e => change('claimDeadline', e.target.value)}/><small>Leave empty to remove the deadline.</small></label>}
+          {form.changes.claimDeadline && <label>Proposed claim deadline<input aria-label="Proposed claim deadline" type="date" value={form.claimDeadline} onChange={e => change('claimDeadline', e.target.value)}/><small>Leave empty to remove the deadline.</small></label>}
         </div>
         <div className="amendment-field">
           <label className="amendment-check"><input type="checkbox" checked={form.changes.conditions} onChange={e => selectField('conditions', e.target.checked)}/>Conditions</label>
-          {form.changes.conditions && <label>Amended conditions<textarea aria-label="Amended conditions" value={form.conditions} onChange={e => change('conditions', e.target.value)} maxLength={21000}/><small>One condition per line. Leave empty for unconditional terms.</small></label>}
+          {form.changes.conditions && <label>Proposed conditions<textarea aria-label="Proposed conditions" value={form.conditions} onChange={e => change('conditions', e.target.value)} maxLength={21000}/><small>One condition per line. Leave empty for unconditional terms.</small></label>}
         </div>
         <div className="amendment-two-fields">
-          <label>Amendment effective date<input aria-label="Amendment effective date" type="date" value={form.effectiveDate} onChange={e => change('effectiveDate', e.target.value)}/><small>Future terms take effect only on this date after acceptance.</small></label>
-          <label>Proposal source title<input value={form.sourceTitle} onChange={e => change('sourceTitle', e.target.value)} maxLength={200} placeholder="Vendor email or proposed agreement"/></label>
+          <label>Changes take effect on<input aria-label="Changes take effect on" type="date" value={form.effectiveDate} onChange={e => change('effectiveDate', e.target.value)}/><small>Applies on this date only after acceptance.</small></label>
+          <label>Proposal document title<input value={form.sourceTitle} onChange={e => change('sourceTitle', e.target.value)} maxLength={200} placeholder="Vendor email or proposed agreement"/></label>
         </div>
-        <label className="amendment-check"><input type="checkbox" checked={form.renewal} onChange={e => change('renewal', e.target.checked)}/>Includes a new renewal obligation</label>
+        <label className="amendment-check"><input type="checkbox" checked={form.renewal} onChange={e => change('renewal', e.target.checked)}/>Requires a renewal</label>
         {form.renewal && <div className="amendment-renewal-fields">
           <div className="amendment-two-fields"><label>Baseline total USD<input inputMode="decimal" value={form.baselineAmount} onChange={e => change('baselineAmount', e.target.value)}/></label><label>Incremental renewal cost USD<input inputMode="decimal" value={form.incrementalAmount} onChange={e => change('incrementalAmount', e.target.value)}/></label></div>
           <label>Renewal baseline description<textarea aria-label="Renewal baseline description" value={form.baselineDescription} onChange={e => change('baselineDescription', e.target.value)} maxLength={2000}/><small>State the comparison period and assumed alternative. Incremental cost is additional spend above that baseline.</small></label>
         </div>}
-        <label>Proposed terms source text<textarea value={form.sourceText} onChange={e => change('sourceText', e.target.value)} maxLength={250000} placeholder="Paste the exact proposed changes and any conditions…"/></label>
+        <label>Proposal document text<textarea value={form.sourceText} onChange={e => change('sourceText', e.target.value)} maxLength={250000} placeholder="Paste the exact proposed changes and any conditions…"/></label>
       </fieldset>
       {reason && <p className="mutation-reason">{reason}</p>}
       {error && <p className="amendment-error" role="alert">{error}</p>}
       {preview && !currentPreview && <p className="mutation-reason" role="status">The workspace, date, or role changed. Preview the proposed terms again before recording.</p>}
-      {!currentPreview && <div className="amendment-form-actions"><small>Supplied text is recorded as evidence; its authenticity is not established.</small><button className="button secondary" type="submit" disabled={!!reason}>Preview changed terms<ArrowRight size={14}/></button></div>}
+      {!currentPreview && <div className="amendment-form-actions"><small>Document text is stored as supplied.</small><button className="button secondary" type="submit" disabled={!!reason}>Review proposed changes<ArrowRight size={14}/></button></div>}
       {currentPreview && <section className="amendment-preview" aria-label="Changed terms preview">
-        <h3 ref={previewHeading} tabIndex={-1}><FileText size={17}/>Review the proposed changes</h3>
+        <h3 ref={previewHeading} tabIndex={-1}><FileText size={17}/>Review proposed changes</h3>
         <dl>{Object.entries(amendment.patch).map(([key, value]) => <div key={key}><dt>{{promisedCents:'Promise',dueDate:'Due date',claimDeadline:'Claim deadline',conditions:'Conditions'}[key]}</dt><dd><span>{key === 'promisedCents' ? money(commitment[key]) : key === 'conditions' ? commitment.conditions.join('; ') || 'Unconditional' : commitment[key] || 'None'}</span><ArrowRight size={13}/><strong>{key === 'promisedCents' ? money(value) : key === 'conditions' ? value.join('; ') || 'Unconditional' : value || 'None'}</strong></dd></div>)}</dl>
-        <p>Effective {amendment.effectiveDate} if accepted. Original terms remain active. Preparing this proposal does not recover money or accept an obligation.</p>
+        <p>Effective {amendment.effectiveDate} if accepted. Original terms remain active. Recording a proposal applies no credit and accepts no renewal.</p>
         {currentPreview.plan.previewNotice && <p>{currentPreview.plan.previewNotice}</p>}
         {form.renewal && <p>Baseline {money(action.economics.baselineCostCents)} plus {money(action.economics.incrementalRenewalCostCents)} incremental spend. Contingent net value: {money(action.economics.netIncrementalValueCents)}.</p>}
-        {!action.policyDecision.allowed && <div className="amendment-policy"><strong>Acceptance is currently blocked</strong>{action.policyDecision.reasons.map(reason => <p key={reason}>{reason}</p>)}<p>The proposal can be recorded for review; conflicting alternatives must be resolved before approval.</p></div>}
-        <div className="amendment-form-actions"><button className="text-button" type="button" onClick={() => setPreview(null)}>Edit proposal</button><button className="button primary" type="button" disabled={!!reason} onClick={record}>Record proposal<ArrowRight size={14}/></button></div>
+        {!action.policyDecision.allowed && <div className="amendment-policy"><strong>Acceptance is currently blocked</strong>{action.policyDecision.reasons.map(reason => <p key={reason}>{reason}</p>)}<p>Record it for review. Resolve conflicting proposals before approval.</p></div>}
+        <div className="amendment-form-actions"><button className="text-button" type="button" onClick={() => setPreview(null)}>Edit proposal</button><button className="button primary" type="button" disabled={!!reason} onClick={record}>Save proposal<ArrowRight size={14}/></button></div>
       </section>}
     </form>
   </details>;

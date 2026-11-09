@@ -9,7 +9,7 @@ for(const mode of ['server','browser']) {
   for(const stage of ['lifecycle','amended','completed']) {
     const path=`output/playwright/${mode}-credit-${stage}.json`;
     const packet=JSON.parse(await readFile(path,'utf8'));
-    await verifyAssurancePacket(packet);
+    const replay=await verifyAssurancePacket(packet);assert.equal(replay.valid,true,`${path}: ${replay.reason}`);
     assert.equal(packet.mode,mode,`${path}: expected runtime boundary`);
     const c=packet.view.commitments.find(c=>c.reference==='NR-CREDIT-2026');
     assert(c,`${path}: imported case retained`);
@@ -38,13 +38,23 @@ for(const mode of ['server','browser']) {
     packets++;
   }
 }
-for(const name of ['browser-server','browser-static','browser-recovery','browser-browser-completion','preserved-server','preserved-static']) {
-  const output=await readFile(`output/credit-${name}.log`,'utf8');
-  const result=output.match(/### Result\s*\n(\{[^\n]+\})/);
-  assert(result,`${name}: real browser result is missing`);
-  const report=JSON.parse(result[1]);
-  assert(report.checks.length>0);assert.equal(report.passed,report.checks.length);
-  assert(!output.includes('### Error'),`${name}: browser command failed`);
-  console.log(`${name}: ${report.passed} rendered browser checks`);
+for(const mode of ['server','browser']) {
+  for(const kind of ['workflow','recovery']) {
+    const path=`output/playwright/${mode}-credit-${kind}-result.json`,report=JSON.parse(await readFile(path,'utf8'));
+    assert.equal(report.mode,mode);assert.equal(report.ok,true,JSON.stringify(report.errors));assert.deepEqual(report.errors,[]);assert.deepEqual(report.pageErrors,[]);
+    assert(report.checks.length>=30,`${path}: the full operated journey must finish`);assert.equal(report.passed,report.checks.length);
+    for(const phrase of kind==='workflow'?['Issued-credit preview does not count applied value','Role changes discard the prior credit review','Causal reversal exposes both separate attribution records','Renewal-only proposal exposes the actual mandate refusal']:['Assignment limits above the shared credit capacity','Returning to approver cannot revive','Completed fulfillment persists after reload','Downloaded resolution evidence conserves'])assert(report.checks.some(item=>item.includes(phrase)),`${path}: missing required outcome ${phrase}`);
+    console.log(`${mode} credit ${kind}: ${report.passed} rendered browser outcomes`);
+  }
+  const path=`output/playwright/${mode}-credit-resolved.json`,packet=JSON.parse(await readFile(path,'utf8'));
+  const replay=await verifyAssurancePacket(packet);assert.equal(replay.valid,true,`${path}: ${replay.reason}`);assert.equal(packet.mode,mode);
+  const credit=packet.view.credits.find(c=>c.id==='clarity-credit-shared'),orphan=packet.view.credits.find(c=>c.id==='clarity-credit-orphan');
+  assert(credit&&orphan);assert.equal(credit.availableCents,30000);assert.equal(credit.allocatedCents,10000);assert.equal(credit.unallocatedCents,20000);assert.equal(credit.quarantined,false);
+  assert.deepEqual(credit.resolution.assignments,[{commitmentId:'clarity-a',limitCents:10000},{commitmentId:'clarity-b',limitCents:20000}]);
+  assert.equal(packet.view.commitments.find(c=>c.id==='clarity-a').verifiedCents,10000);assert.equal(packet.view.commitments.find(c=>c.id==='clarity-b').verifiedCents,0);assert.equal(orphan.quarantined,true);assert.equal(orphan.unallocatedCents,5000);
+  const link=credit.resolution.sourceLinks[0],source=packet.view.sourceVersions.find(s=>s.id===link.sourceId&&s.revision===link.revision);assert(source);assert.equal(source.kind,'allocation_resolution');
+  assert(packet.workspace.events.some(e=>e.type==='SOURCE_ADDED'&&e.payload.source.id===link.sourceId&&e.actor.role==='analyst'));
+  assert(packet.workspace.events.some(e=>e.type==='CREDIT_RESOLVED'&&e.payload.creditId===credit.id&&e.actor.role==='approver'));
+  packets++;
 }
-console.log(`VALID: ${packets} real UI packets independently replayed; exact credit lifecycle, separate approval/execution, and complete fulfillment agree in both runtimes.`);
+console.log(`VALID: ${packets} actual UI packets independently replayed in SQLite and browser-local runtimes; exact lifecycle, reversal, separate role approval/execution, fulfillment and source-backed ambiguity resolution agree.`);

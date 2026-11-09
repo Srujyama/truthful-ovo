@@ -1,6 +1,8 @@
-# Nomen → Truthful clearing house
+# Historical Nomen adaptation milestone
 
-The user selected [aiden-guan/Nomen](https://github.com/aiden-guan/Nomen) as the new UI reference and asked for a better adaptation to this hackathon's financial workflows. That instruction supersedes the earlier frontend pause. This milestone changes the website; native Figma expansion and public release remain separate.
+This records the earlier local Nomen-inspired spatial milestone and the checks reported at that time. The user subsequently rejected it as sufficient application design, especially the operational financial screens. Its passing tests, prior reviewer verdicts and captures do not establish current visual acceptance. [UI_OVERHAUL.md](UI_OVERHAUL.md) tracks the replacement operating workspace; [DESIGN.md](../DESIGN.md) records the current system.
+
+The current application opens Follow-ups, with first-class Credits and task-specific record views. The original scene survives as secondary **Office map**. The direction contract and checklist below describe the earlier milestone, including its then-default world; they are preserved as history, not instructions to restore that default. Native Figma expansion and public release remain separate.
 
 ## Reference evidence and direction
 
@@ -8,7 +10,7 @@ Inspected the actual Troy source and operated it through an isolated Vite wrappe
 
 The useful mechanism is a world that opens onto real work. Truthful turns that into a **financial clearing house**: original archive, civic review hall, credit exchange, verified vault, execution observatory and dispatch office. Buildings have distinct silhouettes and finance props; they do not stand in for unimplemented controls. A conventional ledger remains immediately available, and returning to the world preserves the mounted task surface.
 
-The financial world is original Canvas geometry and code: six models with 719 detailed primitive parts, an isometric projection, baked scene cache, shoreline/path/planting, DOM station controls, illustrative clerks and recorded-event couriers. Nomen's logo, models, media, provider flows and renderer source are not shipped. Its README currently states no project license has been chosen; credit identifies the interaction reference. Pixelify Sans comes from the Google Fonts repository under its separate OFL license, retained in `public/fonts/pixelify/OFL.txt`. Public Sans remains the reading/form face.
+The financial world is original Canvas geometry and code: six models with 719 detailed primitive parts, an isometric projection, baked scene cache, shoreline/path/planting, DOM station controls, illustrative clerks and recorded-event couriers. Nomen's logo, models, media, provider flows and renderer source are not shipped. At the studied snapshot, its README stated no project license had been chosen; credit identifies the interaction reference. Pixelify Sans comes from the Google Fonts repository under its separate OFL license, retained in `public/fonts/pixelify/OFL.txt`. Public Sans remains the reading/form face.
 
 ## Reference-led decision and quality bar
 
@@ -54,7 +56,7 @@ The user explicitly selected Nomen and requested its UI mechanisms adapted to th
 
 Additional finish repairs: active-time courier/scenery clocks preserve pause and background continuity; the map instruction uses an opaque paper backing and darker ink; footer copy has stronger contrast. A newly saved evidence version immediately marks an open earlier claim stale even if its detail refresh fails.
 
-## Verified delivery evidence
+## Historical verification record
 
 - `npm run check`: integrated automated regressions, fixture evaluation, submission/depth/frontier checks and production build. The scene-clock regression brings the automated suite to 353 tests.
 - `npm run test:clearing-house:browser`: 39 real Chrome outcomes against a fresh production build and managed SQLite workspace. Actual UI sign-in, invitation enrollment for separate analyst/approver accounts, interrupted-read recovery without duplicate evidence, reviewed import, exact source navigation, saved claim approval/download/edit invalidation, workspace isolation, selected signed action, retained signing key, one-effect retry and durable explorer replay all pass.
@@ -67,4 +69,4 @@ Rendered evidence is retained in `output/playwright/`: `clearing-review-desktop.
 
 Normal motion was operated: zoom reversal, reversed drag, pointer cancellation, actual-building hit, scenery pause and actual recorded-courier pause/resume. Reduced-motion mode is still and retains six DOM station controls. The automated Chrome environment kept `document.hidden=false` when another tab was brought forward, so **actual browser background visibility was not established**. The same active-time clock used by the scene has a regression proving suspension excludes elapsed background/paused time; this is source-level timing evidence, not a browser-background claim.
 
-This milestone delivers the local website and repository implementation. Public hosting and native Figma persistence remain the separate prior delivery targets; no external vendor, mail, payment or live model was connected. The retained Figma source/native status is documented in `WORKSPACE_EXPANSION.md`.
+At that checkpoint, the local website and repository milestone was reported complete; the user later rejected it as sufficient UI design. This is not a completion claim for the current overhaul. Public hosting and native Figma persistence remained separate prior delivery targets; no external vendor, mail, payment or live model was connected. The retained Figma source/native status is documented in `WORKSPACE_EXPANSION.md`.

@@ -366,3 +366,292 @@
 }
 @media(prefers-reduced-motion:reduce) { .assurance-case { animation:none; } }
 .amendment-branches{border-top:1px solid var(--a-rule);padding-top:20px;margin:23px 0}.amendment-branch{padding:17px 0;border-bottom:1px solid var(--a-rule)}.amendment-branch>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:12px}.amendment-branch strong{font-size:12px;font-weight:600}.amendment-branch p{font-size:12px;line-height:1.9;color:var(--a-muted);margin-top:9px}.amendment-branch small{display:block;font-size:12px;line-height:1.9;color:var(--a-amber);margin-top:7px}.branch-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}.amendment-branches>label{display:block;font-size:12px;color:var(--a-muted);margin:17px 0 8px}.amendment-branches>input{width:100%;border:1px solid #d5e1cd;border-radius:6px;padding:11px;font-size:12px;color:var(--a-ink);background:white}.branch-note{font-size:12px;line-height:1.9;color:var(--a-muted);margin-top:10px}.reset-confirmation{align-items:center;flex-wrap:wrap}.reset-confirmation>div{flex:1;min-width:220px}.reset-confirmation strong{font-size:13px}.reset-confirmation p{font-size:12px;margin-top:5px}.lineage-node strong{font-size:12px}.lineage-node small{font-size:12px}
+
+/* Follow-up casework: one retained case, with its documents and financial consequence. */
+.assurance.followups-page { --a-ink:var(--ui-ink,#202530); --a-muted:var(--ui-muted,#606b7b); --a-rule:var(--ui-rule,#e3e7ed); --a-wash:var(--ui-selected,#eef2fa); --a-green:var(--ui-accent,#344b80); --a-amber:var(--ui-warning,#865d18); --a-amber-fill:var(--ui-warning-fill,#fff7e8); --a-red:var(--ui-negative,#a43d39); --a-red-fill:var(--ui-negative-fill,#fdf0ee); max-width:1440px; padding:32px 36px; font-size:14px; }
+.followups-page .assurance-page-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; margin-bottom:26px; }
+.followups-page h1 { font:650 28px/1.25 var(--ui-font,'Public Sans',sans-serif); letter-spacing:-.025em; }
+.followups-page .assurance-page-heading p { font-size:14px; line-height:1.5; margin-top:7px; }
+.followups-page .assurance-navigation { margin-bottom:18px; }
+.followups-page .assurance-navigation>div { gap:28px; }
+.followups-page .assurance-navigation button { font-size:14px; }
+.followups-page .assurance-navigation button>svg { display:none; }
+.followups-page .assurance-status { font-size:12px; padding:3px 6px; border-radius:3px; line-height:1.45; background:var(--a-wash); color:var(--a-muted); }
+.followups-page .assurance-status.conditional,.followups-page .assurance-status.proposed { color:var(--a-amber); background:var(--a-amber-fill); }
+.followups-page .assurance-status.stale,.followups-page .assurance-status.blocked,.followups-page .assurance-status.deadline_expired { color:var(--a-red); background:var(--a-red-fill); }
+.followups-page .assurance-status.verified,.followups-page .assurance-status.approved,.followups-page .assurance-status.executed { color:var(--ui-positive,#286449); background:var(--ui-positive-fill,#edf6f0); }
+.followups-page .followups-layout { display:grid; grid-template-columns:minmax(270px,340px) minmax(0,1fr); gap:24px; align-items:start; }
+.followups-page .assurance-register,.followups-page .assurance-case { border-radius:8px; background:var(--ui-paper,#fff); border:1px solid var(--a-rule); box-shadow:none; }
+.followups-page .followups-list { position:sticky; top:24px; }
+.followups-page .assurance-register>.assurance-section-title { padding:20px 20px 14px; }
+.followups-page .assurance-section-title h2,.followups-page .assurance-section-title h3 { font-size:14px; }
+.followups-page .assurance-search { margin:0 20px 18px; border:1px solid var(--a-rule); padding:8px 10px; border-radius:5px; background:var(--ui-paper,#fff); }
+.followups-page .assurance-search input { font-size:13px; padding:2px 0; line-height:1.6; }
+.followups-list-columns { display:flex; justify-content:space-between; padding:0 20px 10px; color:var(--a-muted); font-size:12px; }
+.followups-page .portfolio-rows { display:block; }
+.followups-page .portfolio-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(85px,.7fr); gap:16px; padding:18px 20px; border-right:0; min-height:108px; color:var(--a-ink); }
+.followups-page .portfolio-row:hover { background:var(--ui-canvas,#f5f6f8); }
+.followups-page .portfolio-row.selected { background:var(--a-wash); }
+.followup-row-main,.followup-row-value { display:flex; flex-direction:column; align-items:flex-start; min-width:0; }
+.followups-page .portfolio-row strong { font-size:14px; line-height:1.45; font-weight:600; }
+.followups-page .portfolio-row small { font-size:12px; line-height:1.5; margin-top:4px; }
+.followups-page .followup-row-main .assurance-status { margin-top:9px; }
+.followup-row-value { align-items:flex-end; text-align:right; position:relative; }
+.followup-row-value small { max-width:14ch; }
+.followup-row-value>svg { color:var(--a-muted); margin-top:8px; }
+.followups-page .import-portfolio-button { font-size:13px; min-height:54px; padding:14px 20px; background:transparent; }
+.followups-welcome { padding:32px 16px; align-self:start; max-width:600px; }
+.followups-welcome>svg { color:var(--a-green); margin-bottom:20px; }
+.followups-welcome h2 { font-size:22px; font-weight:600; letter-spacing:-.02em; }
+.followups-welcome>p { color:var(--a-muted); line-height:1.7; margin:12px 0 28px; max-width:45ch; }
+.followups-balance-list { border-top:1px solid var(--a-rule); max-width:440px; }
+.followups-balance-list>div { display:flex; justify-content:space-between; align-items:baseline; gap:20px; padding:13px 0; border-bottom:1px solid var(--a-rule); font-size:13px; }
+.followups-balance-list strong { font-weight:600; }
+.followup-back { display:flex; justify-content:space-between; align-items:center; gap:16px; border-bottom:1px solid var(--a-rule); padding:12px 24px; }
+.followup-back>span { color:var(--a-muted); font-size:12px; overflow-wrap:anywhere; text-align:right; }
+.followup-back .text-button { font-size:12px; }
+.followup-back .text-button svg { transform:rotate(180deg); }
+.followups-page .followups-detail>header { padding:24px 24px 20px; border:0; }
+.followups-page .assurance-case>header h2 { font:600 24px/1.3 var(--ui-font,'Public Sans',sans-serif); letter-spacing:-.02em; }
+.followups-page .assurance-case>header p { font-size:13px; line-height:1.6; margin-top:6px; }
+.followups-page .portfolio-case-body { display:block; padding:0 24px 24px; }
+.followup-case-summary { display:grid; grid-template-columns:minmax(140px,.8fr) minmax(0,1.7fr); gap:24px; padding-bottom:22px; }
+.followups-page .assurance-amount>span { font-size:12px; line-height:1.5; }
+.followups-page .assurance-amount>strong { font:600 28px/1.4 var(--ui-font,'Public Sans',sans-serif); letter-spacing:-.025em; margin:4px 0; }
+.followups-page .assurance-amount>small { font-size:12px; line-height:1.6; margin:0; }
+.followups-page .case-financial-ledger { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin:0; padding:0; border:0; align-items:start; }
+.case-financial-ledger dt { font-size:12px; color:var(--a-muted); line-height:1.5; min-height:36px; }
+.case-financial-ledger dd { font-size:16px; font-weight:600; line-height:1.5; margin:7px 0 0; }
+.case-financial-ledger small { display:block; font-size:12px; color:var(--a-muted); line-height:1.5; margin-top:4px; }
+.followups-page .case-next-action { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px 24px; padding:18px 0; margin:0 0 22px; border-block:1px solid var(--a-rule); }
+.case-next-action-copy { flex:1; min-width:180px; }
+.case-next-action-copy h3 { font-size:14px; line-height:1.5; font-weight:600; }
+.case-next-action-copy p { color:var(--a-muted); font-size:13px; line-height:1.6; margin-top:5px; max-width:58ch; }
+.case-next-action-buttons { display:flex; flex-direction:column; align-items:flex-start; gap:5px; }
+.case-next-action>.mutation-reason { flex-basis:100%; margin:0; }
+.followups-page .pending-change { margin:0 0 22px; padding:14px 16px; border-radius:5px; }
+.followups-page .pending-change strong { font-size:13px; line-height:1.6; }
+.followups-page .pending-change small { font-size:12px; }
+.followups-page .assurance-detail-switch { gap:24px; margin:0; }
+.followups-page .assurance-detail-switch button { font-size:13px; min-height:44px; padding:0 0 12px; gap:7px; }
+.assurance-detail-switch button>span { font-size:12px; color:var(--a-muted); margin-left:2px; }
+.followup-document { display:flex; align-items:flex-start; width:100%; text-align:left; gap:14px; background:transparent; color:var(--a-ink); padding:20px 0; border:0; border-bottom:1px solid var(--a-rule); }
+.followup-document:hover { background:var(--ui-canvas,#f5f6f8); }
+.followup-document>svg { flex-shrink:0; color:var(--a-muted); margin-top:2px; }
+.followup-document>svg:last-child { margin-left:auto; }
+.followup-document>span { flex:1; min-width:0; }
+.followup-document strong { display:block; font-size:14px; line-height:1.5; font-weight:550; }
+.followup-document small { display:block; font-size:12px; color:var(--a-muted); line-height:1.5; margin-top:4px; text-transform:none; }
+.followup-document p { font-size:13px; color:var(--a-muted); line-height:1.65; max-width:68ch; margin-top:8px; overflow-wrap:anywhere; }
+.followup-no-documents { padding:24px 0; color:var(--a-muted); }
+.followup-relationships,.followup-terms { border-bottom:1px solid var(--a-rule); }
+.followup-relationships>summary,.followup-terms>summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:48px; font-size:13px; }
+.followup-terms dl { padding:0 0 18px; margin:0; display:grid; gap:12px; }
+.followup-terms dl>div { display:grid; grid-template-columns:120px minmax(0,1fr); gap:16px; font-size:13px; line-height:1.6; }
+.followup-terms dt { color:var(--a-muted); }
+.followup-terms dd { margin:0; }
+.followups-page .lineage-section { padding:16px 0 22px; }
+.followups-page .lineage-node { min-height:100px; background:var(--ui-paper,#fff); border-color:var(--a-rule); }
+.followups-page .lineage-node.commitment,.followups-page .lineage-node.approval { background:var(--a-wash); }
+.followups-page .lineage-node.amendment { background:var(--a-amber-fill); }
+.followups-page .lineage-node:hover { background:var(--ui-canvas,#f5f6f8); }
+.followups-page .lineage-node>span { color:var(--a-green); }
+.followups-page .lineage-connectors path { stroke:var(--a-muted); }
+.followups-page .assurance-source-detail { margin:20px 0; padding:20px; background:var(--ui-canvas,#f5f6f8); border:0; border-radius:5px; }
+.followups-page .assurance-source-detail blockquote { background:var(--ui-paper,#fff); font-size:14px; line-height:1.8; }
+.followups-page .assurance-source-detail p { max-width:70ch; font-size:12px; }
+.followups-page .assurance-history { padding-top:22px; }
+.followups-page .assurance-history strong { font-size:13px; }
+.followups-page .assurance-history p,.followups-page .assurance-history small { font-size:12px; }
+.followups-page .history-disclosure { margin:0 0 20px; border:0; }
+.history-disclosure>summary { display:flex; justify-content:space-between; align-items:center; gap:12px; min-height:38px; font-size:12px; color:var(--a-muted); }
+.history-disclosure>summary>span { display:flex; align-items:center; gap:8px; }
+.history-disclosure .replay-controls { border:1px solid var(--a-rule); padding:16px; border-radius:5px; background:var(--ui-paper,#fff); margin-top:8px; }
+.workspace-options { position:relative; z-index:20; flex-shrink:0; }
+.workspace-options>summary { display:flex; align-items:center; justify-content:center; gap:8px; min-height:38px; padding:8px 12px; background:var(--ui-paper,#fff); border:1px solid var(--a-rule); border-radius:5px; font-size:12px; }
+.workspace-options-body { position:absolute; top:calc(100% + 8px); right:0; width:350px; max-width:calc(100vw - 32px); padding:20px; background:var(--ui-paper,#fff); box-shadow:0 12px 38px #20253026; border-radius:8px; }
+.portfolio-workspace-actions { display:grid; gap:7px; margin-bottom:16px; }
+.portfolio-workspace-actions>* { justify-content:flex-start; width:100%; margin:0; }
+.workspace-options-body .assurance-runtime { display:grid; gap:14px; padding:16px 0 0; border-bottom:0; }
+.workspace-options-body .assurance-runtime label { justify-content:space-between; }
+.followups-more { position:relative; margin-left:auto; }
+.followups-more>summary { display:flex; align-items:center; gap:8px; color:var(--a-muted); font-size:13px; min-height:40px; }
+.followups-more>button { position:absolute; top:100%; right:0; min-width:140px; z-index:5; background:var(--ui-paper,#fff); border:1px solid var(--a-rule); border-radius:5px; padding:12px; text-align:left; color:var(--a-ink); }
+.followups-page .policy-panel { margin-top:24px; }
+.followups-page .assurance-footnote { font-size:12px; margin-top:20px; }
+.followups-page .assurance-master-detail:not(.followups-layout) { grid-template-columns:minmax(260px,320px) minmax(0,1fr); gap:24px; }
+.decision-record-picker { display:block; padding:0 20px 16px; font-size:12px; color:var(--a-muted); }
+.decision-record-picker select { display:block; width:100%; min-height:40px; margin-top:7px; border:1px solid var(--a-rule); border-radius:5px; padding:8px; background:var(--ui-paper,#fff); color:var(--a-ink); }
+.followups-page .decision-row { padding:18px 20px; }
+.followups-page .decision-row p { color:var(--a-ink); font-size:13px; }
+.followups-page .decision-row>div { flex-wrap:wrap; }
+.followups-page .decision-body { padding:24px; }
+.followups-page .decision-context { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:12px; color:var(--a-muted); margin-bottom:20px; }
+.followups-page .decision-source-list>summary { display:flex; align-items:center; gap:8px; min-height:44px; font-size:13px; }
+.followups-page .decision-source-list>summary>svg:last-child { margin-left:auto; }
+.followups-page .decision-source-list>p { font-size:12px; color:var(--a-muted); margin:8px 0 14px; }
+.followups-page .decision-source-button { width:100%; }
+.followups-page .original-terms>strong { font-size:28px; }
+.followups-page .policy-verdict { background:var(--a-wash); color:var(--a-green); }
+.followups-page .policy-verdict.denied { background:var(--a-amber-fill); color:var(--a-amber); }
+.followups-page .baseline-note,.followups-page pre { background:var(--ui-canvas,#f5f6f8); }
+.followups-page .assurance-case { animation:none; }
+@media(max-width:1150px) {
+  .assurance.followups-page { padding:28px 24px; }
+  .followups-page .followups-layout { grid-template-columns:280px minmax(0,1fr); gap:18px; }
+  .followup-case-summary { grid-template-columns:1fr; gap:20px; }
+  .followups-page .case-financial-ledger { padding-top:18px; border-top:1px solid var(--a-rule); }
+  .case-financial-ledger dt { min-height:0; }
+}
+@media(max-width:850px) {
+  .followups-page .followups-layout,.followups-page .assurance-master-detail:not(.followups-layout) { grid-template-columns:minmax(0,1fr); }
+  .followups-page .followups-list { position:static; }
+  .followups-page .followups-layout.case-open>.followups-list,.followups-page .followups-layout.list-open>.followups-welcome { display:none; }
+  .followups-page .assurance-master-detail:not(.followups-layout) .decision-rows { display:none; }
+  .followups-page .assurance-register>.register-explainer { display:none; }
+}
+@media(max-width:600px) {
+  .assurance.followups-page { padding:24px 16px; }
+  .followups-page .assurance-page-heading { gap:12px; margin-bottom:20px; }
+  .followups-page h1 { font-size:26px; }
+  .followups-page .assurance-page-heading p { font-size:13px; }
+  .followups-page .assurance-navigation>div { width:auto; gap:22px; }
+  .followups-page .assurance-navigation { flex-wrap:nowrap; }
+  .followups-page .assurance-navigation button { font-size:13px; }
+  .workspace-options>summary { width:38px; font-size:0; gap:0; padding:8px; }
+  .workspace-options>summary svg { width:18px; height:18px; }
+  .workspace-options-body { position:fixed; top:110px; left:16px; right:16px; width:auto; max-height:calc(100dvh - 140px); overflow-y:auto; }
+  .followups-page .followups-detail>header { padding:20px 18px; }
+  .followups-page .assurance-case>header h2 { font-size:22px; }
+  .followups-page .portfolio-case-body,.followups-page .decision-body { padding:0 18px 20px; }
+  .followups-page .decision-body { padding-top:20px; }
+  .followup-back { padding:10px 18px; }
+  .followup-back>span { max-width:45%; }
+  .followups-page .case-financial-ledger { gap:12px; }
+  .case-financial-ledger dt { min-height:36px; }
+  .case-financial-ledger dd { font-size:15px; }
+  .followups-page .case-next-action { display:block; }
+  .case-next-action-buttons { margin-top:14px; }
+  .case-next-action-buttons>.button { width:100%; min-height:44px; justify-content:center; }
+  .followups-page .assurance-detail-switch { gap:22px; }
+  .followups-page .assurance-detail-switch button>svg { display:none; }
+  .followup-document { gap:10px; padding:18px 0; }
+  .followup-document p { font-size:13px; }
+  .followup-document>svg:first-child { width:17px; }
+  .followup-terms dl>div { grid-template-columns:100px minmax(0,1fr); gap:12px; }
+  .followups-page .lineage-map { gap:12px; }
+  .followups-page .assurance-source-detail { padding:16px; }
+  .followups-page .assurance-footnote { display:block; }
+  .followups-page .assurance-footnote p { text-align:left; margin-top:8px; }
+  .followups-page .replay-controls label { width:100%; }
+  .followups-page .replay-controls input { width:100%; max-width:none; }
+  .followups-page .decision-action-bar .button { width:100%; justify-content:center; }
+  .followups-page .amendment-branch>div:first-child { flex-wrap:wrap; }
+}
+
+/* Full-width results become a full-width case. No empty inspector competes with the work. */
+.followups-page [hidden] { display:none!important; }
+.followups-page .followups-layout { display:block; }
+.followups-page .followups-list { position:static; width:100%; }
+.followups-inline-balances { display:flex; flex-wrap:wrap; gap:12px 28px; padding:18px 22px; border-bottom:1px solid var(--a-rule); background:var(--ui-paper,#fff); }
+.followups-inline-balances>div { display:flex; align-items:baseline; gap:9px; font-size:12px; line-height:1.6; }
+.followups-inline-balances span { color:var(--a-muted); }
+.followups-inline-balances strong { font-size:14px; font-weight:600; }
+.followups-results-toolbar { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:20px 22px 16px; }
+.followups-page .followups-results-toolbar .assurance-search { width:340px; max-width:100%; margin:0; }
+.followups-sort { display:flex; align-items:center; gap:9px; color:var(--a-muted); font-size:12px; }
+.followups-sort select { min-height:38px; border:1px solid var(--a-rule); border-radius:5px; padding:8px 30px 8px 10px; font-size:13px; color:var(--a-ink); background:var(--ui-paper,#fff); }
+.followups-status-filters { display:flex; align-items:center; gap:4px; padding:0 22px 18px; overflow-x:auto; }
+.followups-status-filters button { display:flex; align-items:center; justify-content:center; gap:8px; padding:7px 11px; border:0; border-radius:5px; background:transparent; color:var(--a-muted); font-size:13px; min-height:36px; white-space:nowrap; }
+.followups-status-filters button>span { font-size:12px; font-weight:500; }
+.followups-status-filters button:hover { background:var(--ui-canvas,#f5f6f8); }
+.followups-status-filters button[aria-pressed=true] { color:var(--a-green); background:var(--a-wash); font-weight:600; }
+.followups-table-heading,.followups-page .followups-list .portfolio-row { display:grid; grid-template-columns:minmax(145px,1.25fr) minmax(155px,1.2fr) minmax(125px,1fr) minmax(130px,1.1fr) minmax(100px,.85fr) minmax(100px,.85fr) 16px; align-items:center; gap:16px; padding:14px 22px; }
+.followups-table-heading { min-height:46px; background:var(--ui-canvas,#f5f6f8); border-top:1px solid var(--a-rule); font-size:12px; color:var(--a-muted); }
+.followups-table-heading>span:nth-last-child(2),.followups-table-heading>span:nth-last-child(3) { text-align:right; }
+.followups-page .followups-list .portfolio-row { min-height:90px; border-top:1px solid var(--a-rule); border-right:0; text-align:left; }
+.followups-page .followups-list .portfolio-row>span { min-width:0; }
+.followup-table-company strong { display:block; overflow-wrap:anywhere; }
+.followups-page .followup-table-company small { display:none; }
+.followup-table-reference { font-size:12px; color:var(--a-muted); overflow-wrap:anywhere; line-height:1.6; }
+.followup-table-due { font-size:13px; line-height:1.5; }
+.followups-page .followup-table-due small { font-size:12px; color:var(--a-muted); margin-top:4px; }
+.followups-page .followup-table-due .deadline-passed { color:var(--a-red); }
+.followup-table-owed,.followup-table-applied { display:block; text-align:right; }
+.followups-page .followup-table-owed>small,.followups-page .followup-table-applied>small { display:none; }
+.followups-page .followup-table-owed strong,.followups-page .followup-table-applied strong { font-size:14px; font-weight:550; white-space:nowrap; }
+.followup-table-chevron { color:var(--a-muted); }
+.followups-results-footer { display:flex; align-items:center; flex-wrap:wrap; gap:12px 20px; border-top:1px solid var(--a-rule); padding:12px 22px; color:var(--a-muted); font-size:12px; line-height:1.6; }
+.followups-results-footer>span:nth-child(2) { margin-left:auto; }
+.followups-results-footer .text-button { font-size:12px; flex-shrink:0; }
+.followups-page .followups-empty { padding:52px 22px; min-height:230px; }
+.followups-page .followups-empty h2 { font-size:18px; }
+.followups-page .followups-detail { width:100%; }
+.followups-page .followup-case-summary { grid-template-columns:minmax(180px,.8fr) minmax(0,2fr); padding-bottom:24px; }
+.followups-page .followups-detail>header { padding:26px 28px 22px; }
+.followups-page .followups-detail .portfolio-case-body { padding:0 28px 28px; }
+.followups-page .followup-back { padding:12px 28px; }
+.followups-page .followup-documents { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 28px; }
+.followups-page .followup-document { padding:22px 0; }
+.followups-page .followup-document p { max-width:none; }
+@media(max-width:1250px) {
+  .followups-table-heading,.followups-page .followups-list .portfolio-row { grid-template-columns:minmax(165px,1.6fr) minmax(125px,1fr) minmax(125px,1fr) minmax(100px,.8fr) minmax(100px,.8fr) 16px; gap:12px; }
+  .followups-table-heading>span:nth-child(2),.followup-table-reference { display:none; }
+  .followups-page .followup-table-company small { display:block; }
+  .followups-inline-balances { gap:8px 22px; }
+  .followups-results-footer>span:nth-child(2) { margin-left:0; }
+  .followups-results-footer .text-button { margin-left:auto; }
+}
+@media(max-width:1000px) {
+  .followups-table-heading,.followups-page .followups-list .portfolio-row { grid-template-columns:minmax(145px,1.3fr) minmax(110px,1fr) minmax(115px,1fr) minmax(95px,.8fr) 16px; }
+  .followups-table-heading>span:nth-child(6),.followup-table-applied { display:none; }
+  .followups-page .followups-detail .followup-documents { grid-template-columns:1fr; }
+  .followups-results-toolbar { gap:14px; }
+  .followups-page .followup-case-summary { grid-template-columns:1fr; }
+}
+@media(max-width:700px) {
+  .followups-inline-balances { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); padding:16px; gap:14px; }
+  .followups-inline-balances>div { display:block; }
+  .followups-inline-balances strong { display:block; margin-top:3px; }
+  .followups-results-toolbar { display:grid; padding:16px; gap:12px; }
+  .followups-page .followups-results-toolbar .assurance-search { width:100%; }
+  .followups-sort { justify-content:space-between; }
+  .followups-sort select { flex:1; max-width:220px; }
+  .followups-status-filters { padding:0 16px 16px; }
+  .followups-table-heading { display:none; }
+  .followups-page .followups-list .portfolio-row { grid-template-columns:minmax(0,1fr) minmax(110px,.8fr); gap:9px 16px; padding:18px 16px; }
+  .followup-table-company { grid-column:1; grid-row:1; }
+  .followup-table-owed { grid-column:2; grid-row:1; align-self:start; }
+  .followup-table-status { grid-column:1; grid-row:2; }
+  .followups-page .followup-table-applied { display:block; grid-column:2; grid-row:2 / span 2; align-self:start; }
+  .followups-page .followup-table-owed>small,.followups-page .followup-table-applied>small { display:block; color:var(--a-muted); font-size:12px; margin:0 0 2px; }
+  .followup-table-due { grid-column:1; grid-row:3; color:var(--a-muted); font-size:12px; }
+  .followup-table-due>span:before { content:'Due '; }
+  .followup-table-chevron { display:none; }
+  .followups-results-footer { padding:14px 16px; display:grid; gap:8px; }
+  .followups-results-footer>span:nth-child(2) { order:3; max-width:48ch; }
+  .followups-results-footer .text-button { margin:0; justify-self:start; }
+  .followups-page .followups-detail>header { padding:22px 18px 20px; }
+  .followups-page .followups-detail .portfolio-case-body { padding:0 18px 22px; }
+  .followups-page .followup-back { padding:12px 18px; }
+}
+.followup-application-progress { padding:0 0 22px; }
+.followup-application-progress>div { display:flex; justify-content:space-between; gap:16px; color:var(--a-muted); font-size:12px; line-height:1.5; margin-bottom:9px; }
+.followup-application-progress progress { display:block; width:100%; height:5px; border:0; border-radius:2px; overflow:hidden; appearance:none; background:var(--a-rule); color:var(--ui-positive,#286449); }
+.followup-application-progress progress::-webkit-progress-bar { background:var(--a-rule); }
+.followup-application-progress progress::-webkit-progress-value { background:var(--ui-positive,#286449); border-radius:2px; }
+.followup-application-progress progress::-moz-progress-bar { background:var(--ui-positive,#286449); border-radius:2px; }
+@media(min-width:701px) and (max-width:1000px) {
+  .followups-page .followups-list .portfolio-row { gap:4px 12px; }
+  .followup-table-company { grid-column:1; grid-row:1 / span 2; }
+  .followup-table-status { grid-column:2; grid-row:1 / span 2; }
+  .followup-table-due { grid-column:3; grid-row:1 / span 2; }
+  .followup-table-owed { grid-column:4; grid-row:1; }
+  .followups-page .followup-table-applied { display:block; grid-column:4; grid-row:2; }
+  .followups-page .followup-table-applied>small { display:inline; margin-right:5px; font-size:12px; color:var(--a-muted); }
+  .followups-page .followup-table-applied strong { font-size:12px; color:var(--a-muted); }
+  .followup-table-chevron { grid-column:5; grid-row:1 / span 2; }
+}
+
+.assurance-source-detail h3{scroll-margin-top:84px}
+.followups-page .followup-table-owed>small.conditional-offer{display:block;font-size:12px;color:var(--a-muted);line-height:1.4;margin-bottom:2px}

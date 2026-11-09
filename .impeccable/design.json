@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-09T09:02:04.609658+00:00",
+  "generatedAt": "2026-11-09T10:21:29.414410+00:00",
   "title": "Design System: Truthful",
   "extensions": {
     "colorMeta": {
@@ -61,7 +61,7 @@
         ]
       },
       "world-green": {
-        "role": "primary",
+        "role": "secondary",
         "displayName": "World Green",
         "tonalRamp": [
           "oklch(15% 0.0633 163.79)",
@@ -72,48 +72,6 @@
           "oklch(72% 0.0633 163.79)",
           "oklch(84% 0.0633 163.79)",
           "oklch(95% 0.0633 163.79)"
-        ]
-      },
-      "action": {
-        "role": "primary",
-        "displayName": "Action",
-        "tonalRamp": [
-          "oklch(15% 0.0596 160.11)",
-          "oklch(26% 0.0596 160.11)",
-          "oklch(38% 0.0596 160.11)",
-          "oklch(49% 0.0596 160.11)",
-          "oklch(61% 0.0596 160.11)",
-          "oklch(72% 0.0596 160.11)",
-          "oklch(84% 0.0596 160.11)",
-          "oklch(95% 0.0596 160.11)"
-        ]
-      },
-      "action-hover": {
-        "role": "primary",
-        "displayName": "Action Hover",
-        "tonalRamp": [
-          "oklch(15% 0.0549 158.96)",
-          "oklch(26% 0.0549 158.96)",
-          "oklch(38% 0.0549 158.96)",
-          "oklch(49% 0.0549 158.96)",
-          "oklch(61% 0.0549 158.96)",
-          "oklch(72% 0.0549 158.96)",
-          "oklch(84% 0.0549 158.96)",
-          "oklch(95% 0.0549 158.96)"
-        ]
-      },
-      "sheet": {
-        "role": "neutral",
-        "displayName": "Sheet",
-        "tonalRamp": [
-          "oklch(15% 0.0082 91.48)",
-          "oklch(26% 0.0082 91.48)",
-          "oklch(38% 0.0082 91.48)",
-          "oklch(49% 0.0082 91.48)",
-          "oklch(61% 0.0082 91.48)",
-          "oklch(72% 0.0082 91.48)",
-          "oklch(84% 0.0082 91.48)",
-          "oklch(95% 0.0082 91.48)"
         ]
       },
       "inspector-paper": {
@@ -128,20 +86,6 @@
           "oklch(72% 0.0107 95.16)",
           "oklch(84% 0.0107 95.16)",
           "oklch(95% 0.0107 95.16)"
-        ]
-      },
-      "selected": {
-        "role": "neutral",
-        "displayName": "Selected",
-        "tonalRamp": [
-          "oklch(15% 0.0161 114.39)",
-          "oklch(26% 0.0161 114.39)",
-          "oklch(38% 0.0161 114.39)",
-          "oklch(49% 0.0161 114.39)",
-          "oklch(61% 0.0161 114.39)",
-          "oklch(72% 0.0161 114.39)",
-          "oklch(84% 0.0161 114.39)",
-          "oklch(95% 0.0161 114.39)"
         ]
       },
       "station-paper": {
@@ -170,62 +114,6 @@
           "oklch(72% 0.0242 98.77)",
           "oklch(84% 0.0242 98.77)",
           "oklch(95% 0.0242 98.77)"
-        ]
-      },
-      "evidence-warning": {
-        "role": "secondary",
-        "displayName": "Evidence Warning",
-        "tonalRamp": [
-          "oklch(15% 0.0652 83.01)",
-          "oklch(26% 0.0652 83.01)",
-          "oklch(38% 0.0652 83.01)",
-          "oklch(49% 0.0652 83.01)",
-          "oklch(61% 0.0652 83.01)",
-          "oklch(72% 0.0652 83.01)",
-          "oklch(84% 0.0652 83.01)",
-          "oklch(95% 0.0652 83.01)"
-        ]
-      },
-      "evidence-warning-fill": {
-        "role": "secondary",
-        "displayName": "Evidence Warning Fill",
-        "tonalRamp": [
-          "oklch(15% 0.0210 88.72)",
-          "oklch(26% 0.0210 88.72)",
-          "oklch(38% 0.0210 88.72)",
-          "oklch(49% 0.0210 88.72)",
-          "oklch(61% 0.0210 88.72)",
-          "oklch(72% 0.0210 88.72)",
-          "oklch(84% 0.0210 88.72)",
-          "oklch(95% 0.0210 88.72)"
-        ]
-      },
-      "evidence-error": {
-        "role": "secondary",
-        "displayName": "Evidence Error",
-        "tonalRamp": [
-          "oklch(15% 0.1036 32.06)",
-          "oklch(26% 0.1036 32.06)",
-          "oklch(38% 0.1036 32.06)",
-          "oklch(49% 0.1036 32.06)",
-          "oklch(61% 0.1036 32.06)",
-          "oklch(72% 0.1036 32.06)",
-          "oklch(84% 0.1036 32.06)",
-          "oklch(95% 0.1036 32.06)"
-        ]
-      },
-      "evidence-error-fill": {
-        "role": "secondary",
-        "displayName": "Evidence Error Fill",
-        "tonalRamp": [
-          "oklch(15% 0.0204 58.06)",
-          "oklch(26% 0.0204 58.06)",
-          "oklch(38% 0.0204 58.06)",
-          "oklch(49% 0.0204 58.06)",
-          "oklch(61% 0.0204 58.06)",
-          "oklch(72% 0.0204 58.06)",
-          "oklch(84% 0.0204 58.06)",
-          "oklch(95% 0.0204 58.06)"
         ]
       },
       "limestone": {
@@ -325,20 +213,80 @@
           "oklch(84% 0.0532 64.01)",
           "oklch(95% 0.0532 64.01)"
         ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted"
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule"
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper"
+      },
+      "action": {
+        "role": "primary",
+        "displayName": "Action"
+      },
+      "action-hover": {
+        "role": "primary",
+        "displayName": "Action Hover"
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "Selected"
+      },
+      "negative": {
+        "role": "secondary",
+        "displayName": "Negative"
+      },
+      "negative-fill": {
+        "role": "secondary",
+        "displayName": "Negative Fill"
+      },
+      "warning": {
+        "role": "secondary",
+        "displayName": "Warning"
+      },
+      "warning-fill": {
+        "role": "secondary",
+        "displayName": "Warning Fill"
+      },
+      "world-action": {
+        "role": "secondary",
+        "displayName": "World Action"
+      },
+      "world-action-hover": {
+        "role": "secondary",
+        "displayName": "World Action Hover"
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Place display",
-        "purpose": "World title and pixel identity."
+        "displayName": "Operational heading",
+        "purpose": "Public Sans titles on finance task surfaces."
       },
       "body": {
         "displayName": "Reading",
-        "purpose": "Readable records and forms."
+        "purpose": "Readable records, forms and exact document text."
       },
-      "commitment-amount": {
-        "displayName": "Selected credit",
-        "purpose": "Prominent selected ledger amount."
+      "world-display": {
+        "displayName": "Office display",
+        "purpose": "Pixelify identity confined to the secondary Office scene."
+      },
+      "world-balance": {
+        "displayName": "Office balance",
+        "purpose": "Selected scene figures, not default operational typography."
       }
     },
     "shadows": [
@@ -363,28 +311,37 @@
         "name": "courier",
         "value": "1900ms active time",
         "purpose": "Recorded transition route; pause and visibility preserve progress."
+      },
+      {
+        "name": "mobile-navigation",
+        "value": "200ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "Workspace navigation overlay; reduced motion suppresses transition."
       }
     ],
     "breakpoints": [
+      {
+        "name": "workspace-compact",
+        "value": "1100px"
+      },
+      {
+        "name": "workspace-overlay",
+        "value": "760px"
+      },
+      {
+        "name": "document-stack",
+        "value": "640px"
+      },
+      {
+        "name": "managed-evidence-stack",
+        "value": "760px"
+      },
       {
         "name": "world-wide",
         "value": "1700px"
       },
       {
-        "name": "world-compact",
-        "value": "1100px"
-      },
-      {
         "name": "world-stack",
         "value": "800px"
-      },
-      {
-        "name": "ledger-overlay",
-        "value": "760px"
-      },
-      {
-        "name": "evidence-stack",
-        "value": "640px"
       },
       {
         "name": "account-mobile",
@@ -398,11 +355,19 @@
   },
   "components": [
     {
+      "name": "Workspace primary",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Explicit action on the selected financial record.",
+      "html": "<button class=\"ds-workspace-primary\">Review action</button>",
+      "css": ".ds-workspace-primary{font:550 12px/1.4 'Public Sans Variable','Public Sans',sans-serif;min-height:38px;padding:9px 13px;border:1px solid #344b80;border-radius:6px;background:#344b80;color:white;cursor:pointer}.ds-workspace-primary:hover{background:#293e6c}.ds-workspace-primary:focus-visible{outline:2px solid #344b80;outline-offset:3px}"
+    },
+    {
       "name": "World primary",
       "kind": "button",
       "refersTo": "button-world-primary",
-      "description": "Explicit action into real task content.",
-      "html": "<button class=\"ds-primary\">Add evidence</button>",
+      "description": "Office action into actual task content.",
+      "html": "<button class=\"ds-primary\">Add documents</button>",
       "css": ".ds-primary{font:550 14px/1.55 'Public Sans Variable','Public Sans',sans-serif;border:1px solid #365947;border-radius:4px;background:#3c6650;color:#fffdf3;min-height:41px;padding:9px 16px;cursor:pointer;transition:background .16s}.ds-primary:hover{background:#2c513d}.ds-primary:focus-visible{outline:2px solid #347b6c;outline-offset:4px}.ds-primary:active{filter:brightness(.96)}"
     },
     {
@@ -416,16 +381,15 @@
     {
       "name": "Evidence field",
       "kind": "input",
-      "description": "Paper source and search field.",
+      "description": "Operational document/search field.",
       "html": "<label class=\"ds-label\">Vendor<input class=\"ds-input\" placeholder=\"Vendor or label\"></label>",
-      "css": ".ds-label{font:600 12px/1.6 'Public Sans Variable','Public Sans',sans-serif;color:#2d382f}.ds-input{display:block;min-height:38px;border:1px solid #bfc7ba;background:#fffcf5;border-radius:3px;color:#2d382f;font:14px/1.6 'Public Sans Variable','Public Sans',sans-serif;padding:8px 10px}.ds-input:hover{border-color:#668875}.ds-input:focus-visible{outline:3px solid #668875;outline-offset:3px}"
+      "css": ".ds-label{font:600 12px/1.6 'Public Sans Variable','Public Sans',sans-serif;color:#202530}.ds-input{display:block;min-height:38px;border:1px solid #ccd2dc;background:white;border-radius:6px;color:#202530;font:13px/1.6 'Public Sans Variable','Public Sans',sans-serif;padding:10px 12px}.ds-input:focus-visible{outline:2px solid #344b80;outline-offset:3px}"
     },
     {
-      "name": "World navigation",
+      "name": "Office navigation",
       "kind": "nav",
-      "refersTo": "navigation-selected",
-      "description": "Selected presentation beside ordinary navigation.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace presentation\"><button aria-current=\"page\">World</button><button>Ledger</button></nav>",
+      "description": "Secondary Office presentation controls.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace presentation\"><button aria-current=\"page\">Office</button><button>Workspace</button></nav>",
       "css": ".ds-nav{display:flex;gap:4px}.ds-nav button{font:14px/1.55 'Public Sans Variable','Public Sans',sans-serif;border:0;border-radius:5px;background:none;padding:8px 14px;color:#6b7164;cursor:pointer}.ds-nav button[aria-current]{background:#e7e9dd;color:#2e4937}.ds-nav button:hover{background:#eae9df}.ds-nav button:focus-visible{outline:2px solid #347b6c;outline-offset:4px}"
     },
     {
@@ -433,14 +397,14 @@
       "kind": "chip",
       "description": "Readable state independent of color.",
       "html": "<span class=\"ds-status\">Review required</span>",
-      "css": ".ds-status{font:12px/1.6 'Public Sans Variable','Public Sans',sans-serif;background:#e6e9dd;color:#3c563f;padding:4px 8px;display:inline-block}"
+      "css": ".ds-status{font:12px/1.6 'Public Sans Variable','Public Sans',sans-serif;background:#eef2fa;color:#344b80;border-radius:4px;padding:4px 8px;display:inline-block}"
     },
     {
       "name": "Station inspector",
       "kind": "card",
       "refersTo": "station-inspector",
       "description": "Paper reading surface beside the map.",
-      "html": "<aside class=\"ds-inspector\"><h2>Review hall</h2><p>Changed terms and exact approvals.</p><button>Open decision room</button></aside>",
+      "html": "<aside class=\"ds-inspector\"><h2>Review hall</h2><p>Changed terms and exact approvals.</p><button>Open approvals</button></aside>",
       "css": ".ds-inspector{background:#fdfbf3;color:var(--world-ink,#303a30);border:1px solid #d5d3c3;border-radius:4px;padding:22px 20px 17px;width:290px}.ds-inspector h2{font:500 25px/1.1 \"Pixelify Sans\",sans-serif;margin:0}.ds-inspector p{font:12px/1.65 'Public Sans Variable','Public Sans',sans-serif;color:#69715f;margin:9px 0 20px}.ds-inspector button{width:100%;background:#3c6650;color:#fffdf3;border:1px solid #365947;border-radius:4px;padding:9px 16px;min-height:41px;cursor:pointer}.ds-inspector button:hover{background:#2c513d}.ds-inspector button:focus-visible{outline:2px solid #347b6c;outline-offset:4px}"
     },
     {
@@ -460,42 +424,47 @@
     }
   ],
   "narrative": {
-    "northStar": "The financial clearing house",
-    "overview": "A financial clearing house gives each kind of work a place: archive, review hall, credit exchange, verified vault, execution observatory and dispatch desk. Warm paper, original isometric architecture and Pixelify place names make the overview recognizable; an ordinary ledger and exact record views carry the financial work.\n\nThe user selected Nomen\u2019s spatial, pixel and paper interaction direction. Truthful uses original Canvas geometry and finance-specific destinations, with real DOM station buttons and a persistent route into the existing task interface. Public Sans remains the reading and form face. The world is an overview of recorded facts, not evidence that scenery performs financial operations.",
+    "northStar": "A follow-up and its documents",
+    "overview": "Follow-ups is the default operating view. The same company promise, source versions, credits, proposed terms and draft remain connected through inspection and return. Public Sans, dark ink, white working surfaces and restrained blue selection serve repeated finance work. The original Office map is a secondary spatial overview. The user rejected the earlier Nomen milestone as sufficient application design; this artifact records implementation, not user approval or final runtime acceptance.",
     "keyCharacteristics": [
-      "Warm paper and brown-green ink across world and ledger.",
-      "Pixel display type paired with Public Sans reading and forms.",
-      "Distinct isometric stations, anchored labels and a readable record inspector.",
-      "Named financial states, exact record destinations and separate recoverable/issued/verified balances."
+      "Full-width follow-up results and complete case drill-in.",
+      "First-class Credits and task-specific Tasks, Companies, Documents, Activity and Reports.",
+      "Exact source/draft identity, visible financial consequences and recoverable work.",
+      "Original Office scene remains separate, with useful records and camera/pause/reduced-motion controls."
     ],
     "rules": [
       {
-        "name": "The Recorded State Rule",
-        "body": "Pair semantic color with a readable state. Issued credit and verified applied credit remain distinct, even when both use green.",
+        "name": "Recorded state",
+        "body": "Separate conditional offers, issued notes, applied credit, assignments and reversals; pair color with meaningful labels.",
         "section": "colors"
       },
       {
-        "name": "The Two Voices Rule",
-        "body": "Pixelify names the place and emphasizes selected amounts; Public Sans carries records, forms, explanations and dense evidence.",
+        "name": "Readable working type",
+        "body": "Public Sans carries operational headings, amounts, forms and records; Pixelify belongs to Office scene identity and place labels.",
         "section": "typography"
       },
       {
-        "name": "The Place and Proof Rule",
-        "body": "Architecture supplies spatial context; evidence, amounts and financial actions remain in readable DOM controls and task surfaces.",
+        "name": "Identity and consequence",
+        "body": "Preserve the same selected case, exact document version and draft through navigation and recovery; unavailable requested records do not become substitutes.",
+        "section": "layout"
+      },
+      {
+        "name": "Scene and work",
+        "body": "Office supplies spatial context and actual record links; scenery does not perform or prove financial transactions.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do use the paper, Pixelify and Public Sans relationship across the world and conventional ledger.",
-      "Do keep station buttons and the six-station dock usable independently of Canvas interaction.",
-      "Do preserve exact source revisions, action identity, readable states and the distinction between issued and applied credit.",
-      "Do preserve focus, modal dismissal, mobile stacking and reduced-motion behavior."
+      "Use plain task labels, concise copy and useful financial density.",
+      "Preserve exact source versions, approval freshness, draft identity and action limits.",
+      "Inspect normal-motion entry, interruption and return alongside keyboard, touch and reduced-motion behavior.",
+      "Keep historical evidence distinct from current acceptance and delivery."
     ],
     "donts": [
-      "Don't replace the selected spatial world with the superseded neutral-white-only identity.",
-      "Don't treat an illustrative courier, building or approval as a completed financial transaction.",
-      "Don't copy Nomen\u2019s renderer, models, logo or media into this original implementation.",
-      "Don't propagate tiny annotations, decorative eyebrows or text glyph icons as system primitives."
+      "Do not restore the user-rejected default-world/pixel treatment to operational finance screens.",
+      "Do not treat a palette, passing build or model score as user approval.",
+      "Do not copy reference identity, models or personal media.",
+      "Do not claim a new public deployment, native Figma parity or connected external actions from local implementation."
     ]
   }
 }

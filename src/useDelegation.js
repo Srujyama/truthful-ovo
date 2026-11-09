@@ -24,7 +24,8 @@ export default function useDelegation(service,{actionId:requestedActionId,commit
   function selectAction(id){generation.current++;pending.current=false;setBusy(false);clearAuthority();setActionId(id||null);const action=live.current.snapshot?.view.actions.find(a=>a.id===id);if(action)setCommitmentId(action.commitmentId);setError('');setMessage('');}
   function selectCommitment(id){generation.current++;pending.current=false;setBusy(false);clearAuthority();setActionId(null);setCommitmentId(id);setError('');setMessage('');}
   function requestedSelection(view){
-    if(memory||(!requestedActionId&&!requestedCommitmentId))return null;
+    if(!requestedActionId&&!requestedCommitmentId)return null;
+    if(memory)return {error:'The requested action is not available in browser examples. Choose an example below, or open a shared workspace.'};
     const action=requestedActionId?view.actions.find(a=>a.id===requestedActionId):null;
     const target=requestedCommitmentId?view.commitments.find(c=>c.id===requestedCommitmentId):null;
     if(requestedActionId&&!action)return {error:`Requested action ${requestedActionId} is unavailable in this workspace. Select an existing action to continue.`};
@@ -60,7 +61,7 @@ export default function useDelegation(service,{actionId:requestedActionId,commit
   },[scopeKey]);
   const requested=useRef(null);
   useEffect(()=>{
-    const key=JSON.stringify([scopeKey,requestedActionId,requestedCommitmentId]);if(memory||!activeSnapshot||requested.current===key)return;requested.current=key;
+    const key=JSON.stringify([scopeKey,requestedActionId,requestedCommitmentId]);if(!activeSnapshot||requested.current===key)return;requested.current=key;
     const target=requestedSelection(activeSnapshot.view);if(!target)return;
     if(target.error){generation.current++;pending.current=false;setBusy(false);clearAuthority();setActionId(null);setCommitmentId(null);setError(target.error);setMessage('');return;}
     // Navigation to the already selected action preserves its ephemeral signing key and retry request.

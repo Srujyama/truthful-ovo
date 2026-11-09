@@ -38,3 +38,16 @@
   .amendment-preview dl > div { grid-template-columns: 1fr; gap: 5px; }
   .amendment-editor .amendment-check { min-height: 44px; }
 }
+.amendment-editor { margin-top:20px; }
+.amendment-editor>summary { min-height:52px; font-size:13px; }
+.amendment-editor form>p { font-size:13px; }
+.amendment-editor fieldset { gap:0; }
+.amendment-editor .amendment-field { border-bottom:1px solid var(--ui-rule); padding:10px 0; gap:12px; }
+.amendment-editor .amendment-field>label:not(.amendment-check) { padding:0 0 8px 26px; }
+.amendment-editor .amendment-two-fields { margin-block:18px; }
+.amendment-editor label { font-size:13px; }
+.amendment-editor input:not([type=checkbox]),.amendment-editor textarea { font-size:14px; min-height:44px; }
+.amendment-editor form>fieldset>label:not(.amendment-check) { margin-top:18px; }
+.amendment-editor .amendment-renewal-fields { padding-top:0; }
+.amendment-preview>p { font-size:13px; color:var(--ui-muted); }
+.amendment-preview dl>div { padding-bottom:12px; border-bottom:1px solid var(--ui-rule); }

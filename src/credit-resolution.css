@@ -48,3 +48,10 @@
   .credit-resolution-actions .button { min-height: 44px; justify-content: center; }
   .credit-resolution-preview li, .credit-resolution-current li { flex-direction: column; gap: 6px; }
 }
+.credit-resolution>summary { font-size:13px; }
+.credit-resolution-body p { font-size:13px; }
+.credit-resolution-fields label,.credit-resolution label { font-size:13px; }
+.credit-resolution input,.credit-resolution textarea,.credit-resolution select { font-size:14px; min-height:44px; }
+.credit-resolution .credit-resolution-balance { border-block:1px solid var(--ui-rule); padding:16px 0; }
+.credit-resolution-assignment h4 { font-size:14px; }
+.credit-resolution-limits>label { padding:16px 0; }
