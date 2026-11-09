@@ -6,6 +6,10 @@
 
 ## Goal
 
+Adapt the user-pinned Nomen spatial camp mechanism into a complete, original Truthful financial clearing house and improve the actual website. Full original procedural town/world, real backend-derived stations and exact record navigation, immediately available conventional ledger, managed sign-in/accounts/workspaces, durable evidence/claims and selected actual execution must work. Preserve all existing financial and technical capabilities. Verify normal-motion gestures including reversal/cancel, pause/reduced motion, mobile/desktop composition, keyboard/long content, exact cents/record identity, actual user journeys and independent fresh visual/function review; repair material findings. Track requirement evidence in docs/NOMEN_ADAPTATION.md. User's Nomen direction supersedes frontend pause and incumbent visual identity where they conflict; product truth and backend invariants remain. No paid reference provider calls, native Figma change or public deployment is inferred.
+
+Prior completed backend milestone:
+
 Backend-only completion before frontend work resumes. Deliver full backend parity for all shipped features: managed accounts and workspace membership/isolation while retaining explicit legacy demo mode; server-enforced temporal finance invariants on every write path; signed-authority storage reconciliation; durable evidence intake and immutable analyses; actor/revision/expiry-bound server previews and atomic typed workflow commits; saved versioned claim drafts/exact approvals/unsent exports; persisted bounded execution explorer/comparison/repair/replay; portable verification for every shipped packet family; bounded cursor queries and financial exports; versioned schema migration, verified backups/restoration with session/authority invalidation; diagnostics/liveness/readiness/graceful shutdown; actual finance workflow through full fulfillment with real HTTP, SQLite restart/recovery/concurrency, and computer-controlled existing application. Define and verify every acceptance item in docs/BACKEND_ACCEPTANCE.md. User prioritizes complete hackathon functionality over enterprise security expansion. No frontend design/Figma work or external vendor/payment/model calls. Preserve legacy APIs/packets and unrelated source changes. Self-contained backend implementation is selected; no external host/database/identity system is connected or required for these local workflows.
 
 Prior completed milestone:
@@ -61,6 +65,7 @@ A polished, working localhost finance demo named Truthful. The two-minute flow d
 - Lead owns UI/config, recovery/audit module, git/publishing, and dev server. Engine worker owns src/engine and public/examples; submission worker owns docs. Review read-only after implementation.
 - User said go on after recommended real finance workspace. Nimbus is opening example; Pipeline demonstrates breadth.
 - 2026-11-08 · Hackathon backend scope prioritizes complete parity for shipped finance, claim recovery and execution explorer workflows. Keep basic correctness/account isolation, defer enterprise identity/MFA/KMS and public infrastructure; frontend redesign remains paused.
+- 2026-11-09 · Nomen is now the user-pinned spatial UI reference, superseding frontendpause. Adapt actualcamp mechanisms into originalfinancialtown: realstate-driven stations and readabletaskpanels, without copiedcommercialclaims or providerflows. Code-led reference adaptation uses actualrenderedNomen as calibration; no unrelatedgeneratedcomp or mandatorydirectionapproval.
 
 ## Open questions
 
@@ -282,6 +287,17 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       deps: T40
       notes: Authored/custom/approvedportfolio programs, comparisons/repair/cutoff, reportpagination, exactpacketvariants and bounded independentreplay persisted and verified through HTTP/restart. No livefinancialmutation.
       took: 12m
+- [x] T46 · Adapt Nomen spatial workflow into a complete finance clearing house
+      files: src/clearing-house, src/App.jsx, src/main.jsx
+      accept: node --test src/clearing-house/*.test.mjs && npm run build
+      notes: Userpinned Nomen camp/DOMstation interaction as new visualreference. Originalfinanceartwork, actualstate-driven map/selection, preservedcurrentworkflows, mobilefocus/reducedmotion and keyboardcontrols.
+      took: 33m
+- [x] T47 · Integrate redesigned workspace and verify real finance journeys
+      files: src, scripts, docs/NOMEN_ADAPTATION.md
+      accept: npm run check && npm run verify:clearing-house
+      deps: T46
+      notes: Actual desktop/mobile comparison; independent functional/finish review repaired; managed archive claims and selected signed execution; browser verification includes normal reverse/cancel and courier pause/resume. Chrome automation does not expose real background visibility; actual scene clock suspension is verified by the shared helper regression. Older native Figma/submission tasks remain separate external blockers.
+      took: 20m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -373,3 +389,11 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-11-08 · Backend completion audit ran pad finish: only pre-existing T9 (external submission/video decisions) and T37 (native Figma edit access/bridge) prevent whole historical pad completion. Current backend tasks T38–T45 are verified; no frontend/native/submission scope was started.
 - 2026-11-08 · done T43 · Run real managed finance journeys, independent review and backend acceptance
 - 2026-11-08 · Backend final acceptance: npm run check passes334tests plus evaluations/build; npm run verify:backend passes137backendtests and actual29check Chrome packet replay; final case USD400 applied/zerooutstanding. Distinct realprincipals, CLI and signedauthority restore verified. Independent materialfindings repaired. Source ready on existing development branch, no frontend design/publicdeployment.
+- 2026-11-09 · started T46 · Adapt Nomen spatial workflow into a complete finance clearing house
+- 2026-11-09 · set T47 · deps=T46
+- 2026-11-09 · Nomen reference is actual Troy paper/isometric camp, inspected through isolatedfrontendwrapper with APIsblocked. Design uses original719partfinancialbuildinggeometry and originalrenderer, separatelyOFLlicensedPixelifyfont. No Nomen provider/backend executed. Currentfrontendphase supersedes pause; preserve allfinancebackendbehavior.
+- 2026-11-09 · started T47 · Integrate redesigned workspace and verify real finance journeys
+- 2026-11-09 · done T46 · Adapt Nomen spatial workflow into a complete finance clearing house
+- 2026-11-09 · set T47 · notes
+- 2026-11-09 · done T47 · Integrate redesigned workspace and verify real finance journeys
+- 2026-11-09 · Nomen clearing-house milestone verified:353automatedtests,39managedUIchecks independently replayed,29full-financeUIchecks,7route/mobilechecks; independent functional/visual repairs complete and design documents updated. pad finish refuses only existing T9 external submission/video and T37 native Figma access/plugin blockers; T46/T47 done. New local app is at http://127.0.0.1:5197. No public release/native Figma change inferred.

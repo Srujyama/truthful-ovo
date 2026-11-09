@@ -8,15 +8,15 @@ Truthful tests proposed financial workflows before their effects, then binds exe
 
 V4 is a local development build. Media and submission packaging are deferred; the existing public deployment remains the earlier v3 build.
 
-The [backend build](docs/BACKEND.md) adds managed accounts, isolated empty workspaces, durable evidence and reviewed financial workflows, versioned claim approvals/unsent exports, persisted execution analysis, portable verification and verified backup/restore. [Acceptance coverage](docs/BACKEND_ACCEPTANCE.md) maps the existing product's backend features to real HTTP, replay and browser evidence. Frontend design is paused for this milestone; `npm run dev` retains the fictional demo while `npm run backend` starts managed mode after account bootstrap.
+The [backend build](docs/BACKEND.md) adds managed accounts, isolated empty workspaces, durable evidence and reviewed financial workflows, versioned claim approvals/unsent exports, persisted execution analysis, portable verification and verified backup/restore. [Acceptance coverage](docs/BACKEND_ACCEPTANCE.md) maps the existing product's backend features to real HTTP, replay and browser evidence. `npm run dev` starts the clearly labeled fictional demo; `npm run backend` starts managed mode after account bootstrap. The UI discovers the selected service and exposes actual sign-in, invitation enrollment and workspace switching in managed mode.
 
-The development UI has been redesigned as a working ledger: direct task headings, a visible authored agent program, compact workflow controls, neutral surfaces and readable Public Sans typography. All financial and authority flows are retained. The pinned [design philosophy](design/figma/DESIGN_PHILOSOPHY.md) applies Apple’s clarity and progressive disclosure to Ramp-style efficient finance workflows: portfolio first, exact records, and advanced tools on demand.
+The development UI now opens into a **financial clearing house**, adapting the spatial workflow of [Nomen](https://github.com/aiden-guan/Nomen): six original detailed isometric buildings, anchored station controls, exact financial records and a fully available working ledger. Warm paper, Pixelify Sans display type and readable Public Sans connect the scene and task surfaces. [Adaptation and verification](docs/NOMEN_ADAPTATION.md) records the reference, original artwork, workflow coverage and review evidence. Native Figma below still describes the earlier design milestone.
 
 The [expanded Figma source kit](design/figma/README.md) contains 69 editable screen models, 14 product boards and 483 mapped review interactions. Its complete source gallery is rendered and checked. The [native Figma file](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) retains its previously verified 17-screen baseline; saving the expansion is waiting for editable file access and a connected FigCli bridge. The [expansion record](docs/WORKSPACE_EXPANSION.md) separates source verification from native persistence.
 
 The application now includes **Operations**, **Vendors**, **Evidence library**, **Workspace activity**, and **Financial reports**. These project the shared ledger, with exact-source inspection, case/action navigation, independent financial/knowledge dates and exact-cent exports. Ambiguous credits have an analyst evidence → approver assignment-limit → analyst attribution workflow in the shared ledger.
 
-![Truthful execution laboratory](docs/execution-lab.png)
+![Truthful financial clearing house](docs/clearing-house.png)
 
 ## The v4 ritual
 
@@ -81,6 +81,8 @@ These forms work in local SQLite and browser-local modes. They record supplied e
 npm run check
 npm run verify:depth
 npm run verify:frontier
+npm run test:clearing-house:browser
+npm run verify:clearing-house
 npm run verify:assurance-packet -- output/playwright/assurance-latest.json
 ```
 

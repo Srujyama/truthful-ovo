@@ -2,75 +2,31 @@
 version: 1
 slug: "src-app-jsx"
 primary_target: "src/App.jsx"
-related_targets: ["src/styles.css","src/product-ui.css","src/ExecutionLab.jsx","src/Assurance.jsx","src/Workbench.jsx"]
+related_targets: ["src/clearing-house/FinanceWorld.jsx", "src/clearing-house/clearing-house.css", "src/clearing-house/ledger-theme.css", "src/WorkspaceAccount.jsx", "src/ManagedEvidence.jsx"]
 ---
 
-# Product UI replacement · Working ledger
+# Product UI · financial clearing house
 
-## Scope and mode
-Operate. Full app shell, execution laboratory, assurance, evidence workbench, guided cases and native Figma companions. Finance operators and hackathon reviewers must inspect a financial claim, explore orderings and verify exact authority. Preserve all current financial behavior and synthetic-data boundaries. No media production or public deployment.
+## Direction and authority
 
-## Direction and source
-Replacement world: the working ledger. Compact Public Sans typography, neutral white work surfaces, graphite text and forest reserved for action, selection and verified financial state. One rule-separated working surface rather than a collection of soft green cards. Source family: financial working papers, ruled ledger columns and engineering review tools. Seven grounded candidates considered: financial work queue, code-review diff, air-traffic strips, engineering test instrument, working ledger, technical reference manual, transaction blotter. Seed a54e588a assigned candidate five. Dense data-field challenger declined for audience and clarity; retain its alignment discipline. Centre-rail reference challenger competitive on proof readability but less usable in direct manipulation; retain paired source and decision. Media feed, zoo map and orienteering map declined on audience/task clarity; retain focus, state consistency and separation of model from execution. Monochrome product marketing declined as marketing framing; retain strict neutral hierarchy. The later user-pinned Apple/Ramp refinement below is the current authority; preserve this existing working-ledger identity.
-
-## FIRST VIEWPORT
-At 1440×960 a 216px white navigation rail and 56px utility header surround a neutral work surface. Execution lab has one functional heading and compact tabs. Scenario and budget meet the single run action in one toolbar. The real authored agents and ordered commands are visible immediately, not hidden below slogans. The initial comparison is an unrun instruction rather than two disabled cards. A result replaces it with compact, clearly named unsafe/guarded comparisons, followed by trace and selected transition. Key text is 12px or larger. At 390px navigation becomes an overlay, controls stack, command lanes stack, and no document-level horizontal scroll appears.
-
-## Signature interaction
-The visible agent program becomes a replayable ordered trace after Explore schedules. Selecting a trace step moves emphasis to its exact reducer result and financial ledger. This is an existing working mechanism presented with a clearer visual hierarchy, not an invented animation or financial effect. Keep input invalidation, selected-trace state and signed authority behavior intact.
-
-## Motion grammar
-150–200ms color/background/focus transitions. Selected inspector clarifies once on state change, existing loading indicates actual work. No page entrance choreography, no decorative animation; reduced motion removes transitions.
-
-## System reach and boundaries
-Apply the same type, controls, spacing, surface hierarchy and readable statuses to assurance, evidence, guided cases, overlays and mobile. Evidence is a document sheet beside findings; assurance is a master/detail ledger; authority is an ordered review/permission/effect workflow. All states, roles, facts, amounts, trust limits and exports remain available. HTML and Figma are editable reconstructions of real states, never live transactions.
-
-## Failure risk and acceptance
-Risk: a neutral UI can become anonymous if structure stays unchanged. Completion requires direct task headings, an actual visible agent program, fewer generic containers, readable labels and substantive desktop/mobile inspection. npm run check; real browser frontier, assurance, evidence and portfolio flows; one independent visual review, one repair batch and verdict. Native Figma must be actually updated and separately API-verified. Existing public deployment remains unchanged.
+The user explicitly selected aiden-guan/Nomen’s spatial/pixel/paper UI for adaptation to this hackathon finance product. That pinned reference supersedes the earlier neutral-only working ledger. No random selection, seed, generated comp or invented approval was used. The detailed provenance and acceptance checklist live in `docs/NOMEN_ADAPTATION.md`; `PRODUCT.md` owns functional truth. Existing task mechanisms remain real financial review surfaces, not scenery.
 
 ## Direction contract
 
-THESIS: The working ledger makes evidence and commands the main content; repeated promotional introductions and empty metric cards disappear.
+THESIS: Inspect a financial promise as it moves through a small understandable place; the world gives overview and the record gives proof.
 
-OWN-WORLD: White neutral navigation, graphite Public Sans type, rule-separated data and forest actions. Controls 6px; primary working surfaces 9px; status marks have explicit names.
+OWN-WORLD: Warm paper, brown-green ink, forest commands, Pixelify place names/selected amounts and Public Sans records/forms. Original isometric limestone, timber, terracotta, brass and teal finance architecture; DOM station labels and a paper record inspector connect the scene to real work.
 
-STORY: Inspect the actual agents and ordered steps, choose a bounded program, run it, then inspect a selected transition and its financial effect. Evidence and authority share the same sober language.
+STORY: Choose archive, review hall, credit exchange, verified vault, execution observatory or dispatch desk; inspect actual records; open the exact case, action or source revision. Use the conventional ledger at any time. Returning to the world preserves the mounted task. Scenery does not write financial records.
 
-FIRST VIEWPORT: 216px navigation rail,56px utility header,27px functional title,two compact tabs and a workflow/budget/run toolbar. The live authored program occupies the principal white surface; the unrun result is a short instruction. Mobile stacks controls and agent lanes.
+FIRST VIEWPORT: Compact identity/account header, functional title and Add evidence command, dominant original map, selected-station inspector, then recoverable/issued/verified balances and a six-station dock. Mobile frames the selected station, places all six dock buttons in normal flow before the full-width inspector, and keeps task controls unobscured.
 
-FORM: Working ledger, fifth grounded candidate; direction seed a54e588a. Code-led implementation; signature interaction is the actual program becoming the selected execution trace and its financial inspector.
+FORM: User-pinned Nomen mechanism, implemented through original geometry and rendering. Reference interaction provenance is explicit. Source station records and exact financial links define the adaptation rather than copied branding or models.
 
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+FINISH: Inspect desktop/mobile rendering and normal-motion pause/reverse/cancel behavior, review exact navigation and financial meaning, repair material findings and record the actual shipped system. Documentation alone certifies neither complete journeys nor public release.
 
-## User-pinned Apple / Ramp refinement
+## Observed implementation
 
-The user explicitly selected Apple or Ramp design philosophy. Ramp supplies the finance-workflow emphasis: minimize time and effort, make the monetary state and next decision apparent. Apple supplies clarity of structure and progressive disclosure. These are product principles, not affiliation or a pixel-copy mandate. Keep the existing Public Sans/neutral system.
+`DESIGN.md` and `.impeccable/design.json` record source-extracted tokens, responsive thresholds and reusable components. World layout stacks at 800px; account/managed forms have their own 540px/640px adaptations. World DOM anchors and dock remain reachable without Canvas; map controls offer bounded zoom, fit and pause. Reduced motion and document visibility suspend scenery. Courier motion represents recorded transitions only, with issue and applied-credit meanings kept distinct.
 
-THESIS: Open on the financial job; reveal advanced machinery as the operator asks for it.
-
-OWN-WORLD: Preserve neutral paper, graphite type and forest actions, with compact record rows and a quiet account selector.
-
-STORY: Begin with the portfolio, select the commitment, inspect evidence and decide. Historical replay and signed verification remain explicit secondary tasks.
-
-FIRST VIEWPORT: Financial portfolio by default; ledger totals, compact vendor register and the selected record. Historical dates are under Historical view. Mobile uses a real record selector so the current case is near the top. Execution remains accessible by navigation and ?view=execution.
-
-FORM: User-pinned Apple/Ramp principles refine the working ledger; no replacement identity, comp or new seed. Existing technical workflows retain their behavior and bounds.
-
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
-
-Primary references: https://developer.apple.com/videos/play/wwdc2025/359/ and https://ramp.com/blog/midday-joining-ramp . Live Ramp product marketing inspected at https://ramp.com/spend-management ; its marketing composition is not the application template.
-
-
-## Shipped portfolio continuation
-
-The pinned Apple/Ramp refinement now appears in the shipped React source (`src/product-ui.css`, `src/App.jsx`, `src/Assurance.jsx`, `src/Workbench.jsx`, and `src/ui.jsx`). Existing colors, Public Sans, corner scale, execution tools, and finance meanings remain in the same working-ledger world.
-
-Desktop: 23px portfolio totals above a compact register and selected financial case. Above 1100px, register width is `minmax(250px,280px)` beside flexible detail, with a 20px gap. Semantic register rows align vendor/reference beside a 14px amount, then named status beside deadline, with 12px vertical / 18px horizontal padding. Height follows content. The selected case offers its original-claim next action; renewal and date alternatives remain separate.
-
-Progressive disclosure: native Workspace options starts closed at every width and contains utilities, runtime details, and demo role selection. Escape/outside pointer closure preserves focus; reset reveals a separate confirmation. Portfolio overview contains only totals, open on desktop and initially closed on mobile. Historical read-only notices remain outside collapsed date controls. Alternative terms use a disclosure that opens initially only for a conflicting amendment-acceptance review.
-
-Mobile: the generic portfolio description is hidden. Native Selected case and Selected action fields replace long registers. Selected commitment amount leads into the original next action before its financial ledger; next-action buttons have a 44px minimum height. Decision evidence opens exact bound source revisions and returns focus to its source opener. Mutation restrictions and evidence-to-claim/portfolio handoffs show explicit reasons and next steps.
-
-Navigation: the fictional Acme Labs identity and demo finance lead are static account context; Guided demo groups guided cases, activity, and sources. Mobile navigation has a backdrop, close control, focus trap, Escape handling, inert main content, scroll lock, and return focus. Noninteractive status toasts use bottom-corner placement and clear the guided dock.
-
-Record check: reconciled the root eight-section DESIGN.md and schema-v2 sidecar against source and existing desktop portfolio/mobile decision captures. These records describe implemented structure and values; they do not certify every journey, arbitrary-width behavior, or the independently maintained native Figma system. Legacy local greens, tiny labels, and the guided-register search glyph are not new design-system rules.
+The existing ledger keeps compact master/detail records, native mobile case/action selectors, overview/history disclosures, exact evidence inspection and explicit operation restrictions. Warm-paper overrides and Pixelify display connect it to the new world; managed evidence and account forms retain Public Sans headings. Small annotations and inherited local semantic values are drift, not reusable system rules. Native Figma remains a separate older artifact.

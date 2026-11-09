@@ -2,7 +2,7 @@
 
 Status: local v4 development. The user explicitly deferred further videos and submission packaging. Existing public delivery facts remain the earlier v3 release; no v4 release is being staged.
 
-Backend milestone: [managed setup and API contract](BACKEND.md) · [requirement-to-evidence checklist](BACKEND_ACCEPTANCE.md). All existing product workflows now have server support, including durable evidence/previews, claim drafts/approval/unsent exports and execution reports/replay. The frontend redesign remains paused. Managed mode is separate from the retained demo; external mail, bank/payment feeds and live AI remain unconnected.
+Backend milestone: [managed setup and API contract](BACKEND.md) · [requirement-to-evidence checklist](BACKEND_ACCEPTANCE.md). All existing product workflows now have server support, including durable evidence/previews, claim drafts/approval/unsent exports and execution reports/replay. The latest user direction resumes frontend work with the Nomen-inspired original clearing house; see [the adaptation record](NOMEN_ADAPTATION.md). Managed mode is separate from the retained demo; external mail, bank/payment feeds and live AI remain unconnected.
 
 Implemented: bounded program-order exploration, shortest unsafe-effect witnesses for the published cached-check teaching harness, exact guarded replay, resource-cutoff prefix verification, fixed-family repairs with explicit completion, Ed25519 scoped/attenuated delegation, agent possession, revocation/expiry, full-approval binding, atomic SQLite one-use execution, signed outcome/lifecycle export and independently pinned-key verification.
 
@@ -14,7 +14,7 @@ Run `npm run dev` and open http://127.0.0.1:5173. `npm run check` validates the 
 
 Independent code review found and repaired response-ordering and superseded-run presentation races. Three hook regression tests check delayed command/reset responses against newer refreshes; two browser checks hold a real server response while inputs change. The recorded submission plan remains open because its external decisions are outside this development milestone.
 
-The current product UI uses the working-ledger design system in DESIGN.md. Vite ignores generated Figma HTML and output artifacts for hot reload so running the design CLI or capturing screenshots does not reset an in-progress product review. The Figma companion remains separately generated and verified through its connected native document.
+The current product UI uses the spatial clearing-house and coordinated ledger system in DESIGN.md. Vite ignores generated Figma HTML and output artifacts for hot reload so running the design CLI or capturing screenshots does not reset an in-progress product review. The Figma companion remains separately generated and verified through its connected native document.
 
 The default app entry is the financial portfolio. Use `http://127.0.0.1:5173/?view=execution` for a direct laboratory entry. `scripts/browser-design-principles-check.js` verifies the default route, disclosure access, keyboard focus, exact mobile references and first-viewport financial context through the existing Playwright CLI.
 

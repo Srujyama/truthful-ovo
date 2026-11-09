@@ -1,231 +1,235 @@
 ---
 name: Truthful
-description: A working ledger for inspectable financial evidence and commands.
+description: A financial clearing house connecting a spatial overview to exact evidence and ledger work.
 colors:
-  forest: "#176448"
-  forest-hover: "#12513a"
-  ink: "#20252b"
-  muted: "#626b75"
-  canvas: "#f7f8fa"
-  paper: "#ffffff"
-  rule: "#e3e7eb"
-  control-rule: "#d5dbe0"
-  selected: "#edf5f0"
-  negative: "#b23d37"
-  negative-fill: "#fcf0ef"
-  warning: "#8a5b17"
-  warning-fill: "#fff5e4"
+  world-paper: "#f6f4ef"
+  world-ink: "#303a30"
+  world-muted: "#6b7164"
+  world-rule: "#d8d6ca"
+  world-green: "#356550"
+  action: "#3c6650"
+  action-hover: "#2c513d"
+  sheet: "#fffdf7"
+  inspector-paper: "#fdfbf3"
+  selected: "#e7e9dd"
+  station-paper: "#fffdf2"
+  station-edge: "#a7a493"
+  evidence-warning: "#665127"
+  evidence-warning-fill: "#f0eadb"
+  evidence-error: "#7b3326"
+  evidence-error-fill: "#f4e6dc"
+  limestone: "#e6dfca"
+  stone: "#c7c0a9"
+  brick: "#a77554"
+  roof: "#3f5b4d"
+  teal: "#55999a"
+  brass: "#c5a05a"
+  timber: "#795d43"
 typography:
-  headline:
-    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
-    fontSize: "27px"
-    fontWeight: 650
-    lineHeight: 1.3
-    letterSpacing: "-0.035em"
-  title:
-    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
-    fontSize: "17px"
-    fontWeight: 600
+  display:
+    fontFamily: "Pixelify Sans, sans-serif"
+    fontSize: "clamp(30px, 3vw, 43px)"
+    fontWeight: 500
+    lineHeight: 1.1
+    letterSpacing: "-0.02em"
+  ledger-headline:
+    fontFamily: "Pixelify Sans, sans-serif"
+    fontSize: "33px"
+    fontWeight: 500
+    letterSpacing: "0"
+  station-title:
+    fontFamily: "Pixelify Sans, sans-serif"
+    fontSize: "25px"
+    fontWeight: 500
+    lineHeight: 1.1
+  station-label:
+    fontFamily: "Pixelify Sans, sans-serif"
+    fontSize: "16px"
+    fontWeight: 500
+    lineHeight: 1.1
   body:
+    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
+    fontSize: "14px"
+    lineHeight: 1.55
+  ledger-body:
     fontFamily: "Public Sans Variable, Public Sans, sans-serif"
     fontSize: "13px"
   annotation:
     fontFamily: "Public Sans Variable, Public Sans, sans-serif"
     fontSize: "12px"
-    lineHeight: 1.7
-  summary-amount:
-    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
-    fontSize: "30px"
-    fontWeight: 550
-    letterSpacing: "-0.03em"
-  portfolio-total:
-    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
-    fontSize: "23px"
-  recovery-amount:
-    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
-    fontSize: "43px"
-    fontWeight: 550
-    letterSpacing: "-0.035em"
+  balance:
+    fontFamily: "Pixelify Sans, sans-serif"
+    fontSize: "clamp(23px, 2.4vw, 32px)"
+    fontWeight: 500
+    lineHeight: 1.2
+  commitment-amount:
+    fontFamily: "Pixelify Sans, sans-serif"
+    fontSize: "48px"
+    fontWeight: 500
   code:
     fontFamily: "ui-monospace, SFMono-Regular, monospace"
     fontSize: "12px"
-    lineHeight: 1.9
 rounded:
-  tag: "4px"
-  field: "5px"
-  control: "6px"
-  detail: "8px"
-  panel: "9px"
+  evidence-control: "3px"
+  world-control: "4px"
+  sheet: "5px"
+  dock: "6px"
+  account-dialog: "10px"
 spacing:
   tight: "8px"
   small: "12px"
   medium: "16px"
   panel: "20px"
   section: "24px"
-  workspace: "36px"
+  world-gutter: "38px"
 components:
-  button-primary:
-    backgroundColor: "{colors.forest}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.control}"
-    padding: "9px 13px"
-  button-primary-hover:
-    backgroundColor: "{colors.forest-hover}"
-  button-secondary:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.control}"
-    padding: "9px 13px"
-  button-text:
-    textColor: "{colors.forest}"
-  input:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.field}"
+  button-world-primary:
+    backgroundColor: "{colors.action}"
+    textColor: "{colors.station-paper}"
+    rounded: "{rounded.world-control}"
+    padding: "9px 16px"
+  button-world-primary-hover:
+    backgroundColor: "{colors.action-hover}"
+  button-world-text:
+    textColor: "{colors.world-green}"
+    padding: "8px 0"
+  station-anchor:
+    backgroundColor: "{colors.station-paper}"
+    textColor: "{colors.world-ink}"
+    padding: "7px 10px"
+    width: "155px"
+  station-inspector:
+    backgroundColor: "{colors.inspector-paper}"
+    rounded: "{rounded.world-control}"
+    padding: "22px 20px 17px"
   navigation-selected:
     backgroundColor: "{colors.selected}"
-    textColor: "{colors.forest}"
-    rounded: "{rounded.field}"
-    padding: "10px 12px"
-  warning-status:
-    backgroundColor: "{colors.warning-fill}"
-    textColor: "{colors.warning}"
-    rounded: "{rounded.tag}"
-    padding: "5px 7px"
-  panel:
-    backgroundColor: "{colors.paper}"
-    rounded: "{rounded.panel}"
+    rounded: "{rounded.sheet}"
+    padding: "8px 14px"
+  account-dialog:
+    backgroundColor: "{colors.world-paper}"
+    rounded: "{rounded.account-dialog}"
 ---
 
 # Design System: Truthful
 
 ## Overview
 
-**Creative North Star: "The working ledger"**
+**Creative North Star: "The financial clearing house"**
 
-A working ledger for inspecting financial evidence and exact commands. Neutral white navigation and graphite typography frame quiet paper surfaces; fine rules carry structure while forest marks actions and selected context. The interface is compact and operational, with readable annotations and explicit financial states.
+A financial clearing house gives each kind of work a place: archive, review hall, credit exchange, verified vault, execution observatory and dispatch desk. Warm paper, original isometric architecture and Pixelify place names make the overview recognizable; an ordinary ledger and exact record views carry the financial work.
 
-Public Sans supplies a single interface voice. Ordered steps, source records, financial amounts, and selected detail share the same visual grammar across execution, authority, assurance, evidence, and guided cases. Imagery is absent; Lucide line icons support labels.
-
-The user-selected philosophy draws on [Apple’s design foundations](https://developer.apple.com/videos/play/wwdc2025/359/) for clear structure, location, and next actions, and [Ramp’s approach to financial software](https://ramp.com/blog/midday-joining-ramp) for reducing the work around a financial task. Truthful applies these principles through finance-first navigation, compact records, and progressive disclosure. This is an application of those principles, with Truthful’s own visual identity; it implies no affiliation or copied brand interface.
+The user selected Nomen’s spatial, pixel and paper interaction direction. Truthful uses original Canvas geometry and finance-specific destinations, with real DOM station buttons and a persistent route into the existing task interface. Public Sans remains the reading and form face. The world is an overview of recorded facts, not evidence that scenery performs financial operations.
 
 **Key Characteristics:**
-- Neutral white shell and fine rule separation.
-- Compact controls with explicit named states.
-- Tabular financial amounts and adjacent evidence.
-- Ordered programs that become selectable execution traces.
+- Warm paper and brown-green ink across world and ledger.
+- Pixel display type paired with Public Sans reading and forms.
+- Distinct isometric stations, anchored labels and a readable record inspector.
+- Named financial states, exact record destinations and separate recoverable/issued/verified balances.
 
 ## Colors
 
-The palette is neutral and restrained, with forest actions and named amber/red conditions. Frontmatter records the reused shared theme; it does not catalog every older local declaration.
+Warm paper and brown-green ink frame forest actions, selected olive washes and mineral architectural materials. Frontmatter captures reused current-world values, not every inherited local color.
 
 ### Primary
-- **Forest:** primary commands, text actions, active navigation, and keyboard focus.
-- **Selected wash:** selected records and supporting evidence context.
+- **World green / action:** verified values, actionable commands and selected context. The world button has its own slightly warmer action shade and deeper hover.
 
 ### Secondary
-- **Warning ink and fill:** pending conditions, bounded-search uncertainty, and unresolved decisions.
-- **Negative ink and fill:** unsafe effects, blocked authority, and errors.
+- **Teal, brick, brass and timber:** original architecture and finance props; these are material colors, not financial verdicts.
+- **Evidence warning / error pairs:** readable named restrictions and failures in managed evidence.
 
 ### Neutral
-- **Ink and muted:** primary content and supporting annotations.
-- **Canvas and paper:** workspace surround and working surfaces; navigation remains paper white.
-- **Rule and control rule:** panel separators and field boundaries.
+- **World paper:** shared canvas and account paper.
+- **Sheet / inspector paper / station paper:** subtly distinct working sheets, record inspector and anchored labels.
+- **World ink / muted / rule:** primary text, contextual copy and fine divisions.
+- **Limestone / stone / roof:** recurring model materials.
 
-**The State Has a Name Rule.** Pair semantic color with a readable status or verdict; color alone does not establish approval or application.
+**The Recorded State Rule.** Pair semantic color with a readable state. Issued credit and verified applied credit remain distinct, even when both use green.
 
 ## Typography
 
-**Display / Body Font:** Public Sans Variable, Public Sans, sans-serif. There is no separate decorative display face.
-**Code Font:** ui-monospace, SFMono-Regular, monospace for editable program and command JSON.
+**Display Font:** Pixelify Sans, sans-serif; locally served variable font (400–700), with its OFL retained in `public/fonts/pixelify/OFL.txt`.
+**Body Font:** Public Sans Variable, Public Sans, sans-serif.
+**Code Font:** ui-monospace, SFMono-Regular, monospace.
 
-The interface combines a compact reading scale with larger tabular amounts. Headings use restrained negative tracking; annotations use normal letter spacing and sentence case.
+Pixelify gives headings, building labels and selected financial figures their pixel character. Public Sans carries the detail that operators must read. Tabular numerals align financial values. Managed evidence and the account dialog deliberately retain Public Sans headings: the artifact does not apply pixel display type to every title.
 
 ### Hierarchy
-- **Headline:** functional page title; the frontmatter desktop role becomes 24px at the mobile breakpoint. The finance portfolio heading uses weight 600.
-- **Title:** trace inspector and result headings; smaller working-panel headings use 13–16px according to hierarchy.
-- **Body:** prose, evidence, and document content; source text uses a generous 1.9 line height.
-- **Annotation:** controls, statuses, source references, timestamps, and program steps.
-- **Summary amount:** guided summary figures use 30px desktop and 28px mobile.
-- **Portfolio total:** the compact assurance overview uses 23px at desktop and mobile widths. Register amounts use 14px semibold tabular numerals beside 13px semibold vendor names and 12px references, statuses, and deadlines.
-- **Recovery amount:** evidence result figure; it becomes 39px on mobile. Guided case amounts use 39px desktop and 35px mobile; assurance case amounts use 35px.
+- **Display:** world title, with mobile sizes of 32px at 800px and 29px at 420px.
+- **Ledger headline:** principal ledger titles; portfolio and operations become 28px at 640px. Existing task-specific title sizes remain.
+- **Station title / label:** inspector title and building label respectively.
+- **Body / ledger body:** world and managed reading at 14px; conventional ledger at 13px. Managed evidence uses line height 1.6.
+- **Annotation:** 12px working guidance and controls. Current world metadata also uses 10–11px; this is recorded drift, not a recommended smaller scale.
+- **Balance / commitment amount:** pixel totals and prominent selected credit. Managed evidence totals use Public Sans (24px, 22px at 900px).
 
-**The Readable Record Rule.** Use the implemented 12px annotation role for decision-critical labels, provenance, and controls; inherited smaller text is not a future scale.
+**The Two Voices Rule.** Pixelify names the place and emphasizes selected amounts; Public Sans carries records, forms, explanations and dense evidence.
 
 ## Layout
 
-The desktop shell uses a fixed navigation rail (216px) and utility header (56px). Working containers cap at 1512px and use 32px vertical / 36px horizontal padding. At 1300px the horizontal gutter becomes 26px. White working panels use roughly 20–24px padding and fine internal dividers.
+The world has an 82px header, 38px horizontal gutters and a flexible map beside a 330px inspector, separated by an 8px grid gap. The map is viewport-aware, clamped from 470px to 720px. The inspector starts 30px below the grid top, has a 505px minimum height and viewport-bounded record scrolling. Three separate balances sit below the map; the six-station dock follows them in normal flow.
 
-Guided cases pair a 275px register with flexible case detail and a 23px gap. Evidence pairs near-equal input and result columns with a 24px gap. Assurance pairs a compact register with a wider detail surface. Above 1100px, its columns use `minmax(250px,280px) minmax(0,1fr)` with a 20px gap. Register rows use 12px vertical / 18px horizontal padding and an 8px / 10px row / column gap. Vendor and reference occupy the first column beside a right-aligned amount; named status and deadline occupy the second row. Row height follows content rather than a fixed height. Execution uses ordered agent lanes and a separate trace list / inspector; these are relational working surfaces rather than isolated metric tiles.
+Above 1700px the world caps at 1600px and the inspector grows to 370px. At 1100px gutters become 22px and the inspector 290px. At 800px the header becomes 70px, the world stacks with 16px gutters and the map becomes 470px high. The inspector is full width with a 290px record-scroll cap. The dock remains static in normal flow, spans the map width, omits icons/counts and offers all six stations. At 420px the map becomes 420px high. For a map narrower than 650px, the camera frames the selected station; selection clears pan. At 540px the header account control becomes a labeled icon button.
 
-At 1100px evidence and assurance master-detail layouts stack. Between 761px and 950px the rail narrows to 184px. At 760px the rail becomes a toggleable overlay, gutters become 16px, header height becomes 54px, controls and agent lanes stack, and the trace becomes a single column. Guided cases reserve bottom space for a fixed action dock. Tabs retain horizontal scrolling when necessary. On mobile, portfolio and guided registers use a native selected-case picker in place of long record lists. Portfolio options include vendor, commitment reference, and amount, while the selected case exposes its name, reference, named status, and money together.
+The conventional ledger retains the functional 216px fixed rail, 56px utility header, capped working containers and dense master/detail layout. Portfolio columns stack at 1100px; the rail narrows at 950px and becomes an accessible overlay at 760px. Mobile case/action selectors, collapsed overview/history and a full-width original-claim next action keep the selected financial record reachable. Existing tabs scroll when necessary.
 
-Portfolio overview contains totals only: open on desktop and initially collapsed on mobile. Workspace options is initially closed at every width and holds administration, runtime details, and demo role selection. The current commitment remains the principal mobile content. Its amount precedes the original-claim next action, which precedes the financial ledger; the generic page-description paragraph is hidden on mobile. Historical date controls and the signed-packet verifier are separate disclosures. When a historical view is active, its read-only notice remains outside the collapsed date controls. If a responsive collapse would hide the focused control, focus returns to its disclosure summary.
+Managed evidence caps at 1320px with 36px gutters, a 260px archive and 40px gap. At 900px the archive becomes 205px with 24px gap; at 640px it stacks with 16px gutters, scroll-bounded saved records and 44px action buttons. The account dialog caps at 540px, leaves viewport margins, scrolls internally, and uses single-column workspace controls at 540px. Preserve these surface-specific breakpoints rather than inventing one global breakpoint.
 
 ## Elevation & Depth
 
-Working panels are flat, separated by rules, canvas contrast, selected fills, and occasional semantic inset marks. Floating menus, toast messages, evidence drawers, and mobile navigation retain ambient shadows. These do not define a general card elevation scale.
+World depth comes from isometric geometry, material shading, roof silhouettes, paths and shore, rendered at half resolution with pixelated scaling. Anchored labels use a physical bottom border (3px), not an offset shadow. Ordinary task sheets remain flat with fine rules and selected washes. Floating dispatches, account dialogs and inherited temporary overlays use ambient shadows.
 
 ### Shadow Vocabulary
-- **Mobile navigation:** `12px 0 40px #1c2c3426` separates the temporary navigation overlay.
-- **Evidence drawer:** `-15px 0 70px #172b2420` separates the floating source document.
-- **Workspace options:** `0 10px 40px #20252b26` separates the temporary administration popup.
+- **Recorded dispatches:** `0 14px 40px #333d291c`.
+- **Account dialog:** `0 18px 70px #26302133`, with a `#252d2566` backdrop.
+- **Inherited task overlays:** evidence drawers, workspace options and mobile navigation retain their existing ambient separation; these are not general card elevations.
 
-**The Flat Working Surface Rule.** Use rules, white surfaces, and selected fills for working hierarchy; reserve ambient shadows for floating overlays.
+**The Place and Proof Rule.** Architecture supplies spatial context; evidence, amounts and financial actions remain in readable DOM controls and task surfaces.
+
+Scenery and recorded-event couriers have explicit pause/resume, freeze while the document is hidden, and honor reduced motion. Courier progress lasts 1900ms of active time. Camera fit resets pan/zoom; zoom is bounded from 0.7 to 2.2. Pointer cancel ends dragging. These gestures change the view, not the financial record. World state-color transitions take 160ms; reduced motion removes transitions.
 
 ## Shapes
 
-Small practical corners distinguish status marks, fields, commands, and work surfaces. Tags use the tag radius, fields and navigation use the field radius, and primary controls use the control radius. Primary working panels use the panel radius; assurance and trace detail use the detail radius. Internal rows and column dividers remain straight. Lucide line icons use a shared 1.65 stroke width; the brand check has a heavier stroke.
+Fine rectangular sheets, square architectural edges and practical small corners connect the world to the ledger. Anchored labels remain square with a heavier bottom edge. World controls and inspectors use 4px corners, ledger sheets 5px, dock/account trigger 6px, and account dialog 10px. Managed evidence has 3px field/control corners. Small round station seals provide context beside the inspector title. Labeled Lucide SVG line icons accompany ordinary controls; buildings and the clipped pixel wordmark are original geometry.
 
 ## Components
 
 ### Buttons
-Compact, explicit commands. Primary buttons use forest on white text; secondary buttons use paper, ink, and a control-rule border. Both use the frontmatter padding and a minimum height of 38px. Primary hover deepens forest; secondary hover uses a neutral wash. Text actions use forest with underlined hover. Disabled controls use opaque neutral fills and readable muted text. Keyboard focus uses a forest outline (2px) offset by 3px.
+Forest commands with explicit verbs. World primary buttons have a 41px minimum height, fine forest border and the frontmatter padding; hover deepens the fill. Ledger primary buttons retain 38px minimum height and 9px/13px padding with the world’s 4px corners. Evidence buttons are 40px, rising to 44px on mobile; account actions are 44px. Secondary actions use paper or transparent fill and a fine border. Text actions use green and an underline where implemented. Disabled controls retain their operation’s explanation; evidence/world opacity differs from the account dialog’s opaque muted treatment. Do not infer one disabled color for the entire app.
 
-Button color transitions last 160ms with ease timing. Pressed buttons darken slightly. Reduced-motion preferences disable animations and transitions across the app.
+World focus uses a 2px teal-green outline offset 4px; ledger/account focus is 2px with 3px offset; managed evidence uses 3px with 3px offset. Keep focus visible for inputs, buttons, selects, textareas and summaries in each surface.
 
 ### Chips
-Named statuses use compact rounded fills and readable text. Warning and negative treatments use shared semantic tokens. Some verified and scheduled chips retain inherited local greens; their precise hues are not reusable shared primitives.
+Named statuses use compact semantic fills or text. Managed evidence uses a square olive status fill; ledger status chips retain their existing warning/negative/verified treatments. State text remains meaningful without color.
 
 ### Cards / Containers
-Paper panels use fine rule borders, practical corners, and flat depth. Panel headers and internal rows separate content through rules. Typical padding is 20–24px; smaller mobile panels use 16–20px.
+Inspector sheets use warm paper, a fine mineral border and small corners. Rule-separated record rows expose vendor, exact reference, amount, task and named state. Hover adds a paper wash. Search appears for longer station lists. Empty inspectors explain why no records exist and offer the appropriate real destination. Loading/signed-out paper overlays obscure unavailable records with a status and account entry; workspace errors expose a retry action.
 
 ### Inputs / Fields
-White fields use the control-rule border, small corners, and ink text. Common minimum heights are 38–39px. Placeholders remain muted and opaque. Document textareas use 13px text with 1.9 line height; structured command editors retain the code role. All controls inherit visible keyboard focus.
+Paper fields with fine olive-gray borders and readable Public Sans. Evidence inputs are at least 38px; account fields at least 44px and become 16px text on mobile. Source textareas resize vertically, preserve entered text and show retained versus unsaved state. Exact citations, source documents and import amounts use disclosures and bounded scrolling; code and digests wrap when necessary.
 
 ### Navigation
-The default destination is the finance portfolio. Assurance, Evidence lab, and Execution lab lead the navigation; guided cases, activity, and sources follow as supporting destinations. Explicit view links retain direct access to each surface. White fixed rail; small labeled line icons and 12px text. The selected item uses forest text over the selected wash; hover uses a neutral wash. Underlined tabs use graphite for the selected label and underline. The static Acme Labs account identity is labeled as a fictional workspace. Guided cases, activity, and sources are grouped under Guided demo; the Alex Lee profile is labeled as a demo finance lead. Mobile navigation opens as a dialog with a backdrop and close control, traps Tab focus, closes with Escape or backdrop selection, makes the main content inert, locks body scrolling, and restores focus to the navigation toggle when closed.
+World/Ledger/Operations presentation controls sit beside the account menu; selected World uses an olive wash. The six-station dock mirrors anchored building selection with real DOM buttons and `aria-pressed`. Offscreen anchors leave the tab order; Canvas is hidden from assistive technology. Ledger navigation preserves labeled destinations and exact record routes. The World return control reopens the spatial overview while preserving the mounted task. Mobile ledger navigation uses modal focus, Escape/backdrop close and focus restoration.
 
-### Disclosures and Mobile Record Selection
-Supporting controls appear at the point of need. Disclosure summaries have a full-width labeled row, a fine boundary rule, and a directional chevron; history and mobile overview summaries use a minimum height of 44px. The packet-verifier summary uses 56px. Mobile portfolio and guided-record selectors use a white field with a fine rule, field-radius corners, and a minimum height of 42px. The decision room uses a native Selected action picker with a minimum height of 44px in place of desktop decision rows; options identify vendor, reference, action, and named state. A closed overview leaves the selected financial record directly reachable.
+### Account Dialog
+A native modal dialog with sticky heading, explicit close, paper body and visible runtime identity. Forms distinguish sign-in, enrollment, workspace selection and managed account actions from the separately labeled fictional demo-role selector. Pending, error and success text remains beside the form. Exact account behavior is governed by the service, not implied by illustration.
 
-Workspace options uses native `details` / `summary` with a 38px trigger, a 376px-wide popup, 20px padding, and the detail radius. On mobile the trigger is 40px square and the popup is fixed 16px from both sides at 110px from the top, with viewport-bounded vertical scrolling. Escape and outside pointer selection close it; focus returns to its summary on Escape or when closure would hide the focused element. Reset closes the popup and reveals a separate confirmation, focusing Confirm reset.
-
-Alternative terms stay in their own disclosure, initially closed except when reviewing a conflicting amendment acceptance. Its summary is at least 44px high. Opening a proposal does not accept it; original terms remain in force.
-
-### Financial Next Actions and Evidence
-The selected portfolio commitment leads to its original-claim review, including prepared, approved, stale, and recorded states. Changed terms remain a separate review. Mobile next-action buttons fill the available width and have a minimum height of 44px. Disabled mutations retain a visible explanation of the role, policy, historical-view, or pending-state restriction.
-
-Decision evidence lists the exact bound source revisions, including revisions outside the selected commitment. Inspection opens the selected revision beside the review; Return to this action review restores focus to its source opener. An explicit latest-revision link does not silently substitute evidence. The evidence workbench shows analysis, claim-review availability, and portfolio-import availability separately, with the reason and next step beside each operation. Local draft approval, portfolio approval, credit application, and unsent exports retain distinct meanings.
-
-### Toasts
-Status feedback is noninteractive and does not intercept pointers. Desktop toasts sit at the bottom right, 24px from both edges with a maximum width of 480px. Mobile toasts use 16px side and bottom insets. When the guided action dock is present, bottom offsets become 98px desktop and 86px mobile.
-
-### Program and Trace
-An ordered program uses rule-separated agent lanes, numbered square step marks, named operations, and supporting identifiers. Execution yields a selectable trace list beside a financial inspector. Selected rows use context fill; unsafe selections use negative fill. This shared list/detail grammar also appears in assurance and guided cases.
+### Evidence and Financial Review
+Analysis versions, ledger imports, claim drafts and approvals have distinct headings and named states. Selected saved records use an olive wash and a green inset marker. Approval names the exact draft; stale/unsaved/historical restrictions retain visible reasons. Downloads distinguish an unsent email, CSV and evidence packet. Decision evidence opens the exact bound source revision and provides a focused return. These working records keep their readable form grammar rather than turning into buildings.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** use the shared Public Sans interface family and tabular numerals for financial values.
-- **Do** keep evidence, named status, and the selected financial effect inspectable together.
-- **Do** preserve mobile stacking, readable annotations, and visible keyboard focus.
-- **Do** keep portfolio totals separate from workspace administration and place the selected commitment’s original next action before its financial ledger on mobile.
-- **Do** name blocked operations, retain exact evidence revisions, and provide a focused return to the action review.
+- **Do** use the paper, Pixelify and Public Sans relationship across the world and conventional ledger.
+- **Do** keep station buttons and the six-station dock usable independently of Canvas interaction.
+- **Do** preserve exact source revisions, action identity, readable states and the distinction between issued and applied credit.
+- **Do** preserve focus, modal dismissal, mobile stacking and reduced-motion behavior.
 
 ### Don't:
-- **Don't** reintroduce the rejected sage navigation identity.
-- **Don't** communicate approval, failure, or application through color alone.
-- **Don't** promote inherited tiny labels or one-off legacy colors into new system tokens.
+- **Don't** replace the selected spatial world with the superseded neutral-white-only identity.
+- **Don't** treat an illustrative courier, building or approval as a completed financial transaction.
+- **Don't** copy Nomen’s renderer, models, logo or media into this original implementation.
+- **Don't** propagate tiny annotations, decorative eyebrows or text glyph icons as system primitives.
 
-Not canonized: overridden Manrope/sage declarations, remaining one-off semantic greens, local type-size variations, any inherited labels below the readable annotation role, and the guided-register search glyph are implementation debt, not new rules. This record describes the React artifact; it does not certify native Figma completion.
+Not canonized or repaired: inherited neutral/legacy semantic overrides, local tiny annotations remain implementation drift; this documentation pass does not legitimize them or modify UI. Native Figma files describe a separate older artifact, not proof of parity with this React build.
+
+Source record: `src/clearing-house/clearing-house.css`, `ledger-theme.css`, `models.mjs`, `renderer.mjs`, `FinanceWorld.jsx`; `src/product-ui.css`, `WorkspaceAccount.jsx`, `workspace-account.css`, `ManagedEvidence.jsx`, `managed-evidence.css`; current `PRODUCT.md` and `docs/NOMEN_ADAPTATION.md`. Rendered checks: clearing-review desktop/mobile, clearing-ledger mobile, clearing-account mobile and clearing-managed-claim desktop captures. This records the inspected local implementation. Journey and release evidence live in docs/NOMEN_ADAPTATION.md.

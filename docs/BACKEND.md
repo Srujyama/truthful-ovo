@@ -12,7 +12,7 @@ Use Node 24 or later. `npm install` installs the web dependencies; the backend i
 
 Bootstrap is an offline command and works once per data directory. `npm run dev` preserves the original demo setup. `npm run backend -- --help` lists managed options. Both services bind loopback. Exact HTTPS origins require `--secure-cookies` and an independently configured TLS reverse proxy.
 
-The current frontend has its existing demo sign-in/role controls. Backend account sign-in and new persistent workflow endpoints are ready for the next frontend phase. For existing UI verification, authenticate the browser context with `/api/auth/login` first, then reload. Managed mode rejects demo role selection/reset. Do not describe a browser-local fallback as a managed session; inspect `/api/session` and the interface's **Local SQLite** runtime label.
+The current frontend discovers managed mode and offers actual account sign-in, invitation enrollment, workspace switching/creation, password change and logout through the account dialog. Managed evidence, reviewed imports, saved claim drafts/approval/unsent exports and durable execution analysis are integrated. Demo role controls appear only in explicit demo mode; managed mode rejects demo role selection/reset. Inspect `/api/session` and the interface’s **Local SQLite** runtime label to confirm the selected service. The [clearing-house verification record](NOMEN_ADAPTATION.md) covers the full UI journeys.
 
 ## Request contract
 
