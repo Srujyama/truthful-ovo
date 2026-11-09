@@ -1,19 +1,20 @@
 #!/usr/bin/env node
-import { fileURLToPath } from 'node:url';
-import { createService } from './service.mjs';
-
-const args = process.argv.slice(2);
-if (args.includes('--help')) {
-  console.log('Usage: node server/start.mjs [--port 5174] [--db server/data/truthful.sqlite]\nLocal demonstration service; binds 127.0.0.1 only. No live AI, vendor messages, or payments.');
-  process.exit(0);
+import {fileURLToPath} from 'node:url';
+import {createService} from './service.mjs';
+import {createManagedService} from './managed.mjs';
+const args=process.argv.slice(2);
+if(args.includes('--help')){console.log('Usage: node server/start.mjs [--mode demo|managed] [--port 5174] [--db FILE] [--data DIR] [--origin EXACT_ORIGIN] [--secure-cookies]\nManaged mode requires an account initialized with server/admin.mjs bootstrap. Both modes bind loopback. No external vendor messages, payments or AI service is connected.');process.exit(0);}
+const options={mode:'demo',port:5174,dbPath:fileURLToPath(new URL('./data/truthful.sqlite',import.meta.url)),dataDir:fileURLToPath(new URL('./data/managed',import.meta.url)),origins:[],secureCookies:false};
+for(let i=0;i<args.length;i++){
+ const arg=args[i];if(arg==='--secure-cookies'){options.secureCookies=true;continue;}const value=args[++i];
+ if(arg==='--mode'&&['demo','managed'].includes(value))options.mode=value;
+ else if(arg==='--port'&&/^\d+$/.test(value||'')&&Number(value)<=65535)options.port=Number(value);
+ else if(arg==='--db'&&value)options.dbPath=value;
+ else if(arg==='--data'&&value)options.dataDir=value;
+ else if(arg==='--origin'&&value)options.origins.push(value);
+ else throw new Error('Unknown or invalid option. Use --help.');
 }
-const options = { port: 5174, dbPath: fileURLToPath(new URL('./data/truthful.sqlite', import.meta.url)) };
-for (let index = 0; index < args.length; index += 2) {
-  if (args[index] === '--port' && /^\d+$/.test(args[index + 1] || '')) options.port = Number(args[index + 1]);
-  else if (args[index] === '--db' && args[index + 1]) options.dbPath = args[index + 1];
-  else throw new Error('Unknown option. Use --help.');
-}
-const service = await createService({ dbPath: options.dbPath });
-const { baseUrl } = await service.listen({ port: options.port });
-console.log(`Truthful local assurance service: ${baseUrl}\nSQLite persistence; explicit local demo identities. No external financial actions.`);
-for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, async () => { await service.close(); process.exit(0); });
+const allowedOrigins=options.origins.length?options.origins:['http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:4173','http://localhost:4173'];
+const service=options.mode==='managed'?await createManagedService({dataDir:options.dataDir,allowedOrigins,secureCookies:options.secureCookies,logger:entry=>console.log(JSON.stringify(entry))}):await createService({dbPath:options.dbPath,allowedOrigins});
+const {baseUrl}=await service.listen({port:options.port});console.log(`Truthful backend: ${baseUrl} (${options.mode})`);
+let stopping=false;for(const signal of ['SIGINT','SIGTERM'])process.once(signal,async()=>{if(stopping)return;stopping=true;try{await service.close();}catch(error){console.error(error.message);process.exitCode=1;}});

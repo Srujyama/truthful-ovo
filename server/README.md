@@ -1,4 +1,8 @@
-# Optional local assurance service
+# Finance backend
+
+The complete managed backend is documented in [setup and API contract](../docs/BACKEND.md), with [feature acceptance evidence](../docs/BACKEND_ACCEPTANCE.md). It includes real accounts, isolated empty workspaces, durable evidence analysis and reviewed finance workflows, claim drafts/approvals/unsent exports, saved execution analysis/replay, signed delegation, read models/reports and verified backup/restore.
+
+Use `npm run backend` after offline account bootstrap. Run `npm run test:backend:browser` for the reproducible complete user journey, followed by `npm run verify:backend`. The following retained contract describes **demo mode** (`npm run dev` / `node server/start.mjs --mode demo`), where selectable fictional roles are intentional. Managed mode rejects demo sign-in/reset and uses the account routes in the full contract.
 
 Node 24 built-ins provide HTTP, SQLite, server-side role context, optimistic
 concurrency, durable idempotency, command replay, and hash-linked audit exports.
@@ -33,8 +37,9 @@ Sessions use a random server-issued HttpOnly, SameSite=Strict cookie, expire in
 eight hours, and persist across service restarts. Mutations require an exact
 allowed loopback Origin and an `X-CSRF-Token` from the current session. The HTTP
 development cookie is not marked Secure because the local service is HTTP.
-Production needs real identity, HTTPS, organization membership, credential and
-session management, and a separately enforced authorization policy.
+Managed mode adds real account credentials, workspace membership and revocable
+sessions. External HTTPS hosting and organizational identity providers remain
+separate integrations; this default demonstration mode does not acquire them.
 
 ## API contract
 

@@ -1,0 +1,70 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {managedHarness,testDocuments} from './test-support.mjs';
+import {verifyExportPacket} from './service.mjs';
+
+test('real managed workflow: intake, import, credit lifecycle, amended terms, separate approval/execution, reports and restart',async t=>{
+ const f=await managedHarness(t),analyst=await f.invite('analyst'),approver=await f.invite('approver'),executor=await f.invite('executor'),viewer=await f.invite('viewer');
+ assert.equal((await f.call('/api/workspace',{auth:analyst})).body.view.commitments.length,0,'new workspaces have no fictional finance');
+ const intake=await f.call('/api/evidence',{auth:analyst,payload:testDocuments(),key:'durable-intake-001'});assert.equal(intake.status,200,JSON.stringify(intake.body));assert.equal(intake.body.analysis.outstandingCents,150000);
+ const imported=await f.workflow(analyst,'evidence-import',{evidenceId:intake.body.evidenceId,analysisVersion:1});const id=imported.plan.plan.commitmentId;
+ assert.equal(imported.body.view.commitments.find(c=>c.id===id).verifiedCents,90000);
+ const issued=await f.workflow(analyst,'credit',{operation:'register',commitmentId:id,invoiceId:'PC-CREDIT-NEW',lineId:'LINE-1',status:'issued',amount:'300',allocationAmount:'100',effectiveDate:'2026-11-08',sourceText:'PC-SEATS-2026: additional issued USD300 memo; allocate USD100.'});const creditId=issued.plan.plan.creditId;
+ assert.equal(issued.body.view.commitments.find(c=>c.id===id).verifiedCents,90000,'issued credit is not verified');
+ await f.workflow(analyst,'credit',{operation:'apply',commitmentId:id,creditId,effectiveDate:'2026-11-08',sourceText:'Invoice explicitly applies PC-CREDIT-NEW USD300.'});
+ const allocated=await f.workflow(analyst,'credit',{operation:'allocate',commitmentId:id,creditId,amount:'200',effectiveDate:'2026-11-08',sourceText:'Assign remaining USD200 to PC-SEATS-2026.'});
+ const allocations=allocated.body.view.credits.find(c=>c.id===creditId).allocations;
+ const reversed=await f.workflow(analyst,'credit',{operation:'reverse',commitmentId:id,creditId,amount:'150',allocationReversals:[{allocationId:allocations[0].id,amount:'50'},{allocationId:allocations[1].id,amount:'100'}],effectiveDate:'2026-11-08',sourceText:'Reverse USD150 from the explicitly assigned memo portions.'});
+ assert.equal(reversed.body.view.commitments.find(c=>c.id===id).verifiedCents,105000);
+ const amended=await f.workflow(analyst,'amendment',{commitmentId:id,changes:{promisedCents:true},promisedAmount:'2500',effectiveDate:'2026-11-08',sourceText:'Proposed revised promise USD2500, same PC-SEATS-2026 reference.'});const actionId=amended.plan.plan.actionId;
+ let revision=amended.body.revision;
+ const approvePayload={expectedRevision:revision,command:{type:'APPROVE_ACTION',actionId}};
+ assert.equal((await f.call('/api/commands',{auth:analyst,payload:approvePayload})).status,403);
+ const approved=await f.call('/api/commands',{auth:approver,payload:approvePayload});assert.equal(approved.status,200,JSON.stringify(approved.body));revision=approved.body.revision;
+ const executed=await f.call('/api/commands',{auth:executor,payload:{expectedRevision:revision,command:{type:'EXECUTE_ACTION',actionId}},key:'execute-amendment-once'});assert.equal(executed.status,200,JSON.stringify(executed.body));
+ const current=executed.body.view.commitments.find(c=>c.id===id);assert.equal(current.promisedCents,250000);assert.equal(current.outstandingCents,145000);
+ assert.equal((await f.call('/api/commands',{auth:viewer,payload:{expectedRevision:executed.body.revision,command:{type:'SET_POLICY',policy:{}}}})).status,403);
+ const report=await f.call('/api/reports/financial',{auth:viewer});assert.equal(report.status,200,JSON.stringify(report.body));assert.equal(report.body.totals.verifiedCents,105000);
+ const csv=await f.call('/api/reports/financial.csv',{auth:viewer});assert.equal(csv.status,200);assert.match(csv.body,/105000/);assert.match(csv.body,/financial_effective_on/);
+ const packet=await f.call('/api/export',{auth:viewer});assert.equal((await verifyExportPacket(packet.body)).valid,true);
+ assert.equal((await f.call(`/api/evidence/${intake.body.evidenceId}`,{auth:viewer})).body.promotions.length,1);
+ await f.restart();
+ const replay=await f.call('/api/workflows/commit',{auth:analyst,payload:reversed.payload,key:reversed.key});assert.equal(replay.status,200,JSON.stringify(replay.body));assert.equal(replay.replayed,'true');assert.deepEqual(replay.body,reversed.body);
+ const latest=await f.call('/api/workspace',{auth:viewer});assert.equal(latest.body.revision,executed.body.revision);assert.equal(latest.body.view.totals.verifiedCents,105000);
+ const fulfilled=await f.workflow(analyst,'credit',{operation:'register',commitmentId:id,invoiceId:'PC-FINAL-CORRECTION',lineId:'FINAL-LINE',status:'applied',amount:'1450',allocationAmount:'1450',effectiveDate:'2026-11-08',sourceText:'Final applied invoice correction USD1450 for PC-SEATS-2026. Attribute the exact remaining promise balance.'});
+ const completed=fulfilled.body.view.commitments.find(c=>c.id===id);assert.equal(completed.status,'verified');assert.equal(completed.verifiedCents,250000);assert.equal(completed.outstandingCents,0);
+ assert.equal((await f.call('/api/ready',{auth:f.admin})).body.ok,true);
+});
+
+test('workspace isolation, forged roles, stale writes, atomic failure and membership removal through real HTTP',async t=>{
+ const f=await managedHarness(t),analyst=await f.invite('analyst'),viewer=await f.invite('viewer');
+ assert.equal((await f.call('/api/workspace')).status,401);
+ assert.equal((await f.call('/api/session',{payload:{role:'admin'}})).status,403);
+ assert.equal((await f.call('/api/demo/reset',{auth:f.admin,payload:{expectedRevision:0,confirm:'RESET_DEMO_WORKSPACE'}})).status,403);
+ const next=await f.call('/api/workspaces',{auth:f.admin,payload:{name:'Other workspace'}});assert.equal(next.status,201,JSON.stringify(next.body));
+ assert.equal((await f.call('/api/workspaces/switch',{auth:analyst,payload:{workspaceId:next.body.workspace.id}})).status,403);
+ assert.equal((await f.call('/api/commands',{auth:analyst,payload:{expectedRevision:0,actor:{role:'admin'},command:{type:'ADD_VENDOR',vendor:{id:'a',name:'A'}}}})).status,403);
+ const good={type:'ADD_VENDOR',vendor:{id:'vendor-a',name:'Vendor A'}},bad={type:'CREATE_COMMITMENT',commitment:{id:'bad'}};
+ assert.equal((await f.call('/api/batch',{auth:analyst,payload:{expectedRevision:0,commands:[good,bad]}})).status,404);
+ assert.equal((await f.call('/api/workspace',{auth:viewer})).body.revision,0);
+ const races=await Promise.all([1,2].map(i=>f.call('/api/commands',{auth:analyst,payload:{expectedRevision:0,command:{type:'ADD_VENDOR',vendor:{id:`race-${i}`,name:`Race ${i}`}}}})));assert.deepEqual(races.map(r=>r.status).sort(),[200,409]);
+ const removed=await f.call('/api/memberships',{auth:f.admin,payload:{workspaceId:f.initial.workspace.id,userId:analyst.user.id,active:false}});assert.equal(removed.status,200,JSON.stringify(removed.body));assert.equal((await f.call('/api/workspace',{auth:analyst})).status,401);
+ await f.call('/api/workspaces/switch',{auth:f.admin,payload:{workspaceId:next.body.workspace.id}});
+ const other=await f.call('/api/workspace',{auth:f.admin});assert.equal(other.body.view.vendors.length,0);assert.equal(other.body.revision,0);
+ assert.equal((await f.call('/api/workspace',{auth:viewer})).body.view.vendors.length,1);
+});
+
+test('ambiguous shared credits require recorded clarification and separate capped resolution before attribution',async t=>{
+ const f=await managedHarness(t),analyst=await f.invite('analyst'),approver=await f.invite('approver');
+ const intake=await f.call('/api/evidence',{auth:analyst,payload:testDocuments()});const imported=await f.workflow(analyst,'evidence-import',{evidenceId:intake.body.evidenceId,analysisVersion:1});const first=imported.body.view.commitments[0];
+ const second={id:'supplemental-case',vendorId:first.vendorId,reference:first.reference,currency:'USD',promisedCents:50000,dueDate:'2026-11-01',conditions:[],sourceIds:first.sourceLinks.map(s=>s.sourceId)};
+ const added=await f.call('/api/commands',{auth:analyst,payload:{expectedRevision:1,command:{type:'CREATE_COMMITMENT',commitment:second}}});assert.equal(added.status,200,JSON.stringify(added.body));
+ const issued=await f.workflow(analyst,'credit',{operation:'register',commitmentId:first.id,invoiceId:'SHARED-MEMO',lineId:'SHARED-1',status:'applied',amount:'300',allocationAmount:'',effectiveDate:'2026-11-08',sourceText:'Shared USD300 credit for PC-SEATS-2026. Exact case split requires clarification.'});const creditId=issued.plan.plan.creditId;assert.equal(issued.body.view.credits.find(c=>c.id===creditId).quarantined,true);
+ const clarification=await f.workflow(analyst,'credit-resolution-evidence',{creditId,effectiveDate:'2026-11-08',sourceText:'Written vendor clarification: at most USD100 to original case and USD200 to supplemental-case.'});
+ const input={creditId,sourceId:clarification.body.workflow.sourceId,effectiveDate:'2026-11-08',assignments:[{commitmentId:first.id,amount:'100'},{commitmentId:second.id,amount:'200'}]};
+ const forbidden=await f.call('/api/workflows/preview',{auth:analyst,payload:{expectedRevision:clarification.body.revision,type:'credit-resolution',input}});assert.equal(forbidden.status,403);
+ const resolution=await f.workflow(approver,'credit-resolution',input);assert.equal(resolution.body.view.credits.find(c=>c.id===creditId).quarantined,false);
+ const capped=await f.call('/api/workflows/preview',{auth:analyst,payload:{expectedRevision:resolution.body.revision,type:'credit',input:{operation:'allocate',commitmentId:first.id,creditId,amount:'100.01',effectiveDate:'2026-11-08',sourceText:'Attempt above authorized cap.'}}});assert.equal(capped.status,422);
+ const allocated=await f.workflow(analyst,'credit',{operation:'allocate',commitmentId:second.id,creditId,amount:'200',effectiveDate:'2026-11-08',sourceText:'Allocate exact USD200 authorized to supplemental-case.'});assert.equal(allocated.body.view.commitments.find(c=>c.id===second.id).verifiedCents,20000);
+ assert.equal((await f.call('/api/verify',{auth:f.admin})).status,200);
+});

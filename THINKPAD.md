@@ -6,6 +6,10 @@
 
 ## Goal
 
+Backend-only completion before frontend work resumes. Deliver full backend parity for all shipped features: managed accounts and workspace membership/isolation while retaining explicit legacy demo mode; server-enforced temporal finance invariants on every write path; signed-authority storage reconciliation; durable evidence intake and immutable analyses; actor/revision/expiry-bound server previews and atomic typed workflow commits; saved versioned claim drafts/exact approvals/unsent exports; persisted bounded execution explorer/comparison/repair/replay; portable verification for every shipped packet family; bounded cursor queries and financial exports; versioned schema migration, verified backups/restoration with session/authority invalidation; diagnostics/liveness/readiness/graceful shutdown; actual finance workflow through full fulfillment with real HTTP, SQLite restart/recovery/concurrency, and computer-controlled existing application. Define and verify every acceptance item in docs/BACKEND_ACCEPTANCE.md. User prioritizes complete hackathon functionality over enterprise security expansion. No frontend design/Figma work or external vendor/payment/model calls. Preserve legacy APIs/packets and unrelated source changes. Self-contained backend implementation is selected; no external host/database/identity system is connected or required for these local workflows.
+
+Prior completed milestone:
+
 Substantially expand the finance workspace and editable Figma product system. Deliver connected operations prioritization, vendor directory/detail, exact-revision evidence library, full-workspace activity, temporal reporting and source-backed analyst-to-approver credit ambiguity resolution. Extend Figma with content-driven desktop/mobile credit lifecycle, changed-terms, operations, evidence, vendor and report journeys plus useful flow/state/handoff boards. Preserve original17screenIDs and owned roots, component/style/variable identities, original financial capabilities and Apple/Ramp working-ledger direction. Safe append-only native migration, actual rendered inspection and independent review, functional browser checks in SQLite/static modes, portable evidence replay and pushed source establish completion. Native save requires editable exact file and connected FigCli; finish all independent work while reconnecting. No videos, public deployment, external transactions or runtime AI credential work.
 
 Prior completed milestone:
@@ -56,6 +60,7 @@ A polished, working localhost finance demo named Truthful. The two-minute flow d
 - Lightweight React/Vite, plain CSS. Preserve curated walkthrough; add browser-local document processing, persisted records, evidence citations, and audit exports. No fabricated integrations.
 - Lead owns UI/config, recovery/audit module, git/publishing, and dev server. Engine worker owns src/engine and public/examples; submission worker owns docs. Review read-only after implementation.
 - User said go on after recommended real finance workspace. Nimbus is opening example; Pipeline demonstrates breadth.
+- 2026-11-08 · Hackathon backend scope prioritizes complete parity for shipped finance, claim recovery and execution explorer workflows. Keep basic correctness/account isolation, defer enterprise identity/MFA/KMS and public infrastructure; frontend redesign remains paused.
 
 ## Open questions
 
@@ -233,6 +238,50 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       accept: npm run check && npm run design:check && npm run design:verify-native && npm run design:verify-system
       deps: T34, T35, T36
       notes: Application and source-gallery review complete:223automatedtests,134browserassertions,4replayedpackets/exactCSVs,67designregressions; independent source/visual findings repaired. Native record remains17screens/53links while newsource is69screens/483links. CLIreports Notconnected and nativeappPlugins reports Unavailable in view-only. Need editableexactfile + installedFigCliplugin connection, then preparedmanifestapply/nativeexports/independentreview/bothlivegates. No newnativeversionclaim.; Native persistence requires editing access to existing Figma file 8j4pwtsGDI4seljHPNeUkI and a connected FigCli plugin. Current app reports view-only plugins; CLI Not connected. All independent application/source work is complete and verified; exact migration command is recorded in docs/WORKSPACE_EXPANSION.md.
+- [x] T38 · Enforce trusted financial history and reconcile signed authority persistence
+      files: server/financial-validation.mjs, server/financial-validation.test.mjs, server/authority.mjs, server/authority-integrity.test.mjs
+      accept: node --test server/financial-validation.test.mjs server/authority-integrity.test.mjs server/authority.test.mjs
+      notes: New financial validation profile enforced for all server writes and replay; signed authority reconciles mutable state/cache/lifecycle. Focused suites and independent managed agent/retry/rollback tests pass.
+      took: 22m
+- [x] T39 · Build managed accounts, memberships, invitations and revocable sessions
+      files: server/identity.mjs, server/identity.test.mjs
+      accept: node --test server/identity.test.mjs
+      notes: Real accounts, exactworkspace memberships, invitations, immutable roles, sessionrevocation and transactional provisioning tested across SQLite instances.
+      took: 23m
+- [x] T40 · Persist evidence intake and actor-bound typed workflow previews and commits
+      files: server/workflows.mjs, server/workflows.test.mjs
+      accept: node --test server/workflows.test.mjs
+      notes: 20 actual SQLite workflow tests pass, including exact sourceanalysis, resumable previews, stale/actor/date/expiry rejection, atomicpromotion rollback and restart retry.
+      took: 23m
+- [x] T41 · Integrate isolated managed workspaces, query contracts and runtime boundaries
+      files: server/service.mjs, server/managed.mjs, server/queries.mjs, server/start.mjs, server/managed.test.mjs, server/queries.test.mjs
+      accept: node --test server/*.test.mjs
+      deps: T38, T39, T40
+      notes: Integrated all existing backend workflows and readmodels behind isolated managed workspaces. RealHTTP fullfulfillment/reversal/cappedresolution, sourcecuts/cursors, failedprovisioning, missingstorage, exactagentactor and rollbackcache reviewed and repaired. Fullserversuite passes.
+      took: 13m
+- [x] T42 · Implement versioned migration and verified backup and restoration
+      files: server/maintenance.mjs, server/maintenance.test.mjs, server/admin.mjs, server/migrations.mjs
+      accept: node --test server/maintenance.test.mjs
+      notes: Migration history and schema guard verified. Actual offline SQLite snapshot/restore preserves audit and financials, refuses overwrite/tamper/liveowner, revokes sessions/grants and discards previews. MissingDB and provisionfailure/collision regressions pass.
+      took: 12m
+- [x] T43 · Run real managed finance journeys, independent review and backend acceptance
+      files: scripts, docs/BACKEND_ACCEPTANCE.md, server
+      accept: npm run check && npm run verify:backend
+      deps: T38, T39, T40, T41, T42, T44, T45
+      notes: User clarified complete shippedfeature parity; prioritize usable workflows over enterprise security. Add durable claim/recovery and executionexplorer backend parity. Existing frontend redesign remains paused.; All shippedfeaturebackendmodules are implemented. Reproducible fresh Chrome workflow passes29checks through complete USD400 fulfillment under distinct real accounts; screenshots inspected and exported audit independently replayed. Independent review repaired queryfilters, rollbackcache, missingDB/provisioning and portable recoverymetadata binding. CLI/bootstrap/backup/restore verified; no frontend redesign or externalservice connection claimed.; Final recovery audit additionally verifies an actually issued unused grant is revoked on restore, its signed export verifies, and a fresh execution is refused without changing restored finances. Reproducible29check browser journey reaches full fulfillment.
+      took: 1m
+- [x] T44 · Persist claim drafts, exact approvals and unsent exports on the backend
+      files: server/recovery.mjs, server/recovery.test.mjs
+      accept: node --test server/recovery.test.mjs
+      deps: T40
+      notes: Durable sourcebound drafts and exactactualreviewerapproval, immutableversions, staleevidence/edit invalidation, unsentEML/CSV/packet exports verified with realSQLite and HTTP/restart.
+      took: 12m
+- [x] T45 · Persist execution explorer runs, comparisons, repairs and portable replay reports
+      files: server/explorer.mjs, server/explorer.test.mjs
+      accept: node --test server/explorer.test.mjs
+      deps: T40
+      notes: Authored/custom/approvedportfolio programs, comparisons/repair/cutoff, reportpagination, exactpacketvariants and bounded independentreplay persisted and verified through HTTP/restart. No livefinancialmutation.
+      took: 12m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -304,3 +353,23 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-11-07 · set T37 · notes
 - 2026-11-07 · BLOCKED T37 · Verify native persistence, independent design review and integrated application journeys
 - 2026-11-07 · Massive expansion prepared and application delivered. Native expansion intentionally unapplied pending edit access/plugin; source/gallery verification is not native proof. T9 remains previously deferred. Reconnect then apply design/figma/expansion-manifest.json and inspect actual native exports before restoring verified status.
+- 2026-11-08 · started T38 · Enforce trusted financial history and reconcile signed authority persistence
+- 2026-11-08 · started T39 · Build managed accounts, memberships, invitations and revocable sessions
+- 2026-11-08 · started T40 · Persist evidence intake and actor-bound typed workflow previews and commits
+- 2026-11-08 · set T43 · deps=T38, T39, T40, T41, T42, T44, T45, notes
+- 2026-11-08 · started T41 · Integrate isolated managed workspaces, query contracts and runtime boundaries
+- 2026-11-08 · started T42 · Implement versioned migration and verified backup and restoration
+- 2026-11-08 · started T44 · Persist claim drafts, exact approvals and unsent exports on the backend
+- 2026-11-08 · started T45 · Persist execution explorer runs, comparisons, repairs and portable replay reports
+- 2026-11-08 · done T38 · Enforce trusted financial history and reconcile signed authority persistence
+- 2026-11-08 · done T39 · Build managed accounts, memberships, invitations and revocable sessions
+- 2026-11-08 · done T40 · Persist evidence intake and actor-bound typed workflow previews and commits
+- 2026-11-08 · done T42 · Implement versioned migration and verified backup and restoration
+- 2026-11-08 · done T44 · Persist claim drafts, exact approvals and unsent exports on the backend
+- 2026-11-08 · done T45 · Persist execution explorer runs, comparisons, repairs and portable replay reports
+- 2026-11-08 · started T43 · Run real managed finance journeys, independent review and backend acceptance
+- 2026-11-08 · done T41 · Integrate isolated managed workspaces, query contracts and runtime boundaries
+- 2026-11-08 · done T43 · Run real managed finance journeys, independent review and backend acceptance
+- 2026-11-08 · Backend completion audit ran pad finish: only pre-existing T9 (external submission/video decisions) and T37 (native Figma edit access/bridge) prevent whole historical pad completion. Current backend tasks T38–T45 are verified; no frontend/native/submission scope was started.
+- 2026-11-08 · done T43 · Run real managed finance journeys, independent review and backend acceptance
+- 2026-11-08 · Backend final acceptance: npm run check passes334tests plus evaluations/build; npm run verify:backend passes137backendtests and actual29check Chrome packet replay; final case USD400 applied/zerooutstanding. Distinct realprincipals, CLI and signedauthority restore verified. Independent materialfindings repaired. Source ready on existing development branch, no frontend design/publicdeployment.

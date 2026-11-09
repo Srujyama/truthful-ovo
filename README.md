@@ -8,6 +8,8 @@ Truthful tests proposed financial workflows before their effects, then binds exe
 
 V4 is a local development build. Media and submission packaging are deferred; the existing public deployment remains the earlier v3 build.
 
+The [backend build](docs/BACKEND.md) adds managed accounts, isolated empty workspaces, durable evidence and reviewed financial workflows, versioned claim approvals/unsent exports, persisted execution analysis, portable verification and verified backup/restore. [Acceptance coverage](docs/BACKEND_ACCEPTANCE.md) maps the existing product's backend features to real HTTP, replay and browser evidence. Frontend design is paused for this milestone; `npm run dev` retains the fictional demo while `npm run backend` starts managed mode after account bootstrap.
+
 The development UI has been redesigned as a working ledger: direct task headings, a visible authored agent program, compact workflow controls, neutral surfaces and readable Public Sans typography. All financial and authority flows are retained. The pinned [design philosophy](design/figma/DESIGN_PHILOSOPHY.md) applies Apple’s clarity and progressive disclosure to Ramp-style efficient finance workflows: portfolio first, exact records, and advanced tools on demand.
 
 The [expanded Figma source kit](design/figma/README.md) contains 69 editable screen models, 14 product boards and 483 mapped review interactions. Its complete source gallery is rendered and checked. The [native Figma file](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) retains its previously verified 17-screen baseline; saving the expansion is waiting for editable file access and a connected FigCli bridge. The [expansion record](docs/WORKSPACE_EXPANSION.md) separates source verification from native persistence.

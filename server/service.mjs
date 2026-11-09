@@ -4,6 +4,14 @@ import { createHash, randomBytes, randomUUID, timingSafeEqual } from 'node:crypt
 import { mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { createAuthorityManager } from './authority.mjs';
+import { validateFinancialTransition, validationProfile } from './financial-validation.mjs';
+import { createWorkflowManager } from './workflows.mjs';
+import { createQueryManager } from './queries.mjs';
+import { migrateFinance } from './migrations.mjs';
+import {createExplorerManager} from './explorer.mjs';
+import {createRecoveryManager} from './recovery.mjs';
+import {backendCapabilities} from './contracts.mjs';
+import {verifyPacketInput,packetLimits} from './packets.mjs';
 
 const COOKIE = 'truthful_demo_session';
 const MAX_BODY = 256 * 1024;
@@ -75,9 +83,14 @@ function verifyHistory(initialWorkspace, workspace, entries, revision, engine) {
   try {
     let state = clone(initialWorkspace), previousHash = null, count = 0;
     for (const entry of entries) {
+      const priorState = state;
       const { hash: entryHash, ...unsigned } = entry;
       if (entry.sequence !== count + 1 || entry.beforeRevision !== count || entry.afterRevision !== count + 1 || entry.previousHash !== previousHash || hash(unsigned) !== entryHash || entry.beforeDigest !== hash(state)) return { valid: false, reason: 'Audit sequence or content digest differs.' };
       state = applyStored(engine, state, initialWorkspace, entry.command, entry.actor, entry.at).state;
+      if (entry.validationProfile) {
+        if (entry.validationProfile !== validationProfile) return { valid: false, reason: 'Unsupported financial validation profile.' };
+        validateFinancialTransition({before:priorState,after:state,commands:entry.command.type==='__BATCH__'?entry.command.commands:[entry.command],now:entry.at,engine});
+      }
       if (entry.afterDigest !== hash(state)) return { valid: false, reason: 'Command replay differs from the recorded result.' };
       previousHash = entryHash; count++;
     }
@@ -99,18 +112,27 @@ export async function verifyExportPacket(packet, { engine } = {}) {
   } catch { return { valid: false, reason: 'Evidence packet cannot be verified.' }; }
 }
 
-export async function createService({ dbPath = ':memory:', clock = () => new Date().toISOString(), allowedOrigins = DEFAULT_ORIGINS, engine, initialWorkspace } = {}) {
-  engine = normalizeEngine(engine || await import('../src/assurance/index.mjs'));
+export async function createService(options={}) {
+  return createServiceSync({...options,engine:options.engine||await import('../src/assurance/index.mjs')});
+}
+
+/** Trusted provisioning hook: initialize storage while the identity registration
+ * transaction is still open. The engine must already be imported. */
+export function createServiceSync({ dbPath = ':memory:', clock = () => new Date().toISOString(), allowedOrigins = DEFAULT_ORIGINS, engine, initialWorkspace, authProvider, allowHttpsOrigins=false } = {}) {
+  engine = normalizeEngine(engine);
+  const notice=authProvider?'Managed workspace identity. Verification checks consistency relative to this database/export, not independent vendor authenticity. No external message, purchase, renewal or payment is sent.':NOTICE;
   const origins = new Set(allowedOrigins);
-  for (const origin of origins) if (!safeOrigin(origin)) throw new Error('Demo service origins must be explicit HTTP loopback origins.');
+  for (const origin of origins) if (!safeOrigin(origin) && !(allowHttpsOrigins && /^https:\/\//.test(origin) && new URL(origin).origin===origin)) throw new Error('Use explicit loopback origins or configured HTTPS origins.');
   if (dbPath !== ':memory:') mkdirSync(dirname(resolve(dbPath)), { recursive: true });
   const db = new DatabaseSync(dbPath);
+  try {
   db.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;
     CREATE TABLE IF NOT EXISTS workspace (id TEXT PRIMARY KEY CHECK(id='demo'), revision INTEGER NOT NULL, initial_json TEXT NOT NULL, state_json TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL) STRICT;
     CREATE TABLE IF NOT EXISTS audit (sequence INTEGER PRIMARY KEY, entry_json TEXT NOT NULL) STRICT;
     CREATE TABLE IF NOT EXISTS sessions (token_hash TEXT PRIMARY KEY, actor_json TEXT NOT NULL, csrf_token TEXT NOT NULL, expires_at INTEGER NOT NULL) STRICT;
     CREATE TABLE IF NOT EXISTS idempotency (actor_id TEXT NOT NULL, request_key TEXT NOT NULL, request_digest TEXT NOT NULL, response_json TEXT NOT NULL, response_digest TEXT NOT NULL, revision INTEGER NOT NULL, PRIMARY KEY(actor_id,request_key)) STRICT;
   `);
+  migrateFinance(db);
   const now = () => {
     const value = clock();
     const date = value instanceof Date ? value : new Date(value);
@@ -126,9 +148,15 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
     const own = !db.isTransaction;
     if (own) db.exec('BEGIN');
     try { const result = callback(); if (own) db.exec('COMMIT'); return result; }
-    catch (error) { if (own) db.exec('ROLLBACK'); throw error; }
+    catch (error) { if (own) db.exec('ROLLBACK'); integrityCache=undefined;throw error; }
   };
-  const integrity = () => readTransaction(() => { const row = read(); return verifyHistory(row.initial, row.state, audit(), row.revision, engine); });
+  let integrityCache;
+  const integrity = ({force=false}={}) => readTransaction(() => {
+    const stamp=`${db.prepare('PRAGMA data_version').get().data_version}:${db.prepare('SELECT total_changes() AS n').get().n}`;
+    if(!force&&integrityCache?.stamp===stamp)return integrityCache.result;
+    const row=read(),result=verifyHistory(row.initial,row.state,audit(),row.revision,engine);
+    integrityCache={stamp,result};return result;
+  });
   const requireIntegrity = () => { const result = integrity(); if (!result.valid) fail(503, 'INTEGRITY_FAILURE', 'The stored workspace failed its consistency check. Preserve the database for inspection.', result); return result; };
 
   if (!db.prepare("SELECT id FROM workspace WHERE id='demo'").get()) {
@@ -136,37 +164,40 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
     const at = now();
     db.prepare('INSERT INTO workspace VALUES(?,?,?,?,?,?)').run('demo', 0, JSON.stringify(seed), JSON.stringify(seed), at, at);
   }
-  try { requireIntegrity(); } catch (error) { db.close(); throw error; }
+  requireIntegrity();
 
   const json = (res, status, body, extra = {}) => {
     const value = JSON.stringify(body);
     res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Content-Length': Buffer.byteLength(value), ...extra }); res.end(value);
   };
-  const body = async req => {
+  const body = async (req,limit=MAX_BODY) => {
     if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || '')) fail(415, 'JSON_REQUIRED', 'Use application/json for this request.');
     const chunks = [];
     await new Promise((resolve, reject) => {
       let size = 0;
-      req.on('data', chunk => { size += chunk.length; if (size <= MAX_BODY) chunks.push(chunk); });
+      req.on('data', chunk => { size += chunk.length; if (size <= limit) chunks.push(chunk); });
       req.once('error', reject);
-      req.once('end', () => size > MAX_BODY ? reject(new ServiceError(413, 'BODY_TOO_LARGE', 'The request exceeds 256 KB.')) : resolve());
+      req.once('aborted',()=>reject(new ServiceError(400,'REQUEST_ABORTED','The request was interrupted.')));
+      req.once('end', () => size > limit ? reject(new ServiceError(413, 'BODY_TOO_LARGE', 'The request exceeds its body limit.')) : resolve());
     });
     try { const result = JSON.parse(Buffer.concat(chunks).toString('utf8')); if (!result || Array.isArray(result) || typeof result !== 'object') throw new Error(); return result; }
     catch { fail(400, 'INVALID_JSON', 'Send one valid JSON object.'); }
   };
   const session = req => {
+    if(authProvider)return authProvider.resolveSession(req);
     const token = (req.headers.cookie || '').split(';').map(x => x.trim()).find(x => x.startsWith(`${COOKIE}=`))?.slice(COOKIE.length + 1);
     if (!token || !/^[a-f0-9]{64}$/.test(token)) return null;
     const row = db.prepare('SELECT * FROM sessions WHERE token_hash=?').get(hash(token));
     if (!row || row.expires_at <= Date.parse(now())) return null;
     return { ...row, actor: JSON.parse(row.actor_json) };
   };
-  const requireSession = req => { const value = session(req); if (!value) fail(401, 'SESSION_REQUIRED', 'Choose a local demo identity first.'); return value; };
+  const requireSession = req => { const value = session(req); if (!value) fail(401, 'SESSION_REQUIRED', 'Sign in before accessing this workspace.'); return value; };
+  const authorize=(req,auth,callback)=>authProvider?authProvider.authorize(req,auth,callback):callback(auth);
   const requireOrigin = req => { if (!origins.has(req.headers.origin)) fail(403, 'ORIGIN_FORBIDDEN', 'Mutations require an allowed loopback application origin.'); };
   const requireCsrf = (req, auth) => { if (!safeEqual(req.headers['x-csrf-token'], auth.csrf_token)) fail(403, 'CSRF_INVALID', 'Refresh the demo session before retrying this action.'); };
   const context = url => ({ asOf: url.searchParams.get('asOf') || now().slice(0, 10), knownAt: url.searchParams.get('knownAt') || now() });
-  const projection = (row, url) => ({ workspace: row.state, view: engine.evaluateWorkspace(row.state, context(url)), revision: row.revision, domainRevision: row.state.revision, integrity: requireIntegrity(), mode: 'local-sqlite', notice: NOTICE });
-  const sessionPayload = auth => ({ actor: auth?.actor || null, csrfToken: auth?.csrf_token || null, authMode: 'local-demo', roles: Object.values(ROLES), notice: NOTICE });
+  const projection = (row, url) => ({ workspace: row.state, view: engine.evaluateWorkspace(row.state, context(url)), revision: row.revision, domainRevision: row.state.revision, integrity: requireIntegrity(), mode: 'local-sqlite', notice });
+  const sessionPayload = auth => authProvider?authProvider.sessionPayload(auth):({ actor: auth?.actor || null, csrfToken: auth?.csrf_token || null, authMode: 'local-demo', roles: Object.values(ROLES), notice: NOTICE });
   const expectedRevision = (req, data) => {
     let revision = data.expectedRevision;
     if (req.headers['if-match'] !== undefined) {
@@ -179,7 +210,8 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
     if (!Number.isSafeInteger(revision) || revision < 0) fail(428, 'REVISION_REQUIRED', 'Provide the current server revision through expectedRevision or If-Match.');
     return revision;
   };
-  const write = (req, auth, data, command, url, authorityContext) => {
+  const write = (req, auth, data, command, url, authorityContext) => authorize(req,auth,activeAuth=> {
+    if(!authorityContext?.preserveActor)auth=activeAuth;
     if (['actor', 'role', 'userId'].some(key => Object.hasOwn(data, key))) fail(403, 'ACTOR_NOT_CLIENT_CONTROLLED', 'Actor and role come from the server session.');
     const expected = expectedRevision(req, data);
     const key = req.headers['idempotency-key'];
@@ -200,27 +232,35 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
       const current = read();
       if (expected !== current.revision) fail(409, 'REVISION_CONFLICT', 'The workspace changed. Refresh before approving or applying this action.', { expectedRevision: expected, currentRevision: current.revision });
       const at = now();
-      authorityContext?.authorize(current, at);
+      authorityContext?.authorize?.(current, at);
+      if(authorityContext?.prepare)command=authorityContext.prepare(current,at,auth);
       const persistedCommand = storedCommand(command);
       const reduced = applyStored(engine, current.state, current.initial, persistedCommand, auth.actor, at);
+      validateFinancialTransition({before:current.state,after:reduced.state,commands:persistedCommand.type==='__BATCH__'?persistedCommand.commands:[persistedCommand],now:at,engine});
       const previous = db.prepare('SELECT entry_json FROM audit ORDER BY sequence DESC LIMIT 1').get();
       const revision = current.revision + 1;
-      const unsigned = { sequence: revision, at, actor: auth.actor, command: persistedCommand, beforeRevision: current.revision, afterRevision: revision, beforeDigest: hash(current.state), afterDigest: hash(reduced.state), previousHash: previous ? JSON.parse(previous.entry_json).hash : null, result: reduced.result ?? null };
+      const unsigned = { sequence: revision, validationProfile, at, actor: auth.actor, command: persistedCommand, beforeRevision: current.revision, afterRevision: revision, beforeDigest: hash(current.state), afterDigest: hash(reduced.state), previousHash: previous ? JSON.parse(previous.entry_json).hash : null, result: reduced.result ?? null };
       const event = { ...unsigned, hash: hash(unsigned) };
       db.prepare('INSERT INTO audit VALUES(?,?)').run(revision, JSON.stringify(event));
       db.prepare("UPDATE workspace SET revision=?,state_json=?,updated_at=? WHERE id='demo'").run(revision, JSON.stringify(reduced.state), at);
       if (command.type === '__DEMO_RESET__') authority.revokeOutstandingForReset(at, auth.actor);
       const authorityResult = authorityContext?.afterWrite({ current, reduced, event, at, revision });
-      const response = { ...projection({ state: reduced.state, revision }, url), result: reduced.result ?? null, audit: { sequence: event.sequence, hash: event.hash }, ...(authorityResult ? { authority: authorityResult } : {}) };
+      const response = { ...projection({ state: reduced.state, revision }, url), result: reduced.result ?? null, audit: { sequence: event.sequence, hash: event.hash }, ...(authorityResult ? { [authorityContext?.responseKey||'authority']: authorityResult } : {}) };
       const responseJson = JSON.stringify(response);
       db.prepare('INSERT INTO idempotency VALUES(?,?,?,?,?,?)').run(auth.actor.id, key, requestDigest, responseJson, hash(responseJson), revision);
       db.exec('COMMIT'); return { response, replayed: false };
-    } catch (error) { db.exec('ROLLBACK'); throw error; }
-  };
+    } catch (error) { db.exec('ROLLBACK');integrityCache=undefined; throw error; }
+  });
 
   const authority = createAuthorityManager({ db, now, engine, read, requireIntegrity, write });
+  const workflows=createWorkflowManager({db,now,engine,read,write,authorize});
+  const queries=createQueryManager({db,now,read,engine,audit});
+  const explorer=createExplorerManager({db,now,read,engine,authorize});
+  const recovery=createRecoveryManager({db,now,readEvidence:(auth,id,options)=>workflows.getEvidence(auth,id,options),authorize});
+  const readiness=({force=false}={})=>{const financial=integrity({force});if(!financial.valid)fail(503,'INTEGRITY_FAILURE','Workspace history failed verification.',financial);const workflowCheck=workflows.verifyIntegrity(),explorerCheck=explorer.verifyIntegrity(),recoveryCheck=recovery.verifyIntegrity();for(const [name,check]of [['Workflow',workflowCheck],['Explorer',explorerCheck],['Recovery',recoveryCheck]])if(!check.valid)fail(503,'INTEGRITY_FAILURE',`${name} metadata failed verification.`,check);return {financial,authority:authority.verifyIntegrity({force}),workflows:workflowCheck,explorer:explorerCheck,recovery:recoveryCheck};};
+  readiness();
 
-  const server = createServer(async (req, res) => {
+  const handle = async (req, res) => {
     try {
       const host = req.headers.host || '';
       if (!/^(?:127\.0\.0\.1|localhost|\[::1\])(?::\d{1,5})?$/.test(host)) fail(403, 'HOST_FORBIDDEN', 'This demonstration service accepts loopback hosts only.');
@@ -230,9 +270,11 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
         requireOrigin(req); res.writeHead(204, { 'Access-Control-Allow-Methods': 'GET,POST,DELETE,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type,X-CSRF-Token,Idempotency-Key,If-Match', 'Access-Control-Max-Age': '600' }); res.end(); return;
       }
       const url = new URL(req.url, `http://${host}`);
-      if (req.method === 'GET' && url.pathname === '/api/health') { json(res, 200, { ok: true, mode: 'local-sqlite', authMode: 'local-demo', persistent: dbPath !== ':memory:', integrity: integrity(), externalActions: false }); return; }
+      if(req.method==='GET'&&url.pathname==='/api/live'){json(res,200,{ok:true});return;}
+      if (req.method === 'GET' && ['/api/health','/api/ready'].includes(url.pathname)) {const checks=readiness();json(res,200,{ok:true,mode:'local-sqlite',authMode:authProvider?'managed-password':'local-demo',persistent:dbPath!==':memory:',integrity:checks.financial,checks,externalActions:false});return;}
       if (req.method === 'GET' && url.pathname === '/api/session') { json(res, 200, sessionPayload(session(req))); return; }
       if (req.method === 'POST' && url.pathname === '/api/session') {
+        if(authProvider)fail(403,'DEMO_AUTH_DISABLED','Role selection is unavailable for managed accounts.');
         requireOrigin(req); const data = await body(req);
         const role = ROLE_ALIASES[data.role] || data.role;
         if (!Object.hasOwn(ROLES, role)) fail(400, 'INVALID_ROLE', 'Choose a listed local demonstration role.');
@@ -243,6 +285,7 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
         db.prepare('INSERT INTO sessions VALUES(?,?,?,?)').run(hash(token), JSON.stringify(auth.actor), csrf, Date.parse(now()) + SESSION_MS);
         json(res, 201, sessionPayload(auth), { 'Set-Cookie': `${COOKIE}=${token}; Path=/api; HttpOnly; SameSite=Strict; Max-Age=${SESSION_MS / 1000}` }); return;
       }
+      if(authProvider&&url.pathname.startsWith('/api/authority'))requireSession(req);
       if (req.method === 'GET' && url.pathname === '/api/authority') { json(res, 200, authority.info()); return; }
       if (req.method === 'GET' && url.pathname === '/api/authority/status') { json(res, 200, authority.status(url.searchParams.get('grantId'))); return; }
       if (req.method === 'POST' && url.pathname === '/api/authority/execute') {
@@ -250,13 +293,16 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
         json(res, 200, result.response, result.replayed ? { 'Idempotent-Replayed': 'true' } : {}); return;
       }
       const auth = requireSession(req);
+      readiness();
+      if(req.method==='GET'&&url.pathname==='/api/capabilities'){json(res,200,backendCapabilities);return;}
       if (req.method === 'GET' && url.pathname === '/api/authority/export') { json(res, 200, readTransaction(() => { requireIntegrity(); return authority.exportPacket(); }), { 'Content-Disposition': 'attachment; filename="truthful-authority-evidence.json"' }); return; }
       if (req.method === 'POST' && ['/api/authority/grants', '/api/authority/revoke'].includes(url.pathname)) {
         requireOrigin(req); requireCsrf(req, auth); const input = await body(req);
         const options = { actor: auth.actor, idempotencyKey: req.headers['idempotency-key'] };
-        json(res, 200, url.pathname.endsWith('/grants') ? authority.issueGrant(input, options) : authority.revokeGrant(input, options)); return;
+        json(res, 200, authorize(req,auth,active=>url.pathname.endsWith('/grants') ? authority.issueGrant(input,{...options,actor:active.actor}) : authority.revokeGrant(input,{...options,actor:active.actor}))); return;
       }
       if (req.method === 'DELETE' && url.pathname === '/api/session') {
+        if(authProvider)fail(405,'USE_MANAGED_LOGOUT','Use /api/auth/logout to close this account session.');
         requireOrigin(req); requireCsrf(req, auth); db.prepare('DELETE FROM sessions WHERE token_hash=?').run(auth.token_hash);
         json(res, 200, { signedOut: true }, { 'Set-Cookie': `${COOKIE}=; Path=/api; HttpOnly; SameSite=Strict; Max-Age=0` }); return;
       }
@@ -268,17 +314,59 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
         const result = readTransaction(() => ({ events: audit(), revision: read().revision, integrity: requireIntegrity() }));
         json(res, 200, result); return;
       }
-      if (req.method === 'GET' && url.pathname === '/api/verify') { json(res, 200, { integrity: requireIntegrity(), notice: NOTICE }); return; }
+      if (req.method === 'GET' && url.pathname === '/api/verify') { json(res, 200, { integrity: requireIntegrity(),checks:readiness({force:true}), notice }); return; }
+      if(req.method==='POST'&&url.pathname==='/api/packets/verify'){requireOrigin(req);requireCsrf(req,auth);const input=await body(req,packetLimits.maxBytes||8*1024*1024);json(res,200,await verifyPacketInput(input));return;}
+      if(req.method==='GET'&&/^\/api\/query\/(operations|vendors|commitments|credits|sources|activity|audit)$/.test(url.pathname)){
+        json(res,200,readTransaction(()=>{readiness();return queries.query(url.pathname.split('/').at(-1),url);}));return;
+      }
+      const sourceMatch=url.pathname.match(/^\/api\/sources\/([^/]+)\/revisions\/(\d+)$/);
+      if(req.method==='GET'&&sourceMatch){json(res,200,readTransaction(()=>{readiness();return queries.source(decodeURIComponent(sourceMatch[1]),sourceMatch[2],url);}));return;}
+      if(req.method==='GET'&&['/api/reports/financial','/api/reports/financial.csv'].includes(url.pathname)){
+        const csv=url.pathname.endsWith('.csv'),result=readTransaction(()=>{readiness();return queries.report(url,csv);});
+        if(csv){res.writeHead(200,{'Content-Type':'text/csv; charset=utf-8','Cache-Control':'no-store','Content-Disposition':'attachment; filename="financial-report.csv"'});res.end(result);}else json(res,200,result);return;
+      }
+      if(req.method==='GET'&&url.pathname==='/api/evidence'){readiness();json(res,200,workflows.listEvidence(auth,url.searchParams));return;}
+      if(req.method==='GET'&&url.pathname==='/api/workflows/previews'){json(res,200,workflows.listPreviews(auth,url.searchParams));return;}
+      const previewMatch=url.pathname.match(/^\/api\/workflows\/previews\/([^/]+)$/);
+      if(req.method==='GET'&&previewMatch){json(res,200,workflows.getPreview(auth,decodeURIComponent(previewMatch[1])));return;}
+      if(req.method==='GET'&&url.pathname==='/api/explorer/scenarios'){json(res,200,explorer.scenarios(auth));return;}
+      const scenarioMatch=url.pathname.match(/^\/api\/explorer\/scenarios\/([^/]+)$/);
+      if(req.method==='GET'&&scenarioMatch){json(res,200,explorer.getScenario(auth,decodeURIComponent(scenarioMatch[1])));return;}
+      if(req.method==='GET'&&url.pathname==='/api/explorer/runs'){json(res,200,explorer.list(auth,url.searchParams));return;}
+      const runMatch=url.pathname.match(/^\/api\/explorer\/runs\/([^/]+)(\/packet)?$/);
+      if(req.method==='GET'&&runMatch){const id=decodeURIComponent(runMatch[1]);json(res,200,runMatch[2]?explorer.packet(auth,id,{variant:url.searchParams.get('variant')||undefined}):explorer.get(auth,id));return;}
+      if(req.method==='POST'&&['/api/explorer/run','/api/explorer/compare','/api/explorer/verify'].includes(url.pathname)){
+        requireOrigin(req);requireCsrf(req,auth);const input=await body(req,2*1024*1024),result=await explorer[url.pathname.split('/').at(-1)](req,auth,input);json(res,200,result.response,result.replayed?{'Idempotent-Replayed':'true'}:{});return;
+      }
+      if(req.method==='GET'&&url.pathname==='/api/recovery/cases'){json(res,200,recovery.list(auth,url.searchParams));return;}
+      const recoveryMatch=url.pathname.match(/^\/api\/recovery\/cases\/([^/]+)(?:\/(draft|approve|packet|email|csv))?$/);
+      if(req.method==='GET'&&recoveryMatch&&![ 'draft','approve'].includes(recoveryMatch[2])){
+        const id=decodeURIComponent(recoveryMatch[1]),kind=recoveryMatch[2]||'get',options=url.searchParams.has('version')?{version:Number(url.searchParams.get('version'))}:{};
+        const result=recovery[kind](auth,id,options);
+        if(['email','csv'].includes(kind)){res.writeHead(200,{'Content-Type':result.contentType,'Cache-Control':'no-store','Content-Disposition':`attachment; filename="${result.filename}"`});res.end(result.content);}else json(res,200,result);return;
+      }
+      if(req.method==='POST'&&(url.pathname==='/api/recovery/cases'||(recoveryMatch&&['draft','approve'].includes(recoveryMatch[2])))){
+        requireOrigin(req);requireCsrf(req,auth);const input=await body(req),result=url.pathname==='/api/recovery/cases'?await recovery.create(req,auth,input):await recovery[recoveryMatch[2]==='draft'?'update':'approve'](req,auth,decodeURIComponent(recoveryMatch[1]),input);
+        json(res,200,result.response,result.replayed?{'Idempotent-Replayed':'true'}:{});return;
+      }
+      const evidenceMatch=url.pathname.match(/^\/api\/evidence\/([^/]+)$/);
+      if(req.method==='GET'&&evidenceMatch){readiness();json(res,200,workflows.getEvidence(auth,decodeURIComponent(evidenceMatch[1]),url.searchParams.has('analysisVersion')?{analysisVersion:Number(url.searchParams.get('analysisVersion'))}:{}));return;}
+      if(req.method==='POST'&&['/api/evidence','/api/workflows/preview','/api/workflows/commit','/api/workflows/discard'].includes(url.pathname)){
+        requireOrigin(req);requireCsrf(req,auth);const input=await body(req,1024*1024);readiness();
+        const method={'/api/evidence':'intake','/api/workflows/preview':'preview','/api/workflows/commit':'commit','/api/workflows/discard':'discard'}[url.pathname];
+        const result=await workflows[method](req,auth,input,url);json(res,200,result.response,result.replayed?{'Idempotent-Replayed':'true'}:{});return;
+      }
       if (req.method === 'GET' && url.pathname === '/api/export') {
         const packet = readTransaction(() => {
           const checked = requireIntegrity(), row = read(), projectionContext = context(url);
-          return { format: 'truthful-server-evidence-v1', generatedAt: now(), initialWorkspace: row.initial, workspace: row.state, revision: row.revision, domainRevision: row.state.revision, projectionContext, view: engine.evaluateWorkspace(row.state, projectionContext), audit: audit(), integrity: checked, notice: NOTICE };
+          return { format: 'truthful-server-evidence-v1', generatedAt: now(), initialWorkspace: row.initial, workspace: row.state, revision: row.revision, domainRevision: row.state.revision, projectionContext, view: engine.evaluateWorkspace(row.state, projectionContext), audit: audit(), integrity: checked, notice };
         });
         json(res, 200, { ...packet, exportDigest: hash(packet) }, { 'Content-Disposition': 'attachment; filename="truthful-server-evidence.json"' }); return;
       }
       if (req.method === 'POST' && ['/api/commands', '/api/batch', '/api/demo/reset'].includes(url.pathname)) {
         requireOrigin(req); requireCsrf(req, auth); const data = await body(req); let command = data.command;
         if (url.pathname === '/api/demo/reset') {
+          if(authProvider)fail(403,'DEMO_RESET_DISABLED','Managed workspaces cannot be reset through the demonstration route.');
           if (auth.actor.role !== 'admin') fail(403, 'FORBIDDEN', 'Only the local demo administrator can reset this fictional workspace.');
           if (data.confirm !== 'RESET_DEMO_WORKSPACE') fail(400, 'RESET_CONFIRMATION_REQUIRED', 'Confirm the fictional demo reset explicitly.');
           command = { type: '__DEMO_RESET__' };
@@ -295,14 +383,18 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
       if (!res.headersSent) json(res, status, { error: { code: error.code || 'INTERNAL_ERROR', message: status === 500 ? 'The local service could not complete this request.' : error.message, ...(error.details ? { details: error.details } : {}) } });
       else res.end();
     }
-  });
+  };
+  const server=createServer(handle);
   server.requestTimeout = 15_000;
   server.headersTimeout = 10_000;
   server.keepAliveTimeout = 1000;
   let listening = false;
   return {
     server,
+    handle,
+    addOrigin(origin){if(!safeOrigin(origin)&&!(allowHttpsOrigins&&new URL(origin).protocol==='https:'&&new URL(origin).origin===origin))throw new Error('Invalid application origin.');origins.add(origin);},
     integrity,
+    operations:{db,read,audit,readiness,authority,workflows,explorer,recovery},
     async listen({ port = 5174, host = '127.0.0.1' } = {}) {
       if (!['127.0.0.1', '::1', 'localhost'].includes(host)) throw new Error('The local demo service cannot bind a public interface.');
       await new Promise((resolve, reject) => { server.once('error', reject); server.listen(port, host, () => { server.off('error', reject); resolve(); }); }); listening = true;
@@ -311,4 +403,5 @@ export async function createService({ dbPath = ':memory:', clock = () => new Dat
     },
     async close() { if (listening) { await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve())); listening = false; } db.close(); },
   };
+  } catch(error){db.close();throw error;}
 }

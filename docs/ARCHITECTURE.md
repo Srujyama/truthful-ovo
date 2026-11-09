@@ -31,8 +31,11 @@ flowchart TB
 | Race explorer | Independent finite scenario initial states; naive and guarded execution of the same program/orderings. | Not a live model or competitor evaluation; it does not mutate the open portfolio. |
 | Public Signed authority | Real Web Crypto Ed25519 signatures in an **isolated synthetic workspace**, with ephemeral keys and in-memory serialized use state. | It does not sign/modify the public persisted portfolio, survive reload, or provide independent server authority. |
 | Optional local HTTP/SQLite service | Real sessions/roles, optimistic revisions, atomic batches, durable retries, audit replay, signed grants, live revocation, root-nonce consumption, and signed receipts. | Selectable demo human roles are not verified employees; loopback service is not a production hosted identity/payment platform. |
+| Managed backend | Account credentials and exact memberships in a central identity store; isolated empty financial databases per workspace; durable evidence, reviewed workflows, saved claims, execution reports/replay and recovery. | No live email/vendor/bank/payment/model connection or external organizational identity is implied. The existing frontend's demo controls are separate from managed account sign-in. |
 
 `npm run dev` starts Node and Vite together; `npm run dev:web` serves the frontend alone. The app detects live service availability and labels browser fallback. GitHub Pages serves static files, not Node/SQLite. Existing guided Nimbus and Evidence lab report stores remain separate from the shared assurance portfolio.
+
+`npm run backend` starts managed mode after offline bootstrap. [Backend setup and contracts](BACKEND.md) document every shipped module and the handoff to the next frontend phase. `server/managed.mjs` owns identity-to-workspace dispatch and provisioning; `service.mjs` owns atomic financial transactions; `workflows.mjs`, `recovery.mjs` and `explorer.mjs` persist their own versioned workflow records in each workspace database. `queries.mjs` projects exact temporal read models, `packets.mjs` performs bounded portable verification, and `maintenance.mjs` verifies offline backup/restore. The [acceptance matrix](BACKEND_ACCEPTANCE.md) links these boundaries to actual HTTP, SQLite, browser and replay checks.
 
 ## Code map
 

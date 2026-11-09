@@ -20,7 +20,7 @@ function start(script,args=[]) {
 }
 const server=start('--watch',['server/start.mjs']);
 server.stdout.on('data',data=>{
-  if(!webStarted&&data.toString().includes('Truthful local assurance service:')){
+  if(!webStarted&&data.toString().includes('Truthful backend:')){
     webStarted=true;
     start('node_modules/vite/bin/vite.js',['--host','127.0.0.1','--port','5173','--strictPort']);
   }

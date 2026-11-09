@@ -3,6 +3,7 @@ dist/
 .vite/
 .playwright-cli/
 output/
+server/data/
 *.log
 .DS_Store
 .env

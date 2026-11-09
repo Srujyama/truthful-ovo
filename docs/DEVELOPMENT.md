@@ -2,6 +2,8 @@
 
 Status: local v4 development. The user explicitly deferred further videos and submission packaging. Existing public delivery facts remain the earlier v3 release; no v4 release is being staged.
 
+Backend milestone: [managed setup and API contract](BACKEND.md) · [requirement-to-evidence checklist](BACKEND_ACCEPTANCE.md). All existing product workflows now have server support, including durable evidence/previews, claim drafts/approval/unsent exports and execution reports/replay. The frontend redesign remains paused. Managed mode is separate from the retained demo; external mail, bank/payment feeds and live AI remain unconnected.
+
 Implemented: bounded program-order exploration, shortest unsafe-effect witnesses for the published cached-check teaching harness, exact guarded replay, resource-cutoff prefix verification, fixed-family repairs with explicit completion, Ed25519 scoped/attenuated delegation, agent possession, revocation/expiry, full-approval binding, atomic SQLite one-use execution, signed outcome/lifecycle export and independently pinned-key verification.
 
 Earlier frontier validation checkpoint: 156 automated tests; 25 actual SQLite frontier UI assertions; 23 isolated-browser assertions; 45 preserved assurance/evidence/guided UI assertions. The execution lab and the later portfolio integration passed independent desktop/mobile design review. These are synthetic development checks, not independent model accuracy or formal proof.
