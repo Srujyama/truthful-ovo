@@ -1,5 +1,6 @@
 import {evaluateWorkspace} from '../assurance/index.mjs';
 import {operationQueue,eventLabel} from '../operations.mjs';
+import {reviewFiles} from '../review-display.mjs';
 
 export const STATIONS=Object.freeze([
  {id:'archive',name:'Documents',short:'Archive',kind:'archive',x:250,y:245,description:'Original documents and their saved versions.',section:'library'},
@@ -25,7 +26,7 @@ export function deriveClearingHouse(workspace,context={}){
  const vendor=id=>view.vendors.find(v=>v.id===id)?.name||'Unknown vendor';
  const commitment=id=>view.commitments.find(c=>c.id===id);
  const caseItem=(c,details={})=>({id:c.id,commitmentId:c.id,name:vendor(c.vendorId),reference:c.reference,amountCents:c.outstandingCents,destination:'portfolio',...details});
- const review=view.actions.filter(a=>!a.executed&&commitment(a.commitmentId)).map(a=>caseItem(commitment(a.commitmentId),{id:a.id,actionId:a.id,destination:'decisions',label:a.type.replaceAll('_',' '),state:a.status,reason:a.policyDecision.reasons.join(' ')}));
+ const review=reviewFiles(view).filter(a=>!a.executed&&commitment(a.commitmentId)).map(a=>caseItem(commitment(a.commitmentId),{id:a.id,actionId:a.id,destination:'decisions',label:a.type.replaceAll('_',' '),state:a.status,reason:a.policyDecision.reasons.join(' ')}));
  const items={
   archive:view.sources.map(s=>({id:`${s.id}@${s.revision}`,sourceId:s.id,revision:s.revision,name:s.title,reference:`${vendor(s.vendorId)} · revision ${s.revision}`,destination:'evidence',commitmentId:view.commitments.find(c=>c.sourceLinks.some(l=>l.sourceId===s.id&&l.revision===s.revision))?.id||null})),
   review,

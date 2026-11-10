@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-10T06:00:00.000Z",
+  "generatedAt": "2026-11-10T13:06:41.172076+00:00",
   "title": "Design System: Truthful",
   "extensions": {
     "colorMeta": {
@@ -142,7 +142,12 @@
       "documentGraphic": "src/DocumentGraphic.jsx",
       "documentReader": "src/DocumentReader.jsx",
       "caseReconciliation": "src/CaseGraphic.jsx",
-      "exactReadingModel": "src/document-reading.mjs"
+      "exactReadingModel": "src/document-reading.mjs",
+      "teamScene": "src/clearing-house/team-renderer.mjs",
+      "teamModel": "src/clearing-house/team-model.mjs",
+      "teamPlayback": "src/clearing-house/team-playback.mjs",
+      "teamUI": "src/clearing-house/TeamWorld.jsx",
+      "applicationTheme": "src/team-theme.css"
     },
     "connectedWorkflow": {
       "status": "implemented; independently reviewed; no user aesthetic approval",
@@ -162,24 +167,47 @@
         "Unsent email attachments contain exact approved source originals."
       ],
       "evidence": "docs/CORRESPONDENCE_DESIGN.md"
+    },
+    "team": {
+      "status": "implemented; inspected; no user aesthetic approval",
+      "roleIds": [
+        "evidence",
+        "analyst",
+        "reviewer",
+        "operator",
+        "bookkeeper"
+      ],
+      "sourceTruth": "Exact artifact identity is shared across finding, speech, source and recorded event. Original and accepted terms retain separate evidence.",
+      "camera": "Explicit selection nonce and case identity reset manual camera. Drag/zoom take ownership. Phone auto frames pair; inspection frames selected worker.",
+      "time": "Saved-case walkthrough clock, separate from financial/event time. Pause, reverse, seek, reduced motion and visibility suspension.",
+      "palette": {
+        "page": "#f7f6f2",
+        "surface": "#faf9f5",
+        "ink": "#242922",
+        "rule": "#e0dfd6",
+        "navigation": "#f0efe9",
+        "action": "#3d5033"
+      },
+      "evidence": "docs/TEAM_DESIGN.md",
+      "sourceInspection": "TeamSourcePanel preserves exact ID/revision, original text/download and selected-worker/playhead context. Direct source URLs and reload stay paused; full Documents is a secondary route."
     }
   },
   "components": [
     {
-      "name": "Red ink action",
+      "name": "Shared working action",
       "kind": "button",
       "refersTo": "button-primary",
       "description": "Explicit local action or navigation to real work. Does not imply an email was composed or sent.",
       "html": "<button class=\"ds-primary\">Compare the proposed terms</button>",
-      "css": ".ds-primary{font:400 13px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif;min-height:40px;padding:9px 13px;border:1px solid #a13c27;border-radius:3px;background:#a13c27;color:#fff9ed}.ds-primary:hover{background:#7f2d1e}.ds-primary:focus-visible{outline:2px solid #a13c27;outline-offset:4px}"
+      "css": ".ds-primary{font:400 13px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif;min-height:40px;padding:9px 13px;border:1px solid #3d5033;border-radius:3px;background:#3d5033;color:#fff9ed}.ds-primary:hover{background:#2e4025}.ds-primary:focus-visible{outline:2px solid #3d5033;outline-offset:4px}"
     },
     {
-      "name": "File navigation tab",
+      "name": "Compact workspace navigation",
       "kind": "nav",
       "refersTo": "navigation-tab",
-      "description": "Four primary tabs; selected tab visually joins the paper file.",
+      "description": "Shared neutral route selection; Team is primary. No manila tabs or paper file frame.",
       "html": "<nav class=\"ds-tabs\" aria-label=\"File\"><button aria-current=\"page\">Cases</button><button>Documents</button><button>Companies</button><button>Reports</button></nav>",
-      "css": ".ds-tabs{display:grid;gap:8px}.ds-tabs button{font:15px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif;min-height:49px;padding:12px 18px;text-align:left;border:1px solid #95845b;border-radius:4px 0 0 4px;background:linear-gradient(90deg,#d9c69c,#e5d5ab);color:#37382c;box-shadow:0 2px 3px #102a2450,inset 0 1px #fdf5d780}.ds-tabs [aria-current]{background:#f6f4ed;color:#1d1c19;transform:translateX(5px)}.ds-tabs button:focus-visible{outline:2px solid #a13c27;outline-offset:4px}"
+      "css": ".ds-file{font:500 12px/1.4 \"Helvetica Neue\",Helvetica,Arial,sans-serif;min-height:39px;padding:10px 12px;border:0;border-radius:4px;background:transparent;color:#686e61;text-align:left}.ds-file[aria-current=\"page\"]{background:#e3e6db;color:#303b2b}.ds-file:focus-visible{outline:2px solid #a64d36;outline-offset:3px}"
     },
     {
       "name": "Company seal",
@@ -198,43 +226,43 @@
     }
   ],
   "narrative": {
-    "northStar": "Did the promise reach the invoice?",
-    "overview": "Current local graphics-led document and case build after explicit rejection of 9bcc8fa Documents and its prior review claim. Original SVG offer/cost comparisons, invoice/note/date/service/agreement objects carry concise meaning; exact supplied text remains separately available. Illustrations represent records rather than original scans. No user approval, deployment or native Figma parity is claimed.",
+    "northStar": "A case moves between recognizable teammates; every handoff opens the real evidence and next authorized action.",
+    "overview": "A primary original working studio and one open visual system replace the rejected green/manila frame. Saved-case findings and visual handoffs remain distinct from actual recorded financial events.",
     "keyCharacteristics": [
-      "Cases, Documents, Companies and Reports as four primary file tabs.",
-      "Plain stories before technical references or overlapping KPI totals.",
-      "Archivo headings, Helvetica Neue reading, Martian metadata and red ink.",
-      "Original paper summary artwork is distinct from original supplied source text.",
-      "Same company mark/name moves into the case reader and back with reversible FLIP/WAAPI motion.",
-      "Office is an original illustration inside the shared file frame."
+      "Team is the primary root experience; Cases, Documents, Companies and Reports remain connected workspaces.",
+      "Five stable original worker figures share identity with their portraits, tools and exact source-backed findings.",
+      "Open warm-white working surface and compact neutral navigation replace the rejected green/manila frame.",
+      "Physical pickup, travel, paired exchange and return are driven by one reversible scene clock.",
+      "Source inspection stays in the scene, preserving selected worker, exact version and paused playhead; full Documents remains available.",
+      "Recorded actors/events and real financial actions remain distinct from software-role walkthroughs."
     ],
     "rules": [
       {
-        "name": "One material environment",
-        "body": "All destinations, examples and dialogs share the mat/file/paper system; retain task-specific composition.",
+        "name": "Keep the handoff bound",
+        "body": "The bubble, selected worker, artifact and opened source/action share exact IDs and versions. Original and accepted terms retain separate evidence.",
+        "section": "interaction"
+      },
+      {
+        "name": "Keep the scene honest",
+        "body": "Visual playback is a saved-case walkthrough. Approval, execution, sending and invoice application require their actual separate records.",
+        "section": "behavior"
+      },
+      {
+        "name": "Keep camera ownership",
+        "body": "Drag/zoom take ownership; every deliberate inspection, including repeated selection, can reframe the worker. Phone views focus useful figures rather than a miniature world.",
         "section": "layout"
       },
       {
-        "name": "Explain the actual financial result",
-        "body": "Original face amounts, matched portions, issued notes, invoice deductions, reversals and conditional spending retain separate meanings.",
-        "section": "colors"
-      },
-      {
-        "name": "Readable work",
-        "body": "Archivo heads, Helvetica Neue reading and Martian metadata; local font notices remain under public/fonts.",
-        "section": "typography"
-      },
-      {
-        "name": "Keep object and source identity",
-        "body": "Preserve the same selected company, exact source revision and draft; unavailable targets cannot become substitutes.",
-        "section": "elevation"
+        "name": "Keep evidence in context",
+        "body": "Source URLs, reload, close and browser Back preserve exact source selection and pause the scene. Phone source close restores the same teammate sheet and focus.",
+        "section": "interaction"
       }
     ],
     "dos": [
-      "Lead with company, promise, invoice result and next decision.",
-      "Retain exact source text, financial detail, policy and raw records in useful disclosures.",
-      "Operate normal-motion entry, interruption/reversal, keyboard return and reduced motion.",
-      "Reinspect wide/intermediate/phone repairs and distinguish current evidence from historical checks."
+      "Keep the same role figure and portrait through a handoff.",
+      "Keep exact sources, actions, actors, dates and cents bound to the selected case.",
+      "Frame the working pair or selected person at useful phone scale.",
+      "Judge actual normal motion and source/action outcomes, not test counts."
     ],
     "donts": [
       "Do not restore the rejected blue-gray dashboard or treat Formroom candidates as approved templates.",

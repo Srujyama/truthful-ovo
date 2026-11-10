@@ -1,3 +1,5 @@
+> Superseded as the current direction: the user rejected the previous styling again. The primary interacting-team rebuild and current requirements/evidence are in [TEAM_DESIGN.md](TEAM_DESIGN.md), T57–T59. The material and quality descriptions below preserve historical iterations, not visual acceptance.
+
 > Current iteration: T55/T56 extends the graphical Documents/Cases pass through Reviews, Credit notes, Companies, Needs attention and retained document/draft workflows. The user described the previous pass as only “slightly better” and explicitly set Figma aside. Earlier sections preserve historical evidence, not visual approval. See “Connected graphical workflow” below for this iteration.
 
 # Correspondence rebuild — local delivery

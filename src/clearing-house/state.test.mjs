@@ -33,3 +33,9 @@ test('world totals retain exact cents instead of rounding small recorded credits
 test('default world and current ledger use the same financial and knowledge day',()=>{const state=createDemoWorkspace(),day=new Date().toISOString().slice(0,10),ledger=evaluateWorkspace(state,{asOf:day,knownAt:`${day}T23:59:59.999Z`}),world=deriveClearingHouse(state);assert.deepEqual(world.totals,ledger.totals);assert.equal(world.view.asOf,day);assert.equal(world.view.knownAt,ledger.knownAt);});
 
 test('the actual scene clock excludes paused and background time while preserving remaining travel',()=>{const clock=createSceneClock();assert.equal(clock.step(1000),0);assert.equal(clock.step(1150),150);clock.suspend();assert.equal(clock.step(9000),0);assert.equal(clock.elapsed,150);assert.equal(clock.step(9050),50);assert.equal(clock.step(9300,false),0);assert.equal(clock.step(19000,false),0);assert.equal(clock.step(20000),0);assert.equal(clock.step(20100),100);assert.equal(clock.elapsed,300);});
+
+test('the retained Office map does not reopen an offer already declined in the team',()=>{
+ let state=createDemoWorkspace();state=reduceWorkspace(state,{type:'DISMISS_AMENDMENT',amendmentId:'amendment-pipeline-renewal',reason:'Keep the current price.'},{actor:{id:'test-admin',role:'admin'},now}).state;
+ const world=deriveClearingHouse(state,{asOf:'2026-11-09',knownAt:now}),review=world.stations.find(station=>station.id==='review');
+ assert.equal(review.items.some(action=>action.id==='action-pipeline-renewal'),false);assert.equal(review.count,world.view.actions.filter(action=>!action.executed&&action.payload?.amendmentId!=='amendment-pipeline-renewal').length);
+});

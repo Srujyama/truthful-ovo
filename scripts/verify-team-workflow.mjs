@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {verifyAssurancePacket} from './verify-assurance-packet.mjs';
+import {deriveTeamCase} from '../src/clearing-house/team-model.mjs';
+
+const root=new URL('../output/playwright/',import.meta.url),json=async file=>JSON.parse(await readFile(new URL(file,root),'utf8'));
+const result=await json('team-workflow-result.json');
+assert.equal(result.ok,true,JSON.stringify(result.errors));assert.deepEqual(result.errors,[]);assert.deepEqual(result.pageErrors,[]);
+assert.equal(result.passed,result.checks.length);assert.equal(new Set(result.checks).size,result.passed);
+for(const phrase of ['root application opens the working team','distinct visible name and financial role','freezes the exact physical handoff pose','physically moves the same sender','Reverse starts from the current handoff pose','identical paired document-exchange pose','actual character body','never changes the actual account role','Cancelling a camera gesture','Reselecting the same teammate after panning','exact original source text','keeps the same agent scene mounted','in-scene source download preserves','same teammate and exact handoff playhead','same selected case and team','exact applied credit record','$2,400 promised, $900 applied and $1,500 missing','issued note while keeping invoice application separate','conditional offer rather than an unconditional debt','unavailable explicit team case','failed case refresh','Retrying the interrupted case check','phone teammate opens its actual dossier','Phone evidence opens in the team','Escaping phone evidence restores','unavailable in-scene source never substitutes','direct exact-source URL pauses','Reloading an exact source keeps','phone teammate sheet exposes a real finding action','Reduced motion can advance','make no financial writes','exact recorded event and reason','actual approver can approve but cannot execute','newly recorded exact decision','separate actual approver and executor identities','$350 promise outstanding','actual financial export'])assert(result.checks.some(check=>check.toLowerCase().includes(phrase.toLowerCase())),`Missing operated team requirement: ${phrase}`);
+assert.deepEqual(result.afterReadOnly.workspace,result.before.workspace,'Visual checks and current-case reads must not mutate any financial history.');
+assert.equal(result.afterReadOnly.revision,result.before.revision);
+const packet=await json('team-financial-record.json');assert.deepEqual(packet,result.packet);
+const replay=await verifyAssurancePacket(packet);assert.equal(replay.valid,true,replay.reason);
+assert.deepEqual(packet.workspace.events.slice(0,result.before.workspace.events.length),result.before.workspace.events,'The browser journey must preserve the initial history exactly.');
+const added=packet.workspace.events.slice(result.before.workspace.events.length);
+assert.deepEqual(added.map(event=>event.type),['AMENDMENT_DISMISSED','ACTION_PROPOSED','ACTION_APPROVED','ACTION_EXECUTED']);
+const decline=added.find(event=>event.id===result.declineEventId);assert.equal(decline.payload.amendmentId,'amendment-pipeline-renewal');assert.equal(decline.payload.reason,'Keep the current service price. Decline the team-reviewed renewal.');
+const action=packet.view.actions.find(action=>action.id===result.actionId);assert(action);assert.equal(action.commitmentId,'parcel-waiver');assert.equal(action.type,'prepare_claim');assert.equal(action.executed,true);assert.equal(action.approval.actor.role,'approver');assert.equal(action.execution.actor.role,'executor');assert.notEqual(action.approval.actor.id,action.execution.actor.id);
+assert.equal(packet.workspace.events.filter(event=>event.type==='ACTION_EXECUTED'&&event.payload.actionId===action.id).length,1);
+for(const original of result.before.view.commitments){const current=packet.view.commitments.find(commitment=>commitment.id===original.id);for(const field of ['promisedCents','verifiedCents','outstandingCents','issuedCents'])assert.equal(current[field],original[field],`${original.id} ${field} must not change when a local decision is recorded.`);}
+const parcel=packet.view.commitments.find(commitment=>commitment.id==='parcel-waiver');assert.equal(parcel.promisedCents,35000);assert.equal(parcel.verifiedCents,0);assert.equal(parcel.outstandingCents,35000);
+assert.equal(await readFile(new URL('team-original-promise.txt',root),'utf8'),result.observations.originalSourceDownload);
+const originalSource=result.before.view.sourceVersions.find(source=>source.id==='pipeline-promise'&&source.revision===6);assert(originalSource);assert.deepEqual(result.observations.promiseSource,{id:originalSource.id,revision:originalSource.revision,text:originalSource.text});
+const parcelTeam=deriveTeamCase(packet.workspace,{commitmentId:'parcel-waiver',asOf:packet.view.asOf,knownAt:packet.view.knownAt});assert.equal(parcelTeam.current.status,'recorded');assert.equal(parcelTeam.nextAction.actionId,action.id);
+assert.deepEqual(result.observations.recordedRows.map(row=>row.id).sort(),parcelTeam.handoffs.map(event=>event.eventId).sort());
+for(const event of parcelTeam.handoffs){const row=result.observations.recordedRows.find(row=>row.id===event.eventId);assert(row.text.includes(event.title));assert(row.text.includes(event.actor.role));assert(row.text.includes(event.observedAt.slice(0,10)));}
+for(const filename of ['team-paired-handoff-desktop.png','team-phone-working-scene.png','team-phone-agent-sheet.png','team-reduced-motion-phone.png','team-recorded-decision-desktop.png']){assert(result.screenshots.includes(`output/playwright/${filename}`));const png=await readFile(new URL(filename,root));assert.equal(png.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert(png.length>10000);}
+console.log(`VALID: ${result.passed} operated team outcomes; read-only visual actions preserve exact financial history; independently replayed a real decline and one Parcel approval/execution with separate actors; exact source and event-linked dossier verified. Rendered quality is inspected separately.`);

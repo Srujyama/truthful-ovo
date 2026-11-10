@@ -1,3 +1,15 @@
+# Current design: the interacting team
+
+The user rejected the green mat/manila frame and previous quality claims. The current application opens a working team scene, with original isometric characters and workstations, physical file exchanges and source-bound findings. Compact neutral navigation and an open warm-white surface connect the rest of the app. The scene uses original code in `src/clearing-house/team-renderer.mjs`; model identity and event/source truth live in `team-model.mjs`; presentation time belongs to `team-playback.mjs`.
+
+The main mechanism follows the inspected Nomen reference: select a stable worker, watch its concrete handoff, and inspect the source behind that exchange. Phone framing keeps the working pair or selected person at useful scale; a selected teammate opens a keyboard-accessible action sheet. Dragging takes camera ownership, deliberate selection/fit releases it, and repeated selection works. Pausing freezes the pose, reversal continues from the current position, and seeking restores the same pose. Reduced motion retains findings and actions without travel. No replay changes finance or account roles.
+
+The source system now uses `src/team-theme.css` after the historical theme: background `#f7f6f2`, working surface `#faf9f5`, ink `#242922`, fine rule `#e0dfd6`, compact navigation `#f0efe9`, shared action `#3d5033`. Helvetica/Archivo remain the readable interface type; manila and paper occur in evidence objects rather than surrounding the whole application. The studio adds timber, terracotta, sage, slate, task tools and consistent upper-left lighting. Dossier portraits use the same worker renderer as the scene. Current requirements, repaired findings and operated evidence belong to [TEAM_DESIGN.md](docs/TEAM_DESIGN.md). This records no user approval or claim of perfection.
+
+---
+
+The following sections preserve prior design history; their former “current” descriptions are superseded by the team rebuild above.
+
 ---
 name: Truthful
 description: A correspondence file connecting a company promise, its exact documents, invoice credit and the next decision.

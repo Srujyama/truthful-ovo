@@ -6,7 +6,7 @@ Truthful keeps the promise, original documents, credit note and invoice together
 
 [Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md)
 
-The current local v4 candidate opens **Cases**, with **Documents**, **Companies** and **Reports** as the other primary tabs. **Needs attention**, **Credit notes** and **Check documents** sit beside their related work. **More** contains History, Developer tools, Office map and Examples. Cases, Documents, Reviews, Credit notes and Companies use original financial artwork: invoice checks, credit notes, offer/cost comparisons and date changes. Full source text remains available in a separate view. One green work mat and paper file frame connects the views. [The current design record](docs/CORRESPONDENCE_DESIGN.md) tracks the rebuild after the user rejected commit `081444c`; passing earlier checks did not establish design approval.
+The current v4 candidate opens **Team**: five named software teammates pass an actual case between their workstations. Choose a figure, inspect the exact document behind its finding, or open the real review, credit or case. Playback is explicitly a saved-case walkthrough; approval and recording remain real, separate financial actions. **Cases**, **Documents**, **Companies** and **Reports** remain primary destinations in the same open visual system. **More** retains History, Developer tools, the earlier Office map and examples. [The team design record](docs/TEAM_DESIGN.md) tracks the current implementation and review after the user rejected the previous styling; prior passing checks did not establish visual approval.
 
 ## Run
 
@@ -23,6 +23,8 @@ Open **http://127.0.0.1:5173**. The supervisor starts Vite and a loopback HTTP/S
 
 ## Try the work
 
+- **Team:** watch Mina, Oren, Ada, Jules and Nell work through the saved case. Pause, reverse or scrub a handoff; inspect a teammate or its exact source. On phones, selected teammates open an accessible action sheet. Choose a different company or check the current case without inventing financial changes.
+
 - **Pipeline CRM:** a $2,400 promise, $900 on the invoice and $1,500 still missing. Compare the proposed renewal: $2,400 extra spending for $1,500 credit means $900 more cost against the stated baseline. Decline the renewal with a recorded reason or keep the existing terms. A separate approver and executor can finish the decision; that decision does not invent invoice credit. Proposals do not change the original agreement until exact approval and execution.
 - **Nimbus Cloud:** a $2,000 credit note exists, but a matching invoice must confirm the deduction. Open the note, add supplied invoice evidence, preview the change and record it. Partial assignment and reversal preserve the original note and exact backing.
 - **Add documents:** analyze supported promise text, invoice-credit CSV and an optional reply. Inspect exact source passages, review an import, edit a draft and approve its exact version for an unsent EML export with the exact original documents attached. New intake keeps unfinished work separate from saved reviews; returning restores the exact unsaved source or message. Unsupported or conditional evidence requires review.
@@ -36,6 +38,7 @@ The [development guide](docs/DEVELOPMENT.md) retains detailed journey entrypoint
 npm run check
 npm run test:workspace:all
 npm run verify:workspace-redesign
+npm run verify:team
 ```
 
 Verification requires Python 3 for the independent standard-library MIME parser. The browser runner uses isolated temporary services and the Playwright CLI. The companion verifier replays actual downloads. [Development instructions](docs/DEVELOPMENT.md#verification-and-replay) include standalone packet and authority verifiers. Tests establish specified deterministic behavior, not held-out extraction accuracy or global formal verification.

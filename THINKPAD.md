@@ -355,6 +355,23 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       deps: T55
       notes: Figma is explicitly set aside by the current user request. Real browser actions must preserve exact sources, approvals, case amounts, unsaved input and A/B identity. Fresh independent review and rendered wide/phone inspection are required separately from passing gates.; Independent review findings repaired and closed: terminal declines, superseded reviews including case return, exact MIME evidence attachments, invoice amount/proof semantics, mobile company overlap, and exact draft/source retention. Actual final browser runs:313 records,55 managed,26 joined product,29 backend,42+36 SQLite credit,42+32 offline credit,32 examples; exports independently replayed and MIME-decoded. Root inspected current desktop/intermediate/phone renders and operated phone result focus at y20.6. Native Figma explicitly set aside.
       took: 5m
+- [x] T57 · Replace the rejected application frame with an interacting agent team and source-backed case handoffs
+      files: src/clearing-house/TeamWorld.jsx, src/clearing-house/team-model.mjs, src/clearing-house/team-model.test.mjs, src/clearing-house/team-playback.mjs, src/clearing-house/team-playback.test.mjs, src/clearing-house/team-renderer.mjs, src/clearing-house/team-renderer.test.mjs, src/clearing-house/team-world.css, src/team-theme.css, src/App.jsx, src/main.jsx
+      accept: npm run check
+      notes: User rejects previous styling and demands interactingagents; originalworkingstudio replacesrootlanding. Stable5softwareteammates,exactsourceboundfindingsandrecordedevents, physicalhandoffs, realfigurepicking/dossiers, pause/reverse/seek, cameraownership/cancel/sameselectionreset, phonepairfocus/teammatesheet/focustrap, freshreferenceoperation. Empty/unavailable/signedout/failedrefresh recover. Read-onlyreplayseparatefromactualfinancialwork, unchangedroles/commands/exports. Rootintegrates/services/browser, model/rendererworkersreleased. NoFigma/newnativeGoal/publicdeploy.; Source-backed model12 tests, renderer3, playback2; real41outcome agentbrowser and separate finance approval/execution withzeroexceptions. Independent source/render review findings repaired including original/accepted source bindings, recipientselfhandoff, phoneactionreachability, manualcameraownership and repeatedselectionreset. Full existing application checks run by gate.
+      took: 22m
+- [x] T58 · Operate and independently review the interacting team against Nomen and complete finance workflows
+      files: scripts/browser-team-workflow.js, scripts/verify-team-workflow.mjs, scripts/run-backend-browser.mjs, docs/TEAM_DESIGN.md
+      accept: npm run verify:team && npm run verify:workspace-redesign && npm run verify:product
+      deps: T57, T59
+      notes: Realbrowser desktop/intermediate/phone, visualinspection and normal-motion physicalhandoff, pause/seek/reverse/cancel, exactsource/case/action navigation, financialstate unchanged byreplay, approvalhandoff andfailed-write recovery, cleanempty/unknowncase/cutoff/signedout, retaineddrafts/allroutes. Fresh independent review thenrepairs; testsnotvisualapproval.; Integratedcurrentapplication inspectedwide/intermediate/phone, freshNomenreadonlyoperation/sourcecomparison, independentmaterialfindingsrepairedandclosed. Real49TeamUIoutcomes and exactsourcepopup/rolefinancialpacketindependentlyverified; newframe313record/55managed/26product andSQLite42+36/offline42+32/example32 workflows independentlyreplayed. Scene/source manipulationmakeszero financialwrites; actualParcel approval/executionretains350owed/0applied. Historicalsubmission/nativeFigmaoutsidecurrenttask.
+      took: 17m
+- [x] T59 · Keep exact evidence inspection inside the selected agent and handoff context
+      files: src/clearing-house/TeamWorld.jsx, src/clearing-house/TeamSourcePanel.jsx, src/clearing-house/team-source-panel.css, src/App.jsx, scripts/browser-team-workflow.js, scripts/verify-team-workflow.mjs
+      accept: npm run verify:team
+      deps: T57
+      notes: Material Nomenmechanismgap identifiedafterinitial41checks: sourceclickleftscene. Exact source modalnowmustleaveworld/selectedagent/playheadmounted; Overview/art/originaltext/version/download; browserBack/close returnsameagent/handoff/focus, fullDocumentssecondaryescape, explicitmissing/unrelatedsource nofallback, phonefocustrap/Escapeandretainedcontext, nofinancialwrites. RootownsTeamWorld/URL integration, workeronlynewsourcepanel. Mustactualbrowseroperateandindependentlyverify.; Exactevidence nowopenswithinTeam portal; directURL/reloadpause, sourceOverview/original/details/download, browserBack+phoneEsc returnexactagent/playhead/focus, fullDocumentsroundtripoperated. Actual49Teamchecks andportableverificationpassed, selectedAda/pairedscene visiblebeside570pxreader; phoneexacttext/actionreadable. Independentreview identified/repairedinitialsourceURLautoplay. Renderedcurrentframesrootinspected.
+      took: 10m
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -478,3 +495,15 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-11-09 · started T56 · Operate the connected review, credit, intake and draft journeys and independently verify exported evidence
 - 2026-11-09 · done T56 · Operate the connected review, credit, intake and draft journeys and independently verify exported evidence
 - 2026-11-09 · Current T55/T56 iteration verified:388 automated tests and build;313 operated record checks,55 managed,26 joined product,29 backend, full SQLite/offline credit and document journeys independently replayed with exact MIME source attachment bytes. Independent material findings repaired and closed. Figma explicitly set aside; historical T9/T37 retain accurate status.
+- 2026-11-10 · started T57 · Replace the rejected application frame with an interacting agent team and source-backed case handoffs
+- 2026-11-10 · set T58 · deps=T57
+- 2026-11-10 · started T58 · Operate and independently review the interacting team against Nomen and complete finance workflows
+- 2026-11-10 · set T57 · files=src/clearing-house/TeamWorld.jsx, src/clearing-house/team-model.mjs, src/clearing-house/team-model.test.mjs, src/clearing-house/team-playback.mjs, src/clearing-house/team-playback.test.mjs, src/clearing-house/team-renderer.mjs, src/clearing-house/team-renderer.test.mjs, src/clearing-house/team-world.css, src/team-theme.css, src/App.jsx, src/main.jsx, notes
+- 2026-11-10 · done T57 · Replace the rejected application frame with an interacting agent team and source-backed case handoffs
+- 2026-11-10 · started T59 · Keep exact evidence inspection inside the selected agent and handoff context
+- 2026-11-10 · set T58 · deps=T57, T59, accept
+- 2026-11-10 · set T59 · deps=T57
+- 2026-11-10 · T57/T58/T59 currentcandidate: interacting5role studio isroot, heavygreen/manila frame replaced, exactsourceinscenereader preservesworker/playhead/focus.49realTeamUI outcomes andpuremodel/render/clockregressions; newframe313record,55managed,26product andfullSQLite/offlinecredit/examplejourneys pass. Independentmaterialfindings repaired. No financialwritesfromreplay andnopublic/nativeFigma claims.
+- 2026-11-10 · done T59 · Keep exact evidence inspection inside the selected agent and handoff context
+- 2026-11-10 · done T58 · Operate and independently review the interacting team against Nomen and complete finance workflows
+- 2026-11-10 · FinalcurrentT57/T58/T59source:406automatedtests andbuild,49operatedTeamoutcomeswithexactin-contextsourceURL/reload/Back/Escape andunchangedfinancialhistory. Independentpacket/sourcechecksplus313records55managed26productandfullcredit/examplesreplayspass. Reverseendpointpreservesfirstpose. CurrenthistoricalpadfinishonlyoldT9/T37remain;userexplicitlysetFigmaaside.

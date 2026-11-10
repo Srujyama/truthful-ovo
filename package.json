@@ -41,10 +41,12 @@
     "test:workspace:records": "node scripts/run-backend-browser.mjs --records",
     "test:credits:browser": "node scripts/run-backend-browser.mjs --credit-recovery",
     "test:credits:offline": "node scripts/run-backend-browser.mjs --credit-recovery --browser-local",
-    "test:workspace:all": "npm run test:workspace:browser && npm run test:workspace:records && npm run test:credits:browser && npm run test:credits:offline && npm run test:workspace:examples",
+    "test:workspace:all": "npm run test:workspace:browser && npm run test:workspace:records && npm run test:credits:browser && npm run test:credits:offline && npm run test:workspace:examples && npm run test:team:browser",
     "test:workspace:examples": "node scripts/run-backend-browser.mjs --examples --browser-local",
     "test:product:browser": "node scripts/run-backend-browser.mjs --product",
-    "verify:product": "node scripts/verify-product-workflow.mjs"
+    "verify:product": "node scripts/verify-product-workflow.mjs",
+    "test:team:browser": "node scripts/run-backend-browser.mjs --team",
+    "verify:team": "node scripts/verify-team-workflow.mjs"
   },
   "dependencies": {
     "@fontsource-variable/public-sans": "^5.3.0",
