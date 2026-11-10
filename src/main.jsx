@@ -4,5 +4,6 @@ import '@fontsource-variable/public-sans';
 import './styles.css';
 import App from './App.jsx';
 import './workspace.css';
+import './correspondence-theme.css';
 
 createRoot(document.getElementById('root')).render(<App />);

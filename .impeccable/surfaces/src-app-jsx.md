@@ -5,7 +5,9 @@ primary_target: "src/App.jsx"
 related_targets: ["src/clearing-house/FinanceWorld.jsx", "src/clearing-house/clearing-house.css", "src/clearing-house/ledger-theme.css", "src/WorkspaceAccount.jsx", "src/ManagedEvidence.jsx"]
 ---
 
-# Product UI · financial clearing house
+# Product UI · historical clearing house direction
+
+> Superseded by the user’s rejection of commit `081444c`. The current authority is [the correspondence contract](../../docs/CORRESPONDENCE_DESIGN.md), actual Student folder references and the current DESIGN.md. The following record is historical; its “selected” and “verified” claims do not establish current acceptance.
 
 ## Direction and authority
 

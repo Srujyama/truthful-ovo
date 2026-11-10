@@ -9,7 +9,7 @@ async page => {
   const confirm = () => page.getByRole('region', { name: 'Credit change preview', exact: true }).getByRole('button', { name: 'Record applied credit', exact: true });
   const chooseNorthstar = async () => {
     if (!await detail().getByRole('heading', { name: 'Northstar Review', exact: true }).isVisible().catch(() => false)) {
-      const back = page.getByRole('button', { name: 'Back to results', exact: true }); if (await back.isVisible().catch(() => false)) await back.click();
+      const back = page.getByRole('button', { name: 'Back to cases', exact: true }); if (await back.isVisible().catch(() => false)) await back.click();
       const search = page.getByRole('textbox', { name: 'Search follow-ups', exact: true }); await search.fill('Northstar Review');
       const row = page.locator('.portfolio-row:visible').filter({ hasText: 'Northstar Review' });
       assert(await row.count() === 1, 'Recovery requires the Northstar case created by the preceding UI workflow'); await row.click();
@@ -25,17 +25,19 @@ async page => {
     await page.getByRole('textbox', { name: 'Supporting credit source text', exact: true }).fill(`SYNTHETIC supplied invoice ${invoice} applies USD ${amount} for NR-CREDIT-2026. No external settlement is asserted.`);
     await ledger().getByRole('button', { name: 'Review change', exact: true }).click(); await page.getByRole('region', { name: 'Credit change preview', exact: true }).waitFor();
   };
-  const amount = expected => detail().locator('.assurance-amount > strong').getByText(expected, { exact: true }).waitFor();
+  const moneyIs=(text,cents)=>/^\$[\d,]+(?:\.\d{2})?$/.test(text.trim())&&Math.round(Number(text.trim().replace(/[$,]/g,''))*100)===cents;
+  const caseAmount=async label=>{const note=detail().locator('.financial-record-details');if(!await note.evaluate(node=>node.open))await note.locator(':scope > summary').click();return note.locator('.case-financial-ledger > div').filter({has:page.locator('dt',{hasText:new RegExp(`^${label}$`)})}).locator('dd').innerText();};
+  const amount = expected => detail().locator('.assurance-amount > strong').getByText(expected.replace(/\.00$/, ''), { exact: true }).waitFor();
   const role = async value => {
     const options = page.locator('.workspace-options'); if (!await options.evaluate(node => node.open)) await options.locator(':scope > summary').click();
     await page.getByRole('combobox', { name: 'Demo actor role', exact: true }).selectOption(value);
     await page.waitForFunction(value => { const node = document.querySelector('[aria-label="Demo actor role"]'); return node && node.value === value && !node.disabled; }, value);
-    await page.keyboard.press('Escape'); await page.getByRole('heading', { name: 'Follow-ups', level: 1, exact: true }).waitFor();
+    await page.keyboard.press('Escape'); await page.getByRole('heading', { name: 'Cases', level: 1, exact: true }).waitFor();
   };
   const chooseClarity = async (id = 'clarity-a') => {
     const heading = detail().getByRole('heading', { name: 'Clarity Labs', exact: true });
     if (!await heading.isVisible().catch(() => false) || new URL(page.url()).searchParams.get('case') !== id) {
-      const back = page.getByRole('button', { name: 'Back to results', exact: true }); if (await back.isVisible().catch(() => false)) await back.click();
+      const back = page.getByRole('button', { name: 'Back to cases', exact: true }); if (await back.isVisible().catch(() => false)) await back.click();
       const search = page.getByRole('textbox', { name: 'Search follow-ups', exact: true }); await search.fill('Clarity Labs');
       await page.locator(`.portfolio-row:visible[data-case="${id}"]`).click();
     }
@@ -54,12 +56,11 @@ async page => {
   };
   try {
     await page.setViewportSize({ width: 1440, height: 1000 }); await page.goto(`${base}/?view=assurance`);
-    await page.getByRole('heading', { name: 'Follow-ups', level: 1, exact: true }).waitFor();
+    await page.getByRole('heading', { name: 'Cases', level: 1, exact: true }).waitFor();
     await page.locator('.product-root[data-runtime="server"], .product-root[data-runtime="browser"]').waitFor(); mode = await page.locator('.product-root').getAttribute('data-runtime');
     await chooseNorthstar(); await amount('$250.00'); await showCredits();
     assert(await ledger().locator('.ledger-credit').count() === 1 && (await ledger().locator('.ledger-credit').innerText()).includes('NR-MEMO-001'), 'Recovery starts with exactly the one conserved physical credit from the UI lifecycle');
-    const caseBalances = await detail().locator('.case-financial-ledger').innerText();
-    assert(caseBalances.includes('$400.00') && caseBalances.includes('$150.00'), 'Recovery starts from the accepted400/applied150/outstanding250 agreement');
+    assert(moneyIs(await caseAmount('Accepted amount'),40000) && moneyIs(await caseAmount('Applied to invoices'),15000), 'Recovery starts from the accepted400/applied150/outstanding250 agreement');
     await form('NR-RECOVERY-001', '10');
     if (mode === 'server') {
       failedWrite = intercepted => intercepted.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { code: 'TEST_UNAVAILABLE', message: 'The local ledger is temporarily unavailable.' } }) });
@@ -81,9 +82,9 @@ async page => {
     } finally { if (delayedWrite) { await page.unroute('**/api/batch', delayedWrite); delayedWrite = null; } }
     assert(await ledger().locator('.ledger-credit').count() === 2, 'Recovery records exactly one physical credit line');
     await form('NR-CLOSE-001', '240'); await confirm().click(); await amount('$0.00');
-    assert((await detail().locator('.case-financial-ledger').innerText()).includes('$400.00'), 'The operator can fulfill the accepted promise entirely through checked forms');
-    assert((await detail().locator('.case-next-action').innerText()).includes('Credit fully applied'), 'The completed case leads to truthful fulfillment inspection rather than another claim');
-    await page.reload(); await page.getByRole('heading', { name: 'Follow-ups', level: 1, exact: true }).waitFor(); await chooseNorthstar(); await amount('$0.00');
+    assert(moneyIs(await caseAmount('Accepted amount'),40000) && moneyIs(await caseAmount('Applied to invoices'),40000), 'The operator can fulfill the accepted promise entirely through checked forms');
+    assert((await detail().locator('.case-next-action').innerText()).includes('The full credit is on an invoice'), 'The completed case leads to truthful fulfillment inspection rather than another claim');
+    await page.reload(); await page.getByRole('heading', { name: 'Cases', level: 1, exact: true }).waitFor(); await chooseNorthstar(); await amount('$0.00');
     assert(true, 'Completed fulfillment persists after reload');
     packet = await exportPacket(); const current = packet.view.commitments.find(c => c.reference === 'NR-CREDIT-2026');
     const physical = packet.view.credits.filter(c => c.vendorId === current.vendorId), first = physical.find(c => c.invoiceId === 'NR-MEMO-001');
@@ -107,7 +108,7 @@ async page => {
     await page.getByRole('textbox', { name: 'Structured command', exact: true }).fill(JSON.stringify(commands)); await click('Run command');
     await page.locator('.command-result.allowed').waitFor();
     assert(true, 'The existing shared-reference Clarity fixture is created through the checked UI command boundary');
-    await page.getByRole('group', { name: 'Follow-up views', exact: true }).getByRole('button', { name: 'Follow-ups', exact: true }).click();
+    await page.getByRole('group', { name: 'Follow-up views', exact: true }).getByRole('button', { name: 'Conversations', exact: true }).click();
     let resolution = await chooseClarity(); await amount('$100.00');
     assert(await resolution.getByRole('textbox', { name: /^Maximum assignment USD for clarity-/ }).count() === 2, 'Ambiguous credit exposes both exact candidate follow-up identities');
     assert(await ledger().locator('.ledger-credit').getByRole('button', { name: 'Assign to follow-up', exact: true }).isDisabled(), 'Unresolved identity prevents assigning the shared physical credit');
@@ -159,7 +160,7 @@ async page => {
     await page.getByRole('textbox', { name: 'Credit amount', exact: true }).fill('100');
     await ledger().getByRole('button', { name: 'Review change', exact: true }).click(); await page.getByRole('region', { name: 'Credit change preview', exact: true }).waitFor(); await click('Record assignment');
     await ledger().locator('.credit-success').waitFor(); await amount('$0.00');
-    assert((await detail().locator('.case-next-action').innerText()).includes('Credit fully applied'), 'Legitimate assignment fulfills only the selected authorized promise');
+    assert((await detail().locator('.case-next-action').innerText()).includes('The full credit is on an invoice'), 'Legitimate assignment fulfills only the selected authorized promise');
     await detail().locator('.case-next-action').getByRole('button', { name: 'View history', exact: true }).click();
     assert(await page.getByRole('heading', { name: 'Recorded history', exact: true }).isVisible(), 'Fulfillment inspection opens actual history without preparing another claim');
     await showCredits(); resolutionPacket = await exportPacket('resolved');
@@ -170,7 +171,7 @@ async page => {
     assert(shared.resolution.sourceLinks.some(link => link.revision === revision) && orphan.quarantined && orphan.unallocatedCents === 5000, 'Exact clarification revision is retained while the unmatched orphan remains quarantined and unassigned');
     assert(resolutionPacket.view.commitments.find(c => c.id === 'clarity-a').verifiedCents === 10000 && resolutionPacket.view.commitments.find(c => c.id === 'clarity-b').verifiedCents === 0, 'Resolving one case never fabricates fulfillment of the other candidate');
     await page.screenshot({ path: `output/playwright/${mode}-credit-resolved.png`, fullPage: true });
-    await page.reload(); await page.getByRole('heading', { name: 'Follow-ups', level: 1, exact: true }).waitFor(); await chooseClarity(); await amount('$0.00');
+    await page.reload(); await page.getByRole('heading', { name: 'Cases', level: 1, exact: true }).waitFor(); await chooseClarity(); await amount('$0.00');
     assert((await ledger().locator('.credit-record-amounts').innerText()).includes('$200.00'), 'Resolved identity, explicit bounds and remaining credit survive reload');
     assert(pageErrors.length === 0, 'Credit write recovery and fulfillment have no uncaught browser exceptions');
   } catch (error) { failure = error; errors.push(error.message); await page.screenshot({ path: `output/playwright/${mode || 'unknown'}-credit-recovery-failure.png`, fullPage: true }).catch(() => {}); }

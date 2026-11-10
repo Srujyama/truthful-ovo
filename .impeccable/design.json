@@ -1,218 +1,28 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-09T10:21:29.414410+00:00",
+  "generatedAt": "2026-11-10T01:07:09.958197+00:00",
   "title": "Design System: Truthful",
   "extensions": {
     "colorMeta": {
-      "world-paper": {
+      "desk": {
         "role": "neutral",
-        "displayName": "World Paper",
-        "tonalRamp": [
-          "oklch(15% 0.0070 88.64)",
-          "oklch(26% 0.0070 88.64)",
-          "oklch(38% 0.0070 88.64)",
-          "oklch(49% 0.0070 88.64)",
-          "oklch(61% 0.0070 88.64)",
-          "oklch(72% 0.0070 88.64)",
-          "oklch(84% 0.0070 88.64)",
-          "oklch(95% 0.0070 88.64)"
-        ]
+        "displayName": "Desk"
       },
-      "world-ink": {
+      "desk-ink": {
         "role": "neutral",
-        "displayName": "World Ink",
-        "tonalRamp": [
-          "oklch(15% 0.0219 145.07)",
-          "oklch(26% 0.0219 145.07)",
-          "oklch(38% 0.0219 145.07)",
-          "oklch(49% 0.0219 145.07)",
-          "oklch(61% 0.0219 145.07)",
-          "oklch(72% 0.0219 145.07)",
-          "oklch(84% 0.0219 145.07)",
-          "oklch(95% 0.0219 145.07)"
-        ]
+        "displayName": "Desk Ink"
       },
-      "world-muted": {
+      "paper": {
         "role": "neutral",
-        "displayName": "World Muted",
-        "tonalRamp": [
-          "oklch(15% 0.0211 127.40)",
-          "oklch(26% 0.0211 127.40)",
-          "oklch(38% 0.0211 127.40)",
-          "oklch(49% 0.0211 127.40)",
-          "oklch(61% 0.0211 127.40)",
-          "oklch(72% 0.0211 127.40)",
-          "oklch(84% 0.0211 127.40)",
-          "oklch(95% 0.0211 127.40)"
-        ]
+        "displayName": "Paper"
       },
-      "world-rule": {
+      "cotton": {
         "role": "neutral",
-        "displayName": "World Rule",
-        "tonalRamp": [
-          "oklch(15% 0.0164 99.02)",
-          "oklch(26% 0.0164 99.02)",
-          "oklch(38% 0.0164 99.02)",
-          "oklch(49% 0.0164 99.02)",
-          "oklch(61% 0.0164 99.02)",
-          "oklch(72% 0.0164 99.02)",
-          "oklch(84% 0.0164 99.02)",
-          "oklch(95% 0.0164 99.02)"
-        ]
+        "displayName": "Cotton"
       },
-      "world-green": {
+      "manila": {
         "role": "secondary",
-        "displayName": "World Green",
-        "tonalRamp": [
-          "oklch(15% 0.0633 163.79)",
-          "oklch(26% 0.0633 163.79)",
-          "oklch(38% 0.0633 163.79)",
-          "oklch(49% 0.0633 163.79)",
-          "oklch(61% 0.0633 163.79)",
-          "oklch(72% 0.0633 163.79)",
-          "oklch(84% 0.0633 163.79)",
-          "oklch(95% 0.0633 163.79)"
-        ]
-      },
-      "inspector-paper": {
-        "role": "neutral",
-        "displayName": "Inspector Paper",
-        "tonalRamp": [
-          "oklch(15% 0.0107 95.16)",
-          "oklch(26% 0.0107 95.16)",
-          "oklch(38% 0.0107 95.16)",
-          "oklch(49% 0.0107 95.16)",
-          "oklch(61% 0.0107 95.16)",
-          "oklch(72% 0.0107 95.16)",
-          "oklch(84% 0.0107 95.16)",
-          "oklch(95% 0.0107 95.16)"
-        ]
-      },
-      "station-paper": {
-        "role": "neutral",
-        "displayName": "Station Paper",
-        "tonalRamp": [
-          "oklch(15% 0.0146 98.28)",
-          "oklch(26% 0.0146 98.28)",
-          "oklch(38% 0.0146 98.28)",
-          "oklch(49% 0.0146 98.28)",
-          "oklch(61% 0.0146 98.28)",
-          "oklch(72% 0.0146 98.28)",
-          "oklch(84% 0.0146 98.28)",
-          "oklch(95% 0.0146 98.28)"
-        ]
-      },
-      "station-edge": {
-        "role": "neutral",
-        "displayName": "Station Edge",
-        "tonalRamp": [
-          "oklch(15% 0.0242 98.77)",
-          "oklch(26% 0.0242 98.77)",
-          "oklch(38% 0.0242 98.77)",
-          "oklch(49% 0.0242 98.77)",
-          "oklch(61% 0.0242 98.77)",
-          "oklch(72% 0.0242 98.77)",
-          "oklch(84% 0.0242 98.77)",
-          "oklch(95% 0.0242 98.77)"
-        ]
-      },
-      "limestone": {
-        "role": "neutral",
-        "displayName": "Limestone",
-        "tonalRamp": [
-          "oklch(15% 0.0290 91.66)",
-          "oklch(26% 0.0290 91.66)",
-          "oklch(38% 0.0290 91.66)",
-          "oklch(49% 0.0290 91.66)",
-          "oklch(61% 0.0290 91.66)",
-          "oklch(72% 0.0290 91.66)",
-          "oklch(84% 0.0290 91.66)",
-          "oklch(95% 0.0290 91.66)"
-        ]
-      },
-      "stone": {
-        "role": "neutral",
-        "displayName": "Stone",
-        "tonalRamp": [
-          "oklch(15% 0.0324 93.00)",
-          "oklch(26% 0.0324 93.00)",
-          "oklch(38% 0.0324 93.00)",
-          "oklch(49% 0.0324 93.00)",
-          "oklch(61% 0.0324 93.00)",
-          "oklch(72% 0.0324 93.00)",
-          "oklch(84% 0.0324 93.00)",
-          "oklch(95% 0.0324 93.00)"
-        ]
-      },
-      "brick": {
-        "role": "secondary",
-        "displayName": "Brick",
-        "tonalRamp": [
-          "oklch(15% 0.0785 54.11)",
-          "oklch(26% 0.0785 54.11)",
-          "oklch(38% 0.0785 54.11)",
-          "oklch(49% 0.0785 54.11)",
-          "oklch(61% 0.0785 54.11)",
-          "oklch(72% 0.0785 54.11)",
-          "oklch(84% 0.0785 54.11)",
-          "oklch(95% 0.0785 54.11)"
-        ]
-      },
-      "roof": {
-        "role": "neutral",
-        "displayName": "Roof",
-        "tonalRamp": [
-          "oklch(15% 0.0407 162.45)",
-          "oklch(26% 0.0407 162.45)",
-          "oklch(38% 0.0407 162.45)",
-          "oklch(49% 0.0407 162.45)",
-          "oklch(61% 0.0407 162.45)",
-          "oklch(72% 0.0407 162.45)",
-          "oklch(84% 0.0407 162.45)",
-          "oklch(95% 0.0407 162.45)"
-        ]
-      },
-      "teal": {
-        "role": "secondary",
-        "displayName": "Teal",
-        "tonalRamp": [
-          "oklch(15% 0.0691 196.80)",
-          "oklch(26% 0.0691 196.80)",
-          "oklch(38% 0.0691 196.80)",
-          "oklch(49% 0.0691 196.80)",
-          "oklch(61% 0.0691 196.80)",
-          "oklch(72% 0.0691 196.80)",
-          "oklch(84% 0.0691 196.80)",
-          "oklch(95% 0.0691 196.80)"
-        ]
-      },
-      "brass": {
-        "role": "secondary",
-        "displayName": "Brass",
-        "tonalRamp": [
-          "oklch(15% 0.0989 82.06)",
-          "oklch(26% 0.0989 82.06)",
-          "oklch(38% 0.0989 82.06)",
-          "oklch(49% 0.0989 82.06)",
-          "oklch(61% 0.0989 82.06)",
-          "oklch(72% 0.0989 82.06)",
-          "oklch(84% 0.0989 82.06)",
-          "oklch(95% 0.0989 82.06)"
-        ]
-      },
-      "timber": {
-        "role": "secondary",
-        "displayName": "Timber",
-        "tonalRamp": [
-          "oklch(15% 0.0532 64.01)",
-          "oklch(26% 0.0532 64.01)",
-          "oklch(38% 0.0532 64.01)",
-          "oklch(49% 0.0532 64.01)",
-          "oklch(61% 0.0532 64.01)",
-          "oklch(72% 0.0532 64.01)",
-          "oklch(84% 0.0532 64.01)",
-          "oklch(95% 0.0532 64.01)"
-        ]
+        "displayName": "Manila"
       },
       "ink": {
         "role": "neutral",
@@ -225,14 +35,6 @@
       "rule": {
         "role": "neutral",
         "displayName": "Rule"
-      },
-      "canvas": {
-        "role": "neutral",
-        "displayName": "Canvas"
-      },
-      "paper": {
-        "role": "neutral",
-        "displayName": "Paper"
       },
       "action": {
         "role": "primary",
@@ -261,70 +63,70 @@
       "warning-fill": {
         "role": "secondary",
         "displayName": "Warning Fill"
-      },
-      "world-action": {
-        "role": "secondary",
-        "displayName": "World Action"
-      },
-      "world-action-hover": {
-        "role": "secondary",
-        "displayName": "World Action Hover"
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Operational heading",
-        "purpose": "Public Sans titles on finance task surfaces."
+        "displayName": "Cover question",
+        "purpose": "Archivo ExtraCondensed Black for the file cover and wordmark."
+      },
+      "heading": {
+        "displayName": "Headings",
+        "purpose": "Archivo for related task and company headings."
       },
       "body": {
         "displayName": "Reading",
-        "purpose": "Readable records, forms and exact document text."
+        "purpose": "Helvetica Neue with Helvetica/Arial fallbacks for forms and exact source text."
       },
-      "world-display": {
-        "displayName": "Office display",
-        "purpose": "Pixelify identity confined to the secondary Office scene."
+      "annotation": {
+        "displayName": "Printed metadata",
+        "purpose": "Local Martian Mono for small metadata, not long prose."
       },
-      "world-balance": {
-        "displayName": "Office balance",
-        "purpose": "Selected scene figures, not default operational typography."
+      "case-row": {
+        "displayName": "Conversation headline",
+        "purpose": "Readable company-specific story before exact record details."
       }
     },
     "shadows": [
       {
-        "name": "dispatches",
-        "value": "0 14px 40px #333d291c",
-        "purpose": "Floating recorded activity."
+        "name": "file",
+        "value": "2px 3px 2px #122b2850, 7px 12px 20px #112b2940, 14px 20px 0 -7px #b9a77f, 18px 25px 22px #122b2840",
+        "purpose": "Shared file layers, upper-left light."
       },
       {
-        "name": "account-dialog",
-        "value": "0 18px 70px #26302133",
-        "purpose": "Modal account separation."
+        "name": "conversation-sheet",
+        "value": "1px 2px 2px #5c513b1c, 4px 7px 10px #5c513b13",
+        "purpose": "Printed conversation sheet inside the shared file."
       }
     ],
     "motion": [
       {
-        "name": "world-state",
-        "value": "160ms ease",
-        "purpose": "State color changes; disabled for reduced motion."
+        "name": "case-identity",
+        "value": "420ms cubic-bezier(.2,.75,.25,1)",
+        "purpose": "FLIP/WAAPI company seal/name entry and return; active entry reverses on Back, reduced motion skips clones. Runtime verification is separate."
+      },
+      {
+        "name": "summary-papers",
+        "value": "350ms cubic-bezier(.2,.75,.25,1)",
+        "purpose": "Related paper hover; reduced motion removes transition."
       },
       {
         "name": "courier",
         "value": "1900ms active time",
-        "purpose": "Recorded transition route; pause and visibility preserve progress."
-      },
-      {
-        "name": "mobile-navigation",
-        "value": "200ms cubic-bezier(.16,1,.3,1)",
-        "purpose": "Workspace navigation overlay; reduced motion suppresses transition."
+        "purpose": "Office recorded-event illustration; pause and visibility preserve progress."
       }
     ],
     "breakpoints": [
       {
-        "name": "workspace-compact",
+        "name": "file-compact",
         "value": "1100px"
       },
       {
-        "name": "workspace-overlay",
+        "name": "case-cover-stack",
+        "value": "900px"
+      },
+      {
+        "name": "navigation-overlay",
         "value": "760px"
       },
       {
@@ -332,139 +134,96 @@
         "value": "640px"
       },
       {
-        "name": "managed-evidence-stack",
-        "value": "760px"
-      },
-      {
-        "name": "world-wide",
-        "value": "1700px"
-      },
-      {
-        "name": "world-stack",
+        "name": "office-stack",
         "value": "800px"
-      },
-      {
-        "name": "account-mobile",
-        "value": "540px"
-      },
-      {
-        "name": "world-small",
-        "value": "420px"
       }
     ]
   },
   "components": [
     {
-      "name": "Workspace primary",
+      "name": "Red ink action",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Explicit action on the selected financial record.",
-      "html": "<button class=\"ds-workspace-primary\">Review action</button>",
-      "css": ".ds-workspace-primary{font:550 12px/1.4 'Public Sans Variable','Public Sans',sans-serif;min-height:38px;padding:9px 13px;border:1px solid #344b80;border-radius:6px;background:#344b80;color:white;cursor:pointer}.ds-workspace-primary:hover{background:#293e6c}.ds-workspace-primary:focus-visible{outline:2px solid #344b80;outline-offset:3px}"
+      "description": "Explicit local action or navigation to real work. Does not imply an email was composed or sent.",
+      "html": "<button class=\"ds-primary\">Compare the proposed terms</button>",
+      "css": ".ds-primary{font:400 13px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif;min-height:40px;padding:9px 13px;border:1px solid #a13c27;border-radius:3px;background:#a13c27;color:#fff9ed}.ds-primary:hover{background:#7f2d1e}.ds-primary:focus-visible{outline:2px solid #a13c27;outline-offset:4px}"
     },
     {
-      "name": "World primary",
-      "kind": "button",
-      "refersTo": "button-world-primary",
-      "description": "Office action into actual task content.",
-      "html": "<button class=\"ds-primary\">Add documents</button>",
-      "css": ".ds-primary{font:550 14px/1.55 'Public Sans Variable','Public Sans',sans-serif;border:1px solid #365947;border-radius:4px;background:#3c6650;color:#fffdf3;min-height:41px;padding:9px 16px;cursor:pointer;transition:background .16s}.ds-primary:hover{background:#2c513d}.ds-primary:focus-visible{outline:2px solid #347b6c;outline-offset:4px}.ds-primary:active{filter:brightness(.96)}"
-    },
-    {
-      "name": "World text action",
-      "kind": "button",
-      "refersTo": "button-world-text",
-      "description": "Inline destination or refresh.",
-      "html": "<button class=\"ds-text\">Open full activity</button>",
-      "css": ".ds-text{font:14px/1.55 'Public Sans Variable','Public Sans',sans-serif;border:0;background:none;color:var(--world-green,#356550);padding:8px 0;cursor:pointer}.ds-text:hover{text-decoration:underline}.ds-text:focus-visible{outline:2px solid #347b6c;outline-offset:4px}.ds-text:active{filter:brightness(.96)}"
-    },
-    {
-      "name": "Evidence field",
-      "kind": "input",
-      "description": "Operational document/search field.",
-      "html": "<label class=\"ds-label\">Vendor<input class=\"ds-input\" placeholder=\"Vendor or label\"></label>",
-      "css": ".ds-label{font:600 12px/1.6 'Public Sans Variable','Public Sans',sans-serif;color:#202530}.ds-input{display:block;min-height:38px;border:1px solid #ccd2dc;background:white;border-radius:6px;color:#202530;font:13px/1.6 'Public Sans Variable','Public Sans',sans-serif;padding:10px 12px}.ds-input:focus-visible{outline:2px solid #344b80;outline-offset:3px}"
-    },
-    {
-      "name": "Office navigation",
+      "name": "File navigation tab",
       "kind": "nav",
-      "description": "Secondary Office presentation controls.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace presentation\"><button aria-current=\"page\">Office</button><button>Workspace</button></nav>",
-      "css": ".ds-nav{display:flex;gap:4px}.ds-nav button{font:14px/1.55 'Public Sans Variable','Public Sans',sans-serif;border:0;border-radius:5px;background:none;padding:8px 14px;color:#6b7164;cursor:pointer}.ds-nav button[aria-current]{background:#e7e9dd;color:#2e4937}.ds-nav button:hover{background:#eae9df}.ds-nav button:focus-visible{outline:2px solid #347b6c;outline-offset:4px}"
+      "refersTo": "navigation-tab",
+      "description": "Four primary tabs; selected tab visually joins the paper file.",
+      "html": "<nav class=\"ds-tabs\" aria-label=\"File\"><button aria-current=\"page\">Cases</button><button>Documents</button><button>Companies</button><button>Reports</button></nav>",
+      "css": ".ds-tabs{display:grid;gap:8px}.ds-tabs button{font:15px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif;min-height:49px;padding:12px 18px;text-align:left;border:1px solid #95845b;border-radius:4px 0 0 4px;background:linear-gradient(90deg,#d9c69c,#e5d5ab);color:#37382c;box-shadow:0 2px 3px #102a2450,inset 0 1px #fdf5d780}.ds-tabs [aria-current]{background:#f6f4ed;color:#1d1c19;transform:translateX(5px)}.ds-tabs button:focus-visible{outline:2px solid #a13c27;outline-offset:4px}"
     },
     {
-      "name": "Named evidence status",
-      "kind": "chip",
-      "description": "Readable state independent of color.",
-      "html": "<span class=\"ds-status\">Review required</span>",
-      "css": ".ds-status{font:12px/1.6 'Public Sans Variable','Public Sans',sans-serif;background:#eef2fa;color:#344b80;border-radius:4px;padding:4px 8px;display:inline-block}"
-    },
-    {
-      "name": "Station inspector",
-      "kind": "card",
-      "refersTo": "station-inspector",
-      "description": "Paper reading surface beside the map.",
-      "html": "<aside class=\"ds-inspector\"><h2>Review hall</h2><p>Changed terms and exact approvals.</p><button>Open approvals</button></aside>",
-      "css": ".ds-inspector{background:#fdfbf3;color:var(--world-ink,#303a30);border:1px solid #d5d3c3;border-radius:4px;padding:22px 20px 17px;width:290px}.ds-inspector h2{font:500 25px/1.1 \"Pixelify Sans\",sans-serif;margin:0}.ds-inspector p{font:12px/1.65 'Public Sans Variable','Public Sans',sans-serif;color:#69715f;margin:9px 0 20px}.ds-inspector button{width:100%;background:#3c6650;color:#fffdf3;border:1px solid #365947;border-radius:4px;padding:9px 16px;min-height:41px;cursor:pointer}.ds-inspector button:hover{background:#2c513d}.ds-inspector button:focus-visible{outline:2px solid #347b6c;outline-offset:4px}"
-    },
-    {
-      "name": "Anchored station label",
+      "name": "Company seal",
       "kind": "custom",
-      "refersTo": "station-anchor",
-      "description": "DOM control positioned beside original Canvas architecture.",
-      "html": "<button class=\"ds-anchor\" aria-pressed=\"true\"><strong>Review hall</strong><span>4 open actions</span></button>",
-      "css": ".ds-anchor{display:block;width:155px;min-height:51px;padding:7px 10px;background:#fffdf2;color:#303a30;border:1px solid #a7a493;border-bottom-width:3px;text-align:left;cursor:pointer}.ds-anchor strong{font:500 16px/1.1 \"Pixelify Sans\",sans-serif}.ds-anchor span{display:block;font:10px/1.3 'Public Sans Variable','Public Sans',sans-serif;color:#686d5f;margin-top:5px}.ds-anchor[aria-pressed=true]{background:#f3f5e8;border-color:#4f7058}.ds-anchor:hover{background:#f3edda}.ds-anchor:focus-visible{outline:2px solid #347b6c;outline-offset:4px}"
+      "refersTo": "company-mark",
+      "description": "Original printed initials, retained between the case list and reader.",
+      "html": "<span class=\"ds-seal\" aria-hidden=\"true\">PC</span>",
+      "css": ".ds-seal{display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border:1.5px solid #9b8d6a;border-radius:50%;color:#6b624c;font:900 23px/1 ArchivoDisplay,Arial,sans-serif}"
     },
     {
-      "name": "Account secondary",
-      "kind": "button",
-      "description": "Quiet account action in a modal form.",
-      "html": "<button class=\"ds-secondary\">Switch workspace</button>",
-      "css": ".ds-secondary{font:600 13px/1.4 'Public Sans Variable','Public Sans',sans-serif;min-height:44px;border:1px solid #bfc4b6;border-radius:5px;padding:10px 15px;background:#fffefa;color:#2b302b;cursor:pointer}.ds-secondary:hover{background:#e9ecdf}.ds-secondary:focus-visible{outline:2px solid #28614a;outline-offset:3px}.ds-secondary:active{filter:brightness(.96)}"
+      "name": "Invoice check receipt",
+      "kind": "card",
+      "refersTo": "case-receipt",
+      "description": "Original summary of actual values; exact source documents remain a separate reader.",
+      "html": "<section class=\"ds-receipt\"><h3>What the documents show</h3><dl><div><dt>They promised</dt><dd>$2,400</dd></div><div><dt>On an invoice</dt><dd>$900</dd></div><div><dt>Still missing from an invoice</dt><dd>$1,500</dd></div></dl></section>",
+      "css": ".ds-receipt{background:#fcfaf1;color:#1d1c19;border:1px solid #e4dac4;padding:26px 30px 18px;box-shadow:2px 5px 8px #5a503d17;transform:rotate(1deg);font:15px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif}.ds-receipt h3{font:400 10px/1.6 Martian,monospace}.ds-receipt dl>div{display:flex;justify-content:space-between;gap:20px;border-bottom:1px dashed #c7b999;padding:10px 0}.ds-receipt dd{margin:0}"
+    },
+    {
+      "name": "Exact document field",
+      "kind": "input",
+      "description": "Warm stock form/search control with explicit label.",
+      "html": "<label class=\"ds-label\">Search documents<input class=\"ds-input\" type=\"search\" placeholder=\"Company, text or reference\"></label>",
+      "css": ".ds-label{color:#1d1c19;font:14px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif}.ds-input{display:block;min-height:40px;padding:9px 12px;background:#fbfaf5;color:#1d1c19;border:1px solid #c9bfa7;border-radius:3px;font:14px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif}.ds-input:focus-visible{outline:2px solid #a13c27;outline-offset:4px}"
     }
   ],
   "narrative": {
-    "northStar": "A follow-up and its documents",
-    "overview": "Follow-ups is the default operating view. The same company promise, source versions, credits, proposed terms and draft remain connected through inspection and return. Public Sans, dark ink, white working surfaces and restrained blue selection serve repeated finance work. The original Office map is a secondary spatial overview. The user rejected the earlier Nomen milestone as sufficient application design; this artifact records implementation, not user approval or final runtime acceptance.",
+    "northStar": "Did the promise reach the invoice?",
+    "overview": "Current local correspondence candidate after explicit rejection of commit 081444c. A company story connects promise, exact source text, invoice result and next decision. One green mat, manila navigation and paper file frame covers every route, dialogs, examples and Office. This records source and inspected captures, not user approval, completed runtime acceptance, a deployment or native Figma parity.",
     "keyCharacteristics": [
-      "Full-width follow-up results and complete case drill-in.",
-      "First-class Credits and task-specific Tasks, Companies, Documents, Activity and Reports.",
-      "Exact source/draft identity, visible financial consequences and recoverable work.",
-      "Original Office scene remains separate, with useful records and camera/pause/reduced-motion controls."
+      "Cases, Documents, Companies and Reports as four primary file tabs.",
+      "Plain stories before technical references or overlapping KPI totals.",
+      "Archivo headings, Helvetica Neue reading, Martian metadata and red ink.",
+      "Original paper summary artwork is distinct from original supplied source text.",
+      "Same company mark/name moves into the case reader and back with reversible FLIP/WAAPI motion.",
+      "Office is an original illustration inside the shared file frame."
     ],
     "rules": [
       {
-        "name": "Recorded state",
-        "body": "Separate conditional offers, issued notes, applied credit, assignments and reversals; pair color with meaningful labels.",
-        "section": "colors"
-      },
-      {
-        "name": "Readable working type",
-        "body": "Public Sans carries operational headings, amounts, forms and records; Pixelify belongs to Office scene identity and place labels.",
-        "section": "typography"
-      },
-      {
-        "name": "Identity and consequence",
-        "body": "Preserve the same selected case, exact document version and draft through navigation and recovery; unavailable requested records do not become substitutes.",
+        "name": "One material environment",
+        "body": "All destinations, examples and dialogs share the mat/file/paper system; retain task-specific composition.",
         "section": "layout"
       },
       {
-        "name": "Scene and work",
-        "body": "Office supplies spatial context and actual record links; scenery does not perform or prove financial transactions.",
+        "name": "Explain the actual financial result",
+        "body": "Original face amounts, matched portions, issued notes, invoice deductions, reversals and conditional spending retain separate meanings.",
+        "section": "colors"
+      },
+      {
+        "name": "Readable work",
+        "body": "Archivo heads, Helvetica Neue reading and Martian metadata; local font notices remain under public/fonts.",
+        "section": "typography"
+      },
+      {
+        "name": "Keep object and source identity",
+        "body": "Preserve the same selected company, exact source revision and draft; unavailable targets cannot become substitutes.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Use plain task labels, concise copy and useful financial density.",
-      "Preserve exact source versions, approval freshness, draft identity and action limits.",
-      "Inspect normal-motion entry, interruption and return alongside keyboard, touch and reduced-motion behavior.",
-      "Keep historical evidence distinct from current acceptance and delivery."
+      "Lead with company, promise, invoice result and next decision.",
+      "Retain exact source text, financial detail, policy and raw records in useful disclosures.",
+      "Operate normal-motion entry, interruption/reversal, keyboard return and reduced motion.",
+      "Reinspect wide/intermediate/phone repairs and distinguish current evidence from historical checks."
     ],
     "donts": [
-      "Do not restore the user-rejected default-world/pixel treatment to operational finance screens.",
-      "Do not treat a palette, passing build or model score as user approval.",
-      "Do not copy reference identity, models or personal media.",
-      "Do not claim a new public deployment, native Figma parity or connected external actions from local implementation."
+      "Do not restore the rejected blue-gray dashboard or treat Formroom candidates as approved templates.",
+      "Do not label generated summary art as an original vendor invoice.",
+      "Do not confuse recording a domain action with composing or sending email.",
+      "Do not infer user approval, public deployment, native Figma parity or connected external services from tests."
     ]
   }
 }

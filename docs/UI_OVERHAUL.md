@@ -1,3 +1,5 @@
+> Superseded by the user’s explicit rejection of commit 081444c. The completion language below is historical behavior evidence, not current design acceptance. The active rebuild is [CORRESPONDENCE_DESIGN.md](CORRESPONDENCE_DESIGN.md), tasks T51/T52.
+
 # Application overhaul · 9 November 2026
 
 The user rejected the first Nomen adaptation as sufficient application design. The entire working UI, especially financial records, must be rebuilt. Previous passing checks and reviewer verdicts establish behavior only; they do not override that rejection.

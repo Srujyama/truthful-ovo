@@ -9,15 +9,23 @@ async page => {
   page.on('pageerror', onPageError);
   const check = (value, label) => { if (!value) throw new Error(label); if(!checks.includes(label))checks.push(label); };
   const url = (view, params = {}) => { const next = new URL(base); next.search = new URLSearchParams({ view, ...params }).toString(); return next.href; };
-  const heading = name => page.getByRole('heading', { name, level: 1, exact: true });
+  const pageTitles={'Follow-ups':'Cases','Tasks':'Needs attention','Credits':'Credit notes','Activity':'History','Workflow tests':'Developer tools'};
+  const heading = name => page.getByRole('heading', { name:pageTitles[name]||name, level: 1, exact: true });
   const route = async (view, title, params = {}) => { await page.goto(url(view, params)); await heading(title).waitFor({ state: 'visible' }); await page.locator('.product-root[data-runtime="server"]').waitFor();if(view==='credits')await page.locator('.credit-statement-row').first().waitFor({state:'attached'}); };
+  const hasMoney=(text,expected)=>(String(text).match(/(?:−|-)?\$[\d,]+(?:\.\d{2})?/g)||[]).map(value=>value.replace(/^−/,'-').replace(/\.00$/,'')).includes(expected.replace(/\.00$/,''));
+  const showRecordNote=async(container,title)=>{const details=container.locator('details').filter({has:page.locator('summary',{hasText:new RegExp(`^${title}$`)})});if(!await details.evaluate(node=>node.open))await details.locator(':scope > summary').click();};
   const click = name => page.getByRole('button', { name, exact: true }).click();
   const selectedSource = () => page.getByRole('article', { name: 'Exact document version' });
   const companyDetail = () => page.getByRole('article', { name: 'Selected company' });
   const nav = async name => {
-    const toggle = page.locator('.mobile-toggle');
-    if (await toggle.isVisible() && await toggle.getAttribute('aria-expanded') !== 'true') await toggle.click();
-    await page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('button', { name, exact: true }).click();
+    name=pageTitles[name]||name;
+    const menu=page.getByRole('navigation',{name:'Main navigation',exact:true});
+    const showMenu=async()=>{const toggle=page.locator('.mobile-toggle');if(await toggle.isVisible()&&await toggle.getAttribute('aria-expanded')!=='true')await toggle.click();};
+    await showMenu();
+    if(name==='Needs attention'&&!await menu.getByRole('button',{name,exact:true}).isVisible()){await menu.getByRole('button',{name:'Cases',exact:true}).click();await showMenu();}
+    if(name==='Credit notes'&&!await menu.getByRole('button',{name,exact:true}).isVisible()){await menu.getByRole('button',{name:'Documents',exact:true}).click();await showMenu();}
+    if(['History','Developer tools','Office map'].includes(name)){const more=menu.locator('details.nav-secondary');if(!await more.evaluate(node=>node.open))await more.locator(':scope > summary').click();}
+    await menu.getByRole('button',{name,exact:true}).click();
   };
   const checkRoute = (view, params = {}) => {
     const current = new URL(page.url());
@@ -78,9 +86,9 @@ async page => {
     check(baseline.view.commitments.length === 4, 'The fixture contains all four follow-up identities');
 
     const routes = [
-      ['assurance', 'Follow-ups', 'followups'], ['credits', 'Credits', 'credits'], ['operations', 'Tasks', 'tasks'],
-      ['vendors', 'Companies', 'companies'], ['library', 'Documents', 'documents'], ['audit', 'Activity', 'activity'],
-      ['reports', 'Reports', 'reports'], ['execution', 'Workflow tests', 'workflow-tests'], ['evidence', 'Document review', 'document-review'],
+      ['assurance', 'Cases', 'followups'], ['credits', 'Credit notes', 'credits'], ['operations', 'Needs attention', 'tasks'],
+      ['vendors', 'Companies', 'companies'], ['library', 'Documents', 'documents'], ['audit', 'History', 'activity'],
+      ['reports', 'Reports', 'reports'], ['execution', 'Developer tools', 'workflow-tests'], ['evidence', 'Document review', 'document-review'],
     ];
     for (const [size, width, height] of [['desktop', 1440, 1000], ['intermediate', 900, 1000], ['mobile', 390, 844]]) {
       await page.setViewportSize({ width, height });
@@ -88,36 +96,60 @@ async page => {
         await route(view, title); check(await heading(title).isVisible(), `${size}: ${title} opens its actual route`);
         check(!/ledger|assurance|operations queue|evidence lab/i.test(await heading(title).innerText()), `${size}: ${title} uses a plain primary heading`);
         if (view !== 'evidence') {if(size==='mobile')await page.getByRole('button',{name:'Toggle navigation',exact:true}).click();check(await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('button', { name: title, exact: true }).getAttribute('aria-current') === 'page', `${size}: ${title} has the current-page navigation state`);if(size==='mobile')await page.keyboard.press('Escape');}
+        if (view === 'assurance' && size === 'mobile') {
+          await page.evaluate(()=>document.fonts.ready);
+          const reading=await page.evaluate(()=>{const subtitle=document.querySelector('.casebook-cover>p').getBoundingClientRect(),index=document.querySelector('.casebook-index').getBoundingClientRect(),first=document.querySelector('.correspondence-entry').getBoundingClientRect();return {subtitleBottom:subtitle.bottom,indexTop:index.top,firstBottom:first.bottom,viewport:innerHeight};});
+          check(reading.indexTop>=reading.subtitleBottom+12,'Phone introduction and conversation paper never overlap');
+          check(reading.firstBottom<reading.viewport,'The first complete company story and next action fit in the phone’s first viewport');
+        }
         if (view === 'credits') check(await page.locator('.credit-statement-row').count() === 2, `${size}: both credit records render`);
         if (view === 'operations') check(await page.locator('.ops-task-row').count() === 4, `${size}: all four actionable case rows render`);
         if (view === 'vendors') check(await page.locator('.ops-company-row').count() === 4, `${size}: all companies remain in the visible record list`);
         if (view === 'library') check(await page.locator('.ops-document-row').count() === 9 && await selectedSource().isVisible(), `${size}: documents retain both a real list and exact reader`);
         if (view === 'audit') check(await page.locator('.ops-activity-row').count() === 24 && await page.getByRole('button', { name: 'Next records', exact: true }).isVisible(), `${size}: activity exposes its first page and next-page control`);
-        if (view === 'reports') check((await page.locator('.ops-report-measures').innerText()).includes('$900.00'), `${size}: the statement shows the actual verified $900`);
+        if (view === 'reports') check(hasMoney(await page.locator('.ops-report-measures').innerText(),'$900.00'), `${size}: the statement shows the actual verified $900`);
         await noOverflow(`${size} ${title}`); await screenshot(`${name}-${size}`);
       });
     }
 
     await page.setViewportSize({ width: 1440, height: 1000 });
+    await journey('plain-case-history-and-existing-note-task', async () => {
+      await route('assurance','Cases',{case:'pipeline-seats'});
+      await page.getByRole('group',{name:'Case information',exact:true}).getByRole('button',{name:'History',exact:true}).click();
+      const history=page.locator('.assurance-history:visible');
+      check((await history.innerText()).includes('Prepared a review of Pipeline CRM’s renewal offer')&&(await history.innerText()).includes('$1,500 of credit would require $2,400 in extra spending'),'Case History explains the actual company, offer and spending instead of a raw event name');
+      await history.locator('details').first().locator('summary').click();
+      check((await history.locator('details').first().innerText()).includes('Action proposed'),'Case History retains exact event identity behind its plain explanation');
+      await route('operations','Needs attention');
+      const nimbus=page.locator('.ops-task-row').filter({hasText:'Nimbus Cloud'});
+      check((await nimbus.innerText()).includes('Check the credit note against an invoice')&&!(await nimbus.innerText()).includes('Check the claim deadline'),'The existing Nimbus credit note leads to an invoice check rather than an expired new claim');
+      await nimbus.click();
+      check((await page.locator('.ops-task-expanded').innerText()).includes('new claim passed Oct 30, 2026'),'Nimbus task distinguishes the real new-claim deadline from the expected invoice date');
+    });
+
     await journey('followups-filters-history-and-source-focus', async () => {
       await route('assurance', 'Follow-ups');
       const filters=page.getByRole('group',{name:'Filter follow-ups by status',exact:true}), search=page.getByRole('textbox',{name:'Search follow-ups',exact:true}), rows=page.locator('.portfolio-row:visible');
-      check((await filters.locator('[data-filter=all]').innerText()).replace(/\s/g,'')==='All4','Follow-up status counts start with the actual four cases');
+      check(await rows.count()===4&&await page.locator('.followups-inline-balances,.followups-table-heading').count()===0,'The case file opens with four conversations instead of an unexplained KPI taxonomy or accounting table');
+      check((await rows.filter({hasText:'Pipeline CRM'}).innerText()).includes('They promised $2,400')&&(await rows.filter({hasText:'Pipeline CRM'}).innerText()).includes('$900 of credit')&&(await rows.filter({hasText:'Pipeline CRM'}).innerText()).includes('$1,500 short'),'Pipeline’s opening story explains the promise, invoice credit and missing amount in the same sentence group');
+      check((await rows.filter({hasText:'Nimbus Cloud'}).innerText()).includes('$2,000 credit note')&&(await rows.filter({hasText:'Nimbus Cloud'}).innerText()).includes('No invoice here confirms'),'Nimbus’s opening story distinguishes the existing credit note from a reduced invoice');
+      const filterDisclosure=page.locator('.casebook-filters');await filterDisclosure.locator(':scope > summary').click();
+      check((await filters.locator('[data-filter=all] > span').innerText()).trim()==='4','Follow-up status counts start with the actual four cases');
       await filters.locator('[data-filter=owed]').click();
       check(await rows.count()===3&&await rows.filter({hasText:'Nimbus Cloud'}).count()===1&&await rows.filter({hasText:'Orbit Design'}).count()===0,'Still owed includes the expired claim and excludes conditional offers');
       await search.fill('Pipeline');
-      check((await filters.locator('[data-filter=all]').innerText()).replace(/\s/g,'')==='All1'&&(await filters.locator('[data-filter=issued]').innerText()).replace(/\s/g,'')==='Issued0','Follow-up counts follow the current company search');
+      check((await filters.locator('[data-filter=all] > span').innerText()).trim()==='1'&&(await filters.locator('[data-filter=issued] > span').innerText()).trim()==='0','Follow-up counts follow the current company search');
       await filters.locator('[data-filter=issued]').click();await page.getByRole('heading',{name:'No matching follow-ups',exact:true}).waitFor();await click('Clear filters');
       await page.getByRole('combobox',{name:'Sort follow-ups',exact:true}).selectOption('owed-desc');
       check(JSON.stringify(await rows.evaluateAll(nodes=>nodes.map(node=>node.dataset.case)))===JSON.stringify(['nimbus-sla','pipeline-seats','parcel-waiver','orbit-renewal']),'Money sorting keeps a conditional offer separate from actual amounts owed');
-      const orbit=rows.filter({hasText:'Orbit Design'});check((await orbit.locator('.followup-table-owed').innerText()).includes('Offer $480.00')&&(await orbit.locator('.followup-table-owed strong').innerText())==='—','Conditional offer value never appears as an amount still owed');
+      const orbit=rows.filter({hasText:'Orbit Design'}),orbitText=await orbit.innerText();check(/\$480 offer/.test(orbitText)&&orbitText.includes('$2,400 in extra spending')&&!/owed|recovered|received/.test(await orbit.locator('.correspondence-copy > strong').innerText()),'Conditional offer value never appears as an amount still owed');
       await search.fill('Pipeline');await rows.click();await page.locator('.followups-detail:visible').waitFor();checkRoute('assurance',{case:'pipeline-seats'});
       await page.goBack();await page.locator('.followups-list:visible').waitFor();
       check(await search.inputValue()==='Pipeline','Browser Back preserves the follow-up company search');await page.waitForFunction(()=>document.activeElement?.dataset.case==='pipeline-seats');check(await rows.evaluate(node=>node===document.activeElement),'Browser Back restores the filtered results and selected row focus');
       await page.goForward();await page.locator('.followups-detail:visible').waitFor();checkRoute('assurance',{case:'pipeline-seats'});
       check(true,'Browser Forward restores the exact selected case');
       const info=page.getByRole('group',{name:'Case information',exact:true});await info.getByRole('button',{name:/^Credits/}).click();await click('Record credit');
-      await page.getByRole('textbox',{name:'Credit invoice reference',exact:true}).fill('UNSAVED-CONTINUITY');await click('Back to results');await rows.click();await info.getByRole('button',{name:/^Credits/}).click();
+      await page.getByRole('textbox',{name:'Credit invoice reference',exact:true}).fill('UNSAVED-CONTINUITY');await click('Back to cases');await rows.click();await info.getByRole('button',{name:/^Credits/}).click();
       check(await page.getByRole('textbox',{name:'Credit invoice reference',exact:true}).inputValue()==='UNSAVED-CONTINUITY','An unsaved credit draft survives returning to results and reopening its case');
       await info.getByRole('button',{name:/^Documents/}).click();
       const source=page.locator('.followup-document:visible').first();await source.click();
@@ -130,6 +162,22 @@ async page => {
       await noOverflow('Phone exact case source');await page.screenshot({path:'output/playwright/redesign-followup-source-mobile.png',fullPage:false});screenshots.push('output/playwright/redesign-followup-source-mobile.png');
       await reader.getByRole('button',{name:'Return to this document',exact:true}).click();check(await source.evaluate(node=>node===document.activeElement),'The phone source return action restores its original document control');
       await page.setViewportSize({width:1440,height:1000});
+    });
+
+    await journey('same-case-paper-motion', async () => {
+      await route('assurance','Cases');await page.emulateMedia({reducedMotion:'no-preference'});
+      const row=page.locator('[data-case="pipeline-seats"]');await row.click();
+      await page.locator('.case-moving-paper').first().waitFor();
+      check((await page.locator('.case-moving-paper').allTextContents()).some(text=>text.includes('Pipeline CRM')),'Opening a case carries that actual company into its reader');
+      await page.evaluate(()=>new Promise(resolve=>{let n=0;const frame=()=>++n===5?resolve():requestAnimationFrame(frame);requestAnimationFrame(frame)}));
+      check(await page.locator('.case-moving-paper').evaluateAll(nodes=>nodes.some(node=>node.getAnimations().some(animation=>animation.currentTime>0&&animation.currentTime<420))),'The selected case object moves through an actual normal-motion intermediate state');
+      await page.getByRole('button',{name:'Back to cases',exact:true}).click();
+      check(await page.locator('.case-moving-paper').evaluateAll(nodes=>nodes.some(node=>node.getAnimations().some(animation=>animation.playbackRate<0))),'Returning mid-open reverses the same case object from its current position');
+      await page.locator('.case-moving-paper').first().waitFor({state:'detached'});await page.locator('.followups-list:visible').waitFor();
+      check(await row.evaluate(node=>node===document.activeElement),'Interrupted case opening restores its originating company and keyboard focus');
+      await page.emulateMedia({reducedMotion:'reduce'});await row.click();await page.locator('.followups-detail:visible').waitFor();
+      check(await page.locator('.case-moving-paper').count()===0,'Reduced motion opens the complete case without moving paper');
+      await page.getByRole('button',{name:'Back to cases',exact:true}).click();await page.emulateMedia({reducedMotion:'no-preference'});
     });
 
     await journey('tasks-operated', async () => {
@@ -148,7 +196,7 @@ async page => {
       check(await page.locator('.ops-task-row').count() === 4, 'Clearing an empty task search restores the complete queue');
       await page.getByRole('textbox', { name: 'Search tasks', exact: true }).fill('Pipeline');
       await page.locator('.ops-task-row').click();
-      check((await page.locator('.ops-task-expanded').innerText()).includes('conflicting changes'), 'The selected task shows the actual competing-terms reason');
+      check((await page.locator('.ops-task-expanded').innerText()).includes('more than one change'), 'The selected task shows the actual competing-terms reason');
       await screenshot('tasks-expanded-desktop');
       await page.locator('.ops-task-expanded').getByRole('button', { name: 'Open case', exact: true }).click();
       await heading('Follow-ups').waitFor(); checkRoute('assurance', { case: 'pipeline-seats', destination: 'decisions', action: 'action-pipeline-renewal' });
@@ -170,12 +218,14 @@ async page => {
       const search = page.getByRole('textbox', { name: 'Search companies', exact: true });
       await search.fill('Pipeline'); check(await page.locator('.ops-company-row').count() === 1, 'Company search filters real company rows');
       await page.locator('.ops-company-row').click();
-      check((await companyDetail().innerText()).includes('$1,500.00'), 'Company balances preserve Pipeline’s actual outstanding amount');
-      await page.getByRole('group', { name: 'Company records' }).getByRole('button', { name: /^Credits/ }).click();
-      check((await companyDetail().innerText()).includes('INV-PC-1026') && (await companyDetail().innerText()).includes('$900.00'), 'Company Credits exposes the actual applied invoice line');
+      check(hasMoney(await companyDetail().innerText(),'$1,500.00'), 'Company balances preserve Pipeline’s actual outstanding amount');
+      await page.getByRole('group', { name: 'Company records' }).getByRole('button', { name: /^Credit notes/ }).click();
+      await showRecordNote(companyDetail(),'Document & record details');
+      check((await companyDetail().innerText()).includes('INV-PC-1026') && hasMoney(await companyDetail().innerText(),'$900.00'), 'Company Credits exposes the actual applied invoice line');
       await page.getByRole('group', { name: 'Company records' }).getByRole('button', { name: /^Documents/ }).click();
       await page.locator('.ops-source-link').filter({ hasText: 'Original duplicate-seat correction' }).click();
       await selectedSource().waitFor(); checkRoute('library', { source: 'pipeline-promise', revision: '6' });
+      await showRecordNote(selectedSource(),'Version & date details');
       check((await selectedSource().innerText()).includes('Version 6') && (await page.getByLabel('Exact source text').innerText()).includes('USD 2,400'), 'The company document opens its exact original text and revision');
       const sourceText = await page.getByLabel('Exact source text').innerText();
       const downloadedText = await downloaded('Download exact document text', 'workspace-exact-source.txt');
@@ -192,7 +242,8 @@ async page => {
       await selectedSource().locator('.ops-source-usages > div .ops-case-links').getByRole('button', { name: 'PC-SEATS-2026', exact: true }).click();
       await heading('Follow-ups').waitFor(); checkRoute('assurance', { case: 'pipeline-seats', destination: 'evidence' });
       await route('vendors', 'Companies', { vendor: 'pipeline', vendorTab: 'credits' });
-      check((await companyDetail().innerText()).includes('INV-PC-1026') && await page.getByRole('group', { name: 'Company records' }).getByRole('button', { name: /^Credits/ }).getAttribute('aria-pressed') === 'true', 'A company deep link selects the exact company and Credits tab');
+      await showRecordNote(companyDetail(),'Document & record details');
+      check((await companyDetail().innerText()).includes('INV-PC-1026') && await page.getByRole('group', { name: 'Company records' }).getByRole('button', { name: /^Credit notes/ }).getAttribute('aria-pressed') === 'true', 'A company deep link selects the exact company and Credits tab');
       await route('library', 'Documents', { source: 'missing-record', revision: '999' });
       await page.getByRole('heading', { name: 'This exact document version is unavailable', exact: true }).waitFor();
       check(await page.getByLabel('Exact source text').count() === 0, 'A missing source ID/revision is reported without substitution');
@@ -212,7 +263,7 @@ async page => {
       await page.locator('.ops-filter-disclosure > summary').click();
       await page.getByRole('combobox', { name: 'Filter activity transition', exact: true }).selectOption('CREDIT_REGISTERED');
       await page.getByRole('combobox', { name: 'Filter by company', exact: true }).selectOption('nimbus');
-      check(await page.locator('.ops-activity-row').count() === 1 && (await page.locator('.ops-activity-row').innerText()).includes('CM-NC-204'), 'Activity combines company and change-type filters using real event context');
+      check(await page.locator('.ops-activity-row').count() === 1 && (await page.locator('.ops-activity-row').innerText()).includes('Nimbus Cloud') && /\$2,000(?:\.00)?/.test(await page.locator('.ops-activity-row').innerText()) && (await page.locator('.ops-activity-row').innerText()).toLowerCase().includes('credit note'), 'Activity combines company and change-type filters using real event context');
       await page.getByRole('combobox', { name: 'Filter activity actor', exact: true }).selectOption('seed-curator');
       check(await page.locator('.ops-activity-row').count() === 1, 'Recorded actor filtering retains the matching event');
       await page.locator('.ops-activity-row').click();
@@ -230,15 +281,15 @@ async page => {
     await journey('reports-dates-and-downloads', async () => {
       await route('reports', 'Reports');
       await page.getByLabel('Report financial effective date', { exact: true }).fill('2026-10-24');
-      const issued = page.locator('.ops-report-measures > div').filter({ has: page.locator('dt', { hasText: /^Issued · not applied/ }) });
-      check((await issued.innerText()).includes('$0.00') && (await page.locator('.ops-report-measures').innerText()).includes('$900.00'), 'Effective-date replay excludes the later issued memo while retaining earlier applied credit');
+      const issued = page.locator('.ops-report-measures > div').filter({ has: page.locator('dt', { hasText: /^Credit notes awaiting an invoice/ }) });
+      check(hasMoney(await issued.innerText(),'$0.00') && hasMoney(await page.locator('.ops-report-measures').innerText(),'$900.00'), 'Effective-date replay excludes the later issued memo while retaining earlier applied credit');
       await page.getByLabel('Report financial effective date', { exact: true }).fill(today);
       await page.getByLabel('Report knowledge cutoff', { exact: true }).fill('2026-09-01');
-      check((await page.locator('.ops-report-measures > div').filter({ has: page.locator('dt', { hasText: /^Applied & verified/ }) }).innerText()).includes('$0.00'), 'Knowledge cutoff independently excludes application evidence not yet recorded');
+      check(hasMoney(await page.locator('.ops-report-measures > div').filter({ has: page.locator('dt', { hasText: /^Confirmed on invoices/ }) }).innerText(),'$0.00'), 'Knowledge cutoff independently excludes application evidence not yet recorded');
       await click('Today');
       check(await page.getByLabel('Report financial effective date', { exact: true }).inputValue() === today && await page.getByLabel('Report knowledge cutoff', { exact: true }).inputValue() === today, 'Today restores both independent report dates');
       await page.getByRole('textbox', { name: 'Search report companies', exact: true }).fill('Pipeline');
-      check(await page.locator('.ops-table-scroll tbody tr').count() === 1 && (await page.locator('.ops-table-scroll tfoot').innerText()).includes('$3,850.00'), 'Company search filters report rows while retaining clearly labeled all-company totals');
+      check(await page.locator('.ops-table-scroll tbody tr').count() === 1 && hasMoney(await page.locator('.ops-table-scroll tfoot').innerText(),'$3,850.00'), 'Company search filters report rows while retaining clearly labeled all-company totals');
       const csv = parseCsv(await downloaded('Export CSV', 'workspace-records-report.csv'));
       const header = csv[0], total = csv.find(row => row[2] === 'WORKSPACE TOTAL');
       check(csv.length === 6 && csv.slice(1, -1).length === 4, 'The actual CSV includes every company despite the UI row filter');
@@ -254,19 +305,20 @@ async page => {
 
     await journey('credits-operated-and-error-recovery', async () => {
       await route('credits', 'Credits');
-      check(await page.locator('.credit-statement-row').count() === 2 && (await page.locator('.credit-summary-line').innerText()).includes('$900.00') && (await page.locator('.credit-summary-line').innerText()).includes('$2,000.00'), 'Credits separates the two physical lines into applied $900 and issued $2,000');
-      await page.locator('.record-tabs').getByRole('button', { name: /^Waiting for invoice/ }).click();
+      check(await page.locator('.credit-statement-row').count() === 2 && hasMoney(await page.locator('[data-credit="credit-pipeline-900"] .credit-row-amount > strong').innerText(),'$900.00') && hasMoney(await page.locator('[data-credit="credit-nimbus-2000"] .credit-row-amount > strong').innerText(),'$2,000.00'), 'Credits separates the two physical lines into applied $900 and issued $2,000');
+      await page.locator('.record-tabs').getByRole('button', { name: /^Invoice still needed/ }).click();
       check(await page.locator('.credit-statement-row').count() === 1 && (await page.locator('.credit-statement-row').innerText()).includes('CM-NC-204'), 'Waiting-for-invoice filter shows the actual issued memo');
       await page.locator('.credit-statement-row').click();
       checkRoute('credits', { credit: 'credit-nimbus-2000' });
-      check((await page.getByRole('complementary', { name: 'Selected credit' }).innerText()).includes('has not reduced an invoice yet'), 'Issued-credit detail explicitly distinguishes an unapplied memo');
-      await page.locator('.record-tabs').getByRole('button', { name: /^All credits/ }).click();
+      check((await page.getByRole('complementary', { name: 'Selected credit' }).innerText()).includes('A credit note is not yet a reduction on your bill'), 'Issued-credit detail explicitly distinguishes an unapplied memo');
+      await page.locator('.record-tabs').getByRole('button', { name: /^All notes/ }).click();
       await page.getByRole('textbox', { name: 'Search credits', exact: true }).fill('INV-PC-1026');
       check(await page.locator('.credit-statement-row').count() === 1, 'Credit search finds the actual invoice identity');
       await page.locator('.credit-statement-row').click();
       checkRoute('credits', { credit: 'credit-pipeline-900' });
       const reader = page.getByRole('complementary', { name: 'Selected credit' });
-      check((await reader.innerText()).includes('$900.00') && (await reader.innerText()).includes('PC-SEATS-2026'), 'Applied-credit detail preserves amount and case reference');
+      await showRecordNote(reader,'Document details');
+      check(hasMoney(await reader.innerText(),'$900.00') && (await reader.innerText()).includes('PC-SEATS-2026'), 'Applied-credit detail preserves amount and case reference');
       await reader.locator('.credit-files button').click();
       await selectedSource().waitFor(); checkRoute('library', { source: 'pipeline-invoice', revision: '10' });
       check((await page.getByLabel('Exact source text').innerText()).includes('INV-PC-1026'), 'Credit supporting-document link opens its exact invoice text');
@@ -285,19 +337,19 @@ async page => {
       await click('Try again'); await page.getByRole('alert').waitFor({ state: 'hidden' });
       check(await page.locator('.credit-statement-row').count() === 2 && await page.getByRole('button', { name: 'Refresh', exact: true }).isEnabled(), 'Retry clears the refresh error and retains the actual records');
       await page.getByRole('textbox', { name: 'Search credits', exact: true }).fill('no-matching-credit');
-      await page.getByRole('heading', { name: 'No matching credits', exact: true }).waitFor(); await click('Clear filters');
+      await page.getByRole('heading', { name: 'No matching credit notes', exact: true }).waitFor(); await click('Clear filters');
       check(await page.locator('.credit-statement-row').count() === 2, 'Credit no-results state restores its records through Clear filters');
       await route('credits', 'Credits', { credit: 'missing-credit' });
-      await page.getByRole('heading', { name: 'Credit not found', exact: true }).waitFor();
+      await page.getByRole('heading', { name: 'Credit note not found', exact: true }).waitFor();
       check(await page.getByRole('complementary', { name: 'Selected credit' }).count() === 0, 'An unavailable exact credit never substitutes another credit');
-      await click('View all credits');
+      await click('View all notes');
       await page.setViewportSize({ width: 390, height: 844 });
       await page.locator('.credit-statement-row').filter({ hasText: 'Pipeline CRM' }).click();
       check(await page.getByRole('complementary', { name: 'Selected credit' }).isVisible() && !await page.locator('.credit-statement').isVisible(), 'Phone credit selection opens the selected readable detail');
       await page.goBack();await page.locator('.credit-statement:visible').waitFor();check(!new URL(page.url()).searchParams.has('credit'),'Phone browser Back returns to the credit list and clears the selected record URL');
       check(await page.locator('[data-credit="credit-pipeline-900"]').evaluate(node=>node===document.activeElement),'Phone browser Back restores the exact originating credit row focus');
       await page.goForward();await page.getByRole('complementary',{name:'Selected credit'}).waitFor();checkRoute('credits',{credit:'credit-pipeline-900'});check(!await page.locator('.credit-statement').isVisible(),'Phone browser Forward restores the same credit detail');
-      await click('All credits'); check(await page.locator('.credit-statement').isVisible()&&!new URL(page.url()).searchParams.has('credit'), 'The phone All credits action returns to the list and clears its detail URL');
+      await click('All notes'); check(await page.locator('.credit-statement').isVisible()&&!new URL(page.url()).searchParams.has('credit'), 'The phone All credits action returns to the list and clears its detail URL');
       await page.reload();await heading('Credits').waitFor();check(await page.locator('.credit-statement').isVisible(),'Reload after returning to all credits keeps the phone list open');
       await noOverflow('Operated mobile Credits'); await screenshot('credits-list-mobile-operated');
     });
@@ -327,7 +379,7 @@ async page => {
       await nav('Office map'); await heading('Office map').waitFor();
       check(await page.getByRole('navigation', { name: 'Office buildings', exact: true }).getByRole('button').count() === 6, 'Office exposes all six ordinary building controls');
       await screenshot('office-desktop');
-      await page.getByRole('navigation', { name: 'Workspace presentation', exact: true }).getByRole('button', { name: 'Workspace', exact: true }).click();
+      await page.getByRole('navigation', { name: 'Workspace presentation', exact: true }).getByRole('button', { name: 'Back to the file', exact: true }).click();
       await heading('Tasks').waitFor();
       check(await page.getByRole('textbox', { name: 'Search tasks', exact: true }).inputValue() === 'Pipeline' && await page.locator('.ops-task-row').getAttribute('aria-expanded') === 'true', 'Office round trip preserves the open task, its company identity and its search');
       await nav('Office map'); await heading('Office map').waitFor();
@@ -340,12 +392,12 @@ async page => {
 
     await journey('retained-approval-identity', async () => {
       await route('assurance','Follow-ups',{case:'pipeline-seats',destination:'decisions',action:'action-pipeline-renewal'});
-      const picker=page.getByRole('combobox',{name:'Selected action',exact:true});await page.locator('.decision-case:visible').waitFor();
+      const picker=page.getByRole('combobox',{name:'Request to review',exact:true});await page.locator('.decision-case:visible').waitFor();
       check(await picker.inputValue()==='action-pipeline-renewal'&&(await page.locator('.decision-case header').innerText()).includes('Pipeline CRM'),'Exact Pipeline approval opens its own action');
       await nav('Tasks');await heading('Tasks').waitFor();await page.getByRole('combobox',{name:'Filter by company',exact:true}).selectOption('');await page.getByRole('textbox',{name:'Search tasks',exact:true}).fill('Nimbus');
       const task=page.locator('.ops-task-row:visible');if(await task.getAttribute('aria-expanded')!=='true')await task.click();await page.locator('.ops-task-expanded').getByRole('button',{name:'Open case',exact:true}).click();await heading('Follow-ups').waitFor();
       // The task's current destination can be Credits; its review still must replace the retained Pipeline selection.
-      const views=page.getByRole('group',{name:'Follow-up views',exact:true});await views.getByRole('button',{name:/^Approvals/}).click();await picker.waitFor();
+      const views=page.getByRole('group',{name:'Follow-up views',exact:true});await views.getByRole('button',{name:/^Reviews/}).click();await picker.waitFor();
       check(await picker.inputValue()==='action-nimbus-claim'&&(await page.locator('.decision-case header').innerText()).includes('Nimbus Cloud'),'Opening a different case review replaces the previously retained approval action');
       await picker.selectOption('action-pipeline-preserve');checkRoute('assurance',{case:'pipeline-seats',destination:'decisions',action:'action-pipeline-preserve'});
       await click('Back to follow-up');await page.locator('.followups-detail:visible').waitFor();checkRoute('assurance',{case:'pipeline-seats',destination:'portfolio'});

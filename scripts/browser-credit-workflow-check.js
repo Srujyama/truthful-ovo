@@ -8,7 +8,7 @@ async page => {
   const onConsole = message => { if (message.type() !== 'error') return; const text = message.text(), address = message.location().url || ''; if (/\/api\/session(?:\?|$)/.test(address) && /status of 404/.test(text)) expectedConsoleErrors.push(text); else consoleErrors.push(text); };
   page.on('pageerror', onError); page.on('console', onConsole);
   const click = name => page.getByRole('button', { name, exact: true }).click();
-  const followups = () => page.getByRole('heading', { name: 'Follow-ups', level: 1, exact: true });
+  const followups = () => page.getByRole('heading', { name: 'Cases', level: 1, exact: true });
   const detail = () => page.locator('.followups-detail:visible');
   const credits = () => page.getByRole('region', { name: 'Credits workspace', exact: true });
   const options = async () => { const node = page.locator('.workspace-options'); if (!await node.evaluate(n => n.open)) await node.locator(':scope > summary').click(); };
@@ -19,7 +19,7 @@ async page => {
   };
   const chooseImported = async () => {
     if (!await detail().getByRole('heading', { name: 'Northstar Review', exact: true }).isVisible().catch(() => false)) {
-      const back = page.getByRole('button', { name: 'Back to results', exact: true }); if (await back.isVisible().catch(() => false)) await back.click();
+      const back = page.getByRole('button', { name: 'Back to cases', exact: true }); if (await back.isVisible().catch(() => false)) await back.click();
       const search = page.getByRole('textbox', { name: 'Search follow-ups', exact: true }); if (await search.isVisible()) await search.fill('Northstar Review');
       await page.locator('.portfolio-row:visible').filter({ hasText: 'Northstar Review' }).click();
     }
@@ -28,7 +28,10 @@ async page => {
   };
   const showCredits = async () => { await chooseImported(); await page.getByRole('group', { name: 'Case information', exact: true }).getByRole('button', { name: /^Credits/ }).click(); await credits().waitFor(); };
   const showDocuments = async () => { await chooseImported(); await page.getByRole('group', { name: 'Case information', exact: true }).getByRole('button', { name: /^Documents/ }).click(); };
-  const amount = async expected => { await detail().locator('.assurance-amount > strong').getByText(expected, { exact: true }).waitFor(); };
+  const amount = async expected => { await detail().locator('.assurance-amount > strong').getByText(expected.replace(/\.00$/, ''), { exact: true }).waitFor(); };
+  const moneyIs=(text,cents)=>/^\$[\d,]+(?:\.\d{2})?$/.test(text.trim())&&Math.round(Number(text.trim().replace(/[$,]/g,''))*100)===cents;
+  const exactAmounts=async()=>{const note=detail().locator('.financial-record-details');if(!await note.evaluate(node=>node.open))await note.locator(':scope > summary').click();return note.locator('.case-financial-ledger');};
+  const caseAmount=async label=>(await exactAmounts()).locator(':scope > div').filter({has:page.locator('dt',{hasText:new RegExp(`^${label}$`)})}).locator('dd').innerText();
   const preview = async () => { await credits().getByRole('button', { name: 'Review change', exact: true }).click(); await page.getByRole('region', { name: 'Credit change preview', exact: true }).waitFor(); };
   const source = text => page.getByRole('textbox', { name: 'Supporting credit source text', exact: true }).fill(text);
   const openAmendment = async () => { await showDocuments(); const node = page.locator('.amendment-editor:visible'); if (!await node.evaluate(n => n.open)) await node.locator(':scope > summary').click(); };
@@ -39,10 +42,10 @@ async page => {
     await page.getByLabel('Proposal document text', { exact: true }).fill('SYNTHETIC proposed correction: NR-CREDIT-2026 total credit becomes USD 400, with no new renewal. Current terms remain until finance accepts.');
   };
   const selectAction = async actionId => {
-    await page.getByRole('group', { name: 'Follow-up views', exact: true }).getByRole('button', { name: /^Approvals/ }).click();
-    await page.getByRole('combobox', { name: 'Selected action', exact: true }).selectOption(actionId);
+    await page.getByRole('group', { name: 'Follow-up views', exact: true }).getByRole('button', { name: /^Reviews/ }).click();
+    await page.getByRole('combobox', { name: 'Request to review', exact: true }).selectOption(actionId);
     await page.locator('.decision-case:visible').waitFor();
-    assert(await page.getByRole('combobox', { name: 'Selected action', exact: true }).inputValue() === actionId, 'Role handoff retains the exact Northstar amendment action');
+    assert(await page.getByRole('combobox', { name: 'Request to review', exact: true }).inputValue() === actionId, 'Role handoff retains the exact Northstar amendment action');
   };
   const packet = async name => {
     await page.evaluate(() => { if (!window.__creditDownloadCapture) { const original = URL.createObjectURL; window.__creditDownloadCapture = { original, blobs: new Map() }; URL.createObjectURL = function(blob) { const address = original.call(URL, blob); window.__creditDownloadCapture.blobs.set(address, blob); return address; }; } });
@@ -80,7 +83,9 @@ async page => {
     assert((await page.locator('.credit-preview-values > div').filter({ hasText: 'Applied amount change' }).innerText()).includes('$0.00'), 'Issued-credit preview does not count applied value');
     await overflow('Desktop credit preview'); await shot('issued-preview');
     await click('Record issued credit'); await page.locator('.credit-success').waitFor(); await amount('$350.00');
-    assert((await detail().locator('.case-financial-ledger').innerText()).includes('$100.00'), 'Partial issued attribution is visible separately from applied value');
+    const physicalCredit=credits().locator('.ledger-credit').filter({hasText:'NR-MEMO-001'});
+    const physicalAmount=label=>physicalCredit.locator('.credit-record-amounts > div').filter({has:page.locator('dt',{hasText:new RegExp(`^${label}$`)})}).locator('dd').innerText();
+    assert(moneyIs(await caseAmount('Issued, not applied'),10000)&&moneyIs(await caseAmount('Applied to invoices'),0)&&moneyIs(await physicalAmount('Recorded credit'),30000)&&moneyIs(await physicalAmount('Assigned to follow-ups'),10000), 'Partial issued attribution is visible separately from applied value');
     assert(await credits().locator('.ledger-credit').count() === 1, 'One physical credit line is recorded');
     await page.reload(); await followups().waitFor(); await chooseImported(); await showCredits();
     assert((await credits().locator('.ledger-credit').innerText()).includes('NR-MEMO-001'), 'The credit survives a real workspace reload');
@@ -138,15 +143,15 @@ async page => {
     await role('analyst'); await openAmendment(); await fillAmountAmendment(); await click('Review proposed changes'); await click('Save proposal');
     await page.locator('.decision-case:visible').waitFor();
     assert((await page.locator('.decision-case:visible').innerText()).includes('Northstar Review · NR-CREDIT-2026'), 'New amendment routes to its own exact selected-case review');
-    const actionId = await page.getByRole('combobox', { name: 'Selected action', exact: true }).inputValue();
+    const actionId = await page.getByRole('combobox', { name: 'Request to review', exact: true }).inputValue();
     assert(await page.getByRole('button', { name: 'Approve action', exact: true }).isDisabled(), 'Authoring does not grant approval authority');
     await role('approver'); await selectAction(actionId); await click('Approve action');
     assert(await page.getByRole('button', { name: 'Record approved action', exact: true }).isDisabled(), 'Proposal approval does not grant execution authority');
     await role('executor'); await selectAction(actionId); await click('Record approved action'); await page.getByText('Recorded once', { exact: true }).waitFor();
     await click('Back to follow-up'); await amount('$250.00');
-    assert((await detail().locator('.case-financial-ledger').innerText()).includes('$150.00'), 'Accepted increased promise changes outstanding value without inventing applied credit');
-    const accepted = detail().locator('.case-financial-ledger > div').filter({ has: page.getByText('Accepted amount', { exact: true }) });
-    assert((await accepted.innerText()).includes('$400.00') && (await accepted.innerText()).includes('Originally $350.00'), 'The summary shows current accepted promise with original amount retained');
+    assert(moneyIs(await caseAmount('Applied to invoices'),15000), 'Accepted increased promise changes outstanding value without inventing applied credit');
+    const accepted = (await exactAmounts()).locator(':scope > div').filter({ has: page.getByText('Accepted amount', { exact: true }) });
+    assert(moneyIs(await accepted.locator('dd').innerText(),40000)&&moneyIs((await accepted.locator('small').innerText()).replace(/^Originally\s+/,''),35000), 'The summary shows current accepted promise with original amount retained');
     await role('admin'); await chooseImported(); const amended = await packet('amended');
     const amendedCase = amended.view.commitments.find(c => c.reference === 'NR-CREDIT-2026');
     assert(amendedCase.originalPromisedCents === 35000 && amendedCase.promisedCents === 40000 && amendedCase.verifiedCents === 15000 && amendedCase.outstandingCents === 25000, 'The downloaded amendment packet retains original350/accepted400/applied150/outstanding250');

@@ -1,167 +1,138 @@
 ---
 name: Truthful
-description: A finance workspace connecting follow-ups, exact documents, credits and approved actions, with a secondary original Office map.
+description: A correspondence file connecting a company promise, its exact documents, invoice credit and the next decision.
 colors:
-  ink: "#202530"
-  muted: "#606b7b"
-  rule: "#e3e7ed"
-  canvas: "#f5f6f8"
-  paper: "#ffffff"
-  action: "#344b80"
-  action-hover: "#293e6c"
-  selected: "#eef2fa"
-  negative: "#a43d39"
-  negative-fill: "#faeeee"
-  warning: "#865d18"
-  warning-fill: "#fbf3e4"
-  world-paper: "#f6f4ef"
-  world-ink: "#303a30"
-  world-muted: "#6b7164"
-  world-rule: "#d8d6ca"
-  world-green: "#356550"
-  world-action: "#3c6650"
-  world-action-hover: "#2c513d"
-  inspector-paper: "#fdfbf3"
-  station-paper: "#fffdf2"
-  station-edge: "#a7a493"
-  limestone: "#e6dfca"
-  stone: "#c7c0a9"
-  brick: "#a77554"
-  roof: "#3f5b4d"
-  teal: "#55999a"
-  brass: "#c5a05a"
-  timber: "#795d43"
+  desk: "#2e5946"
+  desk-ink: "#d6e8dc"
+  paper: "#f6f4ed"
+  cotton: "#f4f0e7"
+  manila: "#e5d5ab"
+  ink: "#1d1c19"
+  muted: "#6b675c"
+  rule: "#d2ccbc"
+  action: "#a13c27"
+  action-hover: "#7f2d1e"
+  selected: "#e9e2cc"
+  negative: "#a13c27"
+  negative-fill: "#f1e0d5"
+  warning: "#825a24"
+  warning-fill: "#eee3c9"
 typography:
   display:
-    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
+    fontFamily: "ArchivoDisplay, Arial, sans-serif"
+    fontSize: "clamp(48px, 4.1vw, 64px)"
+    fontWeight: 900
+    lineHeight: 0.98
+  heading:
+    fontFamily: "Archivo, Helvetica Neue, Helvetica, Arial, sans-serif"
     fontSize: "28px"
     fontWeight: 600
-    lineHeight: 1.25
-    letterSpacing: "-0.035em"
   body:
-    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
-    fontSize: "14px"
-    lineHeight: 1.55
+    fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "15px"
+    lineHeight: 1.6
   annotation:
-    fontFamily: "Public Sans Variable, Public Sans, sans-serif"
-    fontSize: "12px"
-  world-display:
-    fontFamily: "Pixelify Sans, sans-serif"
-    fontSize: "clamp(30px, 3vw, 43px)"
-    fontWeight: 500
-    lineHeight: 1.1
-  station-title:
-    fontFamily: "Pixelify Sans, sans-serif"
-    fontSize: "25px"
-    fontWeight: 500
-    lineHeight: 1.1
-  station-label:
-    fontFamily: "Pixelify Sans, sans-serif"
-    fontSize: "16px"
-    fontWeight: 500
-    lineHeight: 1.1
-  world-balance:
-    fontFamily: "Pixelify Sans, sans-serif"
-    fontSize: "clamp(23px, 2.4vw, 32px)"
-    fontWeight: 500
-    lineHeight: 1.2
-  code:
-    fontFamily: "ui-monospace, SFMono-Regular, monospace"
-    fontSize: "12px"
+    fontFamily: "Martian, monospace"
+    fontSize: "10px"
+  case-row:
+    fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "19px"
+    fontWeight: 600
+    lineHeight: 1.3
 rounded:
-  control: "6px"
-  navigation: "5px"
-  world-control: "4px"
-  account-dialog: "10px"
+  control: "3px"
+  file: "0 8px 8px 2px"
+  mobile-file: "4px"
 spacing:
   tight: "8px"
   small: "12px"
   medium: "16px"
   panel: "20px"
   section: "24px"
-  workspace-gutter: "36px"
+  workspace-gutter: "32px"
 components:
   button-primary:
     backgroundColor: "{colors.action}"
-    textColor: "{colors.paper}"
+    textColor: "#fff9ed"
     rounded: "{rounded.control}"
     padding: "9px 13px"
-  button-world-primary:
-    backgroundColor: "{colors.world-action}"
-    textColor: "{colors.station-paper}"
-    rounded: "{rounded.world-control}"
-    padding: "9px 16px"
-  button-world-text:
-    textColor: "{colors.world-green}"
-    padding: "8px 0"
+  navigation-tab:
+    backgroundColor: "{colors.manila}"
+    textColor: "{colors.ink}"
+    padding: "12px 18px"
   navigation-selected:
-    backgroundColor: "#e8edf7"
-    textColor: "#2f477c"
-    rounded: "{rounded.navigation}"
-    padding: "10px 12px"
-  station-anchor:
-    backgroundColor: "{colors.station-paper}"
-    textColor: "{colors.world-ink}"
-    padding: "7px 10px"
-    width: "155px"
-  station-inspector:
-    backgroundColor: "{colors.inspector-paper}"
-    rounded: "{rounded.world-control}"
-    padding: "22px 20px 17px"
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    padding: "12px 18px"
+  case-index:
+    backgroundColor: "#fbf9f1"
+    textColor: "{colors.ink}"
+    padding: "28px 28px 10px"
+  company-mark:
+    textColor: "#6b624c"
+    width: "42px"
+  case-receipt:
+    backgroundColor: "#fcfaf1"
+    textColor: "{colors.ink}"
 ---
 
 # Design System: Truthful
 
-## Current direction
+## Current candidate
 
-The operating application opens Follow-ups. A company’s promise, its exact documents, received credits, proposed changes and next action stay connected as someone inspects and returns. The ordinary workspace uses readable Public Sans, dark ink, white working surfaces, pale gray canvas and restrained blue actions/selection. This documents the current implementation; it does not record user approval or final acceptance.
+The user explicitly rejected the blue-gray workspace at commit `081444c`, the earlier Nomen milestone as sufficient application design, and all three Formroom candidates as taste templates. This document records the replacement currently implemented in source. It records no user approval. Completed local workflow evidence is recorded separately in CORRESPONDENCE_DESIGN.md. [CORRESPONDENCE_DESIGN.md](docs/CORRESPONDENCE_DESIGN.md) owns the current requirements and review; the older [UI_OVERHAUL.md](docs/UI_OVERHAUL.md) is historical evidence.
 
-The user rejected the previous Nomen-inspired spatial milestone as sufficient application design. The original Office map remains a secondary overview with real record links. Its warm materials, Pixelify labels and isometric architecture belong to that scene; they are not the default type or composition for repeated financial work. The historical milestone and its evidence remain in [NOMEN_ADAPTATION.md](docs/NOMEN_ADAPTATION.md).
+The organizing object is a company conversation: what they promised, what the invoice shows, and what needs doing. Cases opens with readable stories and real next actions, not portfolio KPI totals, technical reference columns or a status taxonomy. Exact amounts, dates, record identifiers, policy and raw events remain available when needed.
 
-## Composition follows the work
+## Reference and material system
 
-| Surface | Working composition |
+The direct reference is Aiden Guan’s [Student page](https://aidenguan.com/student), its opened project folder, and the matching local `portfolio-2` source. The lead operated its folder opening and closure and captured the actual page this pass. The implementation adapts the related materials, light and object continuity to original finance-specific artwork and behavior. It does not copy the author’s identity, photographs or unrelated desk objects.
+
+Every route sits in one green gridded mat, manila navigation tabs and warm paper file. Light enters from the upper left; layers cast shadows down and right. Dark printed text, fine warm rules, restrained red ink, clipped paper corners, receipt perforations and a paperclip belong to the same material grammar. Documents, decisions, forms, account dialogs, examples and the Office illustration share this environment. Office is inside the file frame, rather than a separate theme or app shell.
+
+`src/correspondence-theme.css`, imported after the existing styles, supplies the current material and semantic tokens. Existing task CSS still supplies each view’s useful structure. The theme does not turn every task into the same card grid.
+
+## Navigation and composition
+
+| Destination | Composition and work |
 | --- | --- |
-| Follow-ups | Full-width searchable/filterable results, then a full-width selected case with amounts, next action and Documents / Credits / History. Back returns to the retained results. |
-| Credits | Dated credit lines beside the selected note, its assignments and supporting documents. On phone, list and detail are separate views. |
-| Tasks | Prioritized rows expand the actual reason, related issues and next action in place. Scheduled work stays separate and reachable. |
-| Companies | Relationship list and selected company with balances, follow-ups, credits and documents. |
-| Documents | Search and version/cutoff filters, a document list and an exact-version reading surface. Source text is preserved as supplied. |
-| Activity | Dated recorded changes beside the selected change, actor, effective date and related case. Raw records are progressive detail. |
-| Reports | Financial statement and company comparison, independent financial/document-cutoff dates and exports. |
-| Document review | Tabbed original inputs connected to a finding and exact passage. Managed mode adds saved document, follow-up draft and import libraries; browser mode clearly identifies local demo storage. |
-| Workflow tests | Bounded comparisons and separate action-permission controls. Technical detail serves the selected test or action rather than becoming the default finance opening. |
+| Cases | A question on the file cover beside a searchable conversation sheet. Opening a company reveals its promise, invoice check, next decision and Documents / Credits / History. |
+| Documents | Original promises, invoices and replies; searchable list beside an exact-version reader, with version/cutoff filters and related records. |
+| Companies | Company list and selected relationship; a single case has one narrative rather than repeated summary text. |
+| Reports | Financial statement and company comparison, separate financial/document dates and exports. |
+| Needs attention | Contextual to Cases; prioritized reasons and concrete next steps, with scheduled work reachable. |
+| Credit notes | Contextual to Documents; original note amounts, matched portions, invoice application, assignments and reversals retain separate meanings. |
+| Check documents | Contextual to Documents; supplied inputs, exact passages, findings and drafts. Managed mode adds saved versions and reviewed imports. |
+| More | History, Developer tools, Office map and Examples. History uses human descriptions with raw records in details. Developer tools retains comparisons, action permissions and replay. |
 
-A palette change cannot establish these relationships. The inspected local Relay study demonstrates source-to-consequence coupling; Builder demonstrates retained identity and interruption/history; PigeonBox demonstrates that familiar operational controls can carry a specific product. These are mechanism references, not layouts to transplant or evidence of user approval. The source/evidence boundaries are recorded in [UI_OVERHAUL.md](docs/UI_OVERHAUL.md) and [FRONTEND_GUIDANCE.md](docs/FRONTEND_GUIDANCE.md).
+The four primary tabs are Cases, Documents, Companies and Reports. The global header retains Search, Add documents and account access. Examples contains Guided cases, Example activity and Example documents. Internal module/route names remain compatibility details rather than the visible navigation vocabulary.
 
-## Type, color and controls
+## Type and controls
 
-Public Sans is imported locally through `@fontsource-variable/public-sans`. Principal operational headings are around 28px, with 25–26px phone variants; body and working rows use 13–14px, with 12px supporting labels. Amounts use aligned numerals and explicit currency/meaning. Code, digests and raw records use monospace where useful. Pixelify Sans is locally served with its OFL retained and is confined to Office scene identity, place labels and selected scene figures.
+Archivo carries headings; Archivo ExtraCondensed Black carries the cover question and wordmark. Helvetica Neue, Helvetica and Arial carry reading and forms. Martian Mono carries small printed metadata. The Archivo and Martian WOFF files are local under `public/fonts/` with [Archivo’s OFL](public/fonts/Archivo-OFL.txt) and [Martian Mono’s OFL](public/fonts/MartianMono-OFL.txt). Public Sans remains an installed legacy dependency; it is not the current app’s primary typography. Original map art may retain pixel labels within the illustration.
 
-`src/workspace.css` supplies the operational tokens listed above. Blue marks selection and available actions. Negative and warning fills retain readable labels; color alone never distinguishes issued, applied, conditional or reversed money. Surface-specific exact values remain in their component CSS rather than being forced into one universal card treatment.
+Principal task headings are 28px; Cases is 23px. The cover question is 48–64px on wide screens, with a later phone override of 42px. Case story headlines are 19px on desktop and 18px on phone; body defaults to 15px, with denser supporting text and 9–10px metadata. Exact supplied source text keeps its meaning and is not rewritten to fit the new voice.
 
-Ordinary buttons use 6px corners, 38px minimum height and explicit verbs. Primary buttons have white text on blue; secondary buttons have white fill and a fine border. Text actions stay concise. Disabled actions retain the relevant reason near the task. Focus outlines are visible with a 2px blue outline and 3px offset. Native disclosures contain supporting terms, history, policy and technical records rather than repeating them throughout the page.
+Red ink marks available actions and focus; named text communicates the actual result. Negative and warning states remain distinct in meaning even where colors overlap. Main buttons have 3px corners and a 40px minimum height. Inputs use warm white stock, a fine brown rule and 3px corners. Focus has a 2px red outline and 4px offset. Details/disclosures contain policy, exact record data and technical evidence without hiding the primary decision.
 
-## Responsive structure
+## Truthful paper objects
 
-The workspace has a 216px rail, a 64px utility header and 36px desktop gutters. At 1100px utility controls compact and gutters become 24px. At 760px the rail becomes an overlay, the header becomes 59px, and the mobile menu supports focus containment, Escape/backdrop close and return to its trigger. The selected task remains the content rather than shrinking the entire desktop layout.
+`PromisePapers` is original summary artwork generated from the selected case’s actual amounts. Its printed caption is **Promise summary**. It is not an original invoice, vendor letter, authenticated document or replacement for the source reader. The slip says **Invoice not added** when no related invoice revision is available. Opening the object enters the actual case and its supplied documents.
 
-Task-specific transformations remain deliberate: document lists become a scroll-bounded block above the reader at 640px; company columns stack earlier; credit list/detail switches on phone; case amounts and source documents reflow into readable single-column groups. Managed document review stacks its archive and reading surface at 760px and keeps its example action available. Long exact source text wraps; tab/filter rows may scroll without clipping the document or action.
+`CaseExplanation` states the actual promise and invoice result, or the extra spending and offered credit for a conditional renewal. Baseline assumptions are inspectable. A matched share of a larger note is not relabeled as a smaller physical note. An issued note does not prove the bill was reduced. Missing local invoice evidence does not establish what happened in a vendor’s external system.
 
-## Identity and consequence
+The main CTA names the real decision, such as checking the note or comparing proposed terms. Proposing, approving or recording a local domain action does not compose or send an email. Editable drafts, exact-version approval and unsent EML export live in document review.
 
-Retained route surfaces preserve drafts and selected work when moving among workspace destinations or Office. Exact case/action/source targets are passed explicitly; an unavailable requested record must show that state rather than substitute another record. History, focus entry/return and draft recovery are part of the interaction, not optional polish. Current integrated journey evidence belongs in the overhaul record; source structure alone does not prove these paths passed.
+## Continuity and responsive behavior
 
-Original document versions remain inspectable. Revising a source, changing accepted terms or changing policy can invalidate an earlier approval. Managed draft approvals bind the exact saved version; later edits/rebinding require review. Credit forms preview their actual financial deltas before recording. Conditional offers, issued notes and applied credit remain separate, and reversal/assignment capacity comes from the same financial model.
+The selected company seal and name travel between its conversation row and case reader using original FLIP/WAAPI clones. Source defines a 420ms movement with `cubic-bezier(.2,.75,.25,1)`. Back during entry reverses the active animation; cleanup restores live elements. Pointer events remain with the working UI. Reduced motion skips the cloned movement. These mechanisms require operated normal-motion, interruption, cancellation and return checks; source alone is not evidence that they passed.
 
-## Office scene and motion
+The main desktop frame uses a 202px rail, 69px header and 32px task gutters. At 1100px the rail becomes 163px and framing compacts. Between 761px and 900px the case cover and conversation sheet stack while retaining a small paper object. At 760px the navigation becomes a focus-contained overlay, the header becomes 57px, the frame has 10px side margins and task gutters become 19px. Phone hides cover metadata and summary artwork so the real conversations take priority. Task-specific stacking remains in the underlying CSS; document reading stacks at 640px and Office’s map/inspector at 800px.
 
-Office retains six original Canvas buildings, DOM station controls, selected-station records, camera fit/zoom/drag, pause and reduced-motion controls. Building links enter actual documents, approvals, credits, reports, tasks or the exact approved action. Scenery does not perform financial work. The scene’s material palette and pixel rendering remain local to this alternate presentation.
+Visited task surfaces retain selections, drafts and ephemeral signing keys across ordinary navigation, including Office round trips. Session/workspace changes must not leak retained work. Missing exact targets show an unavailable state instead of substituting another record. Keyboard focus entry/return and scroll recovery are part of the same journey.
 
-Recorded-event couriers use a 1900ms active-time clock; scenery and courier progress account for pause and visibility changes. Zoom is bounded from 0.7 to 2.2, and pointer cancellation ends a drag. At 800px the scene stacks its inspector below the map; a normal-flow six-station dock keeps every destination available. On narrower maps the camera frames the selected building. Reduced motion retains ordinary controls while suppressing motion. Historical browser captures did not establish actual tab-background visibility; timing-unit evidence is distinct from that browser observation.
+## Office and verification boundaries
 
-## Evidence and scope
+Office retains six original Canvas buildings, DOM station links, exact record inspection, bounded zoom/fit/drag, pause/visibility-aware couriers and reduced-motion controls. Its header returns **Back to the file**; its count strip describes recorded case files and documents. Scenery illustrates recorded work and performs no financial transaction. The historical [Nomen record](docs/NOMEN_ADAPTATION.md) preserves provenance and earlier behavior evidence.
 
-Current sources: `src/App.jsx`, `workspace.css`, `Assurance.jsx`, `Credits.jsx`, `Operations.jsx`, `ManagedEvidence.jsx`, `Workbench.jsx`, `ExecutionLab.jsx` and their task CSS; the Office renderer remains under `src/clearing-house/`. This record supersedes the prior warm-paper/pixel operational design and its default-world assumption. Legacy module names are implementation history, not product vocabulary.
-
-[UI_OVERHAUL.md](docs/UI_OVERHAUL.md) owns current acceptance criteria and evidence reconciliation. Passing builds, historical screenshots and reviewer verdicts do not establish user acceptance. Public hosting, native Figma persistence, videos and submission remain separate delivery targets; this document claims none of them.
+Source and current desktop/phone captures of Cases, Documents and Office were inspected for this documentation update, including the repaired phone cover and shared Office frame. The lead owns integrated functional tests, broader rendered inspection and acceptance reconciliation in [CORRESPONDENCE_DESIGN.md](docs/CORRESPONDENCE_DESIGN.md). Passing builds, screenshots, reviewer scores and historical counts do not establish user acceptance. This documentation claims no new public deployment, native Figma persistence, connected external action, video or submission.

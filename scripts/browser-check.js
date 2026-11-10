@@ -34,7 +34,7 @@ async page => {
   const dock = name => page.locator('.demo-dock').getByRole('button', { name, exact: true });
   try {
     await page.setViewportSize({ width: 1440, height: 1000 }); await page.goto(`${base}/?view=assurance`);
-    await page.getByRole('heading', { name: 'Follow-ups', level: 1, exact: true }).waitFor();
+    await page.getByRole('heading', { name: 'Cases', level: 1, exact: true }).waitFor();
     await page.locator('.product-root[data-runtime="server"], .product-root[data-runtime="browser"]').waitFor(); runtime = await page.locator('.product-root').getAttribute('data-runtime');
     await page.locator('.topbar').getByRole('button', { name: 'Add documents', exact: true }).click();
     await page.getByRole('heading', { name: 'Document review', level: 1, exact: true }).waitFor();
@@ -83,6 +83,7 @@ async page => {
     await page.setViewportSize({ width: 390, height: 844 }); await overflow('Phone document review'); await shot('document-review-mobile');
     require(await results().getByRole('tab', { name: 'Follow-up', exact: true }).isVisible(), 'The phone review retains its working follow-up controls');
     await page.setViewportSize({ width: 1440, height: 1000 });
+    const more = page.locator('.sidebar details.nav-secondary'); if(!await more.evaluate(node=>node.open))await more.locator(':scope > summary').click();
     const examples = page.locator('.sidebar .example-navigation'); if (!await examples.evaluate(node => node.open)) await examples.locator(':scope > summary').click();
     await examples.getByRole('button', { name: 'Guided cases', exact: true }).click(); await page.getByRole('heading', { name: 'Guided cases', level: 1, exact: true }).waitFor();
     await dock('Reset').click(); await dock('Trigger outage').click(); await dock('Review claim').waitFor(); await dock('Review claim').click();

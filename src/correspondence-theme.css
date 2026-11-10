@@ -1,0 +1,255 @@
+@font-face{font-family:Archivo;src:url('/fonts/Archivo-SemiBold.woff') format('woff');font-weight:400 700;font-display:swap}
+@font-face{font-family:ArchivoDisplay;src:url('/fonts/Archivo-ExtraCondensedBlack.woff') format('woff');font-weight:800 900;font-display:swap}
+@font-face{font-family:Martian;src:url('/fonts/MartianMono-Medium.woff') format('woff');font-weight:400 600;font-display:swap}
+:root{
+  --desk:#2e5946;--desk-ink:#d6e8dc;--paper:#f6f4ed;--cotton:#f4f0e7;--manila:#e5d5ab;--print:#1d1c19;--muted-print:#6b675c;--red-ink:#a13c27;--print-rule:#d2ccbc;
+  --ui-font:'Helvetica Neue',Helvetica,Arial,sans-serif;--ui-ink:var(--print);--ui-muted:var(--muted-print);--ui-rule:var(--print-rule);--ui-canvas:var(--paper);--ui-paper:var(--paper);--ui-accent:var(--red-ink);--ui-selected:#e9e2cc;--ui-negative:#a13c27;--ui-negative-fill:#f1e0d5;--ui-warning:#825a24;--ui-warning-fill:#eee3c9;
+  --a-ink:var(--print);--a-muted:var(--muted-print);--a-rule:var(--print-rule);--a-green:var(--red-ink);--a-wash:#e9e2cc;--a-red:var(--red-ink);--a-amber:#825a24;
+  color:var(--print);background:var(--desk);font-family:var(--ui-font)
+}
+html,body,#root{min-height:100%;background:var(--desk)}
+body,button,input,textarea,select{font-family:var(--ui-font);font-size:15px;font-weight:400}
+body{color:var(--print)}
+.product-root{min-height:100dvh;background-color:var(--desk);background-image:linear-gradient(#d9ecdf0a 1px,transparent 1px),linear-gradient(90deg,#d9ecdf0a 1px,transparent 1px),radial-gradient(ellipse at 15% 0%,#48755b65,transparent 65%);background-size:32px 32px,32px 32px,100% 100%;padding:28px 28px 28px 0}
+.product-root:before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.025;z-index:90;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath d='M0 0H180V180H0z' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
+.product-root .app-shell{min-height:calc(100dvh - 56px);position:relative}
+.product-root .sidebar{width:202px;position:fixed;top:28px;bottom:28px;left:0;padding:22px 20px 22px 22px;background:none;border:0;overflow:visible;display:flex;flex-direction:column;color:var(--desk-ink);z-index:31}
+.sidebar .brand{color:var(--paper);padding:0;font-family:ArchivoDisplay,Arial,sans-serif;font-size:44px;letter-spacing:0;line-height:1;gap:0;text-transform:uppercase;white-space:nowrap}
+.sidebar .brand-symbol,.sidebar .brand-period{display:none}
+.sidebar .workspace-identity{border:0;background:none;padding:0;margin:19px 0 28px;min-height:0;color:var(--desk-ink);gap:0}
+.sidebar .workspace-avatar{display:none!important}
+.sidebar .workspace-identity strong{font-family:var(--ui-font);font-size:12px;font-weight:400;color:#f3f2e7}
+.sidebar .workspace-identity small{color:#d6e8dcb8;font-size:11px;margin-top:5px}
+.sidebar nav{margin-top:6px;position:relative}
+.sidebar nav>button{border-radius:4px 0 0 4px;min-height:49px;width:calc(100% + 20px);padding:12px 18px;margin-bottom:8px;background:linear-gradient(90deg,#d9c69c,#e5d5ab);box-shadow:0 2px 3px #102a2450,inset 0 1px #fdf5d780;border:1px solid #95845b;border-right:0;font-size:15px;color:#37382c;position:relative;transition:transform .18s ease,background .18s ease;text-align:left}
+.sidebar nav>button span{font:inherit;color:inherit}
+.sidebar nav>button.active{background:var(--paper);color:var(--print);transform:translateX(5px);border-color:#e6e0cb;box-shadow:-2px 4px 8px #102a2450;z-index:2}
+.sidebar nav>button:hover{background:#f0e7ce;color:var(--print);transform:translateX(3px)}
+.sidebar nav>button.active:before{display:none}
+.sidebar nav>button.nav-child,.sidebar .document-nav button{width:auto;min-height:30px;display:block;padding:5px 0 7px 17px;margin:0 0 5px 0;border:0;border-radius:0;background:none;box-shadow:none;font-size:12px;color:#e9eddd;transform:none}
+.sidebar nav>button.nav-child.active,.sidebar .document-nav button.active{color:white;text-decoration:underline;text-underline-offset:5px;font-weight:600}
+.sidebar .document-nav{margin:0 0 12px}
+.sidebar details.nav-secondary{border:0;margin-top:30px;padding:0}
+.sidebar .nav-secondary>summary{font-size:13px;color:#e4eadb;cursor:pointer;padding:9px 0;list-style:none}
+.sidebar .nav-secondary>summary:after{content:' +';margin-left:8px}
+.sidebar .nav-secondary[open]>summary:after{content:' −'}
+.sidebar .nav-secondary>button,.sidebar .example-navigation>button{color:#e5ebdc;padding:8px 0;font-size:12px;background:none;border:0;display:block;min-height:30px;text-align:left}
+.sidebar .example-navigation{margin:9px 0 0}
+.sidebar .example-navigation>summary{padding:8px 0;color:#e5ebdc;font-size:12px}
+.sidebar .sidebar-bottom{padding-top:28px;margin-top:auto}
+.sidebar-bottom .help-button{color:#d6e8dcd0;padding:12px 0;font-size:12px}
+.sidebar-bottom .profile{border-color:#d6e8dc35;padding:16px 0 0;gap:8px}
+.sidebar .profile>span{background:#d6e8dc1a;color:#e8eddf;border-radius:0;font-size:11px;height:27px;width:27px}
+.sidebar .profile strong,.sidebar .profile small{color:#e4e9db;font-size:11px}
+.product-root .app-main{margin-left:202px;min-height:calc(100dvh - 56px);background:var(--paper);border:1px solid #f2e6c2;border-radius:0 8px 8px 2px;box-shadow:2px 3px 2px #122b2850,7px 12px 20px #112b2940,14px 20px 0 -7px #b9a77f,18px 25px 22px #122b2840;position:relative}
+.product-root .app-main:before{content:'';position:absolute;inset:0 auto 0 0;width:17px;pointer-events:none;background:linear-gradient(90deg,#7e704b35,#cdbb9020 35%,transparent);z-index:1}
+.product-root .topbar{height:69px;padding:0 34px;background:transparent;border-color:#c7bea4;gap:10px}
+.breadcrumb{font-family:Martian,monospace;gap:7px;color:var(--muted-print);font-size:10px}
+.breadcrumb>svg{display:none}.breadcrumb>strong{color:#5f6153;font-size:10px;font-weight:400;font-family:Martian,monospace}
+.desk-location{white-space:nowrap;color:#8c7b5c;font-size:10px}
+.topbar-right{gap:12px}.app-shell .workspace-account-trigger{background:transparent;border:1px solid #bcb39a;border-radius:3px;color:#494e3e;font-size:11px;min-height:33px}
+.app-shell .add-documents-top{min-height:34px;font-size:12px;background:var(--red-ink);border-color:var(--red-ink);border-radius:3px;color:#fff9ea;box-shadow:inset 0 1px #f5a98744,0 2px 2px #9b8f7120}
+.workspace-command-trigger{color:#6b6c5b;background:none;font-size:12px}.workspace-command-trigger kbd{display:none}
+.app-shell .button,.app-shell .text-button{font-family:var(--ui-font);letter-spacing:0;box-shadow:none}
+.app-shell .button{border-radius:3px;font-size:13px;min-height:40px;border-color:#bfb49a;background:#faf8ef;color:var(--print)}
+.app-shell .button.primary{background:var(--red-ink);border-color:var(--red-ink);color:#fff9ed}
+.app-shell .button.primary:hover:not(:disabled){background:#7f2d1e}
+.app-shell .button.secondary{background:#faf8ef;border-color:#c4b99d;color:var(--print)}
+.app-shell .button:disabled{background:#e7e2d5;color:#8c8777;border-color:#d8d0bc}
+.app-shell .text-button{color:var(--red-ink);font-size:13px;min-height:34px}
+.app-shell button>svg:not(.company-print svg){stroke-width:1.5}
+.app-shell input,.app-shell select,.app-shell textarea{color:var(--print);background:#fbfaf5;border-color:#c9bfa7;border-radius:3px;font-size:14px;line-height:1.6;box-shadow:inset 0 1px 2px #7f765c0a}
+.app-shell input::placeholder,.app-shell textarea::placeholder{color:#898573}
+.app-shell :focus-visible{outline:2px solid var(--red-ink);outline-offset:4px}
+.app-shell h1,.app-shell h2,.app-shell h3{color:var(--print);letter-spacing:0;font-family:Archivo,var(--ui-font)}
+.app-shell h1{font-size:28px;font-weight:600}
+.app-shell :is(.assurance,.operations,.credits-page,.lab-main,.execution-main,.managed-evidence){--a-ink:var(--print);--a-muted:var(--muted-print);--a-rule:var(--print-rule);--a-green:var(--red-ink);--a-wash:#e9e2cc;--a-red:var(--red-ink);--a-amber:#825a24;color:var(--print)}
+/* The case index is the right-hand leaf; the left is the folder's cover. */
+.followups-page{padding:27px 32px 36px;max-width:none}
+.followups-page .assurance-page-heading{padding:0;margin:0 0 20px;align-items:center}
+.followups-page .assurance-page-heading h1{font-size:23px}
+.followups-page .assurance-page-heading p{display:none}
+.followups-page .workspace-options>summary{font-size:12px;min-height:32px;border:0;background:none;color:#6e6b5b;padding:6px 0}
+.followups-page .assurance-navigation{margin-bottom:0;border:0;gap:18px;padding:0 0 16px}
+.followups-page .assurance-navigation>div{gap:24px}
+.followups-page .assurance-navigation button{font-size:13px;padding:5px 0;min-height:30px;color:#807860;border:0;border-bottom:1px solid transparent;gap:0}
+.assurance-navigation button>svg,.assurance-navigation button>span{display:none}
+.followups-page .assurance-navigation button[aria-pressed=true]{color:var(--red-ink);border-bottom:1px solid var(--red-ink)}
+.followups-more{font-size:12px}.followups-page .history-disclosure{margin:0 0 18px;border:0;font-size:11px}.followups-page .history-disclosure>summary{min-height:25px;color:#7b7667}
+.followups-page .history-disclosure:not([open])>summary>span:last-child{display:none}
+.followups-page .history-disclosure:not([open])>summary>span:first-child{font-size:11px;gap:5px}
+.followups-page .history-disclosure>summary svg{width:12px;height:12px}
+.followups-layout{display:block}.followups-page .followups-list{border:0;background:none;border-radius:0;box-shadow:none}
+.casebook-opening{display:grid;grid-template-columns:minmax(220px,.76fr) minmax(380px,1.24fr);gap:32px;align-items:start;position:relative}
+.casebook-cover{padding:26px 0 14px;position:sticky;top:32px}
+.cover-caption{font-family:Martian,monospace;font-size:9px;color:#8c7c5b;display:block;margin-bottom:22px}
+.casebook-cover h2{font-family:ArchivoDisplay,Arial,sans-serif;font-size:clamp(48px,4.1vw,64px);font-weight:900;line-height:.98;max-width:11ch;margin:0;color:var(--print);text-wrap:initial}
+.casebook-cover>p{font-size:14px;line-height:1.7;max-width:25ch;margin-top:23px;color:#6b675b}
+.cover-note{display:block;font-size:11px;line-height:1.7;max-width:29ch;color:#817860;margin-top:12px}
+.casebook-index{background:#fbf9f1;box-shadow:1px 2px 2px #5c513b1c,4px 7px 10px #5c513b13;border:1px solid #e3dac6;padding:28px 28px 10px;position:relative;min-width:0;transform:rotate(.25deg)}
+.casebook-index:before{content:'';position:absolute;left:4px;right:4px;top:-6px;height:5px;border:1px solid #e1d6bb;border-bottom:0;background:#efe9d9;transform:rotate(-.4deg);z-index:-1}
+.casebook-index-heading{display:flex;align-items:baseline;justify-content:space-between;gap:15px;padding-bottom:22px;border-bottom:1px solid #bfb298}
+.casebook-index-heading h3{font-size:20px;line-height:1.2;font-weight:600}.casebook-index-heading>span{font-size:10px;font-family:Martian,monospace;color:#82775e;white-space:nowrap}
+.followups-page .followups-results-toolbar{display:flex;justify-content:space-between;gap:16px;padding:15px 0 9px;align-items:center}
+.followups-page .assurance-search{border:0;border-bottom:1px solid #d4cab4;border-radius:0;background:none;min-height:35px;padding:0;gap:8px;flex:1}
+.followups-page .assurance-search>svg{width:14px;height:14px;color:#8e866f}
+.followups-page .assurance-search input{background:none;border:0;min-height:35px;padding:5px 0;font-size:12px;box-shadow:none}
+.casebook-filters{position:relative;font-size:11px;color:#77705d;flex-shrink:0}
+.casebook-filters>summary{cursor:pointer;min-height:35px;display:flex;align-items:center}
+.casebook-filters[open]{position:relative;z-index:4}.casebook-filters .followups-status-filters{position:absolute;right:0;top:35px;background:#f6f0df;border:1px solid #cfc2a4;box-shadow:3px 8px 18px #5a4c3026;padding:12px;width:240px;display:grid;gap:3px}
+.casebook-filters .followups-status-filters button{font-size:12px;justify-content:space-between;min-height:32px;padding:6px 8px;border:0;border-radius:0;background:none;color:var(--print)}
+.casebook-filters .followups-status-filters button[aria-pressed=true]{background:#e6dbc0;color:var(--red-ink)}
+.casebook-filters .followups-sort{position:absolute;right:0;top:234px;background:#f6f0df;border:1px solid #cfc2a4;border-top:0;padding:12px;width:240px;display:grid;gap:5px}
+.correspondence-index{display:block}
+.followups-page .portfolio-row.correspondence-entry{display:flex;align-items:flex-start;gap:15px;border:0;border-bottom:1px dashed #cbbfa6;background:none;border-radius:0;padding:23px 0;min-height:130px;text-align:left;position:relative;width:100%;transform:none;transition:background .18s ease}
+.followups-page .portfolio-row.correspondence-entry:hover{background:#ece4d246;box-shadow:none;transform:none}
+.followups-page .portfolio-row.correspondence-entry:last-child{border-bottom:0}
+.company-print{display:inline-flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;width:42px;height:42px;border:1.5px solid #9b8d6a;border-radius:50%;color:#6b624c;background:none;margin-top:3px}
+.company-print>span{font-family:ArchivoDisplay,sans-serif;font-weight:900;font-size:23px;line-height:1;letter-spacing:0}
+.company-print>i{position:absolute;left:5px;right:5px;top:4px;height:1px;background:#9b8d6a;opacity:.4}.company-print>i:last-child{top:auto;bottom:4px}
+.correspondence-copy{display:block;min-width:0;flex:1}
+.correspondence-copy>span,.correspondence-copy>strong{display:block}
+.correspondence-company{font-size:12px;color:#80745b;line-height:1.4;margin-bottom:6px}
+.followups-page .portfolio-row .correspondence-copy>strong{font-size:19px;line-height:1.3;color:var(--print);font-weight:600;max-width:32ch;letter-spacing:0}
+.correspondence-detail{font-size:13px;line-height:1.65;color:#746b58;margin-top:8px;max-width:44ch}
+.correspondence-next{font-size:11px;color:var(--red-ink);margin-top:13px;border-bottom:1px solid #c68d7660;display:inline-block!important;padding-bottom:3px}
+.folder-lip{position:absolute;right:-34px;top:36px;width:8px;height:55px;background:#c7b27d;border-radius:0 3px 3px 0;border:1px solid #b49c65;border-left:0}
+.followups-page .followups-results-footer{padding:19px 0 6px;border-top:1px solid #bfb298;gap:8px;display:flex;justify-content:space-between;align-items:center;background:none;font-size:10px;color:#8b8069}
+.followups-results-footer .text-button{font-size:11px;min-height:25px;color:var(--red-ink)}
+/* The preview is original artwork made out of the same real case values. */
+.promise-papers{display:block;width:100%;height:270px;max-width:330px;position:relative;background:none;border:0;margin:35px 0 10px;text-align:left;cursor:pointer;perspective:800px}
+.promise-letter{position:absolute;left:0;top:5px;width:71%;height:218px;background:#fbf8ed;border:1px solid #e1d8c0;box-shadow:2px 4px 9px #162f2c33;transform:rotate(-6deg);padding:20px 18px;transition:transform .35s cubic-bezier(.2,.75,.25,1);display:block}
+.promise-letter:after{content:'';position:absolute;right:0;top:0;width:19px;height:19px;background:linear-gradient(225deg,#d9cfb4 49%,#eee8d5 50%);clip-path:polygon(0 0,100% 100%,0 100%)}
+.letter-address{font-size:13px;font-weight:600;display:block}.letter-date{font-size:8px;font-family:Martian,monospace;color:#8d826b;display:block;margin-top:8px}.letter-rule{height:1px;background:#d5c8ac;display:block;margin:14px 0}.promise-letter>strong{font-size:32px;color:#4d483c;font-weight:600;display:block}.letter-sentence{font-size:10px;color:#8b7f66;display:block;margin-top:4px}.letter-lines{display:grid;gap:7px;margin-top:18px}.letter-lines i{height:2px;background:#d2c7ad;display:block;width:100%}.letter-lines i:nth-child(2){width:86%}.letter-lines i:nth-child(3){width:55%}.ink-signature{font-size:9px;color:#7c6c4e;display:block;margin-top:15px;font-style:italic}
+.invoice-slip{position:absolute;right:-7px;top:45px;width:64%;height:215px;background:#f7f4e9;padding:20px 17px;box-shadow:2px 5px 9px #172f2b33;transform:rotate(7deg);display:block;transition:transform .35s cubic-bezier(.2,.75,.25,1);clip-path:polygon(0 0,100% 0,100% 98%,96% 100%,92% 98%,88% 100%,84% 98%,80% 100%,76% 98%,72% 100%,68% 98%,64% 100%,60% 98%,56% 100%,52% 98%,48% 100%,44% 98%,40% 100%,36% 98%,32% 100%,28% 98%,24% 100%,20% 98%,16% 100%,12% 98%,8% 100%,4% 98%,0 100%)}
+.receipt-company{display:block;font-size:11px;font-weight:600;text-align:center}.receipt-caption{display:block;text-align:center;font-family:Martian,monospace;font-size:8px;color:#8e8065;margin-top:8px;line-height:1.6}.receipt-perforation{display:block;border-top:1px dashed #bcae90;margin:13px 0}.receipt-line{display:flex;justify-content:space-between;gap:10px;font-size:9px;line-height:1.5;margin:8px 0;color:#7d715b}.receipt-line b{font-weight:600;color:#524936}.receipt-total{font-size:10px;margin-top:11px}.receipt-barcode{display:block;width:86%;height:18px;margin:16px auto 5px;background:repeating-linear-gradient(90deg,#4c4536 0 1px,transparent 1px 3px,#4c4536 3px 5px,transparent 5px 7px,#4c4536 7px 8px,transparent 8px 12px,#4c4536 12px 15px,transparent 15px 17px);opacity:.6}.receipt-foot{display:block;font-size:7px;font-family:Martian,monospace;color:#8a7d62;text-align:center;margin-top:7px}.paperclip{position:absolute;top:-3px;left:57%;height:72px;width:33px;transform:rotate(-4deg);filter:drop-shadow(2px 2px 1px #1a302c50)}
+.promise-papers:hover .promise-letter{transform:rotate(-9deg) translate(-3px,-5px)}.promise-papers:hover .invoice-slip{transform:rotate(10deg) translate(5px,-3px)}
+/* The opened case continues the same file, rather than changing application. */
+.followups-page .followups-detail{border:0;background:none;border-radius:0;box-shadow:none;animation:paper-open .3s cubic-bezier(.2,.75,.25,1)}
+.followup-back{border-bottom:1px solid var(--print-rule);padding:0 0 17px;background:none;font-family:Martian,monospace;font-size:9px;color:#8a7d64}
+.followups-detail>header{padding:25px 0 20px;border:0;display:flex;gap:18px;align-items:center;background:none}
+.followups-detail>header>div{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+.followups-detail>header h2{font-family:ArchivoDisplay,sans-serif;font-size:43px;font-weight:900;line-height:1}
+.followups-detail>header p{display:none}.followups-detail>header .assurance-status{font-size:11px;border:0;border-radius:0;background:none;color:#84765b}
+.followups-detail .portfolio-case-body{padding:0}.case-explanation{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start;padding:12px 0 25px}
+.document-kind{display:block;font-family:Martian,monospace;font-size:10px;color:#8b7c60;margin:0 0 18px}
+.case-explanation-copy h3{font-size:32px;line-height:1.18;max-width:19ch;margin:0 0 20px}
+.case-explanation-copy>p{font-size:16px;line-height:1.75;max-width:45ch;color:#6a6252}
+.case-explanation-copy .case-deadline-note{font-size:12px;color:#966748;margin-top:16px}
+.case-receipt{position:relative;background:#fcfaf1;border:1px solid #e4dac4;padding:26px 30px 18px;box-shadow:2px 5px 8px #5a503d17;transform:rotate(1deg);margin:8px 8px 15px 0}
+.case-receipt:before{content:'';position:absolute;left:32%;top:-10px;width:36%;height:18px;background:#d4c78a50;transform:rotate(-2deg);box-shadow:inset 0 1px #fff6c640}
+.case-receipt>.receipt-caption{font-size:10px;margin:0 0 22px;text-align:left;color:#7b6f58}
+.case-receipt dl>div{display:flex;justify-content:space-between;gap:20px;margin:14px 0;font-size:14px;line-height:1.5}.case-receipt dd{font-weight:600}.case-receipt dt{color:#726650}.case-receipt .case-receipt-total{border-top:1px dashed #b4a889;padding-top:18px;margin-top:20px}.case-receipt-total dd>strong{font-size:26px;font-weight:600;white-space:nowrap}.case-receipt-total dt{font-size:12px;max-width:18ch}.case-receipt>p,.case-receipt>span:not(.receipt-caption):not(.receipt-barcode){font-size:12px;line-height:1.8;display:block;color:#8c7857}.case-receipt>strong{font-size:30px;display:block;margin:15px 0}
+.financial-record-details{margin:0 0 22px;font-size:12px;color:#8a7c61}.financial-record-details>summary{cursor:pointer;padding:10px 0}.financial-record-details .case-financial-ledger{margin:12px 0;padding:15px;border:1px solid #d7cbb0;display:flex;gap:30px}
+.followups-detail .case-next-action{margin:12px 0 24px;background:#ece4d0;border:1px solid #d7c8a6;border-radius:3px;padding:18px 20px}.case-next-action h3{font-size:16px}.case-next-action p{font-size:13px;line-height:1.65}.case-next-action .button{font-size:12px}
+.followup-documents{gap:18px}.followup-document{background:#fbf8ed;border:1px solid #d7ccb2;border-radius:2px;padding:20px;box-shadow:1px 3px 4px #5e50391a}.followup-document>svg{color:#8b7b58}.followup-document strong{font-size:14px}.followup-document p{font-size:13px;line-height:1.7;color:#7d715a}.followup-document small{font-size:10px;color:#9a896a}
+.followups-page .assurance-detail-switch{border-color:#c7b99b;gap:24px}.assurance-detail-switch button{font-size:14px;color:#8b7a5d;padding:12px 0}.assurance-detail-switch button[aria-pressed=true]{color:var(--red-ink);border-color:var(--red-ink);background:none}.assurance-detail-switch button>svg{display:none}.assurance-detail-switch button>span{background:none;color:#97876a}
+.record-tools{font-size:11px;color:#8b7e64;margin-top:25px;padding-top:18px;border-top:1px solid #d4c7ab}.record-tools>summary{cursor:pointer}.record-tools .policy-panel{border:0;margin-top:10px}.assurance-footnote{font-size:10px;margin-top:24px;color:#8a7d63}.assurance-footnote svg{width:12px;height:12px}
+@keyframes paper-open{from{opacity:.2;transform:translateY(7px) rotate(.3deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
+@media(min-width:1600px){.casebook-opening{grid-template-columns:340px 1fr;gap:48px}.casebook-index{padding:35px 40px 15px}.correspondence-copy>strong{font-size:23px}.correspondence-detail{font-size:14px}.correspondence-entry{min-height:150px!important}.promise-papers{margin-top:45px}}
+@media(max-width:1100px){.product-root{padding:18px 18px 18px 0}.product-root .sidebar{width:163px;top:18px;bottom:18px;padding-left:18px;padding-right:15px}.sidebar .brand{font-size:35px}.sidebar nav>button{font-size:14px}.product-root .app-main{margin-left:163px;min-height:calc(100dvh - 36px)}.product-root .topbar{padding:0 25px}.followups-page{padding:25px}.casebook-opening{grid-template-columns:220px minmax(0,1fr);gap:22px}.casebook-cover h2{font-size:51px}.casebook-index{padding:23px 20px 8px}.casebook-index-heading h3{font-size:17px}.casebook-index-heading>span{display:none}.correspondence-copy>strong{font-size:17px}.correspondence-detail{font-size:12px}.company-print{width:34px;height:34px}.company-print>span{font-size:20px}.correspondence-entry{gap:11px!important}.promise-papers{height:245px}.promise-letter{height:205px;padding:17px 13px}.invoice-slip{padding:18px 12px;height:205px;right:-4px}.letter-address{font-size:11px}.letter-date{font-size:7px}.promise-letter>strong{font-size:28px}.receipt-line{font-size:8px}.receipt-total{font-size:9px}.case-receipt{padding:24px 20px}.case-explanation{gap:25px}.case-explanation-copy h3{font-size:28px}.case-explanation-copy>p{font-size:14px}}
+@media(max-width:900px) and (min-width:761px){.casebook-opening{grid-template-columns:1fr}.casebook-cover{position:static;padding:10px 0 0;display:grid;grid-template-columns:1fr 220px;column-gap:25px;min-height:180px}.casebook-cover h2{font-size:51px;max-width:11ch}.cover-caption{grid-column:1;margin-bottom:10px}.casebook-cover>p{grid-column:1;max-width:29ch;margin-top:15px}.cover-note{display:none}.casebook-cover .promise-papers{position:absolute;right:0;top:-12px;width:220px;height:220px;margin:0}.casebook-cover:has(.promise-papers){position:relative}.casebook-index{transform:none}.case-explanation{grid-template-columns:1fr}.case-receipt{max-width:450px}}
+@media(max-width:760px){
+ .product-root{padding:12px 10px 18px}.product-root .app-shell{min-height:calc(100dvh - 30px)}.product-root .app-main{margin:0;min-height:calc(100dvh - 30px);border-radius:4px;box-shadow:2px 4px 9px #0e2b2444,5px 9px 0 -3px #b9a77f}.product-root .app-main:before{width:6px}.product-root .topbar{height:57px;padding:0 16px}.topbar .breadcrumb{gap:8px}.desk-location{display:none}.topbar .breadcrumb>strong{font-size:10px}.product-root .mobile-toggle{color:#6f735e}.product-root .topbar-right{gap:7px}.topbar .workspace-command-trigger{min-width:30px;color:#6f735e}.topbar .workspace-account-trigger{background:none;border-color:#c9bea1}.topbar .add-documents-top{display:none}.product-root .sidebar{position:fixed;left:10px;top:12px;bottom:16px;width:242px;padding:24px;background:var(--desk);border:1px solid #77876b;box-shadow:8px 8px 30px #0b221a80;overflow:auto;transform:translateX(-280px);z-index:65}.product-root .sidebar.open{transform:translateX(0)}.sidebar .mobile-nav-close{color:var(--desk-ink)}.sidebar .brand{font-size:43px}.sidebar nav>button{width:100%;border-radius:4px;transform:none!important}.sidebar .workspace-identity{margin-bottom:23px}.sidebar .sidebar-bottom{margin-top:30px}.product-root .mobile-scrim{background:#10281fc2;backdrop-filter:blur(3px);z-index:60}
+ .followups-page{padding:22px 19px 30px}.followups-page .assurance-page-heading h1{font-size:22px}.followups-page .workspace-options>summary{font-size:10px}.followups-page .assurance-navigation{padding-bottom:9px;gap:15px}.followups-page .assurance-navigation>div{gap:20px}.followups-page .assurance-navigation button{font-size:12px}.followups-page .history-disclosure{margin:0 0 10px}.casebook-opening{display:block}.casebook-cover{position:relative;padding:15px 0 22px;min-height:0}.cover-caption{font-size:8px;margin-bottom:12px}.casebook-cover h2{font-size:58px;max-width:10ch;line-height:1}.casebook-cover>p{font-size:13px;max-width:28ch;margin-top:16px}.casebook-cover .promise-papers{position:absolute;right:-6px;top:26px;width:122px;height:170px;max-width:none;opacity:1;margin:0;transform:rotate(5deg)}.casebook-cover h2{max-width:5.8ch}.casebook-cover>p{max-width:20ch}.promise-papers .promise-letter{width:82px;height:120px;top:9px;left:0;padding:13px 8px}.promise-papers .invoice-slip{width:80px;height:125px;top:44px;right:0;padding:13px 7px}.promise-papers .paperclip{height:35px;top:3px;left:60px}.promise-papers .letter-address{font-size:5px}.promise-papers .letter-date{font-size:4px;margin-top:4px}.promise-papers .letter-rule{margin:7px 0}.promise-papers .promise-letter>strong{font-size:17px}.promise-papers .letter-sentence{font-size:5px}.promise-papers .letter-lines{margin-top:9px;gap:4px}.promise-papers .letter-lines i{height:1px}.promise-papers .ink-signature{font-size:4px;margin-top:7px}.promise-papers .receipt-company{font-size:5px}.promise-papers .receipt-caption{font-size:4px;margin-top:4px}.promise-papers .receipt-perforation{margin:8px 0}.promise-papers .receipt-line{font-size:4px;margin:5px 0;gap:4px}.promise-papers .receipt-barcode{height:9px;margin-top:9px}.promise-papers .receipt-foot{font-size:3px;margin-top:4px}.cover-note{display:none}
+ .casebook-index{margin:0;transform:none;padding:22px 18px 8px;box-shadow:1px 3px 4px #6f60351a}.casebook-index-heading{padding-bottom:16px}.casebook-index-heading h3{font-size:18px}.casebook-index-heading>span{display:none}.followups-page .followups-results-toolbar{gap:8px}.casebook-filters>summary{font-size:10px}.followups-page .assurance-search input{font-size:12px}.followups-page .portfolio-row.correspondence-entry{padding:22px 0;gap:11px;min-height:0;display:flex}.company-print{width:31px;height:31px}.company-print>span{font-size:18px}.correspondence-company{font-size:11px}.followups-page .portfolio-row .correspondence-copy>strong{font-size:18px;line-height:1.3}.correspondence-detail{font-size:12px;line-height:1.75;margin-top:8px}.correspondence-next{font-size:11px;margin-top:12px}.folder-lip{right:-23px;width:6px;height:43px;top:37px}.followups-page .followups-results-footer{align-items:start;gap:14px;padding-top:17px}.followups-results-footer .text-button{max-width:16ch;line-height:1.6;text-align:right}.casebook-filters .followups-status-filters{right:0;width:220px}.casebook-filters .followups-sort{width:220px}
+ .followups-detail>header{padding:23px 0 18px;gap:10px}.followups-detail>header h2{font-size:35px}.followups-detail>header .company-print{width:35px;height:35px}.followups-detail>header .assurance-status{display:none}.followup-back{font-size:8px;gap:14px}.followup-back>span{font-size:8px;max-width:19ch;overflow-wrap:anywhere}.case-explanation{grid-template-columns:1fr;gap:19px;padding-top:9px}.document-kind{font-size:9px;margin-bottom:13px}.case-explanation-copy h3{font-size:29px;max-width:20ch;margin-bottom:13px}.case-explanation-copy>p{font-size:14px;line-height:1.75}.case-receipt{margin:5px 3px 16px;padding:25px 22px 18px}.case-receipt .case-receipt-total dd>strong{font-size:26px}.case-next-action{display:block!important}.case-next-action-buttons{margin-top:16px}.case-next-action .button{width:100%}.followup-documents{grid-template-columns:1fr}.followups-detail .assurance-detail-switch{gap:22px}.assurance-detail-switch button{font-size:13px}.followup-document{padding:17px}.financial-record-details .case-financial-ledger{display:grid;gap:14px}.record-tools{font-size:11px}.assurance-footnote{font-size:9px;align-items:start}.assurance-footnote p{font-size:9px;max-width:18ch;text-align:right}
+}
+@media(prefers-reduced-motion:reduce){.promise-letter,.invoice-slip,.portfolio-row,.sidebar nav>button{transition:none!important}.followups-detail{animation:none!important}}
+/* All destinations are printed leaves in this same folder. */
+.app-shell :is(.operations-page,.credits-page,.lab-main,.execution-lab,.execution-main,.managed-evidence,.workspace-main){max-width:none;color:var(--print);padding:28px 32px 40px}
+.app-shell :is(.operations-page,.credits-page,.lab-main,.execution-lab,.execution-main,.managed-evidence,.workspace-main) :is(h1,h2,h3){font-family:Archivo,var(--ui-font);letter-spacing:0}
+.app-shell :is(.ops-work-panel,.ops-selected,.ops-company-detail,.ops-document-reader,.ops-report,.ops-timeline,.credit-statement,.credit-reader,.evidence-input-panel,.finding-panel,.me-section,.me-archive,.exploration-card,.authority-card,.scenario-result,.assurance-case,.commitment-register,.case-panel,.library-panel){border-radius:3px;background:#fcfaf2;border-color:#d7ccb0;box-shadow:1px 3px 5px #67563810}
+.app-shell :is(.ops-record-tabs,.record-tabs,.finding-tabs,.document-tabs,.execution-navigation,.me-library-nav){border-color:#c6b795}
+.app-shell :is(.ops-record-tabs,.record-tabs,.finding-tabs,.document-tabs,.execution-navigation,.me-library-nav) button{border-radius:0;color:#7d725a;font-weight:400;font-family:var(--ui-font)}
+.app-shell :is(.ops-record-tabs,.record-tabs,.finding-tabs,.document-tabs,.execution-navigation,.me-library-nav) button:is([aria-pressed=true],[aria-selected=true],.active){color:var(--red-ink);border-color:var(--red-ink);background:none;font-weight:600}
+.app-shell :is(.ops-task-row,.ops-company-row,.ops-document-row,.ops-activity-row,.credit-statement-row){border-radius:0;border-color:#d9cdb2;background:none;box-shadow:none}
+.app-shell :is(.ops-task-row,.ops-company-row,.ops-document-row,.ops-activity-row,.credit-statement-row):hover{background:#eee7d4}
+.app-shell :is(.ops-task-row[aria-expanded=true],.ops-company-row.selected,.ops-document-row.selected,.ops-activity-row.selected,.credit-statement-row.selected){background:#eae1c9}
+.app-shell :is(.ops-filter-tabs,.ops-task-expanded,.ops-company-credit,.ops-report-measures,.credit-summary-line,.me-balances){background:#ede6d2;border-color:#d6c8a7;border-radius:3px;color:#5d5849}
+.app-shell :is(.ops-work-panel,.ops-company-detail,.ops-document-reader,.ops-report,.credit-reader,.finding-panel,.me-section)>header{background:none;border-color:#d4c7aa}
+.app-shell :is(.ops-record-heading,.ops-report-table-heading,.credit-ledger-heading,.lab-panel-heading,.finding-header,.me-section-title){border-color:#d4c7aa}
+.app-shell :is(.ops-report-measures strong,.ops-report-measures dd,.credit-summary-line strong,.me-balances dd){color:var(--print)}
+.app-shell .credit-summary-line{font-size:12px;padding:17px 20px;gap:24px}
+.app-shell .credit-document{background:#fcfaf0;border:1px solid #d6c9ad;box-shadow:2px 4px 7px #5c4d2c12;border-radius:0;position:relative}
+.app-shell .credit-document:before{content:'';display:block;width:38%;height:17px;background:#dfd29a55;position:absolute;top:-9px;left:31%;transform:rotate(-2deg)}
+.app-shell :is(.credit-state,.assurance-status,.ops-status,.finding-status,.me-status,.badge){border-radius:2px;font-size:11px;font-family:var(--ui-font);font-weight:400;letter-spacing:0}
+.app-shell .ops-document-body,.app-shell .assurance-source-detail blockquote,.app-shell .credit-sources blockquote,.app-shell .credit-resolution-source blockquote,.app-shell .me-source-excerpt blockquote{background:#fcfaf2;color:#4b483f;line-height:1.85;font-family:var(--ui-font);border-color:#d5c8ab}
+.app-shell :is(.assurance-source-detail,.credit-resolution-body,.credit-workspace .credit-editor,.amendment-editor,.policy-panel,.command-console,.what-if,.approval-basis,.me-details,.me-findings,.execution-program-preview,.execution-plan){background:#eee7d5;border-color:#d2c3a0;border-radius:3px;color:#5b5546}
+.app-shell :is(.assurance-source-detail,.credit-resolution-body,.credit-workspace .credit-editor,.amendment-editor,.me-section){--a-ink:var(--print);--a-muted:var(--muted-print);--a-rule:var(--print-rule);--a-green:var(--red-ink);--a-wash:#e9e2cc}
+.app-shell :is(.credit-preview,.amendment-preview,.credit-resolution-preview){background:#fbf8ed;border:1px solid #c9b58b;border-radius:3px}
+.app-shell .me-button,.app-shell .authority-button,.app-shell .exploration-button{font-family:var(--ui-font);font-size:13px;border-radius:3px;min-height:40px;background:var(--red-ink);color:#fff6e6;border-color:var(--red-ink)}
+.app-shell .me-button.secondary{background:#faf7eb;color:var(--print);border-color:#cdbf9f}
+.app-shell .me-link{color:var(--red-ink);font-family:var(--ui-font);font-size:13px}
+.app-shell :is(.me-layout,.lab-layout){gap:26px}.app-shell .evidence-input-panel{box-shadow:1px 3px 6px #67553812}.app-shell .lab-panel-heading{background:#eee5ce}.app-shell .example-picker{background:#f2ecdd}
+.app-shell .lab-main .evidence-next-step,.app-shell .lab-main .portfolio-handoff{background:#eee7d2!important;border-color:#d6c8a6;border-radius:3px!important}
+.app-shell .lab-empty{background:#f9f5e9}.app-shell .lab-empty h2{font-family:ArchivoDisplay,sans-serif;font-weight:900;font-size:44px;max-width:13ch}
+.app-shell .finding-panel .terms-alert{background:#ede1bd;border-color:#cfbc86;border-radius:3px}.app-shell .terms-alert strong,.app-shell .terms-alert p{color:#806133}
+.app-shell .reasoning-check{background:#e2e9d7;color:#3b694f}.app-shell .reasoning-list .reasoning-row{color:var(--print)}
+.app-shell .reasoning-row strong{font-family:Archivo,var(--ui-font)}
+.app-shell .recovery-amount>strong{font-family:Archivo,var(--ui-font);font-size:38px}.app-shell .recovery-ledger{background:none;border-color:#cfc1a0}.app-shell .recovery-ledger>div{border-color:#d5c8ab}
+.app-shell .recovery-ledger strong{font-family:Archivo,var(--ui-font)}
+.app-shell .commitment-row,.app-shell .case-tabs,.app-shell .case-panel{border-color:#d5c7a7}.app-shell .commitment-row.selected{background:#ece2c9}.app-shell .reconciliation{background:#eee8d5}.app-shell .reconciliation strong{color:#504b3c}
+.app-shell .demo-dock{background:#f1ead8;border-color:#cabb96;box-shadow:0 -3px 14px #5d4b2a0d}.app-shell .demo-dock strong,.app-shell .demo-dock p{color:#71644c}.app-shell .demo-symbol{background:#e1d5b5;color:var(--red-ink)}
+.app-shell .workspace-footnote,.app-shell .lab-footnote{color:#8b7b5d}
+.workspace-command-dialog,.wa-dialog,.evidence-dialog,.guide-dialog{background:#f6f1e3;color:var(--print);border:1px solid #c5b58e;border-radius:5px;box-shadow:6px 15px 40px #092a2655;font-family:var(--ui-font)}
+.wa-dialog h2,.evidence-dialog h2,.guide-dialog h2{font-family:Archivo,var(--ui-font)}
+.wa-dialog input,.wa-dialog select,.wa-dialog textarea{background:#fffbef;border-color:#bfb08e;color:var(--print);font-family:var(--ui-font)}
+.wa-primary{background:var(--red-ink);border-color:var(--red-ink);border-radius:3px;font-family:var(--ui-font)}
+.wa-secondary{background:#f5eddb;border-color:#c9b68d;color:var(--print);border-radius:3px;font-family:var(--ui-font)}
+.workspace-command-dialog::backdrop,.wa-dialog::backdrop,.evidence-dialog::backdrop{background:#153c2fd1;backdrop-filter:blur(3px)}
+.workspace-command-dialog .command-result{color:var(--print);background:none}.workspace-command-dialog .command-result:focus{background:#e6d8b6}.workspace-command-dialog .command-search-line{border-color:#cbbb95}.workspace-command-dialog footer{background:#ece2c9;border-color:#d2c3a0}
+.app-shell .managed-access-gate{padding:60px 40px;color:var(--print)}
+.world-artifact{padding:0 22px 22px;background:var(--paper)}
+.world-artifact .finance-world{padding:0;min-height:0;background:var(--paper);color:var(--print)}
+.world-artifact .clearing-topbar{background:transparent;border-color:#cbbd9a}
+.world-artifact .clearing-introduction{padding-top:25px}.world-artifact .clearing-introduction h1{font-family:Archivo,var(--ui-font);font-size:28px}
+.world-artifact .world-topbar .workspace-account-trigger{display:none}
+.world-artifact .world-viewport{border-radius:3px;border:1px solid #cabb95}
+.world-artifact .world-inspector{background:#f5edda;border-color:#c9b58b;color:var(--print)}
+.world-artifact .world-primary{background:var(--red-ink);color:#fff8e8;border-color:var(--red-ink);border-radius:3px}
+.world-artifact .world-station-dock button{background:#ede3cd;border-radius:2px;border-color:#c7b794;color:var(--print)}
+.world-artifact .world-station-dock button.selected{background:#d6c39c;color:#443a28}
+@media(max-width:760px){
+ .product-root .sidebar.mobile-open{transform:translateX(0)}.product-root .mobile-nav-backdrop{z-index:60;background:#143b2dbf;backdrop-filter:blur(3px)}
+ .app-shell :is(.operations-page,.credits-page,.lab-main,.execution-lab,.execution-main,.managed-evidence,.workspace-main){padding:22px 19px 30px}
+ .world-artifact{padding:0 9px 15px}.world-artifact .finance-world{padding:0}.world-artifact .clearing-topbar{padding:15px 5px}.world-artifact .clearing-introduction{padding:15px 5px}
+ .app-shell .ops-report-measures{gap:16px}.app-shell .credit-summary-line{padding:14px;gap:15px}.case-receipt dd.assurance-amount{padding:0;margin:0;display:block}
+}
+.app-shell .execution-explorer,.app-shell .authority-lab,.app-shell .trace-inspector,.app-shell .exploration-comparison{background:#fcfaf2;border-color:#d1c1a0;border-radius:3px;box-shadow:1px 3px 5px #6c573514}
+.app-shell .search-verdict{background:#fcfaf2}.app-shell .search-verdict.selected{background:#e8dec5}.app-shell .execution-notice{border-radius:3px;background:#ebe2c9}
+.app-shell .ops-company-story{padding:20px 0 24px;border-bottom:1px solid #cab997;margin-bottom:20px}.ops-company-story .document-kind{margin-bottom:12px}.ops-company-story h3{font-size:27px;line-height:1.25;max-width:32ch}.ops-company-story p{font-size:15px;line-height:1.8;max-width:48ch;margin-top:14px;color:var(--muted-print)}
+.app-shell .ops-case-row{display:block;border-bottom:1px dashed #d5c5a6;padding:18px 0}.ops-case-row>button{display:block;text-align:left;width:100%;font-size:15px;color:var(--print)}.ops-case-row .ops-case-links{margin-top:12px}
+.credit-record-details{margin-top:18px;font-size:11px;color:#8d7b59}.credit-record-details summary{cursor:pointer}.credit-record-details dl{margin-top:14px}.app-shell .sidebar .document-nav .nav-child.active{background:none;color:#fff9e9;border:0;text-decoration:underline;text-underline-offset:5px;font-weight:400}
+.world-artifact .clearing-house{padding:0;min-height:0;max-width:none;background:transparent;font-family:var(--ui-font)}
+.world-artifact .clearing-header{background:transparent;min-height:47px;padding:8px 0;justify-content:flex-end;border-color:#cbbb99;flex-wrap:wrap}
+.world-artifact .clearing-wordmark,.world-artifact .clearing-header-divider,.world-artifact .clearing-workspace-name,.world-artifact .clearing-header>.workspace-account-trigger{display:none}
+.world-artifact .clearing-header nav{margin-left:0;font-family:var(--ui-font);font-size:12px}
+.world-artifact .clearing-header nav button{font:inherit;color:#7a7159;border-radius:2px;background:none}
+.world-artifact .clearing-header nav button.selected{background:#e8dec5;color:var(--print)}
+.world-artifact .world-balance-strip{border-top:1px solid #cbbb99;padding:18px 6px;display:flex;justify-content:space-between;gap:20px;color:#8c7c5e;font-family:var(--ui-font);font-size:11px}
+.world-artifact .world-balance-strip p,.world-artifact .world-balance-strip span{font:inherit;color:inherit}
+.world-artifact .world-inspector{background:#f6f0df}
+.world-artifact .world-inspector h2,.world-artifact .world-primary,.world-artifact .world-station-dock button,.world-artifact .clearing-footer{font-family:var(--ui-font)}
+@media(max-width:760px){.world-artifact .clearing-header{padding:8px 0;min-height:45px}.world-artifact .clearing-header nav{width:100%;justify-content:flex-start;display:flex;gap:8px}.world-artifact .clearing-header nav button{font-size:11px;padding:7px}.world-artifact .clearing-introduction{padding:18px 5px;gap:12px;align-items:flex-start}.world-artifact .clearing-introduction h1{font-size:25px}.world-artifact .clearing-introduction p{font-size:12px;max-width:22ch}.world-artifact .world-primary{font-size:11px;padding:9px;white-space:normal}.world-artifact .world-balance-strip{display:block;font-size:10px}.world-artifact .world-balance-strip span{display:block;margin-top:7px}.world-artifact .world-station-dock{max-width:100%;overflow-x:auto}.world-artifact .clearing-footer{display:flex;flex-wrap:wrap;gap:13px}.world-artifact .clearing-house{min-width:0}.world-artifact .world-inspector{min-width:0;max-width:100%}}
+.case-receipt dd.assurance-amount{padding:0;margin:0;display:block}
+@media(max-width:760px){
+ .casebook-cover{display:block;padding:7px 0 22px;position:relative;top:0}
+ .casebook-cover h2{font-size:42px;max-width:none;width:100%;line-height:1.02}
+ .casebook-cover .promise-papers,.casebook-cover .cover-caption,.casebook-cover .cover-note{display:none}
+ .casebook-cover>p{font-size:13px;max-width:none;margin-top:12px;line-height:1.5}
+ .followups-page .assurance-page-heading{margin-bottom:12px}.followups-page .history-disclosure{margin-bottom:8px}
+ .followups-page[data-section=portfolio]:has(.list-open) .assurance-navigation>div button[aria-pressed=true]{display:none}
+ .casebook-index-heading{padding-bottom:12px}.casebook-index-heading h3{font-size:16px}.casebook-index{padding:20px 15px 8px}
+}
+
+.followups-page .followups-detail{animation:none}
+
+
+.correspondence-company,.followups-detail>header h2{font-family:Archivo,var(--ui-font)!important}
+.case-moving-paper{contain:layout style;will-change:transform;overflow:visible}
+
+.assurance-history>div:not(.assurance-section-title)>div{min-width:0}
+.assurance-history strong{font-size:14px;line-height:1.5}.assurance-history p{font-size:13px;line-height:1.7}
+.assurance-history details{margin-top:8px;font-size:11px;color:var(--muted-print)}.assurance-history details summary{cursor:pointer;min-height:24px}
+.ops-task-expanded .ops-related{margin-top:22px}.ops-task-expanded .ops-related h3{margin-bottom:12px}
