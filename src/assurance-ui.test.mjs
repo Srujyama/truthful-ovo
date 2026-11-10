@@ -70,6 +70,11 @@ test('an older recorded action never hides a newer pending original claim after 
   state=fresh.state;
   view=evaluateWorkspace(state,options);
   assert.equal(selectedReview().action.id,fresh.result.actionId,'a current review takes precedence over stale pending reviews');
+  state=send(state,{type:'APPROVE_ACTION',actionId:fresh.result.actionId}).state;
+  state=send(state,{type:'EXECUTE_ACTION',actionId:fresh.result.actionId}).state;
+  view=evaluateWorkspace(state,options);
+  assert.equal(selectedReview().action.id,fresh.result.actionId,'the newly recorded review must not reopen its older unfinished version from the case');
+  assert.equal(selectedReview().action.executed,true);
 });
 
 test('historical evidence resolves from the current graph and never falls back to a future object',()=>{

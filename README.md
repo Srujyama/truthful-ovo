@@ -6,7 +6,7 @@ Truthful keeps the promise, original documents, credit note and invoice together
 
 [Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md)
 
-The current local v4 candidate opens **Cases**, with **Documents**, **Companies** and **Reports** as the other primary tabs. **Needs attention**, **Credit notes** and **Check documents** sit beside their related work. **More** contains History, Developer tools, Office map and Examples. Cases and Documents use original financial artwork: invoice checks, credit notes, offer/cost comparisons and date changes. Full source text remains available in a separate view. One green work mat and paper file frame connects the views. [The current design record](docs/CORRESPONDENCE_DESIGN.md) tracks the rebuild after the user rejected commit `081444c`; passing earlier checks did not establish design approval.
+The current local v4 candidate opens **Cases**, with **Documents**, **Companies** and **Reports** as the other primary tabs. **Needs attention**, **Credit notes** and **Check documents** sit beside their related work. **More** contains History, Developer tools, Office map and Examples. Cases, Documents, Reviews, Credit notes and Companies use original financial artwork: invoice checks, credit notes, offer/cost comparisons and date changes. Full source text remains available in a separate view. One green work mat and paper file frame connects the views. [The current design record](docs/CORRESPONDENCE_DESIGN.md) tracks the rebuild after the user rejected commit `081444c`; passing earlier checks did not establish design approval.
 
 ## Run
 
@@ -23,9 +23,9 @@ Open **http://127.0.0.1:5173**. The supervisor starts Vite and a loopback HTTP/S
 
 ## Try the work
 
-- **Pipeline CRM:** a $2,400 promise, $900 on the invoice and $1,500 still missing. Compare the proposed renewal: $2,400 extra spending for $1,500 credit means $900 more cost against the stated baseline. Proposals do not change the original agreement until exact approval and execution.
+- **Pipeline CRM:** a $2,400 promise, $900 on the invoice and $1,500 still missing. Compare the proposed renewal: $2,400 extra spending for $1,500 credit means $900 more cost against the stated baseline. Decline the renewal with a recorded reason or keep the existing terms. A separate approver and executor can finish the decision; that decision does not invent invoice credit. Proposals do not change the original agreement until exact approval and execution.
 - **Nimbus Cloud:** a $2,000 credit note exists, but a matching invoice must confirm the deduction. Open the note, add supplied invoice evidence, preview the change and record it. Partial assignment and reversal preserve the original note and exact backing.
-- **Add documents:** analyze supported promise text, invoice-credit CSV and an optional reply. Inspect exact source passages, review an import, edit a draft and approve its exact version for an unsent EML export. Unsupported or conditional evidence requires review.
+- **Add documents:** analyze supported promise text, invoice-credit CSV and an optional reply. Inspect exact source passages, review an import, edit a draft and approve its exact version for an unsent EML export with the exact original documents attached. New intake keeps unfinished work separate from saved reviews; returning restores the exact unsaved source or message. Unsupported or conditional evidence requires review.
 - **Developer tools:** run bounded competing-action comparisons, inspect unsafe reference traces and the guarded reducer’s rejection, then export/replay the result. Permissions demonstrates exact-action Ed25519 grants, narrower delegation, atomic one-use execution and retry.
 
 The [development guide](docs/DEVELOPMENT.md) retains detailed journey entrypoints, comparison cases, verification commands and proof limits. [Backend acceptance coverage](docs/BACKEND_ACCEPTANCE.md) maps managed evidence, durable drafts, execution reports, concurrency and recovery to earlier HTTP/browser evidence. The lead’s current integrated verification belongs to the correspondence record; historical counts are not the result of this redesign.
@@ -38,7 +38,7 @@ npm run test:workspace:all
 npm run verify:workspace-redesign
 ```
 
-The browser runner uses isolated temporary services and the Playwright CLI. The companion verifier replays actual downloads. [Development instructions](docs/DEVELOPMENT.md#verification-and-replay) include standalone packet and authority verifiers. Tests establish specified deterministic behavior, not held-out extraction accuracy or global formal verification.
+Verification requires Python 3 for the independent standard-library MIME parser. The browser runner uses isolated temporary services and the Playwright CLI. The companion verifier replays actual downloads. [Development instructions](docs/DEVELOPMENT.md#verification-and-replay) include standalone packet and authority verifiers. Tests establish specified deterministic behavior, not held-out extraction accuracy or global formal verification.
 
 React 19, Vite 7, plain CSS, integer-cent financial/evidence engines and Node 24 HTTP/SQLite/crypto. Server sessions enforce local roles; optimistic revisions, idempotency and atomic batches preserve shared records. Hash-linked replay establishes internal consistency. Offline signed packets require a separately pinned public trust root; neither hashes nor a bundled public key authenticate vendor evidence or prove external settlement.
 
@@ -53,3 +53,5 @@ The earlier [Figma source kit](design/figma/README.md) contains 69 screen models
 Videos and submission packaging remain deferred. [The architecture answer](docs/SUBMISSION.md), [demo script](docs/DEMO_SCRIPT.md), [form requirements](docs/FORM_REQUIREMENTS.md) and [delivery facts](docs/DELIVERY.md) preserve prepared materials. Public source, an accepted-host recording, team consent, original track and attendance remain external submission facts; the application has not been submitted.
 
 MIT license. Included source examples are synthetic.
+
+The connected review-to-message regression is `npm run test:product:browser`, followed by `npm run verify:product`. It operates a real decline, separate approval/recording, case return, two independent analyses, retained edits and an exact approved unsent email. Export verification independently replays financial commands and parses MIME attachment bytes.

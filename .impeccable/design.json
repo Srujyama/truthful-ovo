@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-10T01:07:09.958197+00:00",
+  "generatedAt": "2026-11-10T06:00:00.000Z",
   "title": "Design System: Truthful",
   "extensions": {
     "colorMeta": {
@@ -143,6 +143,25 @@
       "documentReader": "src/DocumentReader.jsx",
       "caseReconciliation": "src/CaseGraphic.jsx",
       "exactReadingModel": "src/document-reading.mjs"
+    },
+    "connectedWorkflow": {
+      "status": "implemented; independently reviewed; no user aesthetic approval",
+      "pages": [
+        "Reviews",
+        "Credit notes",
+        "Companies",
+        "Needs attention",
+        "Document review"
+      ],
+      "rules": [
+        "Essential consequences and real actions precede large illustrations.",
+        "Physical note face, invoice credit amount, reversals and matched shares retain separate meanings.",
+        "Declined offers are terminal and retain their recorded reason.",
+        "Recorded comparisons retain event-time economics and prior terms.",
+        "Source and message drafts remain bound to exact reviews; cancelling clears local source edits.",
+        "Unsent email attachments contain exact approved source originals."
+      ],
+      "evidence": "docs/CORRESPONDENCE_DESIGN.md"
     }
   },
   "components": [

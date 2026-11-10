@@ -109,6 +109,7 @@ async page => {
         if (view === 'credits') check(await page.locator('.credit-statement-row').count() === 2, `${size}: both credit records render`);
         if (view === 'operations') check(await page.locator('.ops-task-row').count() === 4, `${size}: all four actionable case rows render`);
         if (view === 'vendors') check(await page.locator('.ops-company-row').count() === 4, `${size}: all companies remain in the visible record list`);
+        if(view==='vendors'&&size!=='desktop'){const bounds=await page.evaluate(()=>{const rect=n=>{const r=n.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom}};return {list:rect(document.querySelector('.ops-company-list')),detail:rect(document.querySelector('.ops-company-detail')),rows:[...document.querySelectorAll('.ops-company-row')].map(rect)}});check(bounds.rows.every(row=>row.bottom<=bounds.list.bottom+1)&&(bounds.detail.top>=bounds.list.bottom-1||bounds.detail.left>=bounds.list.right-1),`${size}: company tiles stay inside their list without overlapping the selected company file`);}
         if (view === 'library') {
           const identities=await page.locator('.ops-document-row').evaluateAll(nodes=>nodes.map(node=>`${node.dataset.sourceId}@${node.dataset.sourceRevision}`).sort());
           check(JSON.stringify(identities)===JSON.stringify(baseline.view.sources.map(source=>`${source.id}@${source.revision}`).sort()), `${size}: document rows retain all nine actual source identities`);
@@ -169,13 +170,22 @@ async page => {
       await page.getByRole('textbox',{name:'Credit invoice reference',exact:true}).fill('UNSAVED-CONTINUITY');await click('Back to cases');await rows.click();await info.getByRole('button',{name:/^Credits/}).click();
       check(await page.getByRole('textbox',{name:'Credit invoice reference',exact:true}).inputValue()==='UNSAVED-CONTINUITY','An unsaved credit draft survives returning to results and reopening its case');
       await info.getByRole('button',{name:/^Documents/}).click();
-      const source=page.locator('.followup-document:visible').first();await source.click();
-      const reader=page.getByRole('region',{name:'Selected evidence record',exact:true}), title=reader.getByRole('heading',{level:3});await reader.waitFor();
+      const source=page.locator('.followup-document:visible').filter({has:page.getByText('Promised invoice credit',{exact:true})});await source.click();
+      const reader=page.getByRole('region',{name:'Selected evidence record',exact:true}), title=reader.locator('.document-sheet-heading > h3');await reader.waitFor();
       check(await title.evaluate(node=>node===document.activeElement&&node.getBoundingClientRect().top>=60&&node.getBoundingClientRect().top<innerHeight),'Opening a case document moves focus and the viewport to its exact source heading');
+      check(await reader.locator('.document-overview').isVisible() && !await reader.getByLabel('Exact source text',{exact:true}).isVisible() && (await title.innerText())==='Promised invoice credit', 'The case source opens a human overview before exposing its original text');
+      await reader.getByRole('group',{name:'Document view',exact:true}).getByRole('button',{name:'Original text',exact:true}).click();
+      check(await reader.getByLabel('Exact source text',{exact:true}).textContent()===sourceFixture('pipeline-promise',6).text, 'Case source Original text preserves the exact bound original bytes');
+      await showRecordNote(reader,'Version & date details');
+      const metadata=reader.locator('.document-version-details');
+      check((await metadata.innerText()).includes('Version 6') && (await metadata.locator('dt').filter({hasText:/^Source ID$/}).locator('..').locator('dd').innerText())==='pipeline-promise', 'The embedded case source retains its exact source identity and version');
       await reader.getByRole('button',{name:'Close evidence record',exact:true}).click();check(await source.evaluate(node=>node===document.activeElement),'Closing the source reader restores focus to its originating document');
       await screenshot('followup-detail-desktop-operated');
       await page.setViewportSize({width:390,height:844});await source.click();await reader.waitFor();
       check(await title.evaluate(node=>node===document.activeElement&&node.getBoundingClientRect().top>=60&&node.getBoundingClientRect().top<innerHeight),'A phone source link reveals and focuses its source instead of appearing inert below the document list');
+      check(await reader.getByRole('button',{name:'Return to this document',exact:true}).evaluate(node=>{const box=node.getBoundingClientRect();return box.top>=0&&box.bottom<=innerHeight;}), 'The phone source reader keeps its actual return control in the first viewport');
+      await reader.getByRole('group',{name:'Document view',exact:true}).getByRole('button',{name:'Original text',exact:true}).click();
+      check(await reader.getByLabel('Exact source text',{exact:true}).textContent()===sourceFixture('pipeline-promise',6).text, 'Phone case source Original text retains the same exact version and bytes');
       await noOverflow('Phone exact case source');await page.screenshot({path:'output/playwright/redesign-followup-source-mobile.png',fullPage:false});screenshots.push('output/playwright/redesign-followup-source-mobile.png');
       await reader.getByRole('button',{name:'Return to this document',exact:true}).click();check(await source.evaluate(node=>node===document.activeElement),'The phone source return action restores its original document control');
       await page.setViewportSize({width:1440,height:1000});
@@ -278,16 +288,24 @@ async page => {
     });
 
     await journey('companies-and-exact-documents', async () => {
+      await route('vendors', 'Companies', {vendor:'missing-company-exact'});
+      await page.getByRole('heading',{name:'Company not found',exact:true}).waitFor();
+      check(await companyDetail().count()===0 && await page.locator('.ops-company-row').count()===0, 'An unavailable explicit company never substitutes another company file');
+      await click('Clear filters');
+      check(await page.locator('.ops-company-row').count()===4, 'Clearing an unavailable company target restores the real company directory');
       await route('vendors', 'Companies');
       const search = page.getByRole('textbox', { name: 'Search companies', exact: true });
       await search.fill('Pipeline'); check(await page.locator('.ops-company-row').count() === 1, 'Company search filters real company rows');
       await page.locator('.ops-company-row').click();
-      check(hasMoney(await companyDetail().innerText(),'$1,500.00'), 'Company balances preserve Pipeline’s actual outstanding amount');
+      checkRoute('vendors',{vendor:'pipeline',vendorTab:'commitments'});
+      await showRecordNote(companyDetail(),'Company amounts & details');
+      check(hasMoney(await companyDetail().locator('.ops-company-balances > div').filter({has:page.locator('dt',{hasText:/^Not yet on invoices$/})}).locator('dd').innerText(),'$1,500.00'), 'Company balances preserve Pipeline’s actual outstanding amount');
       await page.getByRole('group', { name: 'Company records' }).getByRole('button', { name: /^Credit notes/ }).click();
+      checkRoute('vendors',{vendor:'pipeline',vendorTab:'credits'});
       await showRecordNote(companyDetail(),'Document & record details');
       check((await companyDetail().innerText()).includes('INV-PC-1026') && hasMoney(await companyDetail().innerText(),'$900.00'), 'Company Credits exposes the actual applied invoice line');
       await page.getByRole('group', { name: 'Company records' }).getByRole('button', { name: /^Documents/ }).click();
-      await page.locator('.ops-source-link').filter({ hasText: 'Original duplicate-seat correction' }).click();
+      await page.locator('.ops-source-link[data-source-id="pipeline-promise"][data-source-revision="6"]').click();
       await selectedSource().waitFor(); checkRoute('library', { source: 'pipeline-promise', revision: '6' });
       await showRecordNote(selectedSource(),'Version & date details');
       await originalSource();
@@ -380,12 +398,16 @@ async page => {
       await page.locator('.credit-statement-row').click();
       checkRoute('credits', { credit: 'credit-nimbus-2000' });
       check((await page.getByRole('complementary', { name: 'Selected credit' }).innerText()).includes('A credit note is not yet a reduction on your bill'), 'Issued-credit detail explicitly distinguishes an unapplied memo');
+      check(await page.getByRole('complementary',{name:'Selected credit',exact:true}).locator('[data-credit-invoice-confirmed="true"]').count()===0 && (await page.getByRole('complementary',{name:'Selected credit',exact:true}).locator('.cv-invoice-check').innerText()).includes('Invoice still needed'), 'The issued note drawing never shows an invoice-confirmation marker');
+      await page.locator('.record-tabs').getByRole('button', { name: /^Applied credits/ }).click();
+      check(await page.locator('.credit-statement-row').count()===1 && await page.locator('[data-credit="credit-pipeline-900"]').isVisible() && hasMoney(await page.locator('[data-credit="credit-pipeline-900"] .credit-row-amount > strong').innerText(),'$900.00'), 'Applied credits filter retains the exact $900 invoice credit and excludes the issued note');
       await page.locator('.record-tabs').getByRole('button', { name: /^All notes/ }).click();
       await page.getByRole('textbox', { name: 'Search credits', exact: true }).fill('INV-PC-1026');
       check(await page.locator('.credit-statement-row').count() === 1, 'Credit search finds the actual invoice identity');
       await page.locator('.credit-statement-row').click();
       checkRoute('credits', { credit: 'credit-pipeline-900' });
       const reader = page.getByRole('complementary', { name: 'Selected credit' });
+      check(await reader.locator('[data-credit-invoice-confirmed="true"]').count()===1 && (await reader.locator('.cv-invoice-check').innerText()).includes('Invoice supplied'), 'The actual applied invoice has its source-backed confirmation marker');
       await showRecordNote(reader,'Document details');
       check(hasMoney(await reader.innerText(),'$900.00') && (await reader.innerText()).includes('PC-SEATS-2026'), 'Applied-credit detail preserves amount and case reference');
       await reader.locator('.credit-files button').click();
@@ -463,17 +485,27 @@ async page => {
       await route('assurance','Follow-ups',{case:'pipeline-seats',destination:'decisions',action:'action-pipeline-renewal'});
       const picker=page.getByRole('combobox',{name:'Request to review',exact:true});await page.locator('.decision-case:visible').waitFor();
       check(await picker.inputValue()==='action-pipeline-renewal'&&(await page.locator('.decision-case header').innerText()).includes('Pipeline CRM'),'Exact Pipeline approval opens its own action');
+      await page.getByRole('button',{name:'Decline renewal',exact:true}).click();
+      const decline=page.locator('.review-decline-form');
+      check(await decline.getByRole('button',{name:'Record decline',exact:true}).isDisabled(), 'Declining the renewal requires an explicit reason before it can be recorded');
+      await decline.getByRole('textbox',{name:'Reason for declining proposed terms',exact:true}).fill('Keep the original credit promise; do not renew.');
+      check(await decline.getByRole('button',{name:'Record decline',exact:true}).isEnabled(), 'A specific decline reason enables recording only that proposed alternative');
+      await decline.getByRole('button',{name:'Cancel',exact:true}).click();
+      check(await decline.count()===0 && (await workspace()).revision===baseline.revision, 'Cancelling a proposed decline closes the reason form without recording any financial change');
+      await page.getByRole('button',{name:'Decline renewal',exact:true}).click();
+      check(await decline.getByRole('textbox',{name:'Reason for declining proposed terms',exact:true}).inputValue()==='' && await decline.getByRole('button',{name:'Record decline',exact:true}).isDisabled(), 'Reopening a decline discards the cancelled reason');
+      await decline.getByRole('button',{name:'Cancel',exact:true}).click();
       await nav('Tasks');await heading('Tasks').waitFor();await page.getByRole('combobox',{name:'Filter by company',exact:true}).selectOption('');await page.getByRole('textbox',{name:'Search tasks',exact:true}).fill('Nimbus');
       const task=page.locator('.ops-task-row:visible');if(await task.getAttribute('aria-expanded')!=='true')await task.click();await page.locator('.ops-task-expanded').getByRole('button',{name:'Open case',exact:true}).click();await heading('Follow-ups').waitFor();
       // The task's current destination can be Credits; its review still must replace the retained Pipeline selection.
       const views=page.getByRole('group',{name:'Follow-up views',exact:true});await views.getByRole('button',{name:/^Reviews/}).click();await picker.waitFor();
       check(await picker.inputValue()==='action-nimbus-claim'&&(await page.locator('.decision-case header').innerText()).includes('Nimbus Cloud'),'Opening a different case review replaces the previously retained approval action');
       await picker.selectOption('action-pipeline-preserve');checkRoute('assurance',{case:'pipeline-seats',destination:'decisions',action:'action-pipeline-preserve'});
-      await click('Back to follow-up');await page.locator('.followups-detail:visible').waitFor();checkRoute('assurance',{case:'pipeline-seats',destination:'portfolio'});
+      await click('Back to the case');await page.locator('.followups-detail:visible').waitFor();checkRoute('assurance',{case:'pipeline-seats',destination:'portfolio'});
       check((await page.locator('.followups-detail header').innerText()).includes('Pipeline CRM'),'Returning from a manually selected action opens that exact follow-up');
       await page.goBack();await page.locator('.decision-case:visible').waitFor();check(await picker.inputValue()==='action-pipeline-preserve','Browser Back restores the exact manually selected approval action');
       await route('assurance','Follow-ups',{case:'nimbus-sla',destination:'decisions',action:'action-pipeline-preserve'});
-      check(await page.locator('.decision-case:visible').count()===0&&await page.getByRole('button',{name:'Approve action',exact:true}).count()===0,'A mismatched explicit action and case cannot display or approve another company’s action');
+      check(await page.locator('.decision-case:visible').count()===0&&await page.getByRole('button',{name:'Approve decision',exact:true}).count()===0,'A mismatched explicit action and case cannot display or approve another company’s action');
     });
 
     await journey('role-scope-draft-boundary', async () => {

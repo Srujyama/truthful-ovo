@@ -48,9 +48,9 @@ export function originalReviewState(workspace, view, commitment) {
   const specification = originalActionSpec(view, commitment);
   if (!specification) return { specification: null, action: null, simulation: null };
   const originalActions = view.actions.filter(action => action.commitmentId === commitment.id && action.type !== 'accept_amendment');
-  const action = originalActions.findLast(action => !action.executed && !action.proposalStale && !action.approvalStale)
-    || originalActions.findLast(action => !action.executed)
-    || originalActions.findLast(action => action.executed) || null;
+  // A newer recorded review supersedes an older unfinished version. A newer
+  // pending review must likewise remain reachable even if its basis is stale.
+  const action = originalActions.at(-1) || null;
   const simulation = simulateAction(workspace, specification, { asOf: view.asOf, knownAt: view.knownAt });
   return { specification, action, simulation };
 }

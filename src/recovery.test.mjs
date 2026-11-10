@@ -1,9 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createCase, approveCase, verifyCase, saveCase, readCases, summaryCsv, emailFor, packetFor, STORAGE_KEY } from './recovery.mjs';
+import {verifyEmailEvidence} from '../scripts/verify-email-evidence.mjs';
 
 const report = { vendor: 'Acme', currency: 'USD', status: 'partial', requiresApproval: true, promisedCents: 240000, appliedCents: 90000, outstandingCents: 150000, condition: null, documents: { promiseText: 'a promise' } };
 const at = '2026-10-28T12:00:00.000Z';
+
+test('unsent email includes exact approved originals as valid MIME attachments without rewriting the approval',async()=>{
+ const documents={promiseText:'Crédit € — agreed\r\nUSD 24\n原文',invoiceCsv:'invoice_id,description\r\nINV,"Crédit, original"\r\n',replyText:'Reply: no renewal.\n'};
+ const original=await createCase({...report,documents},at);
+ const draft=`The evidence is attached.\nKeep exact approved wording.\ntruthful_${original.id}`;
+ const approved=await approveCase(original,draft,at),snapshot=JSON.stringify(approved);
+ const email=emailFor(approved);verifyEmailEvidence(email,approved);
+ assert.equal(email,emailFor(approved),'repeated exports are deterministic');assert.equal(JSON.stringify(approved),snapshot);assert.equal(await verifyCase(approved),true);
+});
 
 test('analysis is a snapshot; approval records exact draft and preserves the source record', async () => {
   const r = structuredClone(report);

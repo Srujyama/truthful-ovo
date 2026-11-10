@@ -40,6 +40,7 @@ async page => {
     await page.getByRole('heading', { name: 'Document review', level: 1, exact: true }).waitFor();
     await example('pipeline'); await results().getByText('$1,500.00', { exact: true }).first().waitFor();
     require((await results().innerText()).includes('$900.00'), 'Pipeline matches only $900 and leaves $1,500');
+    await results().getByRole('tab', { name: 'Matches', exact: true }).click();
     const citation = results().getByRole('button', { name: 'Promised credit', exact: true }).first(); await citation.click();
     require((await results().locator('.citation-detail blockquote').innerText()).includes('USD 2,400'), 'Citation opens the exact original promise');
     const selectedPassage = await page.getByRole('textbox', { name: 'Original vendor promise', exact: true }).evaluate(node => node.value.slice(node.selectionStart, node.selectionEnd));
@@ -52,7 +53,8 @@ async page => {
     await results().getByRole('button', { name: 'Approve this version', exact: true }).click(); await results().getByText('Approval recorded', { exact: true }).waitFor();
     const email = await download(results().getByRole('button', { name: 'Download unsent draft', exact: true }), 'approved-claim.eml');
     const approved = await packet('approved-evidence-packet');
-    require(email.includes('X-Unsent: 1') && email.split('\r\n\r\n').slice(1).join('\r\n\r\n').replaceAll('\r\n', '\n') === draftText, 'The downloaded unsent email contains the exact edited approved draft');
+    const boundary=email.match(/boundary="([^"]+)"/)?.[1];const textPart=boundary?email.split('--'+boundary+'\r\n')[1]:email;const exportedDraft=(boundary?textPart.slice(0,-2):textPart).split('\r\n\r\n').slice(1).join('\r\n\r\n').replaceAll('\r\n','\n');
+    require(email.includes('X-Unsent: 1') && exportedDraft===draftText && email.includes('filename="original-promise.txt"') && email.includes('filename="invoice-credits.csv"'), 'The downloaded unsent email contains the exact edited approved draft');
     require(approved.audit.find(event => event.type === 'CLAIM_APPROVED')?.payload.draft === draftText && approved.report.verifiedCents === 90000 && approved.report.outstandingCents === 150000, 'Approved edited draft and evidence packet downloaded');
     await page.reload(); await page.getByRole('heading', { name: 'Document review', level: 1, exact: true }).waitFor();
     await page.getByRole('button', { name: /^Saved reviews/ }).click();

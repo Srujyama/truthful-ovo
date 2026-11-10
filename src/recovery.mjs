@@ -99,5 +99,16 @@ export function summaryCsv(record) {
 export function emailFor(record) {
   const approval = record.audit.find(e => e.type === 'CLAIM_APPROVED');
   if (!approval) throw new Error('Approve the claim before downloading its draft.');
-  return `Subject: Outstanding vendor credit\r\nX-Unsent: 1\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n${approval.payload.draft.replace(/\r?\n/g, '\r\n')}`;
+  const body=approval.payload.draft.replace(/\r?\n/g, '\r\n');
+  const documents=record.report.documents||{};
+  const files=[['promiseText','original-promise.txt','text/plain'],['invoiceCsv','invoice-credits.csv','text/csv'],['replyText','vendor-reply.txt','text/plain']].filter(([key])=>typeof documents[key]==='string'&&documents[key].length);
+  const headers='Subject: Outstanding vendor credit\r\nX-Unsent: 1\r\nMIME-Version: 1.0\r\n';
+  if(!files.length)return `${headers}Content-Type: text/plain; charset=UTF-8\r\n\r\n${body}`;
+  // Attach the exact originals bound to this approved record, never the current
+  // editor or a later source version. Export changes no approved text or state.
+  let boundary=`truthful_${String(record.id).replace(/[^a-zA-Z0-9_-]/g,'')}`;
+  while(body.includes(boundary))boundary+='_';
+  const encode=text=>{let bytes='';for(const byte of new TextEncoder().encode(text))bytes+=String.fromCharCode(byte);return btoa(bytes).match(/.{1,76}/g)?.join('\r\n')||'';};
+  const parts=[`Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n${body}`,...files.map(([key,name,type])=>`Content-Type: ${type}; charset=UTF-8; name="${name}"\r\nContent-Disposition: attachment; filename="${name}"\r\nContent-Transfer-Encoding: base64\r\n\r\n${encode(documents[key])}`)];
+  return `${headers}Content-Type: multipart/mixed; boundary="${boundary}"\r\n\r\n${parts.map(part=>`--${boundary}\r\n${part}\r\n`).join('')}--${boundary}--\r\n`;
 }
