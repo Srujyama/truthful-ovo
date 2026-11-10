@@ -71,14 +71,16 @@ components:
   company-mark:
     textColor: "#6b624c"
     width: "42px"
-  case-receipt:
+  case-graphic:
     backgroundColor: "#fcfaf1"
     textColor: "{colors.ink}"
 ---
 
 # Design System: Truthful
 
-## Current candidate
+## Current visual document and case build
+
+The user also rejected the Documents experience in `9bcc8fa` and the prior visual-review claim: the raw text, oversized list and empty card did not meet the brief. The current correction makes original financial graphics the main explanation, with exact source text available on demand.
 
 The user explicitly rejected the blue-gray workspace at commit `081444c`, the earlier Nomen milestone as sufficient application design, and all three Formroom candidates as taste templates. This document records the replacement currently implemented in source. It records no user approval. Completed local workflow evidence is recorded separately in CORRESPONDENCE_DESIGN.md. [CORRESPONDENCE_DESIGN.md](docs/CORRESPONDENCE_DESIGN.md) owns the current requirements and review; the older [UI_OVERHAUL.md](docs/UI_OVERHAUL.md) is historical evidence.
 
@@ -86,7 +88,7 @@ The organizing object is a company conversation: what they promised, what the in
 
 ## Reference and material system
 
-The direct reference is Aiden Guan’s [Student page](https://aidenguan.com/student), its opened project folder, and the matching local `portfolio-2` source. The lead operated its folder opening and closure and captured the actual page this pass. The implementation adapts the related materials, light and object continuity to original finance-specific artwork and behavior. It does not copy the author’s identity, photographs or unrelated desk objects.
+The direct reference is Aiden Guan’s [Student page](https://aidenguan.com/student), its opened project folder, and the matching local `portfolio-2` source. Its folder opening and closure were operated and captured during the earlier reference study. The implementation adapts the related materials, light and object continuity to original finance-specific artwork and behavior. It does not copy the author’s identity, photographs or unrelated desk objects.
 
 Every route sits in one green gridded mat, manila navigation tabs and warm paper file. Light enters from the upper left; layers cast shadows down and right. Dark printed text, fine warm rules, restrained red ink, clipped paper corners, receipt perforations and a paperclip belong to the same material grammar. Documents, decisions, forms, account dialogs, examples and the Office illustration share this environment. Office is inside the file frame, rather than a separate theme or app shell.
 
@@ -96,8 +98,8 @@ Every route sits in one green gridded mat, manila navigation tabs and warm paper
 
 | Destination | Composition and work |
 | --- | --- |
-| Cases | A question on the file cover beside a searchable conversation sheet. Opening a company reveals its promise, invoice check, next decision and Documents / Credits / History. |
-| Documents | Original promises, invoices and replies; searchable list beside an exact-version reader, with version/cutoff filters and related records. |
+| Cases | A question on the file cover beside a searchable conversation sheet. Illustrated rows carry a short financial fact; opening a company shows drawn promise-to-invoice reconciliation, its next action and illustrated document previews. |
+| Documents | Compact illustrated file list; offer/cost subtraction, credit-note and invoice artwork, date calendars, service report and agreement. Original text is a separate view; exact versions, filters, downloads and related-case actions remain. |
 | Companies | Company list and selected relationship; a single case has one narrative rather than repeated summary text. |
 | Reports | Financial statement and company comparison, separate financial/document dates and exports. |
 | Needs attention | Contextual to Cases; prioritized reasons and concrete next steps, with scheduled work reachable. |
@@ -111,11 +113,17 @@ The four primary tabs are Cases, Documents, Companies and Reports. The global he
 
 Archivo carries headings; Archivo ExtraCondensed Black carries the cover question and wordmark. Helvetica Neue, Helvetica and Arial carry reading and forms. Martian Mono carries small printed metadata. The Archivo and Martian WOFF files are local under `public/fonts/` with [Archivo’s OFL](public/fonts/Archivo-OFL.txt) and [Martian Mono’s OFL](public/fonts/MartianMono-OFL.txt). Public Sans remains an installed legacy dependency; it is not the current app’s primary typography. Original map art may retain pixel labels within the illustration.
 
-Principal task headings are 28px; Cases is 23px. The cover question is 48–64px on wide screens, with a later phone override of 42px. Case story headlines are 19px on desktop and 18px on phone; body defaults to 15px, with denser supporting text and 9–10px metadata. Exact supplied source text keeps its meaning and is not rewritten to fit the new voice.
+Principal task headings are 28px; Cases is 23px. The cover question is 51px on wide screens and 36px on phone. Case story headlines are 19px on desktop and 17px on phone; body defaults to 15px, with denser supporting text and 9–10px metadata. Exact supplied source text keeps its meaning and is not rewritten to fit the new voice.
 
 Red ink marks available actions and focus; named text communicates the actual result. Negative and warning states remain distinct in meaning even where colors overlap. Main buttons have 3px corners and a 40px minimum height. Inputs use warm white stock, a fine brown rule and 3px corners. Focus has a 2px red outline and 4px offset. Details/disclosures contain policy, exact record data and technical evidence without hiding the primary decision.
 
 ## Truthful paper objects
+
+`DocumentGraphic` uses original SVG stock, folded edges, cut-out vouchers, two-date calendars, invoice highlights and service/report objects. Graphics are a representation of recorded terms, never an invented original scan. Offer subtraction uses frozen proposal values; only invoice application backed by the selected version carries a confirmation mark. Notes and promises never carry that mark. Phone graphics recompose vertically rather than shrinking their labels.
+
+`CaseGraphic` uses current values to compare the promise with invoice credit and the remaining gap. Note amounts are explicitly matched portions, not physical note face values. Conditional offers compare extra spending with offered credit. Original document terms and current case state remain separate. `document-reading.mjs` supplies exact-version relationships, preserves generic text fallback and opens only the matching amendment action.
+
+`DocumentReader` keeps the visual overview and original-text views distinct. Metadata, original title, exact revisions and incidental review inclusions stay disclosed. Phone shows results, both dates and the actual case action before long artwork; Back restores the selected document row and focus.
 
 `PromisePapers` is original summary artwork generated from the selected case’s actual amounts. Its printed caption is **Promise summary**. It is not an original invoice, vendor letter, authenticated document or replacement for the source reader. The slip says **Invoice not added** when no related invoice revision is available. Opening the object enters the actual case and its supplied documents.
 
@@ -127,7 +135,7 @@ The main CTA names the real decision, such as checking the note or comparing pro
 
 The selected company seal and name travel between its conversation row and case reader using original FLIP/WAAPI clones. Source defines a 420ms movement with `cubic-bezier(.2,.75,.25,1)`. Back during entry reverses the active animation; cleanup restores live elements. Pointer events remain with the working UI. Reduced motion skips the cloned movement. These mechanisms require operated normal-motion, interruption, cancellation and return checks; source alone is not evidence that they passed.
 
-The main desktop frame uses a 202px rail, 69px header and 32px task gutters. At 1100px the rail becomes 163px and framing compacts. Between 761px and 900px the case cover and conversation sheet stack while retaining a small paper object. At 760px the navigation becomes a focus-contained overlay, the header becomes 57px, the frame has 10px side margins and task gutters become 19px. Phone hides cover metadata and summary artwork so the real conversations take priority. Task-specific stacking remains in the underlying CSS; document reading stacks at 640px and Office’s map/inspector at 800px.
+The main desktop frame uses a 202px rail, 69px header and 32px task gutters. At 1100px the rail becomes 163px and framing compacts. Between 761px and 900px the case cover and conversation sheet stack while retaining a small paper object. At 760px the navigation becomes a focus-contained overlay, the header becomes 57px, the frame has 10px side margins and task gutters become 19px. Phone hides cover metadata and summary artwork so the real conversations take priority. Task-specific stacking remains in the underlying CSS; document reading moves to explicit list/reader navigation at 760px; below 1220px, consequence and case action precede the artwork and Office’s map/inspector at 800px.
 
 Visited task surfaces retain selections, drafts and ephemeral signing keys across ordinary navigation, including Office round trips. Session/workspace changes must not leak retained work. Missing exact targets show an unavailable state instead of substituting another record. Keyboard focus entry/return and scroll recovery are part of the same journey.
 

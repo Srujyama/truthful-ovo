@@ -16,6 +16,10 @@ async page => {
   const showRecordNote=async(container,title)=>{const details=container.locator('details').filter({has:page.locator('summary',{hasText:new RegExp(`^${title}$`)})});if(!await details.evaluate(node=>node.open))await details.locator(':scope > summary').click();};
   const click = name => page.getByRole('button', { name, exact: true }).click();
   const selectedSource = () => page.getByRole('article', { name: 'Exact document version' });
+  const originalSource = async () => { await selectedSource().getByRole('group', { name: 'Document view', exact: true }).getByRole('button', { name: 'Original text', exact: true }).click(); const text=selectedSource().getByLabel('Exact source text', { exact: true }); await text.waitFor({state:'visible'}); return text; };
+  const documentFilters = () => showRecordNote(page.locator('.document-library'), 'Filters & history');
+  const sourceRow = (id,revision) => page.locator(`.ops-document-row[data-source-id="${id}"][data-source-revision="${revision}"]`);
+  const sourceFixture = (id,revision) => baseline.view.sourceVersions.find(source=>source.id===id&&source.revision===revision);
   const companyDetail = () => page.getByRole('article', { name: 'Selected company' });
   const nav = async name => {
     name=pageTitles[name]||name;
@@ -98,14 +102,27 @@ async page => {
         if (view !== 'evidence') {if(size==='mobile')await page.getByRole('button',{name:'Toggle navigation',exact:true}).click();check(await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('button', { name: title, exact: true }).getAttribute('aria-current') === 'page', `${size}: ${title} has the current-page navigation state`);if(size==='mobile')await page.keyboard.press('Escape');}
         if (view === 'assurance' && size === 'mobile') {
           await page.evaluate(()=>document.fonts.ready);
-          const reading=await page.evaluate(()=>{const subtitle=document.querySelector('.casebook-cover>p').getBoundingClientRect(),index=document.querySelector('.casebook-index').getBoundingClientRect(),first=document.querySelector('.correspondence-entry').getBoundingClientRect();return {subtitleBottom:subtitle.bottom,indexTop:index.top,firstBottom:first.bottom,viewport:innerHeight};});
+          const reading=await page.evaluate(()=>{const subtitle=document.querySelector('.casebook-cover h2').getBoundingClientRect(),index=document.querySelector('.casebook-index').getBoundingClientRect(),first=document.querySelector('.correspondence-entry').getBoundingClientRect();return {subtitleBottom:subtitle.bottom,indexTop:index.top,firstBottom:first.bottom,viewport:innerHeight};});
           check(reading.indexTop>=reading.subtitleBottom+12,'Phone introduction and conversation paper never overlap');
           check(reading.firstBottom<reading.viewport,'The first complete company story and next action fit in the phone’s first viewport');
         }
         if (view === 'credits') check(await page.locator('.credit-statement-row').count() === 2, `${size}: both credit records render`);
         if (view === 'operations') check(await page.locator('.ops-task-row').count() === 4, `${size}: all four actionable case rows render`);
         if (view === 'vendors') check(await page.locator('.ops-company-row').count() === 4, `${size}: all companies remain in the visible record list`);
-        if (view === 'library') check(await page.locator('.ops-document-row').count() === 9 && await selectedSource().isVisible(), `${size}: documents retain both a real list and exact reader`);
+        if (view === 'library') {
+          const identities=await page.locator('.ops-document-row').evaluateAll(nodes=>nodes.map(node=>`${node.dataset.sourceId}@${node.dataset.sourceRevision}`).sort());
+          check(JSON.stringify(identities)===JSON.stringify(baseline.view.sources.map(source=>`${source.id}@${source.revision}`).sort()), `${size}: document rows retain all nine actual source identities`);
+          check(await page.locator('.ops-document-row .document-row-copy > strong').count()===9 && await page.locator('.ops-document-row .ops-source-text,.ops-document-row dl').count()===0, `${size}: all nine documents use compact company, title and date rows`);
+          if(size==='mobile') {
+            check(!await selectedSource().isVisible() && await sourceRow('pipeline-promise',6).isVisible(), 'Phone Documents starts with the actual document list');
+            await sourceRow('pipeline-promise',6).click(); await selectedSource().waitFor({state:'visible'});
+            check(!await page.locator('.ops-document-list').isVisible() && await selectedSource().getByRole('heading',{name:'Promised invoice credit',exact:true}).isVisible(), 'Phone selection opens the correct document in its reading room');
+            check(await (await originalSource()).textContent()===sourceFixture('pipeline-promise',6).text, 'Phone reading room retains the exact original source bytes');
+            await noOverflow('Phone document reading room'); await screenshot('documents-mobile-reader');
+            await selectedSource().getByRole('button',{name:'Back to documents',exact:true}).click(); await sourceRow('pipeline-promise',6).waitFor({state:'visible'});
+            check(await sourceRow('pipeline-promise',6).evaluate(node=>node===document.activeElement) && !await selectedSource().isVisible(), 'Phone Back to documents restores the selected row and keyboard focus');
+          } else check(await selectedSource().isVisible(), `${size}: documents retain both a real list and exact reader`);
+        }
         if (view === 'audit') check(await page.locator('.ops-activity-row').count() === 24 && await page.getByRole('button', { name: 'Next records', exact: true }).isVisible(), `${size}: activity exposes its first page and next-page control`);
         if (view === 'reports') check(hasMoney(await page.locator('.ops-report-measures').innerText(),'$900.00'), `${size}: the statement shows the actual verified $900`);
         await noOverflow(`${size} ${title}`); await screenshot(`${name}-${size}`);
@@ -131,8 +148,8 @@ async page => {
       await route('assurance', 'Follow-ups');
       const filters=page.getByRole('group',{name:'Filter follow-ups by status',exact:true}), search=page.getByRole('textbox',{name:'Search follow-ups',exact:true}), rows=page.locator('.portfolio-row:visible');
       check(await rows.count()===4&&await page.locator('.followups-inline-balances,.followups-table-heading').count()===0,'The case file opens with four conversations instead of an unexplained KPI taxonomy or accounting table');
-      check((await rows.filter({hasText:'Pipeline CRM'}).innerText()).includes('They promised $2,400')&&(await rows.filter({hasText:'Pipeline CRM'}).innerText()).includes('$900 of credit')&&(await rows.filter({hasText:'Pipeline CRM'}).innerText()).includes('$1,500 short'),'Pipeline’s opening story explains the promise, invoice credit and missing amount in the same sentence group');
-      check((await rows.filter({hasText:'Nimbus Cloud'}).innerText()).includes('$2,000 credit note')&&(await rows.filter({hasText:'Nimbus Cloud'}).innerText()).includes('No invoice here confirms'),'Nimbus’s opening story distinguishes the existing credit note from a reduced invoice');
+      check((await rows.filter({hasText:'Pipeline CRM'}).innerText()).includes('$900 of $2,400 on the invoice')&&(await rows.filter({hasText:'Pipeline CRM'}).locator('.correspondence-row-art svg').count())===1&&(await rows.filter({hasText:'Pipeline CRM'}).innerText()).includes('$1,500 short'),'Pipeline’s opening visual pairs the invoice preview with exact promised, applied and missing amounts');
+      check((await rows.filter({hasText:'Nimbus Cloud'}).innerText()).includes('$2,000 credit note')&&(await rows.filter({hasText:'Nimbus Cloud'}).innerText()).includes('Invoice confirmation still needed'),'Nimbus’s opening story distinguishes the existing credit note from a reduced invoice');
       const filterDisclosure=page.locator('.casebook-filters');await filterDisclosure.locator(':scope > summary').click();
       check((await filters.locator('[data-filter=all] > span').innerText()).trim()==='4','Follow-up status counts start with the actual four cases');
       await filters.locator('[data-filter=owed]').click();
@@ -142,7 +159,7 @@ async page => {
       await filters.locator('[data-filter=issued]').click();await page.getByRole('heading',{name:'No matching follow-ups',exact:true}).waitFor();await click('Clear filters');
       await page.getByRole('combobox',{name:'Sort follow-ups',exact:true}).selectOption('owed-desc');
       check(JSON.stringify(await rows.evaluateAll(nodes=>nodes.map(node=>node.dataset.case)))===JSON.stringify(['nimbus-sla','pipeline-seats','parcel-waiver','orbit-renewal']),'Money sorting keeps a conditional offer separate from actual amounts owed');
-      const orbit=rows.filter({hasText:'Orbit Design'}),orbitText=await orbit.innerText();check(/\$480 offer/.test(orbitText)&&orbitText.includes('$2,400 in extra spending')&&!/owed|recovered|received/.test(await orbit.locator('.correspondence-copy > strong').innerText()),'Conditional offer value never appears as an amount still owed');
+      const orbit=rows.filter({hasText:'Orbit Design'}),orbitText=await orbit.innerText();check(/\$480 offer/.test(orbitText)&&orbitText.includes('$2,400 extra spending')&&!/owed|recovered|received/.test(await orbit.locator('.correspondence-copy > strong').innerText()),'Conditional offer value never appears as an amount still owed');
       await search.fill('Pipeline');await rows.click();await page.locator('.followups-detail:visible').waitFor();checkRoute('assurance',{case:'pipeline-seats'});
       await page.goBack();await page.locator('.followups-list:visible').waitFor();
       check(await search.inputValue()==='Pipeline','Browser Back preserves the follow-up company search');await page.waitForFunction(()=>document.activeElement?.dataset.case==='pipeline-seats');check(await rows.evaluate(node=>node===document.activeElement),'Browser Back restores the filtered results and selected row focus');
@@ -213,6 +230,53 @@ async page => {
     });
 
     await page.setViewportSize({ width: 1440, height: 1000 });
+    await journey('document-reading-room-and-real-terms', async () => {
+      await route('library','Documents');
+      for(const source of baseline.view.sources){
+        const row=sourceRow(source.id,source.revision);
+        const rowTitle=await row.locator('.document-row-copy > strong').innerText();
+        check(rowTitle.trim().length>0 && (await row.innerText()).includes(baseline.view.vendors.find(vendor=>vendor.id===source.vendorId).name) && (await row.locator('.document-row-copy > small').innerText()).trim().length>0 && !(await row.innerText()).includes(source.text), `Compact document row names its real company and readable title: ${source.id}@${source.revision}`);
+        await row.click(); await selectedSource().waitFor({state:'visible'});
+        check(await selectedSource().getByRole('heading',{name:rowTitle,level:2,exact:true}).isVisible(), `Document row opens its matching reading-room heading: ${source.id}@${source.revision}`);
+        const graphic=selectedSource().getByRole('img');
+        if(source.id==='pipeline-renewal'){
+          const description=await graphic.getAttribute('aria-label');
+          check(description.includes('Extra spending $2,400') && description.includes('offered credit $1,500') && description.includes('$900 more') && description.includes('Not accepted'), 'The renewal illustration explains real $2,400 spending, $1,500 offered credit and $900 extra cost without accepting the offer');
+          check((await graphic.textContent()).includes('$2,400') && (await graphic.textContent()).includes('$1,500') && (await graphic.textContent()).includes('$900 more'), 'The visible renewal drawing and its accessible description show the same exact financial comparison');
+          await screenshot('documents-renewal-comparison');
+        }
+        if(['pipeline-promise','parcel-promise','orbit-offer','nimbus-memo'].includes(source.id))check(await graphic.locator('[data-invoice-confirmed="true"]').count()===0 && !(await graphic.getAttribute('aria-label')).includes('Invoice confirms application.'), `An unconfirmed promise or credit note has no invoice-confirmation marker: ${source.id}`);
+        if(source.id==='pipeline-invoice')check((await graphic.getAttribute('aria-label')).includes('$900') && (await graphic.getAttribute('aria-label')).includes('Invoice confirms application.') && await graphic.locator('[data-invoice-confirmed="true"]').count()===1, 'Only the actual $900 applied invoice carries its invoice-confirmation marker');
+        check(await (await originalSource()).textContent()===source.text && (await selectedSource().locator('.document-original-title').innerText())===source.title, `Original text and original title remain byte-exact: ${source.id}@${source.revision}`);
+      }
+      const renewal=sourceFixture('pipeline-renewal',23);
+      await sourceRow(renewal.id,renewal.revision).click();
+      await selectedSource().getByRole('complementary',{name:'Related cases',exact:true}).getByRole('button',{name:'Review the proposed terms',exact:true}).click();
+      await heading('Cases').waitFor();checkRoute('assurance',{case:'pipeline-seats',destination:'decisions',action:'action-pipeline-renewal'});
+      check(true,'The renewal reading room opens the exact current case and recorded proposal for review');
+      await page.setViewportSize({width:900,height:1000});
+      await route('library','Documents',{source:'pipeline-renewal',revision:'23'});
+      await noOverflow('900px renewal reading room'); await screenshot('documents-renewal-intermediate');
+      await originalSource();await noOverflow('900px exact original document');
+      await page.setViewportSize({width:390,height:844});
+      await route('library','Documents',{source:'pipeline-renewal',revision:'23'});await page.evaluate(()=>scrollTo(0,0));
+      const consequence=page.locator('.document-compact-result');
+      check((await consequence.innerText()).includes('$900 more')&&await consequence.evaluate(n=>n.getBoundingClientRect().bottom<innerHeight),'Phone offer shows the $900 extra cost before the illustration and inside its first viewport');
+      const quick=page.locator('.document-compact-action').getByRole('button',{name:'Review the proposed terms',exact:true});
+      check(await quick.evaluate(n=>n.getBoundingClientRect().bottom<innerHeight),'Phone document review action is reachable before the large illustration');
+      await quick.click();await heading('Cases').waitFor();checkRoute('assurance',{case:'pipeline-seats',destination:'decisions',action:'action-pipeline-renewal'});
+      await route('library','Documents',{source:'pipeline-proposal',revision:'21'});await page.evaluate(()=>scrollTo(0,0));
+      const dateChange=page.locator('.document-compact-dates');
+      check((await dateChange.innerText()).includes('Oct 1')&&(await dateChange.innerText()).includes('Nov 15')&&await dateChange.evaluate(n=>n.getBoundingClientRect().bottom<innerHeight),'Phone date change shows both original and proposed dates before the artwork');
+      await route('assurance','Cases',{case:'nimbus-sla'});await page.evaluate(()=>scrollTo(0,0));
+      const next=page.locator('.case-next-action').getByRole('button',{name:'Open the credit note',exact:true});
+      check(await next.evaluate(n=>n.getBoundingClientRect().bottom<innerHeight),'Phone case action appears before the reconciliation graphic and inside the first viewport');
+      const noteGraphic=page.locator('.case-graphic');
+      check((await noteGraphic.getAttribute('aria-label')).includes('On invoices $0')&&(await noteGraphic.getAttribute('aria-label')).includes('$2,000 is matched from credit notes'),'Case artwork separates the existing matched note from actual invoice credit');
+      await screenshot('visual-case-phone');
+      await page.setViewportSize({width:1440,height:1000});
+    });
+
     await journey('companies-and-exact-documents', async () => {
       await route('vendors', 'Companies');
       const search = page.getByRole('textbox', { name: 'Search companies', exact: true });
@@ -226,20 +290,24 @@ async page => {
       await page.locator('.ops-source-link').filter({ hasText: 'Original duplicate-seat correction' }).click();
       await selectedSource().waitFor(); checkRoute('library', { source: 'pipeline-promise', revision: '6' });
       await showRecordNote(selectedSource(),'Version & date details');
+      await originalSource();
       check((await selectedSource().innerText()).includes('Version 6') && (await page.getByLabel('Exact source text').innerText()).includes('USD 2,400'), 'The company document opens its exact original text and revision');
-      const sourceText = await page.getByLabel('Exact source text').innerText();
+      const sourceText = await page.getByLabel('Exact source text').textContent();
+      check(sourceText===sourceFixture('pipeline-promise',6).text && (await selectedSource().locator('.document-original-title').innerText())===sourceFixture('pipeline-promise',6).title, 'Original text preserves the exact source bytes and original title behind its human document heading');
       const downloadedText = await downloaded('Download exact document text', 'workspace-exact-source.txt');
       check(downloadedText === sourceText, 'The actual source download contains the displayed exact version text');
+      await documentFilters();
       await page.getByLabel('Document knowledge cutoff', { exact: true }).fill('2026-09-01');
       await page.getByRole('heading', { name: 'This exact document version is unavailable', exact: true }).waitFor();
       check(await page.getByLabel('Exact source text').count() === 0, 'An earlier cutoff never substitutes a different document for an unavailable exact version');
       await page.getByLabel('Document knowledge cutoff', { exact: true }).fill(today);
-      await selectedSource().waitFor(); check(await page.getByLabel('Exact source text').innerText() === sourceText, 'Restoring the cutoff restores the same requested version and text');
+      await selectedSource().waitFor(); check(await (await originalSource()).textContent() === sourceText, 'Restoring the cutoff restores the same requested version and text');
       await page.getByRole('combobox', { name: 'Document versions', exact: true }).selectOption('current');
-      check(await page.getByLabel('Exact source text').innerText() === sourceText, 'Showing latest-known versions preserves a selected document that still matches');
+      check(await (await originalSource()).textContent() === sourceText, 'Showing latest-known versions preserves a selected document that still matches');
       await page.getByRole('combobox', { name: 'Document versions', exact: true }).selectOption('all');
-      check(await page.getByRole('combobox', { name: 'Document versions', exact: true }).inputValue() === 'all' && await page.getByLabel('Exact source text').innerText() === sourceText, 'All-version inspection preserves the same selected document identity');
-      await selectedSource().locator('.ops-source-usages > div .ops-case-links').getByRole('button', { name: 'PC-SEATS-2026', exact: true }).click();
+      check(await page.getByRole('combobox', { name: 'Document versions', exact: true }).inputValue() === 'all' && await (await originalSource()).textContent() === sourceText, 'All-version inspection preserves the same selected document identity');
+      await page.locator('.document-library-filters > summary').click();
+      await selectedSource().getByRole('complementary', { name: 'Related cases', exact: true }).getByRole('button', { name: 'Open the case', exact: true }).click();
       await heading('Follow-ups').waitFor(); checkRoute('assurance', { case: 'pipeline-seats', destination: 'evidence' });
       await route('vendors', 'Companies', { vendor: 'pipeline', vendorTab: 'credits' });
       await showRecordNote(companyDetail(),'Document & record details');
@@ -251,8 +319,9 @@ async page => {
       await page.getByRole('textbox', { name: 'Search documents', exact: true }).fill('NoSuchDocument-ExactSearch');
       await page.getByRole('heading', { name: 'No documents match your filters', exact: true }).waitFor(); await click('Clear filters');
       check(await page.locator('.ops-document-row').count() === 9, 'Document no-results recovery restores all recorded sources');
+      await documentFilters();
       await page.getByRole('combobox', { name: 'Filter document type', exact: true }).selectOption('credit_memo');
-      check(await page.locator('.ops-document-row').count() === 1 && (await selectedSource().innerText()).includes('Nimbus credit memo issued'), 'Document type filtering selects the real credit memo');
+      check(await page.locator('.ops-document-row').count() === 1 && await sourceRow('nimbus-memo',18).count()===1 && (await (await originalSource()).textContent())===sourceFixture('nimbus-memo',18).text, 'Document type filtering selects the real credit memo');
     });
 
     await journey('activity-operated', async () => {
@@ -321,7 +390,7 @@ async page => {
       check(hasMoney(await reader.innerText(),'$900.00') && (await reader.innerText()).includes('PC-SEATS-2026'), 'Applied-credit detail preserves amount and case reference');
       await reader.locator('.credit-files button').click();
       await selectedSource().waitFor(); checkRoute('library', { source: 'pipeline-invoice', revision: '10' });
-      check((await page.getByLabel('Exact source text').innerText()).includes('INV-PC-1026'), 'Credit supporting-document link opens its exact invoice text');
+      check((await (await originalSource()).textContent())===sourceFixture('pipeline-invoice',10).text && (await page.getByLabel('Exact source text').textContent()).includes('INV-PC-1026'), 'Credit supporting-document link opens its exact invoice text');
       await page.goBack(); await heading('Credits').waitFor();
       checkRoute('credits', { credit: 'credit-pipeline-900' });
       check(await page.getByRole('textbox',{name:'Search credits',exact:true}).inputValue()==='INV-PC-1026','Returning to a credit preserves its invoice filter');
@@ -350,7 +419,7 @@ async page => {
       check(await page.locator('[data-credit="credit-pipeline-900"]').evaluate(node=>node===document.activeElement),'Phone browser Back restores the exact originating credit row focus');
       await page.goForward();await page.getByRole('complementary',{name:'Selected credit'}).waitFor();checkRoute('credits',{credit:'credit-pipeline-900'});check(!await page.locator('.credit-statement').isVisible(),'Phone browser Forward restores the same credit detail');
       await click('All notes'); check(await page.locator('.credit-statement').isVisible()&&!new URL(page.url()).searchParams.has('credit'), 'The phone All credits action returns to the list and clears its detail URL');
-      await page.reload();await heading('Credits').waitFor();check(await page.locator('.credit-statement').isVisible(),'Reload after returning to all credits keeps the phone list open');
+      await page.reload();await heading('Credits').waitFor();await page.locator('.credit-statement:visible').waitFor();check(await page.locator('.credit-statement-row').count()===2&&!new URL(page.url()).searchParams.has('credit'),'Reload after returning to all credits keeps the phone list open');
       await noOverflow('Operated mobile Credits'); await screenshot('credits-list-mobile-operated');
     });
 
@@ -364,7 +433,7 @@ async page => {
       await input.fill('Original duplicate-seat correction'); await input.press('ArrowDown');
       check(await dialog.locator('.command-result').evaluate(node => node === document.activeElement), 'ArrowDown moves from the search input to its actual result');
       await page.keyboard.press('Enter'); await selectedSource().waitFor(); checkRoute('library', { source: 'pipeline-promise', revision: '6' });
-      check((await page.getByLabel('Exact source text').innerText()).includes('USD 2,400'), 'Keyboard search opens the source’s exact identity and text');
+      check((await (await originalSource()).textContent())===sourceFixture('pipeline-promise',6).text && (await page.getByLabel('Exact source text').textContent()).includes('USD 2,400'), 'Keyboard search opens the source’s exact identity and text');
       await page.goBack(); await heading('Reports').waitFor(); check(true, 'Browser Back returns from an exact source to its previous report route');
       await page.keyboard.press('Meta+k'); await dialog.waitFor(); await input.fill('INV-PC-1026'); await input.press('ArrowDown'); await page.keyboard.press('Enter');
       await heading('Credits').waitFor(); checkRoute('credits', { credit: 'credit-pipeline-900' });

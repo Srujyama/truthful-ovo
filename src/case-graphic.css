@@ -1,0 +1,60 @@
+.case-graphic{--case-green:#365b47;--case-red:#a13c27;--case-muted:#81765f;margin:0;min-width:0;color:#263a30;isolation:isolate;container-type:inline-size}
+.case-reconciliation{position:relative;min-height:325px;padding:18px 0 23px;max-width:750px;margin:0 auto}
+.case-promise-print,.case-invoice-print{position:relative;filter:drop-shadow(2px 4px 3px #5b4b2c25) drop-shadow(7px 12px 12px #5b4b2c10);min-width:0}
+.case-print-stock{position:absolute;inset:0;width:100%;height:100%;z-index:-1;overflow:visible}
+.case-promise-print{width:57%;min-height:242px;padding:23px 24px 20px;transform:rotate(-3deg);z-index:1}
+.case-invoice-print{width:63%;min-height:247px;padding:21px 25px 24px;margin:-204px 2% 0 auto;transform:rotate(2deg);z-index:2}
+.case-graphic .case-print-type{display:block;font-family:Martian,monospace;font-size:10px;letter-spacing:0;color:var(--case-muted);line-height:1.6}
+.case-graphic .case-print-amount{display:block;font-family:Archivo,var(--ui-font);font-size:clamp(30px,3.5vw,47px);line-height:1.2;margin-top:17px;overflow-wrap:anywhere}
+.case-graphic .case-print-caption{display:block;font-size:12px;line-height:1.5;margin-top:7px;max-width:18ch;color:var(--case-muted)}
+.case-print-lines{display:grid;gap:9px;max-width:72%;margin-top:21px}.case-print-lines i{height:1px;background:#c6bba2}.case-print-lines i:nth-child(2){width:72%}
+.case-print-corner{display:block;font-size:9px;color:var(--case-muted);margin-top:21px;line-height:1.5}
+.case-invoice-value{display:flex;align-items:baseline;justify-content:space-between;gap:13px;margin-top:21px}
+.case-graphic .case-invoice-value>span,.case-graphic .case-invoice-result>span{font-size:12px;line-height:1.5;max-width:17ch;color:var(--case-muted)}
+.case-graphic .case-invoice-value>strong{font-family:Archivo,var(--ui-font);font-size:clamp(26px,3vw,38px);line-height:1.2;overflow-wrap:anywhere;text-align:right}
+.case-match-line,.case-offer-deduction{display:block;width:calc(100% + 8px);height:29px;margin:16px -4px 12px}
+.case-invoice-result{display:flex;align-items:baseline;justify-content:space-between;gap:13px}
+.case-graphic .case-invoice-result>strong{font-family:Archivo,var(--ui-font);font-size:clamp(26px,3vw,38px);line-height:1.2;color:var(--case-red);overflow-wrap:anywhere;text-align:right}
+.case-print-foot{display:block;font-size:9px;line-height:1.6;color:var(--case-muted);margin-top:15px}
+.case-note-tab{position:absolute;left:5%;bottom:1px;background:#e8dcc0;border:1px solid #cabd9c;box-shadow:1px 3px 5px #5b4b2c16;transform:rotate(-4deg);padding:11px 19px;z-index:3;display:flex;gap:15px;align-items:baseline}
+.case-note-tab>span{font-size:11px;color:#6b634f}.case-note-tab>strong{font-family:Archivo,var(--ui-font);font-size:20px}.case-note-tab>i{position:absolute;width:19px;height:39px;border:2px solid #8a9484;border-radius:10px 10px 8px 8px;right:15px;top:-15px;transform:rotate(10deg);box-shadow:inset 1px 0 #f7f8eb,1px 1px #fff8df}
+.case-graphic figcaption{font-size:13px;line-height:1.5;text-align:center;color:var(--case-red);padding:3px 12px 0}
+.case-graphic-complete .case-invoice-result>strong,.case-graphic-complete figcaption{color:var(--case-green)}
+.case-offer-tab{position:absolute;left:4%;bottom:2px;padding:9px 15px;background:#31513f;color:#fbf7e8;transform:rotate(-4deg);z-index:3;box-shadow:2px 4px 5px #5b4b2c20}
+.case-offer-tab>span{display:block;font-size:11px;line-height:1.6}.case-offer-tab>span+span{font-size:9px;color:#dce1cf}
+.case-graphic-offer .case-print-amount{color:var(--case-green)}
+@media(max-width:1100px) and (min-width:761px){.case-promise-print{width:62%;padding-left:20px}.case-invoice-print{width:70%;padding-left:20px;padding-right:20px;margin-right:0}.case-graphic .case-print-amount{font-size:35px}.case-graphic .case-invoice-value>strong,.case-graphic .case-invoice-result>strong{font-size:29px}}
+@media(max-width:760px){
+ .case-reconciliation{min-height:0;padding:6px 1px 29px;max-width:420px}
+ .case-promise-print{width:89%;min-height:183px;padding:19px 21px 20px;transform:rotate(-2deg)}
+ .case-graphic .case-print-type{font-size:10px}.case-graphic .case-print-amount{font-size:39px;margin-top:12px}.case-graphic .case-print-caption{font-size:12px;max-width:none}
+ .case-print-lines{display:none}.case-print-corner{font-size:10px;margin-top:14px}
+ .case-invoice-print{width:94%;min-height:227px;margin:-21px 0 0 auto;padding:20px 20px 24px;transform:rotate(1.5deg)}
+ .case-invoice-value{margin-top:19px;gap:12px}.case-graphic .case-invoice-value>span,.case-graphic .case-invoice-result>span{font-size:12px;max-width:15ch}.case-graphic .case-invoice-value>strong,.case-graphic .case-invoice-result>strong{font-size:33px}
+ .case-print-foot{font-size:10px;line-height:1.6;margin-top:15px}.case-match-line,.case-offer-deduction{margin-top:17px;margin-bottom:12px}
+ .case-note-tab{position:relative;left:auto;bottom:auto;margin:-8px 20px 0 7px;width:fit-content;max-width:calc(100% - 27px);padding:11px 18px;gap:12px}.case-note-tab>strong{font-size:23px}.case-note-tab>span{font-size:12px;max-width:14ch}.case-note-tab>i{right:9px;top:-18px}
+ .case-offer-tab{position:relative;left:auto;bottom:auto;margin:-9px 0 0 12px;width:fit-content;padding:9px 15px}.case-offer-tab>span{font-size:12px}.case-offer-tab>span+span{font-size:10px}
+ .case-graphic figcaption{font-size:13px;padding:0 8px}
+}
+@media(max-width:360px){.case-graphic .case-print-amount{font-size:34px}.case-graphic .case-invoice-value>strong,.case-graphic .case-invoice-result>strong{font-size:28px}.case-invoice-print{padding-left:16px;padding-right:16px}.case-graphic .case-invoice-value>span,.case-graphic .case-invoice-result>span{font-size:11px}}
+@container(max-width:480px){
+ .case-reconciliation{min-height:0;padding:6px 1px 29px;max-width:420px}
+ .case-promise-print{width:89%;min-height:183px;padding:19px 21px 20px;transform:rotate(-2deg)}
+ .case-graphic .case-print-type{font-size:10px}.case-graphic .case-print-amount{font-size:clamp(30px,10cqi,39px);margin-top:12px}.case-graphic .case-print-caption{font-size:12px;max-width:none}
+ .case-print-lines{display:none}.case-print-corner{font-size:10px;margin-top:14px}
+ .case-invoice-print{width:94%;min-height:227px;margin:-21px 0 0 auto;padding:20px 20px 24px;transform:rotate(1.5deg)}
+ .case-invoice-value{margin-top:19px;gap:12px}.case-graphic .case-invoice-value>span,.case-graphic .case-invoice-result>span{font-size:12px;max-width:15ch}.case-graphic .case-invoice-value>strong,.case-graphic .case-invoice-result>strong{font-size:clamp(27px,9cqi,33px)}
+ .case-print-foot{font-size:10px;line-height:1.6;margin-top:15px}.case-match-line,.case-offer-deduction{margin-top:17px;margin-bottom:12px}
+ .case-note-tab{position:relative;left:auto;bottom:auto;margin:-8px 20px 0 7px;width:fit-content;max-width:calc(100% - 27px);padding:11px 18px;gap:12px}.case-note-tab>strong{font-size:23px}.case-note-tab>span{font-size:12px;max-width:14ch}.case-note-tab>i{right:9px;top:-18px}
+ .case-offer-tab{position:relative;left:auto;bottom:auto;margin:-9px 0 0 12px;width:fit-content;padding:9px 15px}.case-offer-tab>span{font-size:12px}.case-offer-tab>span+span{font-size:10px}
+ .case-graphic figcaption{font-size:13px;padding:0 8px}
+}
+
+.case-graphic .case-invoice-result.assurance-amount{padding:0;margin:0;display:flex;border:0;background:none}
+
+.followups-detail .case-explanation{display:block;padding:8px 0 10px}.case-explanation .case-explanation-copy h3{max-width:none;font-size:29px;line-height:1.3;margin-bottom:13px}.case-explanation .document-kind{display:none}.case-explanation .case-graphic{max-width:760px;margin:10px auto 15px}.case-explanation .case-graphic figcaption{display:none}.case-explanation .case-reconciliation{min-height:300px}.case-explanation .case-print-corner{display:none}
+.followups-detail .followup-document{display:flex;gap:18px;align-items:center;padding:12px;min-height:105px;box-shadow:none!important}.followup-document .case-source-art{width:120px;flex:0 0 120px;height:87px;display:block;overflow:visible}.case-source-art .document-graphic{width:140px;max-width:none;transform:translate(-10px,-2px)}.followups-detail .followup-document>span:not(.case-source-art){min-width:0}.followups-detail .followup-document strong{font-size:14px;line-height:1.4}.followups-detail .followup-document small{margin-top:8px;font-size:11px}.followups-detail .followup-document p{display:none}
+@media(max-width:760px){.case-explanation .case-explanation-copy h3{font-size:23px;margin-bottom:18px}.case-explanation .case-reconciliation{min-height:0}.followups-detail .followup-document{min-height:98px;padding:9px;gap:12px}.followup-document .case-source-art{width:95px;flex-basis:95px;height:75px}.case-source-art .document-graphic{width:110px}.followups-detail .followup-document strong{font-size:13px}.case-explanation .case-graphic{margin-bottom:0}}
+
+.followups-detail .case-next-action{margin:0 0 22px;padding:14px 18px;background:transparent;border:0;border-bottom:1px solid #d8ccb3;border-radius:0;align-items:center}.case-next-action .case-next-action-copy p{display:none}.case-next-action .case-next-action-copy h3{font-size:14px;line-height:1.5}.followups-detail .case-next-action .button{min-height:40px;font-size:12px}
+@media(max-width:760px){.followups-detail .case-next-action{padding:0 0 17px;margin-bottom:20px;gap:12px}.followups-detail .case-next-action .button{width:100%;min-height:44px}.case-next-action .case-next-action-copy h3{font-size:13px}}

@@ -137,7 +137,13 @@
         "name": "office-stack",
         "value": "800px"
       }
-    ]
+    ],
+    "visualImplementations": {
+      "documentGraphic": "src/DocumentGraphic.jsx",
+      "documentReader": "src/DocumentReader.jsx",
+      "caseReconciliation": "src/CaseGraphic.jsx",
+      "exactReadingModel": "src/document-reading.mjs"
+    }
   },
   "components": [
     {
@@ -165,14 +171,6 @@
       "css": ".ds-seal{display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border:1.5px solid #9b8d6a;border-radius:50%;color:#6b624c;font:900 23px/1 ArchivoDisplay,Arial,sans-serif}"
     },
     {
-      "name": "Invoice check receipt",
-      "kind": "card",
-      "refersTo": "case-receipt",
-      "description": "Original summary of actual values; exact source documents remain a separate reader.",
-      "html": "<section class=\"ds-receipt\"><h3>What the documents show</h3><dl><div><dt>They promised</dt><dd>$2,400</dd></div><div><dt>On an invoice</dt><dd>$900</dd></div><div><dt>Still missing from an invoice</dt><dd>$1,500</dd></div></dl></section>",
-      "css": ".ds-receipt{background:#fcfaf1;color:#1d1c19;border:1px solid #e4dac4;padding:26px 30px 18px;box-shadow:2px 5px 8px #5a503d17;transform:rotate(1deg);font:15px/1.6 \"Helvetica Neue\",Helvetica,Arial,sans-serif}.ds-receipt h3{font:400 10px/1.6 Martian,monospace}.ds-receipt dl>div{display:flex;justify-content:space-between;gap:20px;border-bottom:1px dashed #c7b999;padding:10px 0}.ds-receipt dd{margin:0}"
-    },
-    {
       "name": "Exact document field",
       "kind": "input",
       "description": "Warm stock form/search control with explicit label.",
@@ -182,7 +180,7 @@
   ],
   "narrative": {
     "northStar": "Did the promise reach the invoice?",
-    "overview": "Current local correspondence candidate after explicit rejection of commit 081444c. A company story connects promise, exact source text, invoice result and next decision. One green mat, manila navigation and paper file frame covers every route, dialogs, examples and Office. This records source and inspected captures, not user approval, completed runtime acceptance, a deployment or native Figma parity.",
+    "overview": "Current local graphics-led document and case build after explicit rejection of 9bcc8fa Documents and its prior review claim. Original SVG offer/cost comparisons, invoice/note/date/service/agreement objects carry concise meaning; exact supplied text remains separately available. Illustrations represent records rather than original scans. No user approval, deployment or native Figma parity is claimed.",
     "keyCharacteristics": [
       "Cases, Documents, Companies and Reports as four primary file tabs.",
       "Plain stories before technical references or overlapping KPI totals.",

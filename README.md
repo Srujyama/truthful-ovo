@@ -6,7 +6,7 @@ Truthful keeps the promise, original documents, credit note and invoice together
 
 [Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md)
 
-The current local v4 candidate opens **Cases**, with **Documents**, **Companies** and **Reports** as the other primary tabs. **Needs attention**, **Credit notes** and **Check documents** sit beside their related work. **More** contains History, Developer tools, Office map and Examples. One green work mat, manila navigation and paper file frame connects all views. [The current design record](docs/CORRESPONDENCE_DESIGN.md) tracks the rebuild after the user rejected commit `081444c`; passing earlier checks did not establish design approval.
+The current local v4 candidate opens **Cases**, with **Documents**, **Companies** and **Reports** as the other primary tabs. **Needs attention**, **Credit notes** and **Check documents** sit beside their related work. **More** contains History, Developer tools, Office map and Examples. Cases and Documents use original financial artwork: invoice checks, credit notes, offer/cost comparisons and date changes. Full source text remains available in a separate view. One green work mat and paper file frame connects the views. [The current design record](docs/CORRESPONDENCE_DESIGN.md) tracks the rebuild after the user rejected commit `081444c`; passing earlier checks did not establish design approval.
 
 ## Run
 

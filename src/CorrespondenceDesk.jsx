@@ -1,4 +1,7 @@
 import React from 'react';
+import CaseGraphic from './CaseGraphic.jsx';
+import DocumentGraphic from './DocumentGraphic.jsx';
+import {documentReading} from './document-reading.mjs';
 import {correspondenceStory,formatMoney} from './correspondence.mjs';
 
 export function caseTransitionName(id){let hash=0;for(const c of String(id))hash=(Math.imul(hash,31)+c.charCodeAt(0))|0;return `case-${Math.abs(hash)}`;}
@@ -21,8 +24,8 @@ export function PromisePapers({view,commitment,onOpen}){
 
 export function CorrespondenceIndex({view,rows,onOpen}){
   return <div className="correspondence-index">
-    {rows.map(c=>{const story=correspondenceStory(view,c);return <button key={c.id} data-case={c.id} className={`portfolio-row correspondence-entry story-${story.kind}`} onClick={event=>onOpen(c.id,event.currentTarget)}>
-      <CompanyMark name={story.company} transitionId={c.id}/><span className="correspondence-copy"><span className="correspondence-company" data-case-title={c.id} style={{viewTransitionName:`${caseTransitionName(c.id)}-title`}}>{story.company}</span><strong>{story.headline}</strong><span className="correspondence-detail">{story.detail}</span><span className="correspondence-next">{story.nextLabel}</span></span><span className="folder-lip" aria-hidden="true"/>
+    {rows.map(c=>{const story=correspondenceStory(view,c),preview=story.documents.find(item=>item.available&&item.kind==='invoice')||story.documents.find(item=>item.available&&item.kind==='credit_memo')||story.documents.find(item=>item.available),cost=story.warnings.find(item=>item.kind==='renewal');const fact=c.conditions.length&&cost?`${formatMoney(cost.extraCostCents)} extra spending`:c.verifiedCents>0?`${formatMoney(c.verifiedCents)} of ${formatMoney(c.promisedCents)} on the invoice`:c.issuedCents>0?'Invoice confirmation still needed':'Invoice not added';return <button key={c.id} data-case={c.id} className={`portfolio-row correspondence-entry story-${story.kind}`} aria-label={`${story.company}. ${story.headline}. ${story.detail}. ${story.nextLabel}`} onClick={event=>onOpen(c.id,event.currentTarget)}>
+      <CompanyMark name={story.company} transitionId={c.id}/><span className="correspondence-copy"><span className="correspondence-company" data-case-title={c.id} style={{viewTransitionName:`${caseTransitionName(c.id)}-title`}}>{story.company}</span><strong>{story.headline}</strong><span className="correspondence-detail">{fact}</span><span className="correspondence-next">{story.nextLabel}</span></span>{preview&&<span className="correspondence-row-art" aria-hidden="true"><DocumentGraphic reading={documentReading(view,preview.source)} small/></span>}<span className="folder-lip" aria-hidden="true"/>
     </button>;})}
   </div>;
 }
@@ -30,9 +33,8 @@ export function CorrespondenceIndex({view,rows,onOpen}){
 export function CaseExplanation({view,commitment}){
   const story=correspondenceStory(view,commitment);
   const conditional=commitment.conditions.length>0;
-  const renewal=story.warnings.find(item=>item.kind==='renewal');
   return <section className="case-explanation" aria-label="What happened to this promise">
-    <div className="case-explanation-copy"><span className="document-kind">{conditional?'The offer':'The invoice check'}</span><h3>{story.headline}</h3><p>{story.detail}</p>{story.deadlineNote&&<p className="case-deadline-note">{story.deadlineNote}</p>}</div>
-    <div className="case-receipt"><div className="receipt-caption">{conditional?'Before accepting':'What the documents show'}</div>{conditional?<>{renewal?<dl><div><dt>Extra spending required</dt><dd>{formatMoney(renewal.extraCostCents)}</dd></div><div><dt>Credit offered</dt><dd>−{formatMoney(renewal.creditCents)}</dd></div><div className="case-receipt-total"><dt>Extra cost after the credit</dt><dd><strong>{formatMoney(renewal.netCostCents)}</strong></dd></div></dl>:<><p>A conditional offer is not money received.</p><strong>{formatMoney(commitment.promisedCents)} offered</strong><span>{commitment.conditions.join(' ')}</span></>}{renewal&&<details><summary>What this comparison assumes</summary><p>{renewal.baselineDescription}</p></details>}</>:<><dl><div><dt>They promised</dt><dd>{formatMoney(commitment.promisedCents)}</dd></div><div><dt>On an invoice</dt><dd>{formatMoney(commitment.verifiedCents)}</dd></div><div className="case-receipt-total"><dt><span>{commitment.issuedCents>0?'Still waiting on an invoice':'Still missing from an invoice'}</span></dt><dd className="assurance-amount"><strong>{formatMoney(commitment.outstandingCents)}</strong></dd></div></dl>{commitment.issuedCents>0&&<p>{formatMoney(commitment.issuedCents)} from credit notes is matched to this promise. The invoice still needs to show the deduction.</p>}</>}<span className="receipt-barcode" aria-hidden="true"/></div>
+    <div className="case-explanation-copy"><span className="document-kind">{conditional?'The offer':'The invoice check'}</span><h3>{story.headline}</h3></div>
+    <CaseGraphic view={view} commitment={commitment}/>
   </section>;
 }

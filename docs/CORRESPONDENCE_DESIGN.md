@@ -1,3 +1,5 @@
+> Update: the user rejected the Documents screen in `9bcc8fa` and the earlier quality claim. The earlier T51/T52 evidence below is historical behavior evidence, not visual acceptance. Current work is T53/T54: original domain graphics, substantially less default text and a usable document-to-case journey.
+
 # Correspondence rebuild — local delivery
 
 The user rejected commit `081444c` as unfinished, inconsistent and incomprehensible. Its test results establish some behavior, not design acceptance. The original Nomen milestone and all three Formroom candidates are also rejected as taste templates. Current work is T51/T52 in THINKPAD.md.
@@ -57,3 +59,27 @@ Current checks: `npm run check` passes 371 tests, authored evaluations, submissi
 Fresh independent review inspected the actual Student reference and opened folder alongside the rendered application. Repairs closed: giant/clipped phone introduction; vague main action; absent same-object continuity; raw global History; misleading summary paper; duplicated single-company story; Nimbus task confusing expected date with claim deadline; raw selected-case History. Final review found no remaining material visual/comprehension findings in its inspected scope. Normal-motion evidence is in `output/paper-motion-operation.log`; final captures and downloaded records are retained locally under `output/playwright/`.
 
 `pad finish --timeout 300` was run. The whole historical plan correctly remains open for T9 (previously deferred external submission/video task) and T37 (native Figma expansion requires editable exact file and connected FigCli). Neither is represented as delivered by this rebuild. The public GitHub Pages release remains the older v3; local source and the development branch contain this interface.
+
+
+## Visual correction after the rejected Documents screen — T53/T54
+
+The user rejected `9bcc8fa`'s document list and reader, then clarified that high-quality graphics and much less text were required. The old review had overlooked fundamental composition problems. It is not evidence of visual acceptance.
+
+The replacement is implemented in `DocumentGraphic.jsx`, `DocumentReader.jsx`, `CaseGraphic.jsx` and `document-reading.mjs`. Original SVG/CSS artwork explains the actual recorded relationship: extra spending minus offered credit; invoice credit versus a promise; a note awaiting invoice confirmation; an original date versus a proposed date. Service/report and agreement objects give the file list recognizable content. Source text, original titles, exact revisions, cutoffs, downloads and incidental review inclusions remain available on demand. No scan, sender, signature, external payment or accepted offer is invented.
+
+| User requirement | Implementation and observed evidence |
+| --- | --- |
+| Graphics, less default prose | Illustrated document list and reading room; visual case reconciliation; shorter illustrated case rows and document previews replace excerpt cards. No raw fixture-text wall on arrival. |
+| Meaning carried by the artwork | Real offer `$2,400 − $1,500 = $900 more`; note face remains distinct from matched portion; only a supported invoice application carries a confirmation mark. |
+| Phone has a useful composition | Large objects recompose vertically; offer result, both dates and the actual case action precede the long artwork. Measured at 390×844: document action bottom293, offer result512, both dates540; case actions493–512. |
+| Exact source and navigation | All nine real source IDs/revisions retained; original text/title byte comparisons and actual download; correct current amendment action, safe case fallback when no action exists; no latest-version substitution. |
+| Error, history and recovery | Empty/filter recovery, unavailable exact source, earlier cutoff, all/current versions, failed refresh and retry, phone list→reader→Back focus and keyboard search operated. |
+| Financial behavior remains usable | SQLite and browser-only credit register/apply/assign/reverse/fulfill and failed-write recovery; role separation, exact approvals, export replay and all main routes operated. |
+
+Fresh independent review found and closed misleading confirmation marks, ambiguous offer arithmetic, proposal/acceptance labels, missing numeric alternative descriptions, reduced phone label size, excessive enclosing paper, results/actions below the first viewport, missing proposed date above the art and conditional-offer wording. The lead inspected the actual renders and repaired the initial case composition's empty column. Final scoped review reported no material remaining visual/comprehension findings in the inspected Documents/Cases states. This is not user approval or a blanket claim that every application surface is aesthetically finished.
+
+The existing browser credit-list reload assertion sampled the loading state before its records mounted. The actual captured screen restored the list correctly; the check now waits for the real list and asserts both rows plus the cleared credit URL. No application behavior was weakened.
+
+Current artifacts are local under `output/playwright/document-repair-*.png`, `case-graphic-*.png` and `visual-cases-index-*.png`. Wide1913, desktop1440, intermediate900 and phone390 were inspected. Source and actions remain real local records; illustrations do not create financial writes.
+
+Validation for this correction: `npm run check` passed381 tests and its existing evaluations/build gates. The final browser records run passed297 named outcomes; managed workspace/claim/Office41, separate full-finance29, credit workflows42+36 SQLite and42+32 browser-only, and document/examples32 passed. Actual exported packets, CSV, exact source text and unsent email were independently reproduced by the existing verifiers. `pad finish --timeout300` was run and correctly refused whole-plan completion for the already deferred T9 and externally blocked native Figma T37; T53/T54 are complete for these local changes.
