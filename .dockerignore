@@ -1,0 +1,9 @@
+node_modules
+dist
+.vite
+server/data
+.git
+*.sqlite
+*.sqlite-*
+codex-session-*.md
+.env*

@@ -86,7 +86,7 @@ function DemoPens({ service, say, onReset, onClose }) {
   );
 }
 
-function TeamBook({ service, say, onClose }) {
+export function TeamBook({ service, say, onClose }) {
   const user = service.session?.user;
   const [tab, setTab] = useState(user ? 'team' : 'signin');
   const [form, setForm] = useState({});

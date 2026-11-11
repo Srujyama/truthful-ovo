@@ -25,7 +25,7 @@ import { Btn, Empty, Sheet, SheetHead, useToast } from './parts.jsx';
 import { addPages, href, useRoute } from './route.mjs';
 import { plainError } from './roles.mjs';
 import { today } from './money.mjs';
-import Plate from './Plate.jsx';
+import Plate, { TeamBook } from './Plate.jsx';
 import { Coin } from '../ui/Coins.jsx';
 import FindOver from './Find.jsx';
 
@@ -179,7 +179,7 @@ export default function BookApp() {
   if (kept.current.scope !== scope) kept.current = { scope, routes: {} };
   kept.current.routes[here.page] = here;
 
-  const gate = gateFor(service);
+  const gate = gateFor(service, say);
   const [frontFailed, setFrontFailed] = useState(false);
   const frontSeen = useRef(false);
   if (here.page === 'ious') frontSeen.current = true;
@@ -190,7 +190,7 @@ export default function BookApp() {
   const tools = slotted => (
     <div className={slotted ? 'bk-tools is-slotted' : 'bk-tools'}>
       <button type="button" className="bk-tool" onClick={() => setFinding(true)} disabled={!view}>find<kbd>/</kbd></button>
-      {!onFront && <a className="bk-tool is-drop" href={href('tray')} aria-current={here.page === 'tray' ? 'page' : undefined}>add an email or invoice</a>}
+      {!onFront && !gate && <a className="bk-tool is-drop" href={href('tray')} aria-current={here.page === 'tray' ? 'page' : undefined}>add an email or invoice</a>}
       <Plate service={service} say={say} onReset={() => go('ious')} />
     </div>
   );
@@ -281,7 +281,7 @@ export default function BookApp() {
 }
 
 /** What stands in for the page while the book cannot be read: loading, unreachable, or not signed in. */
-function gateFor(service) {
+function gateFor(service, say = () => {}) {
   if (service.authMode === 'detecting' || service.mode === 'connecting' || (service.authMode === 'managed-password' && service.authStatus === 'checking')) {
     return <Sheet><SheetHead title="Opening the book…" date={false} /><Empty>One second.</Empty></Sheet>;
   }
@@ -298,10 +298,13 @@ function gateFor(service) {
     return (
       <Sheet>
         <SheetHead
-          title={signedIn ? 'You’re not on a team yet.' : 'This book belongs to a team.'}
-          lede={signedIn ? 'Ask an admin to invite you, or start a team book of your own from the name plate, top right.' : 'Sign in from the name plate, top right, or join with an invitation code.'}
+          title={signedIn ? 'You’re not on a team yet.' : 'Sign in to your team’s book.'}
+          lede={signedIn ? 'Ask an admin to invite you, or start a team book of your own.' : 'Every promise your vendors made, every invoice, and what is still owed. Nothing is emailed or paid from here.'}
           date={false}
         />
+        <div className="bk-part" style={{ maxWidth: 480 }}>
+          <TeamBook service={service} say={say} onClose={() => {}} />
+        </div>
       </Sheet>
     );
   }
