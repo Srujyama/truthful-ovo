@@ -1,0 +1,383 @@
+/* craft/kit/paper.css — paper objects, in millimetres.
+ *
+ * A page built with this lays real HTML out by CSS in real units, and lets the
+ * script add only a slide and a turn on top. Pair it with paper.js.
+ *
+ * How a paper is put together (two boxes, always):
+ *
+ *   <article class="paper" style="--W: 160">        the thing: its place, turn, lift and shadow
+ *     <div class="paper-face stock-bond">…</div>    the sheet: its stock, its cut edge, its print
+ *   </article>
+ *
+ * The shadow is a drop-shadow filter on the outer box, so it follows whatever
+ * shape the inner box is cut to (a perforated side, a torn foot, a punched hole).
+ * Put the mask or clip on .paper-face and never on .paper, or the cut takes
+ * the shadow with it.
+ *
+ * Units: --paper-mm is one millimetre of desk. Give a paper its width as a bare
+ * number of millimetres in --W and size everything inside it in var(--u).
+ *
+ *   --paper-mm        one millimetre, in px (override on :root to rescale the desk)
+ *   --paper-shade     shadow strength: 1 on a light surface, about 2 on a dark one
+ *   --lift            0 lying flat, 1 in the hand (paper.js eases it; you can set it)
+ *   --rot             the paper's resting turn, e.g. -2deg
+ *
+ * What is here: stocks and grain, the two-part shadow, perforated and torn
+ * edges, rubber stamps with worn ink, a tally strip of boxes that get punched,
+ * a paper clip, a string tag, a highlighter stroke, typed ink.
+ *
+ * Techniques learned from Aiden Guan's portfolio-2 (MIT), app/mat.css: the
+ * millimetre unit (:9), grain as a turbulence tile blended soft-light (:58,
+ * :1680), stamp wear as a thresholded noise mask (:62, :2212), edges cut with
+ * gradient masks (:1876, :2356) and the contact-plus-cast shadow driven by one
+ * lift number (:1531). The code and the numbers below are this kit's own.
+ */
+
+@property --lift {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+:root {
+  --paper-mm: clamp(2.7px, calc(100vw / 400), 3.7px);
+  --paper-shade: 1;
+  /* The lamp sits up and to the left: a shadow goes 0.6 across for every 1 down. */
+  --paper-light-x: 0.6;
+
+  /* Stocks. Near-whites that differ by a few points of warmth. */
+  --stock-bond: #f7f5ee;       /* white bond: letters, slips */
+  --stock-cool: #f2f5f2;       /* coated form paper: invoices */
+  --stock-laid: #f3efe3;       /* cream laid: contracts, agreements */
+  --stock-ledger: #dde8d0;     /* eye-ease green ledger */
+  --stock-manila: #e7d6a4;     /* tags, folders */
+  --stock-carbon: #f1d9d3;     /* pink carbon copy */
+
+  /* What shows through a hole in a sheet: the surface underneath, in shade. */
+  --paper-under: rgb(18 24 38 / 0.42);
+
+  /* Tooth. Grey noise, blended soft-light, so a stock keeps its colour and
+     gains fibres that are a little lighter and a little darker than it. */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0 0 0 0 0.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+
+  /* Rubber-stamp wear: solid ink with sharp pinholes, thinner in broad patches
+     where the stamp did not press evenly. Use as a mask. */
+  --paper-wear: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='w' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' seed='4' stitchTiles='stitch' result='a'/%3E%3CfeColorMatrix in='a' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -9 0 0 0 6.35' result='pin'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.028' numOctaves='2' seed='11' stitchTiles='stitch' result='b'/%3E%3CfeColorMatrix in='b' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.7 0 0 0 2.2' result='fade'/%3E%3CfeComposite in='pin' in2='fade' operator='in'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+
+  /* The same wear, lighter: for a small stamp, where a pinhole is as big as a letter's stroke. */
+  --paper-wear-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='w' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='2' seed='9' stitchTiles='stitch' result='a'/%3E%3CfeColorMatrix in='a' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -9 0 0 0 6.95' result='pin'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.03' numOctaves='2' seed='5' stitchTiles='stitch' result='b'/%3E%3CfeColorMatrix in='b' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.5 0 0 0 1.78' result='fade'/%3E%3CfeComposite in='pin' in2='fade' operator='in'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+
+  /* Typewriter ribbon: never quite the same blackness twice. Use as a mask. */
+  --paper-ribbon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='r' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.15 0 0 0 1.58'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E");
+}
+
+/* ————————————————————————————————————————————————— the thing */
+
+.paper {
+  --u: var(--paper-mm);
+  position: relative;
+  /* paper.js writes --px/--py/--pa when a sheet has been picked up and moved */
+  translate: var(--px, 0px) var(--py, 0px);
+  rotate: calc(var(--rot, 0deg) + var(--pa, 0deg));
+  scale: calc(1 + 0.024 * var(--lift));
+  /* Two shadows. The first is the hairline where paper touches the desk and is
+     gone as soon as it lifts. The second is the cast shadow: it slides away
+     from the lamp, spreads and softens as the paper comes up. */
+  filter:
+    drop-shadow(0 0.5px 0.7px rgb(0 0 0 / calc(0.34 * var(--paper-shade) * max(0, 1 - var(--lift) * 5))))
+    drop-shadow(
+      calc(var(--u) * var(--paper-light-x) * (0.45 + var(--lift) * 6.4))
+      calc(var(--u) * (0.45 + var(--lift) * 6.4))
+      calc(var(--u) * (1.1 + var(--lift) * 6.8))
+      rgb(0 0 0 / calc(var(--paper-shade) * (0.2 + var(--lift) * 0.07)))
+    );
+  transition: --lift 240ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.paper[style*="--W"] { width: calc(var(--W) * var(--u)); }
+.paper[data-pick] { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.paper[data-pick]:hover { --lift: 0.05; }
+.paper.is-held { cursor: grabbing; will-change: transform; transition: none; z-index: 50; }
+.paper.is-sliding { will-change: transform; transition: none; }
+.paper.is-held, .paper.is-held * { user-select: none; -webkit-user-select: none; }
+
+/* ————————————————————————————————————————————————— the sheet and its stock */
+
+.paper-face {
+  position: relative;
+  background-color: var(--stock, var(--stock-bond));
+  background-image: var(--paper-grain);
+  background-size: 190px;
+  background-blend-mode: soft-light;
+  color: inherit;
+}
+
+.stock-bond { --stock: var(--stock-bond); }
+.stock-cool { --stock: var(--stock-cool); background-size: 230px; }
+.stock-laid { --stock: var(--stock-laid); background-size: 170px; }
+.stock-ledger { --stock: var(--stock-ledger); background-size: 210px; }
+.stock-manila { --stock: var(--stock-manila); background-size: 150px; }
+.stock-carbon { --stock: var(--stock-carbon); }
+
+/* A piece that paints its own stock, for sheets whose face is assembled from
+   parts (so one part can have a real hole in it). */
+.paper-part {
+  background-color: var(--stock, var(--stock-bond));
+  background-image: var(--paper-grain);
+  background-size: 190px;
+  background-blend-mode: soft-light;
+}
+
+/* ————————————————————————————————————————————————— edges */
+
+/* Torn out of a book along its perforation: a run of half-moon bites.
+   Add to .paper-face. --perf is the bite's radius, --perf-pitch the spacing. */
+.edge-perf-left, .edge-perf-right, .edge-perf-top, .edge-perf-bottom {
+  --perf: calc(var(--u) * 0.62);
+  --perf-pitch: calc(var(--u) * 2.1);
+}
+.edge-perf-left {
+  -webkit-mask: radial-gradient(circle at 0 50%, #0000 calc(var(--perf) - 0.5px), #000 var(--perf)) 0 0 / 100% var(--perf-pitch) repeat-y;
+  mask: radial-gradient(circle at 0 50%, #0000 calc(var(--perf) - 0.5px), #000 var(--perf)) 0 0 / 100% var(--perf-pitch) repeat-y;
+}
+.edge-perf-right {
+  -webkit-mask: radial-gradient(circle at 100% 50%, #0000 calc(var(--perf) - 0.5px), #000 var(--perf)) 0 0 / 100% var(--perf-pitch) repeat-y;
+  mask: radial-gradient(circle at 100% 50%, #0000 calc(var(--perf) - 0.5px), #000 var(--perf)) 0 0 / 100% var(--perf-pitch) repeat-y;
+}
+.edge-perf-top {
+  -webkit-mask: radial-gradient(circle at 50% 0, #0000 calc(var(--perf) - 0.5px), #000 var(--perf)) 0 0 / var(--perf-pitch) 100% repeat-x;
+  mask: radial-gradient(circle at 50% 0, #0000 calc(var(--perf) - 0.5px), #000 var(--perf)) 0 0 / var(--perf-pitch) 100% repeat-x;
+}
+.edge-perf-bottom {
+  -webkit-mask: radial-gradient(circle at 50% 100%, #0000 calc(var(--perf) - 0.5px), #000 var(--perf)) 0 0 / var(--perf-pitch) 100% repeat-x;
+  mask: radial-gradient(circle at 50% 100%, #0000 calc(var(--perf) - 0.5px), #000 var(--perf)) 0 0 / var(--perf-pitch) 100% repeat-x;
+}
+
+/* A perforation that has not been torn yet: a row of pin holes across a sheet.
+   An empty element; it takes no room. */
+.perf-line {
+  display: block;
+  height: calc(var(--u) * 1.1);
+  margin-block: calc(var(--u) * 0.6);
+  background: radial-gradient(circle, var(--paper-under) 0 calc(var(--u) * 0.33), #0000 calc(var(--u) * 0.33 + 0.6px)) 50% 50% / calc(var(--u) * 1.9) 100% repeat-x;
+}
+.perf-line.is-upright {
+  width: calc(var(--u) * 1.1);
+  height: auto;
+  margin: 0 calc(var(--u) * 0.6);
+  background: radial-gradient(circle, var(--paper-under) 0 calc(var(--u) * 0.33), #0000 calc(var(--u) * 0.33 + 0.6px)) 50% 50% / 100% calc(var(--u) * 1.9) repeat-y;
+}
+
+/* Torn by hand: paper.js tornEdge() writes an uneven clip-path. This class
+   only draws the lighter, fluffed fibre just inside the tear. */
+.edge-torn { position: relative; }
+
+/* ————————————————————————————————————————————————— rubber stamps */
+
+/* <span class="stamp" style="--tilt: -7deg">OVERDUE</span>
+   <span class="stamp is-dated">APPROVED<small>NOV 10 2026 · 9:41 AM</small></span>
+   Colour comes from `color`. A stamp is the one mark on a sheet that is
+   off-axis, a different ink, and uneven: tilt it, and give each stamp its own
+   --wear-size and --wear-at so no two are worn alike. */
+.stamp {
+  --u: var(--paper-mm);
+  display: inline-grid;
+  justify-items: center;
+  gap: calc(var(--u) * 0.7);
+  padding: calc(var(--u) * 1.5) calc(var(--u) * 2.8) calc(var(--u) * 1.25);
+  border: calc(var(--u) * 0.62) solid currentColor;
+  outline: calc(var(--u) * 0.2) solid currentColor;
+  outline-offset: calc(var(--u) * -1.3);
+  color: #25305c;
+  font: 800 calc(var(--u) * 5) / 1 var(--stamp-face, "Besley", "Rockwell", Georgia, serif);
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  rotate: var(--tilt, -6deg);
+  mix-blend-mode: multiply;
+  opacity: 0.88;
+  -webkit-mask: var(--paper-wear) var(--wear-at, 0 0) / var(--wear-size, 170px);
+  mask: var(--paper-wear) var(--wear-at, 0 0) / var(--wear-size, 170px);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.stamp small {
+  font: 700 calc(var(--u) * 2.5) / 1 var(--stamp-small-face, "Courier Prime", "Courier New", monospace);
+  letter-spacing: 0.1em;
+  text-indent: 0.1em;
+}
+.stamp.is-small { font-size: calc(var(--u) * 3.4); padding: calc(var(--u) * 1) calc(var(--u) * 1.8) calc(var(--u) * 0.85); border-width: calc(var(--u) * 0.45); outline-offset: calc(var(--u) * -0.95); opacity: 0.94; }
+.stamp.is-small { -webkit-mask-image: var(--paper-wear-light); mask-image: var(--paper-wear-light); }
+.stamp.is-plain { outline: 0; }
+
+/* The hit: the mark comes down from above the sheet and the sheet flinches. */
+.stamp.is-landing { animation: paper-stamp-land 300ms cubic-bezier(0.2, 1.32, 0.35, 1) both; }
+@keyframes paper-stamp-land {
+  from { opacity: 0; scale: 1.34; }
+  45% { opacity: 0.94; }
+}
+.paper.is-struck > .paper-face { animation: paper-struck 250ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+@keyframes paper-struck {
+  28% { scale: 0.987; }
+}
+
+/* ————————————————————————————————————————————————— tally strip */
+
+/* A strip of boxes along a slip's foot, one per unit. paper.js tally() builds
+   it: an optional row of printed marks, then the row of boxes. A punched box
+   has a real hole: what lies under the slip shows through and the slip's
+   shadow has the hole in it too.
+   The strip paints its own stock, so the face behind it must not. */
+.tally {
+  --box: calc(var(--u) * 4.3);         /* the printed square */
+  --cell: calc(var(--u) * 5.6);        /* one box and its share of the gap */
+  --hole: calc(var(--u) * 2.25);       /* the punch's radius */
+  --tally-ink: currentColor;
+  display: block;
+}
+.tally-row, .tally-scale {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+.tally-row::before, .tally-row::after, .tally-scale::before, .tally-scale::after {
+  content: "";
+  flex: 1 1 0;
+}
+.tally-row::before, .tally-row::after, .tally-scale, .tally-box {
+  background-color: var(--stock, var(--stock-bond));
+  background-image: var(--paper-grain);
+  background-size: 190px;
+  background-blend-mode: soft-light;
+}
+.tally-scale > b {
+  flex: 0 0 calc(var(--cell) * var(--part, 1));
+  font: 400 max(8.5px, calc(var(--u) * 2.2)) / 1.5 "Courier Prime", "Courier New", monospace;
+  text-align: right;
+  translate: 50% 0;
+  white-space: nowrap;
+  opacity: 0.62;
+}
+/* the last mark sits inside the strip, so it cannot run off the slip */
+.tally-scale > b:last-of-type { translate: 0 0; }
+.tally-box {
+  flex: 0 0 calc(var(--cell) * var(--part, 1));
+  display: grid;
+  place-items: center;
+  padding-block: calc(var(--u) * 1.1) calc(var(--u) * 1.5);
+  background-position: calc(var(--i) * var(--cell) * -1) 0;
+}
+.tally-box > i {
+  display: block;
+  width: calc(var(--box) * var(--part, 1));
+  height: var(--box);
+  box-shadow: inset 0 0 0 max(1px, calc(var(--u) * 0.36)) var(--tally-ink);
+}
+.tally-box.is-punched {
+  -webkit-mask: radial-gradient(circle at calc(50% + var(--jx, 0px)) calc(50% + var(--jy, 0px)), #0000 calc(var(--hole) * var(--part, 1) - 0.6px), #000 calc(var(--hole) * var(--part, 1)));
+  mask: radial-gradient(circle at calc(50% + var(--jx, 0px)) calc(50% + var(--jy, 0px)), #0000 calc(var(--hole) * var(--part, 1) - 0.6px), #000 calc(var(--hole) * var(--part, 1)));
+}
+/* What you see through a hole is in the shade of its rim: a little darker
+   than the surface around the slip. Without this a hole over white paper
+   would not read as a hole. */
+.tally-shade {
+  position: absolute;
+  inset: 1px 0;
+  z-index: -1;
+  background: var(--tally-shade, rgb(18 24 38 / 0.3));
+}
+/* The chad: the disc of paper the punch knocks out. It falls and is gone. */
+.tally-chad {
+  position: absolute;
+  top: 50%;
+  width: calc(var(--hole) * 2);
+  height: calc(var(--hole) * 2);
+  margin: calc(var(--hole) * -1) 0 0 calc(var(--hole) * -1);
+  border-radius: 50%;
+  background: var(--stock, var(--stock-bond));
+  box-shadow: 0 1px 1.5px rgb(0 0 0 / 0.35);
+  pointer-events: none;
+  animation: paper-chad 420ms cubic-bezier(0.3, 0, 0.7, 0.4) forwards;
+}
+@keyframes paper-chad {
+  from { opacity: 1; }
+  to { opacity: 0; translate: calc(var(--u) * 2.2) calc(var(--u) * 6.5); rotate: 70deg; scale: 0.8; }
+}
+
+/* ————————————————————————————————————————————————— paper clip */
+
+/* paper.js paperClip() returns the drawing. It is 9 mm by 34 mm and wants to
+   sit with its top 4.6 mm above the edge of the sheet it holds:
+     <span class="paper-clip" style="left: 12%">…svg…</span>  inside .paper */
+.paper-clip {
+  position: absolute;
+  top: calc(var(--u) * -4.6);
+  width: calc(var(--u) * 9);
+  height: calc(var(--u) * 34);
+  rotate: var(--clip-tilt, 0deg);
+  transform-origin: 50% 14%;
+  pointer-events: none;
+  z-index: 4;
+}
+.paper-clip svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* a small clip: 7.4 mm by 28 mm */
+.paper-clip.is-small { top: calc(var(--u) * -3.8); width: calc(var(--u) * 7.4); height: calc(var(--u) * 28); }
+
+/* ————————————————————————————————————————————————— string tag */
+
+/* A manila tag with clipped corners and a reinforced eyelet. The string is
+   an SVG from paper.js tagString(). */
+.tag-face {
+  --snip: calc(var(--u) * 5);
+  clip-path: polygon(var(--snip) 0, 100% 0, 100% 100%, var(--snip) 100%, 0 calc(100% - var(--snip)), 0 var(--snip));
+}
+.tag-eye {
+  position: absolute;
+  left: calc(var(--u) * 2.6);
+  top: 50%;
+  width: calc(var(--u) * 5.2);
+  height: calc(var(--u) * 5.2);
+  margin-top: calc(var(--u) * -2.6);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--paper-under) 0 calc(var(--u) * 1.05), #0000 calc(var(--u) * 1.05 + 0.6px)),
+    radial-gradient(circle, #cdb98a 0 calc(var(--u) * 2.55), #0000 calc(var(--u) * 2.55 + 0.6px));
+  box-shadow: inset 0 0 0 max(1px, calc(var(--u) * 0.18)) rgb(110 86 40 / 0.45);
+}
+.tag-string {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* ————————————————————————————————————————————————— marks made by a hand */
+
+/* A highlighter stroke over a run of text. It is ink, so it multiplies.
+   Add .is-lit to press harder. */
+.highlighter {
+  --hl: 246 228 82;
+  padding: 0.08em 0.12em;
+  margin: 0 -0.12em;
+  background: linear-gradient(100deg, rgb(var(--hl) / 0.2) 0, rgb(var(--hl) / 0.62) 2.5%, rgb(var(--hl) / 0.52) 97%, rgb(var(--hl) / 0.18) 100%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-color 180ms;
+}
+.highlighter.is-lit { background-color: rgb(var(--hl) / 0.55); }
+
+/* Typed onto the sheet through a ribbon. */
+.typed {
+  font-family: "Courier Prime", "Courier New", monospace;
+  -webkit-mask: var(--paper-ribbon) var(--ribbon-at, 0 0) / 180px;
+  mask: var(--paper-ribbon) var(--ribbon-at, 0 0) / 180px;
+}
+
+/* ————————————————————————————————————————————————— less motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .paper { transition: none; }
+  .stamp.is-landing, .paper.is-struck > .paper-face, .tally-chad { animation: none; }
+  .tally-chad { display: none; }
+}
