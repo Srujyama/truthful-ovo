@@ -6,6 +6,10 @@
 
 ## Goal
 
+Current goal (2026-11-10, Claude, branch craft/whole-book): rebuild the whole Truthful UI as one book. The front page (the book of IOUs) is built by the craft-lead session on branch craft/iou-book and merged here; this checkout builds everything behind it in the same look: the shell (desk, index tabs, name plate, Find), the account page for one promise, Papers, To do, Companies, Day book, Balance, the In-tray and the Test bench, as new React pages under src/book over the SAME state hook and pure modules. Design and every rule: src/book/CONCEPT.md. Done means: every page in CONCEPT.md section 5 exists, works on real state in the demo book (roles, offers, decisions, papers, dates, downloads), reads on a phone, passes `craft words`, `npm test` and `npm run build`; the lead has looked at every page's screenshots; a stranger and a critic have looked at the main ones; the old app is still reachable at ?view=…; the work is committed on craft/whole-book (not pushed). Coordination with the other session is on the `huddle` board, topic truthful.
+
+Earlier goals, kept for the record:
+
 Current correction: user rejects Documents in 9bcc8fa as a raw, oversized text dump, then explicitly asks for high-quality domain graphics and much less text. T53 must show invoice/credit/offer/date relationships visually at useful scale, not add a different text summary panel. Keep original text available and exact financial meaning; prior reviewer approval is rejected evidence of visual quality.
 
 Replace the user-rejected 081444c overhaul. Its blue-gray dashboard, different page themes and unexplained financial labels are rejected, regardless of prior verification. Build one coherent Aiden Student-informed correspondence product: actual green working surface, manila file navigation, printed letters/invoice slips/approval forms, consistent light, type and material across every destination. Lead with what a company promised, what the invoice actually shows and the specific next task. Remove the first-screen KPI taxonomy, reference-code table and overlapping totals. Preserve all finance capabilities, real roles, exact records, immutable source/draft versions, exports, comparisons, permissions, temporal replay and responsive/keyboard/recovery behavior. Source, desktop/phone rendering, normal interaction and independent comprehension/reference review must support the result; do not use test counts as design approval. Main current work T51/T52. No native Goal requested. Prior Figma and external-submission blockers remain separate.
@@ -78,6 +82,8 @@ A polished, working localhost finance demo named Truthful. The two-minute flow d
 - User said go on after recommended real finance workspace. Nimbus is opening example; Pipeline demonstrates breadth.
 - 2026-11-08 · Hackathon backend scope prioritizes complete parity for shipped finance, claim recovery and execution explorer workflows. Keep basic correctness/account isolation, defer enterprise identity/MFA/KMS and public infrastructure; frontend redesign remains paused.
 - 2026-11-09 · Nomen is now the user-pinned spatial UI reference, superseding frontendpause. Adapt actualcamp mechanisms into originalfinancialtown: realstate-driven stations and readabletaskpanels, without copiedcommercialclaims or providerflows. Code-led reference adaptation uses actualrenderedNomen as calibration; no unrelatedgeneratedcomp or mandatorydirectionapproval.
+- 2026-11-10 · The book: one desk, index tabs, every page built from src/book/shell/parts.jsx + book.css (bk- classes), hash routes, new pages only import pure .mjs modules and send real commands through service; old screens stay reachable at ?view=. Look = src/book/identity.json. — because src/book/CONCEPT.md; a page built from old JSX/CSS brings the rejected look back
+- 2026-11-10 · Builders look at pages on http://127.0.0.1:5190 (vite --config vite.browser.config.js, no backend, every new browser window starts from the demo book's first page; ?pen=approver etc. opens it holding that pen). Nobody else starts a dev server. — because three builders share one checkout; isolated state per capture keeps their screenshots honest
 
 ## Open questions
 
@@ -372,6 +378,27 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       deps: T57
       notes: Material Nomenmechanismgap identifiedafterinitial41checks: sourceclickleftscene. Exact source modalnowmustleaveworld/selectedagent/playheadmounted; Overview/art/originaltext/version/download; browserBack/close returnsameagent/handoff/focus, fullDocumentssecondaryescape, explicitmissing/unrelatedsource nofallback, phonefocustrap/Escapeandretainedcontext, nofinancialwrites. RootownsTeamWorld/URL integration, workeronlynewsourcepanel. Mustactualbrowseroperateandindependentlyverify.; Exactevidence nowopenswithinTeam portal; directURL/reloadpause, sourceOverview/original/details/download, browserBack+phoneEsc returnexactagent/playhead/focus, fullDocumentsroundtripoperated. Actual49Teamchecks andportableverificationpassed, selectedAda/pairedscene visiblebeside570pxreader; phoneexacttext/actionreadable. Independentreview identified/repairedinitialsourceURLautoplay. Renderedcurrentframesrootinspected.
       took: 10m
+- [~] T60 · Book: the account page for one promise (head, strip, entries, offers, decision slip, house rules, papers fan)
+      files: src/book/pages/Account.jsx, src/book/pages/account.css, src/book/pages/account/entries.mjs, src/book/pages/account/entries.test.mjs
+      accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/Account.jsx src/book/pages/account/entries.mjs --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/Account.jsx > /dev/null && node --test src/book/pages/account/entries.test.mjs
+      since: 2026-11-10T16:17
+- [~] T61 · Book: Papers (the drawer, one paper at reading size, a credit note)
+      files: src/book/pages/Papers.jsx, src/book/pages/papers.css, src/book/pages/papers/kinds.mjs, src/book/pages/papers/kinds.test.mjs
+      accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/Papers.jsx src/book/pages/papers/kinds.mjs --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/Papers.jsx > /dev/null && node --test src/book/pages/papers/kinds.test.mjs
+      since: 2026-11-10T16:17
+- [~] T62 · Book: To do, Companies, Day book, Balance
+      files: src/book/pages/ToDo.jsx, src/book/pages/Companies.jsx, src/book/pages/DayBook.jsx, src/book/pages/Balance.jsx, src/book/pages/records.css, src/book/pages/records/plain.mjs, src/book/pages/records/plain.test.mjs
+      accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/ToDo.jsx src/book/pages/Companies.jsx src/book/pages/DayBook.jsx src/book/pages/Balance.jsx src/book/pages/records/plain.mjs --quiet && for f in ToDo Companies DayBook Balance; do node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/$f.jsx > /dev/null || exit 1; done && node --test src/book/pages/records/plain.test.mjs
+      since: 2026-11-10T16:17
+- [ ] T63 · Book: account-page forms: credit slips (write in, match, add the invoice, take back, sort out which promise) and changed terms
+      files: src/book/pages/account/CreditSlips.jsx, src/book/pages/account/ChangedTerms.jsx, src/book/pages/account/forms.css
+      accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/account/CreditSlips.jsx src/book/pages/account/ChangedTerms.jsx --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/account/CreditSlips.jsx > /dev/null && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/account/ChangedTerms.jsx > /dev/null
+- [ ] T64 · Book: the In-tray (drop papers, read them, write the promise in, the letter)
+      files: src/book/pages/Tray.jsx, src/book/pages/tray.css
+      accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/Tray.jsx --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/Tray.jsx > /dev/null
+- [ ] T65 · Book: the Test bench (two clerks one credit; permission slips)
+      files: src/book/pages/Bench.jsx, src/book/pages/bench.css
+      accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/Bench.jsx --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/Bench.jsx > /dev/null
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -507,3 +534,6 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-11-10 · done T59 · Keep exact evidence inspection inside the selected agent and handoff context
 - 2026-11-10 · done T58 · Operate and independently review the interacting team against Nomen and complete finance workflows
 - 2026-11-10 · FinalcurrentT57/T58/T59source:406automatedtests andbuild,49operatedTeamoutcomeswithexactin-contextsourceURL/reload/Back/Escape andunchangedfinancialhistory. Independentpacket/sourcechecksplus313records55managed26productandfullcredit/examplesreplayspass. Reverseendpointpreservesfirstpose. CurrenthistoricalpadfinishonlyoldT9/T37remain;userexplicitlysetFigmaaside.
+- 2026-11-10 · started T60 · Book: the account page for one promise (head, strip, entries, offers, decision slip, house rules, papers fan)
+- 2026-11-10 · started T61 · Book: Papers (the drawer, one paper at reading size, a credit note)
+- 2026-11-10 · started T62 · Book: To do, Companies, Day book, Balance

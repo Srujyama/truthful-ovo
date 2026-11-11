@@ -1,0 +1,646 @@
+/* Truthful — the rest of the book.
+ *
+ * The front page is a ledger sheet of IOUs on a desk (src/book/front). This file
+ * is the same desk and the same book for every other page: the index tabs along
+ * the top of the sheet, the ruled ledger, the printed forms, the tags and the
+ * typed slips. The look is src/book/identity.json and nothing else: pale green
+ * ledger paper, blue-black ink, white bond, and one red that means money still
+ * owed.
+ *
+ * Paper objects (stocks, grain, the two-part shadow, stamps, the tally strip,
+ * clips, tags) come from ../kit/paper.css. Every class here starts with bk- and
+ * every token with --bk-, so nothing in this file can restyle the front page.
+ */
+
+:root {
+  --bk-paper: #dde8d0;
+  --bk-ink: #1d2740;
+  --bk-muted: #5a6878;
+  --bk-line: #93b29c;
+  --bk-accent: #c9361f;            /* money still owed. Nothing else is red. */
+
+  --bk-desk: #414b61;
+  --bk-desk-deep: #323a4d;
+  --bk-desk-ink: #dfe7d6;
+  --bk-stamp-blue: #27326a;
+  --bk-pen: #27357a;               /* what a person wrote by hand */
+
+  --bk-display: "Besley Variable", "Besley", "Rockwell", Georgia, serif;
+  --bk-text: "Libre Franklin Variable", "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  --bk-type: "Courier Prime", "Courier New", monospace;
+
+  --bk-rule: 36px;                 /* the ledger's line pitch */
+  --bk-lm: 72px;                   /* the left margin: binder holes and line numbers */
+  --bk-gut: clamp(12px, 2vw, 28px);
+  --bk-rule-red: rgb(201 54 31 / 0.5);
+  --bk-rule-green: rgb(113 152 126 / 0.62);
+  --bk-head-green: rgb(79 122 96 / 0.85);
+}
+
+/* ————————————————————————————————————————————————— the desk */
+
+html:has(.bk) {
+  background: var(--bk-desk) var(--paper-grain) 0 0 / 260px;
+  background-blend-mode: soft-light;
+  -webkit-text-size-adjust: 100%;
+}
+body:has(.bk) { margin: 0; }
+
+.bk {
+  --paper-shade: 1.45;             /* the desk is dark: shadows have to be stronger to show */
+  --paper-under: rgb(20 26 42 / 0.5);
+  --stamp-face: var(--bk-display);
+  --stamp-small-face: var(--bk-type);
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 64px;
+  overflow-x: clip;
+  color: var(--bk-ink);
+  font: 400 16px/1.5 var(--bk-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+/* The resets sit inside :where() so they weigh nothing: any bk- class wins over them. */
+:where(.bk) *, :where(.bk) *::before, :where(.bk) *::after { box-sizing: border-box; }
+:where(.bk) :is(button, input, textarea, select) { font: inherit; color: inherit; border-radius: 0; }
+:where(.bk) button { cursor: pointer; }
+:where(.bk) button:disabled { cursor: not-allowed; }
+:where(.bk) :is(p, h1, h2, h3, ol, ul, dl, dd, blockquote, figure) { margin: 0; }
+:where(.bk) :is(ol, ul) { padding: 0; list-style: none; }
+:where(.bk) a { color: inherit; }
+.bk [hidden] { display: none !important; }
+.bk :focus-visible { outline: 2px solid var(--bk-ink); outline-offset: 3px; }
+.bk-on-desk :focus-visible, .bk-top :focus-visible, .bk-tabs :focus-visible, .bk-foot :focus-visible { outline-color: var(--bk-desk-ink); }
+.bk .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ————————————————————————————————————————————————— the top of the desk */
+
+.bk-top {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 62px;
+  padding: 0 calc(var(--bk-gut) + 10px);
+  color: var(--bk-desk-ink);
+}
+.bk-mark {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: 700 23px/1 var(--bk-display);
+  letter-spacing: -0.015em;
+  text-decoration: none;
+}
+.bk-tools { display: flex; align-items: center; gap: clamp(12px, 2vw, 26px); min-width: 0; }
+.bk-tool {
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--bk-desk-ink);
+  font: 500 13.5px/1 var(--bk-text);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  opacity: 0.86;
+}
+.bk-tool:hover, .bk-tool[aria-expanded="true"] { opacity: 1; }
+.bk-tool kbd { margin-left: 6px; font: 400 12px/1 var(--bk-type); opacity: 0.7; }
+
+/* The name plate: who is holding the pen. A strip of engraved brass-coloured
+   card in a slot; the role is typed under the name. */
+.bk-plate {
+  display: grid;
+  gap: 2px;
+  padding: 7px 12px 6px;
+  border: 0;
+  background: var(--stock-manila) var(--paper-grain) 0 0 / 150px;
+  background-blend-mode: soft-light;
+  color: var(--bk-ink);
+  text-align: left;
+  filter: drop-shadow(0 0.5px 0.7px rgb(0 0 0 / 0.45)) drop-shadow(2px 3px 4px rgb(0 0 0 / 0.3));
+  transition: translate 140ms;
+}
+.bk-plate:hover { translate: 0 -1px; }
+.bk-plate b { font: 600 12.5px/1.1 var(--bk-text); letter-spacing: 0.01em; white-space: nowrap; }
+.bk-plate span { font: 400 12px/1.1 var(--bk-type); color: var(--bk-muted); white-space: nowrap; }
+
+/* ————————————————————————————————————————————————— the index tabs */
+
+/* Divider tabs stand up from the top edge of the page. The one you are on is
+   the ledger's own green and joins the sheet; the others are manila and sit a
+   little lower, behind it. */
+.bk-tabs {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  margin: 0 var(--bk-gut) -1px;
+  padding: 6px 0 0 calc(var(--bk-lm) - 14px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.bk-tabs::-webkit-scrollbar { display: none; }
+.bk-tab {
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  height: 30px;
+  padding: 0 16px;
+  border: 0;
+  background: var(--stock-manila) var(--paper-grain) 0 0 / 150px;
+  background-blend-mode: soft-light;
+  clip-path: polygon(7px 0, calc(100% - 7px) 0, 100% 100%, 0 100%);
+  color: rgb(29 39 64 / 0.86);
+  font: 600 10.5px/31px var(--bk-text);
+  letter-spacing: 0.115em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  translate: 0 4px;
+  transition: translate 140ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.bk-tab:hover { translate: 0 1px; }
+.bk-tab[aria-current="page"] {
+  height: 34px;
+  background-color: var(--stock-ledger);
+  background-size: 210px;
+  color: var(--bk-ink);
+  line-height: 35px;
+  translate: 0 0;
+  z-index: 4;
+}
+.bk-tab i {                        /* a count: how many slips are waiting behind this tab */
+  font: 700 12px/1 var(--bk-type);
+  font-style: normal;
+  letter-spacing: 0;
+  color: var(--bk-accent);
+}
+
+/* ————————————————————————————————————————————————— a ledger sheet */
+
+.bk-sheet {
+  z-index: 3;
+  margin: 0 var(--bk-gut);
+  --rot: 0deg;
+}
+.bk-sheet + .bk-sheet { margin-top: 26px; }
+.bk-sheet > .paper-face { padding-bottom: 26px; min-height: 240px; }
+
+/* three binder holes: the desk shows through */
+.bk-hole {
+  position: absolute;
+  left: 19px;
+  width: calc(6.2 * var(--paper-mm));
+  height: calc(6.2 * var(--paper-mm));
+  border-radius: 50%;
+  background: var(--bk-desk);
+  box-shadow: inset 1.5px 2px 2.5px rgb(0 0 0 / 0.55), 0 0.5px 0 rgb(255 255 255 / 0.5);
+}
+.bk-hole:nth-of-type(1) { top: 58px; }
+.bk-hole:nth-of-type(2) { top: calc(50% - 3.1 * var(--paper-mm)); }
+.bk-hole:nth-of-type(3) { bottom: 44px; }
+
+.bk-head {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 32px;
+  align-items: end;
+  padding: 34px 40px 26px calc(var(--bk-lm) + 14px);
+}
+.bk-head h1, .bk-h1 {
+  font: 800 clamp(32px, 3.5vw, 52px) / 1 var(--bk-display);
+  letter-spacing: -0.03em;
+}
+.bk-head h1 em, .bk-h1 em { font-style: normal; color: var(--bk-accent); }
+.bk-lede {
+  grid-column: 1;
+  max-width: 38em;
+  font: 400 clamp(15.5px, 1.2vw, 17.5px) / 1.45 var(--bk-text);
+}
+.bk-kicker {                       /* where you are, in the book's own words: "Account" */
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font: 600 10.5px/1 var(--bk-text);
+  letter-spacing: 0.115em;
+  text-transform: uppercase;
+  color: rgb(29 39 64 / 0.78);
+}
+.bk-head-side { grid-column: 2; grid-row: 2 / span 2; justify-self: end; text-align: right; }
+
+/* the date this page was opened, from a dater stamp */
+.bk-dater {
+  display: inline-block;
+  padding: 3px 8px 2px;
+  border: 1.5px solid currentColor;
+  color: var(--bk-stamp-blue);
+  font: 700 12.5px/1 var(--bk-type);
+  letter-spacing: 0.16em;
+  rotate: -1.6deg;
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+  white-space: nowrap;
+}
+
+/* a plain section inside a sheet */
+.bk-part { padding: 0 40px 0 calc(var(--bk-lm) + 14px); }
+.bk-part + .bk-part { margin-top: 28px; }
+.bk-h2 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+  font: 700 clamp(19px, 1.7vw, 23px) / 1.15 var(--bk-display);
+  letter-spacing: -0.015em;
+}
+.bk-h2 small { font: 400 13.5px/1.2 var(--bk-type); letter-spacing: 0; color: var(--bk-muted); }
+.bk-label {
+  font: 600 10.5px/1.3 var(--bk-text);
+  letter-spacing: 0.115em;
+  text-transform: uppercase;
+  color: rgb(29 39 64 / 0.78);
+}
+.bk-typed { font: 400 15.5px/1.5 var(--bk-type); }
+.bk-muted { color: var(--bk-muted); }
+.bk-hand {                         /* a line somebody wrote in pen */
+  font: italic 500 clamp(17px, 1.5vw, 20px) / 1.4 var(--bk-display);
+  color: var(--bk-pen);
+}
+
+/* ————————————————————————————————————————————————— the ruled ledger */
+
+/* <div class="bk-ledger" style="--cols: 72px 1fr 2fr 124px 140px">
+     <div class="bk-lhead"><span/><span>Date</span>…</div>
+     <div class="bk-lrows">
+       <button class="bk-lrow"><span class="bk-cell is-no">1</span><span class="bk-cell" data-label="Date">…</span>…</button>
+     </div>
+     <div class="bk-ltotal">…</div>
+   </div>
+   The first column is always the margin (line number). Give a cell r-red where
+   a red rule starts the money columns and r-double for the double rule. */
+.bk-ledger { position: relative; }
+.bk-lhead, .bk-lrow, .bk-ltotal {
+  display: grid;
+  grid-template-columns: var(--cols);
+}
+.bk-lhead {
+  min-height: 34px;
+  border-top: 2px solid var(--bk-head-green);
+  border-bottom: 1px solid var(--bk-head-green);
+  background: rgb(147 178 156 / 0.2);
+  font: 600 10.5px/32px var(--bk-text);
+  letter-spacing: 0.115em;
+  text-transform: uppercase;
+  color: rgb(29 39 64 / 0.84);
+}
+.bk-lhead > span { padding: 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bk-lhead > .is-num { text-align: right; padding-right: 14px; }
+.bk-lhead > .is-owed { color: var(--bk-accent); }
+.bk-lhead > span + span, .bk-cell + .bk-cell, .bk-ltotal > span + span { border-left: 1px solid var(--bk-rule-green); }
+.bk-lhead > .r-red, .bk-cell.r-red, .bk-ltotal > .r-red { border-left: 1px solid var(--bk-rule-red); }
+.bk-lhead > .r-double, .bk-cell.r-double, .bk-ltotal > .r-double { border-left: 3px double var(--bk-rule-red); }
+.bk-lhead > .r-none, .bk-cell.r-none, .bk-ltotal > .r-none { border-left: 0; }
+
+.bk-lrows {
+  /* the ruling: one line every --bk-rule, under every row */
+  background: repeating-linear-gradient(to bottom, #0000 0 calc(var(--bk-rule) - 1px), var(--bk-rule-green) calc(var(--bk-rule) - 1px) var(--bk-rule));
+}
+.bk-lrow {
+  position: relative;
+  width: 100%;
+  min-height: var(--bk-rule);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  transition: background-color 160ms;
+}
+.bk-lrow.is-tall { min-height: calc(var(--bk-rule) * 2); }
+.bk-lrow.is-taller { min-height: calc(var(--bk-rule) * 3); }
+button.bk-lrow:hover, a.bk-lrow:hover { background: rgb(255 255 255 / 0.22); }
+.bk-lrow[aria-current="true"], .bk-lrow.is-open { background: rgb(255 255 255 / 0.36); }
+a.bk-lrow { text-decoration: none; }
+.bk-cell {
+  min-width: 0;
+  padding: 0 12px;
+  font: 400 15.5px/var(--bk-rule) var(--bk-type);
+  overflow-wrap: anywhere;
+}
+.bk-cell > * { position: relative; }
+.bk-cell.is-no {
+  padding: 0 10px 0 0;
+  text-align: right;
+  font: 400 10.5px/var(--bk-rule) var(--bk-type);
+  color: rgb(90 104 120 / 0.9);
+}
+.bk-cell.is-name { font: 600 clamp(17px, 1.5vw, 21px) / var(--bk-rule) var(--bk-display); letter-spacing: -0.01em; }
+.bk-cell.is-text { font-family: var(--bk-text); font-size: 15px; }
+.bk-cell.is-num { text-align: right; padding-right: 14px; font-size: 17px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bk-cell.is-date { white-space: nowrap; }
+.bk-cell > .stamp { display: grid; width: fit-content; }
+.bk-cell.is-owed { color: var(--bk-accent); font-weight: 700; }
+.bk-cell.is-quiet { color: var(--bk-muted); }
+.bk-cell small { display: block; font: 400 13.5px/var(--bk-rule) var(--bk-type); color: var(--bk-muted); }
+
+.bk-ltotal { min-height: calc(var(--bk-rule) * 2); align-items: end; }
+.bk-ltotal > span { height: 100%; display: grid; align-items: end; }
+.bk-ltotal .is-label {
+  justify-items: end;
+  padding: 0 14px 12px 0;
+  font: 600 10.5px/1 var(--bk-text);
+  letter-spacing: 0.115em;
+  text-transform: uppercase;
+}
+.bk-ltotal .is-num { text-align: right; padding: 0 14px 0 0; }
+.bk-ltotal .is-num b {
+  display: block;
+  padding: 7px 0 5px;
+  margin-left: 10px;
+  border-top: 1.5px solid var(--bk-ink);
+  border-bottom: 4px double var(--bk-ink);
+  font: 700 17px/1.3 var(--bk-type);
+  font-variant-numeric: tabular-nums;
+}
+.bk-ltotal .is-owed b { color: var(--bk-accent); font-size: 21px; line-height: 1.05; }
+
+/* the figure that matters, at the size it matters */
+.bk-owed {
+  display: block;
+  font: 700 clamp(40px, 5vw, 72px) / 0.95 var(--bk-type);
+  letter-spacing: -0.045em;
+  color: var(--bk-accent);
+  font-variant-numeric: tabular-nums;
+}
+.bk-owed.is-none { color: var(--bk-ink); }
+.bk-owed-label { display: block; margin-bottom: 6px; font: 600 10.5px/1 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: var(--bk-accent); }
+.bk-owed-label.is-none { color: rgb(29 39 64 / 0.78); }
+
+/* an empty page: one line written in the first row */
+.bk-empty {
+  padding: 0 40px 0 calc(var(--bk-lm) + 14px);
+  min-height: calc(var(--bk-rule) * 3);
+  background: repeating-linear-gradient(to bottom, #0000 0 calc(var(--bk-rule) - 1px), var(--bk-rule-green) calc(var(--bk-rule) - 1px) var(--bk-rule));
+}
+.bk-empty p { font: italic 500 clamp(17px, 1.6vw, 21px) / var(--bk-rule) var(--bk-display); color: var(--bk-pen); rotate: -0.35deg; transform-origin: 0 50%; }
+.bk-empty p + p { font: 400 15.5px/var(--bk-rule) var(--bk-type); font-style: normal; color: var(--bk-muted); rotate: 0deg; }
+
+/* the one honest notice on a page */
+.bk-notice {
+  padding: 18px 40px 0 calc(var(--bk-lm) + 14px);
+  font: 400 13.5px/1.4 var(--bk-text);
+  color: var(--bk-muted);
+}
+
+/* ————————————————————————————————————————————————— buttons and links */
+
+.bk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 0;
+  background: var(--bk-ink);
+  color: #f1f5ea;
+  font: 600 13.5px/1 var(--bk-text);
+  letter-spacing: 0.012em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: translate 120ms, background-color 120ms;
+}
+.bk-btn:hover:not(:disabled) { background: #2a3760; translate: 0 -1px; }
+.bk-btn:active:not(:disabled) { translate: 0 1px; }
+.bk-btn:disabled { background: rgb(29 39 64 / 0.34); }
+.bk-btn.is-quiet { background: none; color: var(--bk-ink); box-shadow: inset 0 0 0 1px var(--bk-ink); }
+.bk-btn.is-quiet:hover:not(:disabled) { background: rgb(29 39 64 / 0.07); }
+.bk-btn.is-quiet:disabled { color: rgb(29 39 64 / 0.45); box-shadow: inset 0 0 0 1px rgb(29 39 64 / 0.35); background: none; }
+.bk-btn.is-big { padding: 12px 20px; font-size: 15px; }
+.bk-on-desk .bk-btn.is-quiet, .bk-btn.on-desk { color: var(--bk-desk-ink); box-shadow: inset 0 0 0 1px rgb(223 231 214 / 0.7); background: none; }
+.bk-on-desk .bk-btn.is-quiet:hover, .bk-btn.on-desk:hover { background: rgb(223 231 214 / 0.12); }
+
+.bk-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: 400 14.5px/1.3 var(--bk-type);
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.bk-link:hover { text-decoration-thickness: 2px; }
+.bk-link:disabled { color: var(--bk-muted); text-decoration-style: dotted; }
+.bk-on-desk .bk-link { color: var(--bk-desk-ink); }
+
+/* Why a button will not press: said next to it, never in a tooltip alone. */
+.bk-why { font: 400 13.5px/1.35 var(--bk-type); color: var(--bk-muted); }
+.bk-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+
+/* ————————————————————————————————————————————————— filters: words with counts */
+
+.bk-filters { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px; font: 400 14.5px/1.3 var(--bk-type); }
+.bk-filter { padding: 4px 0; border: 0; background: none; color: var(--bk-muted); font: inherit; }
+.bk-filter b { font-weight: 400; color: var(--bk-ink); }
+.bk-filter i { margin-left: 5px; font-style: normal; }
+.bk-filter:hover b { text-decoration: underline; text-underline-offset: 3px; }
+.bk-filter[aria-pressed="true"] b, .bk-filter[aria-current="true"] b { font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+/* ————————————————————————————————————————————————— things you fill in */
+
+/* A field on a printed form: a small printed label, and what you type sits on
+   a dotted rule in typewriter face. */
+.bk-field { display: grid; gap: 5px; min-width: 0; }
+.bk-field > span, .bk-field > label { font: 600 10.5px/1.2 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.78); }
+.bk-input, .bk-field input, .bk-field select, .bk-field textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 2px 5px;
+  border: 0;
+  border-bottom: 1.5px dotted rgb(29 39 64 / 0.6);
+  background: none;
+  color: var(--bk-ink);
+  font: 400 16px/1.4 var(--bk-type);
+}
+.bk-field textarea { resize: vertical; min-height: 5.6em; line-height: 1.5; border: 1px solid rgb(29 39 64 / 0.28); padding: 8px 10px; background: rgb(255 255 255 / 0.28); }
+.bk-input:focus, .bk-field input:focus, .bk-field select:focus, .bk-field textarea:focus { outline: 0; border-bottom-style: solid; border-color: var(--bk-ink); background: rgb(255 255 255 / 0.4); }
+.bk-field select { appearance: none; padding-right: 22px; background: linear-gradient(45deg, #0000 50%, var(--bk-ink) 50%) right 9px top 55% / 5px 5px no-repeat, linear-gradient(-45deg, #0000 50%, var(--bk-ink) 50%) right 4px top 55% / 5px 5px no-repeat; }
+.bk-field small { font: 400 13px/1.35 var(--bk-type); color: var(--bk-muted); }
+.bk-field.is-wrong input, .bk-field.is-wrong textarea { border-color: var(--bk-accent); }
+.bk-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px 26px; }
+
+/* a ticked box on a form */
+.bk-check { display: inline-flex; align-items: center; gap: 9px; font: 400 15px/1.3 var(--bk-type); cursor: pointer; }
+.bk-check input { appearance: none; width: 17px; height: 17px; margin: 0; border: 1.5px solid var(--bk-ink); background: rgb(255 255 255 / 0.35); display: grid; place-items: center; }
+.bk-check input:checked::after { content: "✕"; font: 700 13px/1 var(--bk-type); color: var(--bk-pen); translate: 0 -0.5px; rotate: -6deg; }
+
+/* a search line typed on the page */
+.bk-find { display: flex; align-items: baseline; gap: 10px; min-width: 0; font: 400 15px/1.4 var(--bk-type); }
+.bk-find input { flex: 1 1 12ch; min-width: 0; padding: 4px 2px; border: 0; border-bottom: 1.5px dotted rgb(29 39 64 / 0.6); background: none; font: inherit; }
+.bk-find input:focus { outline: 0; border-bottom-style: solid; }
+.bk-find input::placeholder, .bk-field input::placeholder, .bk-field textarea::placeholder { color: rgb(90 104 120 / 0.8); }
+
+/* ————————————————————————————————————————————————— papers on the desk */
+
+/* What sits under or beside the sheet: slips, letters, invoices. */
+.bk-on-desk { position: relative; z-index: 3; margin: 26px var(--bk-gut) 0; color: var(--bk-desk-ink); }
+.bk-desk-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 22px 28px; }
+.bk-desk-said { font: 400 14.5px/1.4 var(--bk-type); color: var(--bk-desk-ink); }
+
+/* a document shown as itself: bond for letters, cool for invoices, carbon for credit notes */
+.bk-doc { color: var(--bk-ink); max-width: 100%; }
+.bk-doc > .paper-face {
+  padding: calc(var(--u) * 8.5) calc(var(--u) * 8.5) calc(var(--u) * 9);
+  font: 400 max(12px, calc(var(--u) * 3.35)) / 1.55 var(--bk-type);
+}
+.bk-doc p + p { margin-top: 0.85em; }
+.bk-doc-kind { display: block; margin-bottom: 0.9em; font: 600 max(9.5px, calc(var(--u) * 2.5)) / 1.2 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: var(--bk-muted); }
+.bk-doc-title { margin-bottom: 0.7em; font: 700 max(14px, calc(var(--u) * 4.4)) / 1.15 var(--bk-display); letter-spacing: -0.01em; }
+.bk-doc pre { margin: 0; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+button.bk-doc, a.bk-doc { display: block; padding: 0; border: 0; background: none; text-align: left; text-decoration: none; }
+
+/* a small paper in a drawer or a fan: the real first lines, cut off by the foot */
+.bk-thumb { --W: 62; }
+.bk-thumb > .paper-face { height: calc(var(--u) * 78); padding: calc(var(--u) * 5) calc(var(--u) * 5) 0; overflow: hidden; font: 400 max(8px, calc(var(--u) * 2.25)) / 1.5 var(--bk-type); }
+.bk-thumb > .paper-face::after { content: ""; position: absolute; inset: auto 0 0; height: 34%; background: linear-gradient(#0000, var(--stock, var(--stock-bond))); }
+.bk-thumb .bk-doc-title { font-size: max(11px, calc(var(--u) * 3.4)); }
+
+/* a printed form on white bond: boxed cells, each with its small label */
+.bk-form { color: var(--bk-ink); }
+.bk-form > .paper-face { padding: calc(var(--u) * 7) calc(var(--u) * 8) calc(var(--u) * 8); }
+.bk-form-title { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 8px; margin-bottom: 14px; border-bottom: 2px solid var(--bk-ink); font: 800 clamp(18px, 1.6vw, 22px) / 1.1 var(--bk-display); letter-spacing: -0.01em; }
+.bk-form-title small { font: 400 12px/1 var(--bk-type); letter-spacing: 0.06em; color: var(--bk-muted); }
+.bk-boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); border: 1px solid rgb(29 39 64 / 0.55); }
+.bk-box { padding: 7px 10px 8px; box-shadow: 0 0 0 0.5px rgb(29 39 64 / 0.55); min-width: 0; }
+.bk-box > span { display: block; font: 600 9.5px/1.3 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.72); }
+.bk-box > b { display: block; margin-top: 3px; font: 400 16px/1.3 var(--bk-type); overflow-wrap: anywhere; }
+.bk-box > b.is-owed { color: var(--bk-accent); font-weight: 700; }
+.bk-box > b.is-hand { font: italic 500 17px/1.3 var(--bk-display); color: var(--bk-pen); }
+
+/* a manila tag for an offer: "only if" */
+.bk-tag { position: relative; color: var(--bk-ink); }
+.bk-tag > .paper-face { padding: calc(var(--u) * 6) calc(var(--u) * 7) calc(var(--u) * 6.5) calc(var(--u) * 12); }
+.bk-tag-title { font: 700 max(15px, calc(var(--u) * 4.6)) / 1.15 var(--bk-display); letter-spacing: -0.01em; }
+.bk-tag-said { margin-top: 4px; font: 400 max(12.5px, calc(var(--u) * 3.4)) / 1.45 var(--bk-type); }
+.bk-tag .bk-actions { margin-top: 10px; }
+.bk-tag.is-torn { opacity: 0.62; }
+.bk-tag.is-torn .bk-tag-title { text-decoration: line-through; text-decoration-thickness: 1.5px; }
+
+/* the highlighter, where Truthful read a figure */
+.bk-hl { background: linear-gradient(rgb(246 228 82 / 0.62), rgb(246 228 82 / 0.62)) 0 62% / 100% 72% no-repeat; padding: 0 0.12em; }
+.bk-hl.is-lit { background-size: 100% 100%; background-color: rgb(246 228 82 / 0.35); }
+
+/* a stamp sitting on a page, in the right ink */
+.bk .stamp.is-red { color: var(--bk-accent); }
+.bk .stamp.is-blue { color: var(--bk-stamp-blue); }
+
+/* the routing slip: who has to put their initials on it, in order */
+.bk-route { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); border: 1px solid rgb(29 39 64 / 0.55); }
+.bk-route > li { position: relative; padding: 8px 10px 10px; box-shadow: 0 0 0 0.5px rgb(29 39 64 / 0.55); min-height: 86px; }
+.bk-route > li > span { display: block; font: 600 9.5px/1.3 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.72); }
+.bk-route > li > b { display: block; margin-top: 4px; font: 400 14.5px/1.35 var(--bk-type); }
+.bk-route > li.is-done > b { font: italic 500 18px/1.2 var(--bk-display); color: var(--bk-pen); }
+.bk-route > li.is-now { background: rgb(246 228 82 / 0.28); }
+.bk-route > li small { display: block; margin-top: 3px; font: 400 12.5px/1.3 var(--bk-type); color: var(--bk-muted); }
+
+/* ————————————————————————————————————————————————— a paper brought forward */
+
+.bk-over {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  padding: clamp(18px, 6vh, 72px) 16px 40px;
+  overflow-y: auto;
+  background: rgb(22 27 40 / 0.62);
+  animation: bk-dim 180ms ease-out both;
+}
+.bk-over > .paper { --lift: 0.5; max-width: 100%; animation: bk-forward 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.bk-close { position: absolute; top: 10px; right: 12px; padding: 4px 8px; border: 0; background: none; font: 400 14px/1 var(--bk-type); text-decoration: underline; text-underline-offset: 3px; }
+@keyframes bk-dim { from { background: rgb(22 27 40 / 0); } }
+@keyframes bk-forward { from { opacity: 0; translate: 0 18px; rotate: -1.2deg; } }
+
+/* a slip that says what just happened, bottom left of the desk */
+.bk-toast {
+  position: fixed;
+  left: calc(var(--bk-gut) + 8px);
+  bottom: 22px;
+  z-index: 70;
+  max-width: min(440px, calc(100vw - 32px));
+  rotate: -1deg;
+  animation: bk-slip-in 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.bk-toast > .paper-face { padding: 11px 16px 10px; font: 400 14.5px/1.4 var(--bk-type); color: var(--bk-ink); }
+.bk-toast.is-wrong > .paper-face { box-shadow: inset 4px 0 0 var(--bk-accent); }
+@keyframes bk-slip-in { from { opacity: 0; translate: -40px 14px; rotate: -5deg; } }
+
+/* ————————————————————————————————————————————————— the foot of the desk */
+
+.bk-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin: 30px calc(var(--bk-gut) + 10px) 0;
+  font: 400 13.5px/1.4 var(--bk-text);
+  color: rgb(223 231 214 / 0.74);
+}
+.bk-foot .bk-link { font-size: 13.5px; color: inherit; }
+
+/* things arriving */
+.bk-arrive { animation: bk-arrive 420ms cubic-bezier(0.22, 0.8, 0.24, 1) both; animation-delay: calc(var(--i, 0) * 55ms); }
+@keyframes bk-arrive { from { opacity: 0; translate: 0 14px; rotate: calc(var(--rot, 0deg) - 1.5deg); } }
+.bk-written { animation: bk-written 620ms steps(16) both; }
+@keyframes bk-written { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* ————————————————————————————————————————————————— narrower desks */
+
+@media (max-width: 980px) {
+  :root { --bk-lm: 52px; }
+  .bk-hole { left: 12px; }
+  .bk-head, .bk-part, .bk-empty, .bk-notice { padding-right: 22px; }
+}
+
+/* the phone: the columns do not fit, so each row becomes a small slip with its
+   labels printed beside the figures */
+@media (max-width: 760px) {
+  :root { --bk-lm: 16px; --bk-gut: 8px; --bk-rule: 34px; }
+  .bk-hole { display: none; }
+  .bk-top { height: 54px; padding: 0 14px; }
+  .bk-mark { font-size: 20px; }
+  .bk-tool.is-wide { display: none; }
+  .bk-tabs { padding-left: 4px; margin-inline: var(--bk-gut); }
+  .bk-tab { padding: 0 12px; }
+  .bk-head { grid-template-columns: minmax(0, 1fr); padding: 24px 16px 20px; }
+  .bk-head-side { grid-column: 1; grid-row: auto; justify-self: start; text-align: left; }
+  .bk-part, .bk-notice, .bk-empty { padding-inline: 16px; }
+  .bk-lhead { display: none; }
+  .bk-lrows { background: none; border-top: 2px solid var(--bk-head-green); }
+  .bk-lrow, .bk-ltotal { display: block; padding: 10px 16px 12px; border-bottom: 1px solid var(--bk-rule-green); min-height: 0 !important; }
+  .bk-lrow .bk-cell, .bk-ltotal > span { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; height: auto; padding: 0; border-left: 0 !important; line-height: 1.5; text-align: left; }
+  .bk-lrow .bk-cell[data-label]::before { content: attr(data-label); flex: 0 0 auto; font: 600 9.5px/1.6 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.7); }
+  .bk-lrow .bk-cell.is-no, .bk-lrow .bk-cell:empty, .bk-ltotal > span:empty { display: none; }
+  .bk-lrow .bk-cell.is-name { display: block; font-size: 20px; line-height: 1.25; margin-bottom: 4px; }
+  .bk-lrow .bk-cell.is-name::before { display: none; }
+  .bk-lrow .bk-cell small { line-height: 1.4; }
+  .bk-ltotal .is-num b { margin-left: 0; min-width: 9ch; text-align: right; }
+  .bk-on-desk { margin-inline: var(--bk-gut); }
+  .bk-doc, .bk-form, .bk-tag { --u: calc((100vw - 2 * var(--bk-gut)) / var(--W)); width: auto !important; }
+  .bk-thumb { --u: var(--paper-mm); width: calc(var(--W) * var(--u)) !important; }
+  .bk-foot { margin-inline: 16px; }
+  .bk-over { padding: 10px 6px 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bk *, .bk *::before, .bk *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; }
+}

@@ -1,0 +1,19 @@
+{
+  "project": "Truthful",
+  "form": "object: a book of IOUs on ledger paper",
+  "faces": {
+    "display": "Besley",
+    "text": "Libre Franklin",
+    "label": "Courier Prime",
+    "reason": "Besley is a Clarendon from 1845, the face of banknotes and IOUs. Libre Franklin is the gothic of printed forms. Courier Prime is what gets typed onto a slip."
+  },
+  "paper": "#dde8d0",
+  "ink": "#1d2740",
+  "muted": "#5a6878",
+  "line": "#93b29c",
+  "accent": "#c9361f",
+  "accentFrom": "the red ink of an OVERDUE stamp; used only for money still owed",
+  "radius": "0",
+  "material": "pale green columnar ledger paper with a red double rule; white bond slips with perforated edges; one soft paper shadow, no borders",
+  "motion": "paper slides out and settles; a stamp drops and bounces once"
+}
