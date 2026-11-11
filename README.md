@@ -2,9 +2,13 @@
 
 **Vendors promise. Invoices forget.**
 
-When a vendor promises you money, Truthful keeps the IOU and checks every invoice until it is paid. A credit note is not money until it shows up on an invoice, and an offer with strings attached is not a debt: the book keeps the three apart and shows, in red, only what is still owed. Built for the BBS × Ramp technical round.
+When a vendor promises you a credit, Truthful writes the promise down, checks every invoice against it, and drafts the letter asking for what is still owed. Nothing goes out until you approve it. A credit note is not money until it shows on an invoice, and an offer with strings is not a debt: the book keeps the three apart and shows, in red, only what is still owed. Built for the BBS × Ramp technical round.
 
-[Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md) · [The design of every page](src/book/CONCEPT.md)
+- **Live app: https://truthful-ovo.vercel.app** (runs in your browser; no account, nothing is sent)
+- **Two-minute guided demo: https://truthful-ovo.vercel.app/?demo#/** (plays every feature hands-free, with captions)
+- Demo video: see [the submission page](docs/SUBMISSION.md)
+
+[Architecture answer](docs/SUBMISSION.md#architecture-answer--283-words) · [Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md)
 
 ## Run
 
@@ -21,21 +25,25 @@ Open **http://127.0.0.1:5173**. This starts the page and a small local server th
 
 ## The book
 
-The whole app is one bookkeeper's book on a desk. Tabs along the top of the page turn to each part of it.
+The cover is **Truthful's quarter**: a pixel town where the pipeline's stages are agents you can watch. A vendor's courier brings a paper to the post, the reader marks the figure, the scribe writes the promise down, the checker weighs each invoice against it on a scale, the writer drafts the letter, and it waits on your desk. The tour replays the demo book's real history from its event log; then the town shows the book as it stands, and every station opens onto its records.
+
+Every other page is one printed sheet that leads with its answer. Each $100 of a promise is a pixel coin: ink when it came in on an invoice, a red ring while it is still owed.
 
 | Page | Address | What is on it |
 |---|---|---|
-| **IOUs** | `#/ious` | One line per promise: what they said, when it was due, what they promised, what has been credited, what is still owed. Press a line and its IOU slides out with the email and the invoice clipped behind it. Drop an email or an invoice in the tray and it is read. |
-| **One promise** | `#/iou/pipeline-seats` | The figure still owed, a strip of boxes punched as money reaches an invoice, everything that happened in order with a running balance, the vendor's offers as tags you take or decline, and the decision slip with three boxes: prepared, approved, written in. Its credit notes and the papers it rests on are here too. |
-| **To do** | `#/todo` | What needs a hand, most urgent first, and who each line is waiting on. |
-| **Papers** | `#/papers` | Every email, invoice, credit note and agreement on file, as itself. Open one to read it word for word with the figures Truthful took from it highlighted, where it is used, and its earlier copies. |
-| **Companies** | `#/companies` | The index, and one page per company. |
-| **Day book** | `#/daybook` | Everything that happened, newest first. Any line opens in full, with the raw entry behind it. |
-| **Balance** | `#/balance` | Still owed across every company. Two date stamps turn the book back: what was in force on a day, and what the book knew by then. A CSV for the accountant and the whole trail as JSON. |
-| **In-tray** | `#/tray` | Drop in a promise, the invoices and what they said next. They come back marked with what was found; write the promise into the book and get the letter asking for the rest. |
-| **Test bench** | `#/bench` | For engineers: two clerks racing for one credit under two rules, one-use signed permission slips, and nine ways the ledger refuses to be fooled. |
+| **The quarter** | `#/` | The agents at work, the tour of the book's history, each station's records, and "$3,850 still owed of $4,750 promised". Scroll for the coins sorting themselves. |
+| **Promises** | `#/ious` | One row per vendor: what they said, when it was due, their coins, credited, still owed. Open a row for the quote with its figure marked, the letter asking for the rest (approve it, download the .eml), offers to take or decline, and "The next invoice arrives". |
+| **One promise** | `#/iou/pipeline-seats` | "$1,500 still owed": its coins, its history with a running balance, offers, and the decision with three signatures: prepared, approved, written in. |
+| **To do** | `#/todo` | What waits on you and what waits on someone else, most urgent first. |
+| **Papers** | `#/papers` | Every email, invoice, credit note and agreement as a mark by kind; open one to read it word for word with the figures highlighted. |
+| **Companies** | `#/companies` | Who owes you, one page per company. |
+| **History** | `#/daybook` | Every entry in order, on a timeline. Nothing is rewritten. |
+| **Balance** | `#/balance` | Still owed as of any date, as the book knew it then. A CSV for the accountant and the whole trail as JSON. |
+| **In-tray** | `#/tray` | Paste what a vendor sent; it is read, the figures are marked, and the promise goes into the book. |
+| **Test bench** | `#/bench` | For engineers: two clerks racing for one credit, one-use permission slips, nine ways the ledger refuses to be fooled. |
+| **How it works** | `#/how` | What each kind of coin means, and one promise's life step by step. |
 
-`/` anywhere opens Find. The name plate, top right, is who is holding the pen.
+`/` anywhere opens Find.
 
 ## Try it
 
@@ -65,13 +73,13 @@ Verification requires Python 3 for the independent standard-library MIME parser.
 
 **What it is connected to: nothing.** No model, inbox, Ramp account, vendor, bank or accounting system. Truthful reads the papers you give it and writes the letter; you send it. The vendors and papers in the demo book are made up. It reads US dollars and the kinds of promise in `public/examples/`. The permission slips are this project’s own format and follow no outside standard. [Research](docs/FRONTIER_RESEARCH.md) and a [comparison with other tools](docs/COMPETITIVE_RESEARCH.md) say where it stands.
 
-The public GitHub Pages site is still the earlier v3 release. The faces are Besley, Libre Franklin and Courier Prime, served from the app (SIL Open Font License). [The design of every page](src/book/CONCEPT.md) and [its look](src/book/identity.json) are in `src/book`; [DESIGN.md](DESIGN.md) records the screens that came before.
+The faces are Red Hat Display, Text and Mono, served from the app (SIL Open Font License). The quarter is drawn by a small zero-dependency voxel renderer in `src/book/house/craft/`; its concept is [src/book/house/world/CONCEPT.md](src/book/house/world/CONCEPT.md). [DESIGN.md](DESIGN.md) records the screens that came before.
 
 ## Design and submission artifacts
 
 The earlier [Figma source kit](design/figma/README.md) contains 69 screen models, 14 boards and 483 mapped interactions. The [native file](https://www.figma.com/design/8j4pwtsGDI4seljHPNeUkI) retains its previously verified 17-screen baseline. Saving the expansion remains blocked by editable file access and a connected FigCli bridge; neither artifact establishes parity with this rebuild. See [the expansion record](docs/WORKSPACE_EXPANSION.md).
 
-Videos and submission packaging remain deferred. [The architecture answer](docs/SUBMISSION.md), [demo script](docs/DEMO_SCRIPT.md), [form requirements](docs/FORM_REQUIREMENTS.md) and [delivery facts](docs/DELIVERY.md) preserve prepared materials. Public source, an accepted-host recording, team consent, original track and attendance remain external submission facts; the application has not been submitted.
+[The architecture answer](docs/SUBMISSION.md), [demo script](docs/DEMO_SCRIPT.md), [form requirements](docs/FORM_REQUIREMENTS.md) and [delivery facts](docs/DELIVERY.md) preserve prepared materials. Public source, an accepted-host recording, team consent, original track and attendance remain external submission facts; the application has not been submitted.
 
 MIT license.
 
