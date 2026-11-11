@@ -139,11 +139,13 @@ body:has(.bk) { margin: 0; }
   align-items: flex-end;
   gap: 3px;
   margin: 0 var(--bk-gut) -1px;
-  padding: 6px 0 0 calc(var(--bk-lm) - 14px);
+  padding: 6px 0 0 calc(var(--bk-lm) + 18px);   /* the first tab starts where the page's text starts, as on the front */
   overflow-x: auto;
   scrollbar-width: none;
 }
 .bk-tabs::-webkit-scrollbar { display: none; }
+/* inside the front page's own slot the tabs take their place from the slot */
+.bk-tabs.is-slotted { margin: 0 0 -1px; padding-left: 0; }
 .bk-tab {
   position: relative;
   flex: 0 0 auto;
@@ -486,6 +488,7 @@ a.bk-lrow { text-decoration: none; }
 .bk-find { display: flex; align-items: baseline; gap: 10px; min-width: 0; font: 400 15px/1.4 var(--bk-type); }
 .bk-find input { flex: 1 1 12ch; min-width: 0; padding: 4px 2px; border: 0; border-bottom: 1.5px dotted rgb(29 39 64 / 0.6); background: none; font: inherit; }
 .bk-find input:focus { outline: 0; border-bottom-style: solid; }
+.bk input[type="search"]::-webkit-search-cancel-button, .bk input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
 .bk-find input::placeholder, .bk-field input::placeholder, .bk-field textarea::placeholder { color: rgb(90 104 120 / 0.8); }
 
 /* ————————————————————————————————————————————————— papers on the desk */
@@ -620,6 +623,8 @@ button.bk-doc, a.bk-doc { display: block; padding: 0; border: 0; background: non
   .bk-mark { font-size: 20px; }
   .bk-tool.is-wide { display: none; }
   .bk-tabs { padding-left: 4px; margin-inline: var(--bk-gut); }
+  .bk-tools.is-slotted .bk-tool { display: none; }
+  .bk-tools.is-slotted .bk-plate b { display: none; }
   .bk-tab { padding: 0 12px; }
   .bk-head { grid-template-columns: minmax(0, 1fr); padding: 24px 16px 20px; }
   .bk-head-side { grid-column: 1; grid-row: auto; justify-self: start; text-align: left; }

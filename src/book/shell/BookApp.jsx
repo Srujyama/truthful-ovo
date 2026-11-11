@@ -41,6 +41,20 @@ const PAGES = {
   bench: React.lazy(() => import('../pages/Bench.jsx')),
 };
 
+// The front page (the book of IOUs with its slips and its tray) is built in
+// src/book/front. When that folder is here it is the IOUs page, and it takes
+// this shell's tabs and tools into its own layout; until then, and if it ever
+// fails to load, the plain list in ../pages/Ious.jsx stands in.
+const frontFiles = import.meta.glob('../front/BookFront.jsx');
+const BookFront = frontFiles['../front/BookFront.jsx'] ? React.lazy(frontFiles['../front/BookFront.jsx']) : null;
+
+class FrontGuard extends React.Component {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch() { this.props.onFail?.(); }
+  render() { return this.state.failed ? null : this.props.children; }
+}
+
 class PageGuard extends React.Component {
   state = { error: null };
   static getDerivedStateFromError(error) { return { error }; }
@@ -68,7 +82,7 @@ const TABS = [
   ['balance', 'Balance'],
 ];
 const tabOf = page => (page === 'iou' ? 'ious' : page);
-const SOUND_KEY = 'truthful.sounds';
+const SOUND_KEY = 'truthful.sound';   // the same key the front page keeps its own switch in
 
 export default function BookApp() {
   const service = useAssurance();
@@ -88,6 +102,8 @@ export default function BookApp() {
     sound.setEnabled(sounds);
     try { localStorage.setItem(SOUND_KEY, sounds ? 'on' : 'off'); } catch { /* a private window: the choice lasts for this visit */ }
   }, [sounds]);
+  // The front page has its own switch for the same sounds; pick up whatever it was left at.
+  useEffect(() => { setSounds(sound.enabled); }, [route.page]);
   useEffect(() => {
     const unlock = () => sound.unlock();
     addEventListener('pointerdown', unlock, { once: true });
@@ -129,30 +145,66 @@ export default function BookApp() {
   kept.current.routes[route.page] = route;
 
   const gate = gateFor(service);
+  const [frontFailed, setFrontFailed] = useState(false);
+  const frontSeen = useRef(false);
+  if (route.page === 'ious') frontSeen.current = true;
   const managed = service.authMode === 'managed-password';
 
+  // On the front page the tools sit in the front's own top bar, which already has its sound switch and its in-tray.
+  const tools = slotted => (
+    <div className={slotted ? 'bk-tools is-slotted' : 'bk-tools'}>
+      {!slotted && <button type="button" className="bk-tool is-wide" aria-pressed={sounds} onClick={() => setSounds(on => !on)}>Paper sounds: {sounds ? 'on' : 'off'}</button>}
+      <button type="button" className="bk-tool" onClick={() => setFinding(true)} disabled={!view}>Find<kbd>/</kbd></button>
+      {!slotted && <a className="bk-tool" href={href('tray')} aria-current={route.page === 'tray' ? 'page' : undefined} style={{ textDecoration: 'none' }}>In-tray</a>}
+      <Plate service={service} say={say} onReset={() => go('ious')} />
+    </div>
+  );
+  const tabs = slotted => (
+    <nav className={slotted ? 'bk-tabs is-slotted' : 'bk-tabs'} aria-label="The book’s pages">
+      {TABS.map(([page, label]) => (
+        <a key={page} className="bk-tab" href={href(page)} aria-current={tabOf(route.page) === page ? 'page' : undefined}>
+          {label}{page === 'todo' && waiting > 0 && <i aria-label={`${waiting} waiting`}>{waiting}</i>}
+        </a>
+      ))}
+    </nav>
+  );
+  const onFront = route.page === 'ious' && BookFront && !frontFailed && !gate;
+  const foot = (
+    <footer className="bk-foot">
+      <span>{onFront ? '' : managed ? 'Your team’s book. Nothing is emailed or paid from here.' : 'This is a demo book. The vendors are made up and nothing gets emailed.'}</span>
+      <span className="bk-actions">
+        <a className="bk-link" href={href('bench')}>Test bench</a>
+        <a className="bk-link" href="?view=team">The old screens</a>
+      </span>
+    </footer>
+  );
+
   return (
-    <div className="bk" data-runtime={service.mode} data-page={route.page}>
-      <header className="bk-top">
-        <a className="bk-mark" href={href('ious')}>Truthful</a>
-        <div className="bk-tools">
-          <button type="button" className="bk-tool is-wide" aria-pressed={sounds} onClick={() => setSounds(on => !on)}>Paper sounds: {sounds ? 'on' : 'off'}</button>
-          <button type="button" className="bk-tool" onClick={() => setFinding(true)} disabled={!view}>Find<kbd>/</kbd></button>
-          <a className="bk-tool" href={href('tray')} aria-current={route.page === 'tray' ? 'page' : undefined} style={{ textDecoration: 'none' }}>In-tray</a>
-          <Plate service={service} say={say} onReset={() => go('ious')} />
+    <div className="bk" data-runtime={service.mode} data-page={route.page} data-front={onFront ? '' : undefined}>
+      {/* The front page brings its own desk top; the shell's tabs and tools go into its slots. */}
+      {BookFront && !frontFailed && !gate && (
+        <div hidden={!onFront} inert={!onFront ? true : undefined}>
+          {(onFront || frontSeen.current) && (
+            <FrontGuard onFail={() => setFrontFailed(true)}>
+              <React.Suspense fallback={null}>
+                <BookFront service={service} onOpenCase={id => go('iou', id)} onGo={page => go(page)} tabs={tabs(true)} tools={tools(true)} />
+              </React.Suspense>
+            </FrontGuard>
+          )}
         </div>
-      </header>
+      )}
 
-      <nav className="bk-tabs" aria-label="The book’s pages">
-        {TABS.map(([page, label]) => (
-          <a key={page} className="bk-tab" href={href(page)} aria-current={tabOf(route.page) === page ? 'page' : undefined}>
-            {label}{page === 'todo' && waiting > 0 && <i aria-label={`${waiting} waiting`}>{waiting}</i>}
-          </a>
-        ))}
-      </nav>
+      {!onFront && (
+        <header className="bk-top">
+          <a className="bk-mark" href={href('ious')}>Truthful</a>
+          {tools(false)}
+        </header>
+      )}
+      {!onFront && tabs(false)}
 
-      <main>
+      <main hidden={onFront}>
         {gate || Object.entries(kept.current.routes).map(([page, last]) => {
+          if (page === 'ious' && BookFront && !frontFailed) return null;
           const Page = PAGES[page];
           const active = page === route.page;
           return (
@@ -167,14 +219,7 @@ export default function BookApp() {
         })}
       </main>
 
-      <footer className="bk-foot">
-        <span>{managed ? 'Your team’s book. Nothing is emailed or paid from here.' : 'This is a demo book. The vendors are made up and nothing gets emailed.'}</span>
-        <span className="bk-actions">
-          <a className="bk-link" href={href('bench')}>Test bench</a>
-          <a className="bk-link" href="?view=team">The old screens</a>
-        </span>
-      </footer>
-
+      {foot}
       {finding && view && <FindOver view={view} go={go} onClose={() => setFinding(false)} />}
       {toast}
     </div>
