@@ -139,3 +139,23 @@ html[data-demo-scene] .qw-hint { display: none; }
 /* recording: the first frame is the cover alone; the caption bar comes in with the first scene */
 .dm-bar { transition: opacity 360ms var(--dm-ease); }
 .dm.is-rec[data-phase="prep"] .dm-bar { opacity: 0; }
+
+/* —— presenter mode (?demo&talk): your voice, your pace */
+/* captions stay on in presenter mode: they cue the speaker and help the viewer */
+.dm-intro {
+  position: fixed; inset: 0; z-index: 200;
+  display: grid; align-content: center; gap: 30px;
+  padding: 0 var(--t-gutter);
+  background: var(--t-paper); color: var(--t-ink);
+  cursor: pointer;
+  animation: dm-intro-in 600ms var(--t-ease) both;
+}
+.dm-intro-h { margin: 0; font: 500 clamp(56px, 7vw, 108px) / 0.95 var(--t-display); letter-spacing: -0.045em; }
+.dm-intro-h span { color: var(--t-quiet); }
+.dm-intro-coins { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.dm-intro-coins .t-label { color: var(--t-red-ink); }
+.dm-intro-steps { margin: 0; padding: 0; list-style: none; max-width: 980px; border-top: 1px solid var(--t-ink); }
+.dm-intro-steps li { display: grid; grid-template-columns: 60px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--t-line); font: 400 22px/1.4 var(--t-text); }
+.dm-intro-steps b { font: 400 13px/2.2 var(--t-mono); color: var(--t-muted); }
+.dm-intro-then { margin: 0; max-width: 980px; font: 500 26px/1.35 var(--t-display); letter-spacing: -0.015em; }
+@keyframes dm-intro-in { from { opacity: 0; } }

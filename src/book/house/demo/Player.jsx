@@ -12,6 +12,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import './demo.css';
 import { SCENES, TOTAL_SECONDS, secondsFor } from './script.mjs';
+import { CoinStrip } from '../../ui/Coins.jsx';
 import { quoteFor } from '../../front/selectors.mjs';
 import { paperId } from '../../shell/route.mjs';
 
@@ -32,7 +33,11 @@ function unionOf(rects) {
 }
 
 export default function DemoPlayer({ service, view, go }) {
-  const rec = useRef(asked().has('rec')).current;
+  const rec = useRef(asked().has('rec') || asked().has('talk')).current;
+  const talk = useRef(asked().has('talk')).current;   // presenter mode: you set the pace and do the voice
+  const [intro, setIntro] = useState(talk);
+  const introOn = useRef(talk);
+  introOn.current = intro;
   const live = useRef({});
   live.current = { service, view, go };
 
@@ -267,6 +272,8 @@ export default function DemoPlayer({ service, view, go }) {
         live.current.go('home');
         scrollTo({ top: 0 });
         await d.wait(1200);
+        while (introOn.current) await d.wait(120);
+        await d.wait(400);
         setIndex(0);
         setRun((r) => r + 1);
         setPhase('play');
@@ -290,6 +297,7 @@ export default function DemoPlayer({ service, view, go }) {
     (async () => {
       try {
         try { await scene.run(d); } catch (error) { if (error === STOP) throw error; /* a scene that trips goes on with the film */ }
+        if (talk) { for (;;) await d.wait(250); }   // held until → moves on
         const need = secondsFor(scene) * 1000;
         while (ctl.current.elapsed < need) await d.wait(40);
         if (index < SCENES.length - 1) { setIndex(index + 1); return; }
@@ -317,10 +325,12 @@ export default function DemoPlayer({ service, view, go }) {
     const onKey = (event) => {
       if (event.metaKey || event.ctrlKey || event.altKey) return;
       const key = event.key;
-      if (![' ', 'ArrowRight', 'ArrowLeft', 'Escape'].includes(key)) return;
+      if (![' ', 'ArrowRight', 'ArrowLeft', 'Escape', 'Enter'].includes(key)) return;
+      if (key === 'Enter' && !introOn.current) return;
       event.preventDefault();
       event.stopImmediatePropagation();
       if (event.type !== 'keydown' || event.repeat) return;
+      if (introOn.current) { if (key !== 'ArrowLeft' && key !== 'Escape') setIntro(false); return; }
       if (key === ' ') { if (ctl.current.phase === 'play') setPaused((p) => !p); return; }
       if (key === 'Escape') { leave(); return; }
       if (ctl.current.phase === 'prep') return;
@@ -357,7 +367,20 @@ export default function DemoPlayer({ service, view, go }) {
   const said = phase === 'prep' ? 'Starting the demo book from its first page.' : scene.narration;
 
   return createPortal(
-    <div className={`dm${rec ? ' is-rec' : ''}${paused ? ' is-paused' : ''}`} data-phase={phase}>
+    <div className={`dm${rec ? ' is-rec' : ''}${talk ? ' is-talk' : ''}${paused ? ' is-paused' : ''}`} data-phase={phase}>
+      {intro && (
+        <section className="dm-intro" aria-label="Background" onClick={() => setIntro(false)}>
+          <p className="t-label">bbs × ramp · team ovo · truthful</p>
+          <h1 className="dm-intro-h">Vendors promise credits.<br /><span>Invoices forget them.</span></h1>
+          <div className="dm-intro-coins"><CoinStrip states={Array.from({ length: 24 }, (_, i) => (i < 9 ? 'in' : 'owed'))} u={5} perRow={12} label="$2,400 promised, $900 came in" /><span className="t-label">$2,400 promised · $900 came in · $1,500 never showed up</span></div>
+          <ol className="dm-intro-steps">
+            <li><b>01</b><span>A vendor promises a credit in an email.</span></li>
+            <li><b>02</b><span>Someone copies it into a spreadsheet and checks every invoice against it by hand.</span></li>
+            <li><b>03</b><span>When the money never shows up, someone has to notice, find the email, and write to ask for it.</span></li>
+          </ol>
+          <p className="dm-intro-then">Truthful does all of it: it reads the papers, keeps every promise, weighs every invoice against it, and drafts the letter. You approve.</p>
+        </section>
+      )}
       <div className="dm-mark" ref={mark} aria-hidden="true" />
       <div className="dm-ring" ref={ring} aria-hidden="true"><i /></div>
       <section className="dm-bar" ref={bar} aria-label="The demo" aria-live="polite">
