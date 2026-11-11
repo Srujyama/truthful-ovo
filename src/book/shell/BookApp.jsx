@@ -231,7 +231,7 @@ export default function BookApp() {
 
       {!onFront && (
         <header className="bk-top">
-          <a className="bk-mark" href={href('ious')}>Truthful</a>
+          <a className="bk-mark" href={href(house?.Home ? 'home' : 'ious')}>Truthful</a>
           {tools(false)}
         </header>
       )}
