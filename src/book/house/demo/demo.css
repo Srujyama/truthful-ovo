@@ -161,3 +161,7 @@ html[data-demo-talk] .qw-tour { display: none !important; }
 .dm-intro-steps b { font: 400 13px/2.2 var(--t-mono); color: var(--t-muted); }
 .dm-intro-then { margin: 0; max-width: 980px; font: 500 26px/1.35 var(--t-display); letter-spacing: -0.015em; }
 @keyframes dm-intro-in { from { opacity: 0; } }
+
+/* presenter mode: the window is the picture, no scrollbar in the recording */
+html[data-demo-talk] { overflow: hidden; scrollbar-width: none; }
+html[data-demo-talk]::-webkit-scrollbar { display: none; }
