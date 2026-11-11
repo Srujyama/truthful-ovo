@@ -38,6 +38,8 @@ export default function DemoPlayer({ service, view, go }) {
   const [intro, setIntro] = useState(talk);
   const introOn = useRef(talk);
   introOn.current = intro;
+  // presenter mode: the page is the picture; no captions, no history card, you talk over it
+  useEffect(() => { if (talk) html.dataset.demoTalk = '1'; return () => { delete html.dataset.demoTalk; }; }, [talk]);
   const live = useRef({});
   live.current = { service, view, go };
 

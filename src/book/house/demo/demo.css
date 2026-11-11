@@ -141,7 +141,9 @@ html[data-demo-scene] .qw-hint { display: none; }
 .dm.is-rec[data-phase="prep"] .dm-bar { opacity: 0; }
 
 /* —— presenter mode (?demo&talk): your voice, your pace */
-/* captions stay on in presenter mode: they cue the speaker and help the viewer */
+/* presenter mode: you narrate, so no captions and no history card */
+.dm.is-talk .dm-bar { display: none; }
+html[data-demo-talk] .qw-tour { display: none !important; }
 .dm-intro {
   position: fixed; inset: 0; z-index: 200;
   display: grid; align-content: center; gap: 30px;
