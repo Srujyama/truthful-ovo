@@ -25,21 +25,21 @@ Team: OVO. Confirm that the technical path matches the team’s Round 1 selectio
 
 Vendors promise credits by email; invoices forget them. Truthful reads every promise and every invoice with Claude, verifies every figure against the exact words it came from, writes each promise down as an IOU, weighs every invoice against it, and drafts the letter asking for what is still owed. A person approves before anything goes out. The ledger refuses a credit spent twice, an approval for a changed deal, and an offer with strings counted as money.
 
-## Architecture answer — 308 words
+## Architecture answer — 292 words
 
 Truthful is a neuro-symbolic agent pipeline that automates vendor-credit recovery, a workflow that still lives in inboxes and spreadsheets.
 
 **Perception (LLM).** Claude Opus 5.5 turns unstructured vendor correspondence (emails, contracts, invoice CSVs) into a typed claim graph: commitments, credits, conditions, references and due dates. Output is constrained by a JSON schema, and every node carries the verbatim span it was read from. Refusals route through server-side model fallback.
 
-**Grounding (symbolic).** A deterministic verifier aligns each span against the source and re-parses its amount, rejecting ungrounded or hallucinated facts before they can touch state. The model proposes; the symbolic layer disposes. A rule-based reader gives zero-key operation.
+**Grounding (symbolic).** A deterministic verifier aligns each span against the source and re-parses its amount, rejecting ungrounded or hallucinated facts before they can touch state. The model proposes; the symbolic layer disposes.
 
 **State.** An event-sourced, bitemporal ledger (effective time × knowledge time) with integer-cent reducers. Invariants run on every command: credit conservation across commitments, approvals bound to content digests of their evidence basis (any drift voids them), and conflict detection across competing amendments. A hash-chained audit log makes every projection replayable.
 
-**Agents.** Reader → recorder → reconciler → drafter → human approval gate, each stage a tool around the ledger. The UI renders this live as agents handing work to each other, replayed from the real event log.
+**Agents.** Reader → recorder → reconciler → drafter → human approval gate, each stage a tool around the ledger. The UI renders them live, replayed from the real event log.
 
 **Product.** React and Vite on Node 24 with per-tenant SQLite, session auth with CSRF, role-based approvals and atomic idempotent batches, deployed on Fly.io and Vercel.
 
-**Tradeoffs.** We kept the LLM at the perception boundary and out of the money path: correctness and auditability over autonomy. We used constrained decoding over free-form output, and low effort for extraction latency. No fine-tuning: grounding plus verification beat training data we don't have.
+**Tradeoffs.** We kept the LLM at the perception boundary and out of the money path: correctness and auditability over autonomy. Constrained decoding over free-form output; low effort for extraction latency. No fine-tuning: grounding plus verification beat training data we don't have.
 
 **With more time.** Verifier rejections become labelled signal for an active-learning eval loop. A Claude tool-use negotiator reads replies, sequences follow-ups and proposes amendments under the policy engine. Retrieval over MSAs and SLAs computes entitlements from telemetry. Gmail and Ramp Bill Pay connectors close the loop automatically.
 
