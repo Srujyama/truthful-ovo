@@ -1,0 +1,291 @@
+/* The quarter on the cover. Isokra over the art: white boxes with a hairline, mono
+   lowercase labels, the answer in Red Hat Display, one ink button. Red only for money
+   still owed. Tokens are src/book/ui/tokens.css. */
+
+.qw {
+  --qw-gap: 16px;
+  position: relative;
+  height: max(600px, calc(100svh - var(--qw-bar, 64px)));
+  overflow: hidden;
+  background: var(--t-paper);
+  color: var(--t-ink);
+  isolation: isolate;
+}
+.qw.is-night { background: #0f141b; }
+.qw .is-owed { color: var(--t-red); }
+.qw .is-quiet { color: var(--t-quiet); }
+.qw .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* —— the picture and what is pinned to it */
+.qw-stage { position: absolute; inset: 0; }
+.qw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.qw-layer { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; z-index: 2; }
+.qw-layer > * { position: absolute; left: 0; top: 0; width: max-content; will-change: transform; }
+
+/* a place's tag: its name in mono, the line the book gives it */
+.qw-tag {
+  display: grid;
+  gap: 1px;
+  min-width: 44px;
+  max-width: 230px;
+  padding: 5px 9px 6px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  color: var(--t-ink);
+  text-align: left;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: border-color 140ms;
+}
+.qw-tag:hover, .qw-tag.is-open { border-color: var(--t-ink); }
+.qw-tag-name { font: 400 11px / 1.3 var(--t-mono); color: var(--t-muted); text-transform: lowercase; white-space: nowrap; }
+.qw-tag-line { font: 500 13px / 1.3 var(--t-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qw-tag.is-owed .qw-tag-line { color: var(--t-red); }
+.qw-tag.is-house .qw-tag-name { text-transform: none; color: var(--t-ink-2); display: flex; align-items: center; gap: 6px; }
+.qw-tag.is-house .qw-tag-name::before { content: ""; width: 8px; height: 8px; background: var(--tab); flex: none; }
+.qw-tag.is-turn { border-color: var(--t-ink); }
+.qw-tag.is-turn .qw-tag-line { color: var(--t-ink); }
+
+/* your turn: a small call bobbing over your desk's tag */
+.qw-call {
+  position: absolute;
+  left: 50%;
+  top: -16px;
+  width: 0;
+  height: 0;
+  margin-left: -6px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--t-ink);
+  animation: qw-bob 1.1s steps(2, jump-none) infinite;
+}
+@keyframes qw-bob { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(1px); } }
+
+/* who is walking, over their head */
+.qw-job {
+  padding: 1px 5px 2px;
+  border: 1px solid var(--t-line-2);
+  border-radius: 2px;
+  background: var(--t-white);
+  font: 400 10.5px / 1.3 var(--t-mono);
+  color: var(--t-ink-2);
+  white-space: nowrap;
+  translate: 0 -4px;
+}
+.qw-job[hidden] { display: none; }
+
+/* what they say as they hand it over */
+.qw-bubble {
+  max-width: 230px;
+  margin: 0;
+  padding: 6px 10px 7px;
+  border: 1px solid var(--t-ink);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  font: 500 13px / 1.35 var(--t-text);
+  color: var(--t-ink);
+  width: max-content;
+  translate: 0 -9px;
+  animation: qw-say 160ms steps(2, jump-none) both;
+}
+.qw-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 9px;
+  height: 9px;
+  margin-left: -5px;
+  border-right: 1px solid var(--t-ink);
+  border-bottom: 1px solid var(--t-ink);
+  background: var(--t-white);
+  rotate: 45deg;
+}
+.qw-bubble.is-left::after { left: auto; right: 12px; }
+.qw-bubble.is-right::after { left: 17px; }
+@keyframes qw-say { from { opacity: 0; } to { opacity: 1; } }
+
+/* —— over the top: the answer, the replay's card */
+.qw-top {
+  position: absolute;
+  z-index: 4;
+  top: var(--qw-gap);
+  left: 28px;
+  right: 28px;
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) minmax(0, 660px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  pointer-events: none;
+}
+.qw-top > * { pointer-events: auto; }
+.qw-answer { padding-top: 6px; }
+.qw-answer .t-label { margin-bottom: 8px; }
+.qw-head { margin: 0; font: 500 clamp(30px, 2.9vw, 44px) / 1 var(--t-display); letter-spacing: -0.035em; }
+.qw.is-night .qw-answer { color: #eef0ed; }
+.qw.is-night .qw-answer .t-label { color: #a9b2ae; }
+.qw.is-night .qw-head .is-quiet { color: #8f9994; }
+.qw.is-night .qw-head .is-owed { color: #ff7a63; }
+
+.qw-tour { grid-column: 2; padding: 11px 16px 12px; }
+.qw-tour-empty { margin: 0; font: 500 15px / 1.4 var(--t-text); }
+.qw-tour-head { display: flex; align-items: center; gap: 12px; }
+.qw-tour-count { font-size: 11.5px; color: var(--t-muted); }
+.qw-tour-day { font-size: 12.5px; font-weight: 500; color: var(--t-ink); text-transform: lowercase; }
+.qw-tour-btns { margin-left: auto; display: flex; gap: 4px; }
+.qw-tour-said { margin: 6px 0 0; font: 400 14.5px / 1.45 var(--t-text); color: var(--t-ink); text-wrap: pretty; }
+.qw-tour-line { display: block; height: 2px; margin-top: 10px; background: var(--t-line); overflow: hidden; }
+.qw-tour-line > span { display: block; height: 100%; width: var(--to); background: var(--t-ink); }
+.qw-tour-line > span.is-running { animation: qw-run 6s linear both; }
+@keyframes qw-run { from { width: var(--from); } to { width: var(--to); } }
+
+/* the small square buttons: arrows, zoom, night */
+.qw-btn {
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  color: var(--t-ink);
+  font: 500 13px / 1 var(--t-text);
+  cursor: pointer;
+}
+.qw-btn:hover:not(:disabled) { border-color: var(--t-ink); }
+.qw-btn:disabled { color: var(--t-quiet); border-color: var(--t-line); cursor: default; }
+.qw-btn.is-ink { background: var(--t-ink); border-color: var(--t-ink); color: var(--t-white); }
+.qw-btn.is-ink:hover { background: var(--t-ink-2); border-color: var(--t-ink-2); }
+
+/* —— along the bottom: the latest line, the hint, zoom and night */
+.qw-latest {
+  position: absolute;
+  z-index: 3;
+  left: var(--qw-gap);
+  bottom: var(--qw-gap);
+  max-width: min(46%, 620px);
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--t-line);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  color: var(--t-ink-2);
+  text-transform: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qw-tools { position: absolute; z-index: 3; right: var(--qw-gap); bottom: var(--qw-gap); display: flex; gap: 4px; }
+.qw.has-panel:not(.is-phone) .qw-tools { right: calc(clamp(380px, 28vw, 420px) + 32px); }
+.qw.has-panel:not(.is-phone) .qw-top { right: calc(clamp(380px, 28vw, 420px) + 32px); }
+.qw.has-panel:not(.is-phone) .qw-top { grid-template-columns: minmax(max-content, auto) minmax(0, 660px); }
+.qw.has-panel:not(.is-phone) .qw-hint { display: none; }
+.qw-hint {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: var(--qw-gap);
+  translate: -50% 0;
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--t-line);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  white-space: nowrap;
+}
+
+/* —— a place's panel: the right side, the whole height */
+.qw-panel {
+  position: absolute;
+  z-index: 5;
+  top: var(--qw-gap);
+  right: var(--qw-gap);
+  bottom: var(--qw-gap);
+  width: clamp(380px, 28vw, 420px);
+  max-width: calc(100% - 2 * var(--qw-gap));
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  animation: qw-in 260ms var(--t-ease) both;
+}
+@keyframes qw-in { from { opacity: 0; translate: 16px 0; } to { opacity: 1; translate: 0 0; } }
+.qw-close {
+  position: sticky;
+  z-index: 1;
+  top: 10px;
+  float: right;
+  margin: 10px 10px 0 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  font: 400 19px / 1 var(--t-text);
+  color: var(--t-ink);
+  cursor: pointer;
+}
+.qw-close:hover { border-color: var(--t-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .qw-call, .qw-bubble, .qw-panel, .qw-tour-line > span.is-running { animation: none; }
+}
+
+/* —— a phone: the answer and the card above, one place at a time, the places as a strip */
+.qw.is-phone { height: auto; overflow: visible; }
+.qw.is-phone .qw-top { position: relative; top: 0; left: 0; right: 0; display: block; padding: 18px 20px 14px; }
+.qw.is-phone .qw-answer { padding: 0 0 14px; }
+.qw.is-phone .qw-head { font-size: clamp(26px, 7.4vw, 36px); }
+.qw.is-phone .qw-top { padding-top: 14px; }
+.qw.is-phone .qw-answer .t-label { margin-bottom: 4px; }
+.qw.is-phone .qw-tour { padding: 10px 12px 11px; }
+.qw.is-phone .qw-tour-said { font-size: 14px; }
+.qw.is-phone .qw-stage { position: relative; inset: auto; height: max(380px, 56svh); overflow: hidden; }
+.qw-strip {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  display: flex;
+  gap: 8px;
+  padding: 0 calc(50% - 100px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.qw-strip::-webkit-scrollbar { display: none; }
+.qw-card {
+  flex: 0 0 200px;
+  display: grid;
+  gap: 1px;
+  min-height: 52px;
+  padding: 7px 11px 8px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  color: var(--t-ink);
+  text-align: left;
+  scroll-snap-align: center;
+}
+.qw-card.is-here { border-color: var(--t-ink); }
+.qw-card.is-owed .qw-tag-line { color: var(--t-red); }
+.qw.is-phone .qw-tools { top: 12px; bottom: auto; right: 12px; }
+.qw.is-phone .qw-tag.is-house { display: none; }
+.qw-turn-note { position: absolute; z-index: 3; left: 12px; top: 12px; margin: 0; padding: 5px 9px; border: 1px solid var(--t-ink); border-radius: var(--t-r); background: var(--t-white); color: var(--t-ink); }
+.qw.is-phone .qw-panel {
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  max-width: none;
+  max-height: 62%;
+  border-radius: var(--t-r) var(--t-r) 0 0;
+  animation-name: qw-up;
+}
+@keyframes qw-up { from { opacity: 0; translate: 0 24px; } to { opacity: 1; translate: 0 0; } }
+.qw.is-phone .qw-bubble { max-width: 180px; font-size: 12.5px; }

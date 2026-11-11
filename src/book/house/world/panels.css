@@ -1,0 +1,110 @@
+/* The inside of a place's panel in the quarter. Isokra: flat ink on porcelain, hairlines,
+   Red Hat, mono labels, red only for money still owed. Every rule sits under .qp;
+   the world draws the frame (width, scroll, close) around it. */
+
+.qp {
+  padding: 22px 22px 26px;
+  color: var(--t-ink);
+  font: 400 var(--t-s-body) / 1.5 var(--t-text);
+  -webkit-font-smoothing: antialiased;
+}
+.qp *, .qp *::before, .qp *::after { box-sizing: border-box; }
+.qp p, .qp h2, .qp h3 { margin: 0; }
+
+/* the head: picture, who works here, the name, the job */
+.qp .qp-head { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: start; padding-right: 30px; }
+.qp .qp-pic {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  overflow: hidden;
+}
+.qp .qp-pic svg, .qp .qp-pic canvas { display: block; }
+.qp .qp-who { margin-top: 1px; }
+.qp .qp-name { margin-top: 3px; font: 500 26px / 1.05 var(--t-display); letter-spacing: -0.025em; outline: none; }
+.qp .qp-job { margin-top: 7px; font-size: var(--t-s-small); line-height: 1.45; color: var(--t-muted); }
+.qp .qp-standing { margin-top: 6px; font: 500 19px / 1.2 var(--t-display); letter-spacing: -0.015em; color: var(--t-muted); }
+
+/* what it is doing now */
+.qp .qp-now { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--t-line); font-size: var(--t-s-body); line-height: 1.5; color: var(--t-ink-2); }
+
+/* a part of the records: a mono label over a dark rule, then hairline rows */
+.qp .qp-part { margin-top: 24px; }
+.qp .qp-part-name { padding-bottom: 7px; border-bottom: 1px solid var(--t-ink); }
+.qp .qp-count { color: var(--t-quiet); }
+
+.qp .qp-row { gap: 10px; padding: 10px 0; font-size: 14px; line-height: 1.35; color: var(--t-ink); text-decoration: none; }
+.qp .qp-row.is-link { cursor: pointer; }
+.qp button.qp-row { width: 100%; border: 0; border-bottom: 1px solid var(--t-line); background: none; font: inherit; font-size: 14px; text-align: left; }
+.qp .qp-row.is-link:hover .qp-lead-name, .qp .qp-row.is-link:focus-visible .qp-lead-name { text-decoration: underline; text-decoration-color: var(--t-line-2); text-underline-offset: 3px; }
+.qp .qp-row.is-link:focus-visible { outline: 2px solid var(--t-ink); outline-offset: 2px; }
+.qp .qp-lead { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.qp .qp-lead-words { display: block; min-width: 0; }
+.qp .qp-lead-name { display: block; overflow-wrap: anywhere; }
+.qp .qp-small { display: block; margin-top: 3px; font: 400 var(--t-s-label) / 1.4 var(--t-mono); color: var(--t-muted); overflow-wrap: anywhere; }
+.qp .qp-fig { font-size: 13.5px; color: var(--t-ink); }
+.qp .qp-fig.is-owed, .qp .qp-red { color: var(--t-red); }
+.qp .qp-fig.is-quiet { color: var(--t-muted); }
+.qp .qp-mark { flex: 0 0 auto; line-height: 0; translate: 0 2px; }
+.qp .qp-tab { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 1px; translate: 0 -1px; }
+.qp .qp-more { margin-top: 12px; }
+.qp .qp-more-link { font-size: 12.5px; }
+
+/* the sum on the scale: they promised − credited so far = still owed */
+.qp .qp-sum { margin-top: 20px; border-top: 1px solid var(--t-line); }
+.qp .qp-sum .qp-row { padding: 9px 0; font-size: 15px; }
+.qp .qp-sum .qp-row:last-child { border-top: 1px solid var(--t-ink); border-bottom: 0; margin-top: -1px; }
+.qp .qp-sum .qp-fig { font-size: 18px; letter-spacing: -0.01em; }
+.qp .qp-op { display: inline-block; width: 18px; font-style: normal; font-family: var(--t-mono); color: var(--t-muted); }
+
+/* coins */
+.qp .qp-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 10px 0 4px; font: 400 var(--t-s-label) / 1.3 var(--t-mono); color: var(--t-muted); }
+.qp .qp-legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.qp .qp-legend-item.is-worth { color: var(--t-quiet); }
+.qp .qp-promise { display: block; padding: 12px 0 12px; border-bottom: 1px solid var(--t-line); color: inherit; text-decoration: none; }
+.qp .qp-promise:hover .qp-promise-name, .qp .qp-promise:focus-visible .qp-promise-name { text-decoration: underline; text-decoration-color: var(--t-line-2); text-underline-offset: 3px; }
+.qp .qp-promise:focus-visible { outline: 2px solid var(--t-ink); outline-offset: 2px; }
+.qp .qp-promise-top { display: flex; align-items: baseline; gap: 10px; font-size: 14.5px; }
+.qp .qp-promise-top .t-dots { flex: 1 1 auto; min-width: 16px; border-bottom: 1px dotted var(--t-line-2); translate: 0 -4px; }
+.qp .qp-promise-top .qp-fig { font-family: var(--t-mono); font-variant-numeric: tabular-nums; }
+.qp .qp-strip { margin: 10px 0 8px; }
+
+/* pictures */
+.qp .qp-pile { display: grid; grid-template-columns: repeat(2, 21px); gap: 4px 5px; }
+.qp .qp-pile .qp-mark { translate: none; }
+.qp .qp-hl { padding: 0 2px; background: var(--t-hl); color: inherit; border-radius: 1px; }
+.qp .qp-pic-figure { display: block; max-width: 56px; padding: 2px 3px; font: 500 12px / 1.25 var(--t-mono); text-align: center; overflow-wrap: anywhere; }
+.qp .qp-count-pic, .qp .qp-day { display: grid; justify-items: center; gap: 2px; line-height: 1; }
+.qp .qp-count-pic b, .qp .qp-day b { font: 500 30px / 0.9 var(--t-display); letter-spacing: -0.03em; }
+.qp .qp-day .t-label, .qp .qp-count-pic .t-label { font-size: 10.5px; }
+.qp .qp-house { place-items: end center; padding-bottom: 12px; position: relative; }
+.qp .qp-roof { position: absolute; inset: 0 0 auto; height: 18px; }
+
+/* a paper the reader read */
+.qp .qp-paper { margin-top: 26px; padding: 20px 18px 18px; }
+.qp .qp-paper-title { font: 500 13px / 1.35 var(--t-text); color: var(--t-muted); }
+.qp .qp-paper-text { margin-top: 8px; font-size: 14px; line-height: 1.6; color: var(--t-ink); overflow-wrap: anywhere; }
+.qp .qp-paper-text .qp-hl { padding: 1px 2px; }
+
+/* the letter */
+.qp .qp-letter { margin-top: 26px; padding: 20px 18px 18px; }
+.qp .qp-letter.is-approved { border-color: var(--t-ink); }
+.qp .qp-letter-field { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 2px 0; font-size: 14px; }
+.qp .qp-letter-body { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--t-line); font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.qp .qp-approved { margin-top: 14px; color: var(--t-ink-2); }
+
+/* your yes */
+.qp .qp-act { display: grid; justify-items: start; gap: 10px; margin-top: 16px; }
+.qp .qp-why { font-size: var(--t-s-small); line-height: 1.45; color: var(--t-muted); }
+
+.qp .qp-foot { margin-top: 22px; }
+
+@media (max-width: 480px) {
+  .qp { padding: 18px 16px 22px; }
+  .qp .qp-head { gap: 14px; }
+  .qp .qp-name { font-size: 24px; }
+}

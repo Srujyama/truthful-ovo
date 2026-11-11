@@ -1,4 +1,6 @@
-// The cover. Every promise in the book stands on it as coins, one per $100. At the top
+// The cover. First, the quarter (world/World.jsx): Truthful's agents carrying every
+// company's papers through the work, replaying the book's own history.
+// Then every promise in the book stands on it as coins, one per $100. At the top
 // they stand by company, each with its name in the margin; scroll, and the same coins
 // sort themselves by what they are. Under them, the answer: what is still owed.
 // Then one promise set out large, with the lever that brings in its next invoice,
@@ -7,6 +9,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './home.css';
 import Crowd from '../ui/Crowd.jsx';
+import World from './world/World.jsx';
 import { Coin, CoinStrip } from '../ui/Coins.jsx';
 import { coinStates, crowdOf, partsOf, pickPromise, STATE_WORDS } from '../ui/crowd.js';
 import { dateDay, dayFor, isOffer, money, nextInvoiceFor, papersFor, quoteFor, stillOwedCents } from '../front/selectors.mjs';
@@ -323,6 +326,7 @@ export default function Home({ service, view, go }) {
   };
   return (
     <div className="cv">
+      <World service={service} view={view} go={go} />
       <Story view={view} go={go} width={width} onTry={toOne} />
       <TryOne service={service} view={view} go={go} width={width} place={one} />
       <section className="cv-close" aria-label="Open the book">
