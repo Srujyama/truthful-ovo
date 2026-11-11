@@ -25,17 +25,23 @@ Team: OVO. Confirm that the technical path matches the team’s Round 1 selectio
 
 Vendors promise credits by email; invoices forget them. Truthful reads every promise and every invoice with Claude, verifies every figure against the exact words it came from, writes each promise down as an IOU, weighs every invoice against it, and drafts the letter asking for what is still owed. A person approves before anything goes out. The ledger refuses a credit spent twice, an approval for a changed deal, and an offer with strings counted as money.
 
-## Architecture answer — 293 words
+## Architecture answer — 308 words
 
-Truthful automates the spreadsheet-and-inbox chase for vendor credits: a promise arrives by email, invoices arrive monthly, and money quietly goes missing.
+Truthful is a neuro-symbolic agent pipeline that automates vendor-credit recovery, a workflow that still lives in inboxes and spreadsheets.
 
-Reading is AI-first. Claude Opus 5.5 reads any email, contract or invoice into schema-constrained facts (vendor, amount, due date, reference, conditions, credits), each carrying the exact quote it came from. Deterministic code then checks every quote appears verbatim in the source and every amount matches its quote, and drops anything that fails; the verified reading is shown for review beside the built-in reader’s, and only the engine writes to the ledger. The model proposes; the rules decide. With no key, the built-in reader runs alone, which is how the public demo works.
+**Perception (LLM).** Claude Opus 5.5 turns unstructured vendor correspondence (emails, contracts, invoice CSVs) into a typed claim graph: commitments, credits, conditions, references and due dates. Output is constrained by a JSON schema, and every node carries the verbatim span it was read from. Refusals route through server-side model fallback.
 
-The core is a dependency-free, event-sourced engine. Papers, promises, credits, amendments, decisions and approvals are events; integer-cent reducers project what is owed as of any date and as known at any moment. Invariants run on every command: a credit is conserved across promises, a changed source or policy voids pending approvals, competing amendments need a reasoned decision, an offer with strings never counts as money.
+**Grounding (symbolic).** A deterministic verifier aligns each span against the source and re-parses its amount, rejecting ungrounded or hallucinated facts before they can touch state. The model proposes; the symbolic layer disposes. A rule-based reader gives zero-key operation.
 
-The product is React and Vite on a Node 24 backend with SQLite per team: password accounts, HttpOnly session cookies with CSRF tokens, four roles, invitations, atomic batches, idempotent retries and a hash-chained audit log, deployed as one HTTPS origin. Every page leads with its answer; each $100 is a pixel coin that turns over when an invoice pays it. The cover is a voxel town, drawn by our own renderer, where the pipeline’s agents carry each paper from the post to the book, weigh invoices on a scale and leave the letter on your desk, replayed from the book’s real event log.
+**State.** An event-sourced, bitemporal ledger (effective time × knowledge time) with integer-cent reducers. Invariants run on every command: credit conservation across commitments, approvals bound to content digests of their evidence basis (any drift voids them), and conflict detection across competing amendments. A hash-chained audit log makes every projection replayable.
 
-Next: inbox and Ramp bill connectors feeding the same reader and engine.
+**Agents.** Reader → recorder → reconciler → drafter → human approval gate, each stage a tool around the ledger. The UI renders this live as agents handing work to each other, replayed from the real event log.
+
+**Product.** React and Vite on Node 24 with per-tenant SQLite, session auth with CSRF, role-based approvals and atomic idempotent batches, deployed on Fly.io and Vercel.
+
+**Tradeoffs.** We kept the LLM at the perception boundary and out of the money path: correctness and auditability over autonomy. We used constrained decoding over free-form output, and low effort for extraction latency. No fine-tuning: grounding plus verification beat training data we don't have.
+
+**With more time.** Verifier rejections become labelled signal for an active-learning eval loop. A Claude tool-use negotiator reads replies, sequences follow-ups and proposes amendments under the policy engine. Retrieval over MSAs and SLAs computes entitlements from telemetry. Gmail and Ramp Bill Pay connectors close the loop automatically.
 
 ## What the submitted build proves
 
