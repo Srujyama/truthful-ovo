@@ -197,6 +197,13 @@ export default function BookApp() {
     </nav>
   );
   const onFront = here.page === 'ious' && BookFront && !frontFailed && !gate;
+  // The house's picture for this page. With stationAbove it stands behind the book, above the tabs;
+  // otherwise it sits between the tabs and the sheet. If it throws, the page is simply without one.
+  const station = house?.Station && !gate && !onFront && here.page !== 'home' && (
+    <FrontGuard key={`station:${here.page}`}>
+      <div className="bk-station"><house.Station page={here.page} id={here.id} service={service} view={view} route={here} go={go} /></div>
+    </FrontGuard>
+  );
   const foot = (
     <footer className="bk-foot">
       <span>{onFront ? '' : managed ? 'Your team’s book. Nothing is emailed or paid from here.' : 'This is a demo book. The vendors are made up and nothing gets emailed.'}</span>
@@ -228,15 +235,12 @@ export default function BookApp() {
           {tools(false)}
         </header>
       )}
+      {house?.stationAbove && station}
       {!onFront && tabs(false)}
 
       <main hidden={onFront}>
         {/* the house's picture for this page, above its sheet; if it fails, the page is simply without one */}
-        {house?.Station && !gate && !onFront && here.page !== 'home' && (
-          <FrontGuard key={`station:${here.page}`}>
-            <div className="bk-station"><house.Station page={here.page} id={here.id} service={service} view={view} route={here} go={go} /></div>
-          </FrontGuard>
-        )}
+        {!house?.stationAbove && station}
         {/* the cover */}
         {house?.Home && !gate && here.page === 'home' && (
           <PageGuard><house.Home service={service} view={view} go={go} say={say} /></PageGuard>
