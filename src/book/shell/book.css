@@ -184,6 +184,11 @@ body:has(.bk) { margin: 0; }
   color: var(--bk-accent);
 }
 
+/* the house's picture for a page sits on the desk between the tabs' row and nothing else: the
+   page's own sheet follows it. The house styles what is inside; this only gives it its place. */
+.bk-station { position: relative; z-index: 2; margin: 0 var(--bk-gut); }
+.bk-station:empty { display: none; }
+
 /* ————————————————————————————————————————————————— a ledger sheet */
 
 .bk-sheet {

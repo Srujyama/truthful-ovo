@@ -21,7 +21,7 @@ import { evaluateWorkspace } from '../../assurance/index.mjs';
 import { operationQueue } from '../../operations.mjs';
 import { sound } from '../kit/paper.js';
 import { Btn, Empty, Sheet, SheetHead, useToast } from './parts.jsx';
-import { href, useRoute } from './route.mjs';
+import { addPages, href, useRoute } from './route.mjs';
 import { plainError } from './roles.mjs';
 import { today } from './money.mjs';
 import Plate from './Plate.jsx';
@@ -47,6 +47,15 @@ const PAGES = {
 // fails to load, the plain list in ../pages/Ious.jsx stands in.
 const frontFiles = import.meta.glob('../front/BookFront.jsx');
 const BookFront = frontFiles['../front/BookFront.jsx'] ? React.lazy(frontFiles['../front/BookFront.jsx']) : null;
+
+// The house (src/book/house, when it is in the tree) can add three things to the book without
+// touching a page. Its index.js default-exports any of:
+//   Home({ service, view, go, say })                     the book's cover, shown at "#/"
+//   Station({ page, id, service, view, route, go })      a picture for the page you are on, drawn above its sheet
+//   pages: [{ page, label, load: () => import(…) }]      more pages; each gets the props every page gets
+// None of it is needed: with no house the book is exactly as it is.
+const houseFiles = import.meta.glob('../house/index.js');
+const loadHouse = houseFiles['../house/index.js'] || null;
 
 class FrontGuard extends React.Component {
   state = { failed: false };
@@ -87,6 +96,24 @@ const SOUND_KEY = 'truthful.sound';   // the same key the front page keeps its o
 export default function BookApp() {
   const service = useAssurance();
   const [route, go] = useRoute();
+  // the house, if there is one
+  const [house, setHouse] = useState(null);
+  const morePages = useRef({});
+  useEffect(() => {
+    if (!loadHouse) return;
+    let live = true;
+    loadHouse().then(mod => {
+      if (!live) return;
+      const found = mod.default || mod;
+      for (const extra of found.pages || []) morePages.current[extra.page] = React.lazy(extra.load);
+      setHouse(found);
+      addPages((found.pages || []).map(extra => extra.page));
+    }).catch(() => { /* a house that will not load is no house: the book stands as it is */ });
+    return () => { live = false; };
+  }, []);
+  // "#/" is the cover when the house has drawn one; otherwise it is the IOUs.
+  const here = route.page === 'home' && !house?.Home ? { ...route, page: 'ious' } : route;
+
   const [toast, say] = useToast();
   const [finding, setFinding] = useState(false);
   const [sounds, setSounds] = useState(() => { try { return localStorage.getItem(SOUND_KEY) !== 'off'; } catch { return true; } });
@@ -103,7 +130,7 @@ export default function BookApp() {
     try { localStorage.setItem(SOUND_KEY, sounds ? 'on' : 'off'); } catch { /* a private window: the choice lasts for this visit */ }
   }, [sounds]);
   // The front page has its own switch for the same sounds; pick up whatever it was left at.
-  useEffect(() => { setSounds(sound.enabled); }, [route.page]);
+  useEffect(() => { setSounds(sound.enabled); }, [here.page]);
   useEffect(() => {
     const unlock = () => sound.unlock();
     addEventListener('pointerdown', unlock, { once: true });
@@ -133,21 +160,22 @@ export default function BookApp() {
   }, []);
 
   useEffect(() => {
-    const names = { ious: 'The book of IOUs', iou: 'An IOU', todo: 'To do', papers: 'Papers', companies: 'Companies', daybook: 'Day book', balance: 'Balance', tray: 'In-tray', bench: 'Test bench' };
-    document.title = `${names[route.page]} · Truthful`;
-  }, [route.page]);
+    const names = { home: 'Truthful', ious: 'The book of IOUs', iou: 'An IOU', todo: 'To do', papers: 'Papers', companies: 'Companies', daybook: 'Day book', balance: 'Balance', tray: 'In-tray', bench: 'Test bench' };
+    const name = names[here.page] || house?.pages?.find(extra => extra.page === here.page)?.label || 'Truthful';
+    document.title = name === 'Truthful' ? name : `${name} · Truthful`;
+  }, [here.page, house]);
 
   // A page is put in the drawer, not thrown away, when you turn to another: what you were typing is still there.
   // A different person or a different team gets a fresh desk.
   const scope = `${service.mode}:${service.session?.user?.id || 'demo'}:${service.session?.workspace?.id || service.workspace?.id || ''}`;
   const kept = useRef({ scope, routes: {} });
   if (kept.current.scope !== scope) kept.current = { scope, routes: {} };
-  kept.current.routes[route.page] = route;
+  kept.current.routes[here.page] = here;
 
   const gate = gateFor(service);
   const [frontFailed, setFrontFailed] = useState(false);
   const frontSeen = useRef(false);
-  if (route.page === 'ious') frontSeen.current = true;
+  if (here.page === 'ious') frontSeen.current = true;
   const managed = service.authMode === 'managed-password';
 
   // On the front page the tools sit in the front's own top bar, which already has its sound switch and its in-tray.
@@ -155,20 +183,20 @@ export default function BookApp() {
     <div className={slotted ? 'bk-tools is-slotted' : 'bk-tools'}>
       {!slotted && <button type="button" className="bk-tool is-wide" aria-pressed={sounds} onClick={() => setSounds(on => !on)}>Paper sounds: {sounds ? 'on' : 'off'}</button>}
       <button type="button" className="bk-tool" onClick={() => setFinding(true)} disabled={!view}>Find<kbd>/</kbd></button>
-      {!slotted && <a className="bk-tool" href={href('tray')} aria-current={route.page === 'tray' ? 'page' : undefined} style={{ textDecoration: 'none' }}>In-tray</a>}
+      {!slotted && <a className="bk-tool" href={href('tray')} aria-current={here.page === 'tray' ? 'page' : undefined} style={{ textDecoration: 'none' }}>In-tray</a>}
       <Plate service={service} say={say} onReset={() => go('ious')} />
     </div>
   );
   const tabs = slotted => (
     <nav className={slotted ? 'bk-tabs is-slotted' : 'bk-tabs'} aria-label="The book’s pages">
       {TABS.map(([page, label]) => (
-        <a key={page} className="bk-tab" href={href(page)} aria-current={tabOf(route.page) === page ? 'page' : undefined}>
+        <a key={page} className="bk-tab" href={href(page)} aria-current={tabOf(here.page) === page ? 'page' : undefined}>
           {label}{page === 'todo' && waiting > 0 && <i aria-label={`${waiting} waiting`}>{waiting}</i>}
         </a>
       ))}
     </nav>
   );
-  const onFront = route.page === 'ious' && BookFront && !frontFailed && !gate;
+  const onFront = here.page === 'ious' && BookFront && !frontFailed && !gate;
   const foot = (
     <footer className="bk-foot">
       <span>{onFront ? '' : managed ? 'Your team’s book. Nothing is emailed or paid from here.' : 'This is a demo book. The vendors are made up and nothing gets emailed.'}</span>
@@ -180,7 +208,7 @@ export default function BookApp() {
   );
 
   return (
-    <div className="bk" data-runtime={service.mode} data-page={route.page} data-front={onFront ? '' : undefined}>
+    <div className="bk" data-runtime={service.mode} data-page={here.page} data-front={onFront ? '' : undefined}>
       {/* The front page brings its own desk top; the shell's tabs and tools go into its slots. */}
       {BookFront && !frontFailed && !gate && (
         <div hidden={!onFront} inert={!onFront ? true : undefined}>
@@ -203,15 +231,27 @@ export default function BookApp() {
       {!onFront && tabs(false)}
 
       <main hidden={onFront}>
+        {/* the house's picture for this page, above its sheet; if it fails, the page is simply without one */}
+        {house?.Station && !gate && !onFront && here.page !== 'home' && (
+          <FrontGuard key={`station:${here.page}`}>
+            <div className="bk-station"><house.Station page={here.page} id={here.id} service={service} view={view} route={here} go={go} /></div>
+          </FrontGuard>
+        )}
+        {/* the cover */}
+        {house?.Home && !gate && here.page === 'home' && (
+          <PageGuard><house.Home service={service} view={view} go={go} say={say} /></PageGuard>
+        )}
         {gate || Object.entries(kept.current.routes).map(([page, last]) => {
           if (page === 'ious' && BookFront && !frontFailed) return null;
-          const Page = PAGES[page];
-          const active = page === route.page;
+          if (page === 'home') return null;
+          const Page = PAGES[page] || morePages.current[page];
+          if (!Page) return null;
+          const active = page === here.page;
           return (
             <div key={`${scope}:${page}`} hidden={!active} inert={!active ? true : undefined}>
               <PageGuard>
                 <React.Suspense fallback={null}>
-                  <Page service={service} view={view} route={active ? route : last} go={go} say={say} active={active} />
+                  <Page service={service} view={view} route={active ? here : last} go={go} say={say} active={active} />
                 </React.Suspense>
               </PageGuard>
             </div>
@@ -220,7 +260,7 @@ export default function BookApp() {
       </main>
 
       {foot}
-      {finding && view && <FindOver view={view} go={go} onClose={() => setFinding(false)} />}
+      {finding && view && <FindOver view={view} go={go} more={house?.pages} onClose={() => setFinding(false)} />}
       {toast}
     </div>
   );

@@ -16,7 +16,14 @@
 
 import { useEffect, useState } from 'react';
 
-export const PAGES = ['ious', 'iou', 'todo', 'papers', 'companies', 'daybook', 'balance', 'tray', 'bench'];
+export const PAGES = ['home', 'ious', 'iou', 'todo', 'papers', 'companies', 'daybook', 'balance', 'tray', 'bench'];
+
+/** More pages can join the book after it has started (see the house hooks in BookApp.jsx). */
+export function addPages(names) {
+  let added = false;
+  for (const name of names) if (name && !PAGES.includes(name)) { PAGES.push(name); added = true; }
+  if (added) dispatchEvent(new Event('hashchange'));   // read the address again: it may be one of the new pages
+}
 
 export function parseHash(hash) {
   const raw = String(hash || '').replace(/^#\/?/, '');
@@ -24,12 +31,14 @@ export function parseHash(hash) {
   const [page = '', ...rest] = path.split('/');
   const query = Object.fromEntries(new URLSearchParams(search));
   const id = rest.length ? decodeURIComponent(rest.join('/')) : '';
-  return { page: PAGES.includes(page) ? page : 'ious', id, query, raw };
+  // No page named: the cover ("home"). The shell shows the IOUs there unless a cover has been supplied.
+  return { page: !page ? 'home' : PAGES.includes(page) ? page : 'ious', id, query, raw };
 }
 
 /** href('iou', 'pipeline-seats', {a: 'action-1'}) → "#/iou/pipeline-seats?a=action-1" */
 export function href(page, id = '', query = null) {
   const search = query ? new URLSearchParams(Object.entries(query).filter(([, v]) => v != null && v !== '')).toString() : '';
+  if (page === 'home') return '#/';
   return `#/${page}${id ? `/${encodeURIComponent(id).replace(/%40/g, '@').replace(/%3A/g, ':')}` : ''}${search ? `?${search}` : ''}`;
 }
 
@@ -52,7 +61,7 @@ export function useRoute() {
   /** go('iou', id, {a}) moves there; go(..., {replace: true}) as a 4th argument does not add a step to Back. */
   function go(page, id = '', query = null, { replace = false } = {}) {
     const next = href(page, id, query);
-    if (next === location.hash) return;
+    if (next === location.hash || (page === 'home' && !location.hash)) return;
     if (replace) {
       history.replaceState(history.state, '', location.pathname + location.search + next);
       setRoute(parseHash(next));

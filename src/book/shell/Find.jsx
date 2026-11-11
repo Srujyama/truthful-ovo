@@ -17,7 +17,7 @@ const PLACES = [
   { kind: 'Page', title: 'Test bench', said: 'for engineers', to: ['bench'] },
 ];
 
-function everything(view) {
+function everything(view, more = []) {
   const company = id => view.vendors.find(v => v.id === id)?.name || id;
   return [
     ...view.commitments.map(c => ({ kind: 'IOU', title: company(c.vendorId), said: `${dollars(c.promisedCents)} promised, ${dollars(c.outstandingCents)} still owed · ${c.reference}`, to: ['iou', c.id] })),
@@ -25,12 +25,13 @@ function everything(view) {
     ...view.credits.map(c => ({ kind: 'Credit note', title: `${company(c.vendorId)} · ${c.invoiceId}`, said: `${dollars(c.amountCents)} ${c.status === 'applied' ? 'on an invoice' : 'issued, not on an invoice yet'}`, to: ['papers', `credit:${c.id}`] })),
     ...view.sources.map(s => ({ kind: 'Paper', title: s.title, said: company(s.vendorId), to: ['papers', paperId(s.id, s.revision)] })),
     ...PLACES,
+    ...more.filter(extra => extra.label).map(extra => ({ kind: 'Page', title: extra.label, said: extra.said || '', to: [extra.page] })),
   ];
 }
 
-export default function FindOver({ view, go, onClose }) {
+export default function FindOver({ view, go, more, onClose }) {
   const [text, setText] = useState('');
-  const all = useMemo(() => everything(view), [view]);
+  const all = useMemo(() => everything(view, more || []), [view, more]);
   const hits = useMemo(() => {
     const needle = text.trim().toLowerCase();
     const rows = needle ? all.filter(r => `${r.title} ${r.said} ${r.kind}`.toLowerCase().includes(needle)) : all.filter(r => r.kind === 'IOU' || r.kind === 'Page');
