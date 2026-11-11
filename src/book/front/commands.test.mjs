@@ -176,11 +176,11 @@ test('a paper the engine cannot make a promise of is turned away with what is mi
 });
 
 test('a refusal from the app is said in plain words', () => {
-  assert.equal(plainFailure({ code: 'FORBIDDEN', message: 'This command requires approver.' }), 'Your sign-in is not allowed to do that. Open the full case and ask someone who can approve.');
+  assert.equal(plainFailure({ code: 'FORBIDDEN', message: 'This command requires approver.' }), 'Your sign-in is not allowed to do that. Open its page and ask someone who can approve.');
   assert.equal(plainFailure({ code: 'POLICY_BLOCKED', details: { reasons: ['The promise is not due until 2026-11-15.'] } }), 'It is not due until Nov 15.');
   assert.equal(plainFailure({ code: 'STALE_APPROVAL' }), 'The book changed while you were reading. Look again, then try once more.');
   assert.equal(plainFailure(new Error('Wait for the current operation to finish.')), 'The book is still writing the last thing down. Try again in a moment.');
-  assert.equal(plainFailure(new Error('socket hang up')), 'That did not go through. Open the full case to see why.');
+  assert.equal(plainFailure(new Error('socket hang up')), 'That did not go through. Open its page to see why.');
 });
 
 test('the kit’s stylesheet is put under the front’s root class without being edited', () => {

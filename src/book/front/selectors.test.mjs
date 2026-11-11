@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createDemoWorkspace, createWorkspace, evaluateWorkspace, reduceWorkspace } from '../../assurance/index.mjs';
 import {
-  bookFor, boxCentsFor, creditedSoFarCents, dayFor, isOffer, isOverdue, keeperFor, letterFor, nextInvoiceFor, offersFor,
+  bookFor, boxCentsFor, claimClosedOn, creditedSoFarCents, dayFor, isOffer, isOverdue, keeperFor, letterFor, nextInvoiceFor, offersFor,
   paperText, papersFor, plainReason, promiseFor, quoteFor, stillOwedCents, totalsFor, viewFor, workingFor,
 } from './selectors.mjs';
 
@@ -173,7 +173,7 @@ test('the letter is written from the records and follows the engine’s approval
 test('the letter cannot be approved when the engine would refuse, and says why in plain words', () => {
   const workspace = demo(), view = viewFor(workspace, now);
   const nimbus = letterFor(workspace, view, find(view, 'nimbus-sla'));
-  assert.deepEqual([nimbus.canApprove, nimbus.why], [false, 'The last day to claim this was Oct 30.']);
+  assert.deepEqual([nimbus.canApprove, nimbus.why], [false, 'The window to claim this closed Oct 30.']);
   assert.match(nimbus.body, /You sent credit note CM-NC-204 for \$2,000 on October 25, but it has not come off an invoice\./);
   assert.match(nimbus.body, /^Hi,\n\nOur agreement says: “Availability below 99% earns a 25% service credit\.”/);
   const parcel = letterFor(workspace, view, find(view, 'parcel-waiver'));
@@ -184,16 +184,42 @@ test('the letter cannot be approved when the engine would refuse, and says why i
 
 test('every refusal the engine gives on the example workspace has plain words', () => {
   assert.equal(plainReason([]), null);
-  assert.equal(plainReason(['Claim deadline 2026-10-30 expired as of 2026-11-10.']), 'The last day to claim this was Oct 30.');
+  assert.equal(plainReason(['Claim deadline 2026-10-30 expired as of 2026-11-10.']), 'The window to claim this closed Oct 30.');
   assert.equal(plainReason(['The promise is not due until 2026-11-15.']), 'It is not due until Nov 15.');
   assert.equal(plainReason(['Action amount exceeds the 500000-cent approval limit.']), 'Your rules stop at $5,000 for one approval.');
   assert.equal(plainReason(['Policy forbids new contractual commitments.']), 'Your rules do not allow taking on new spending.');
-  assert.equal(plainReason(['Something the book has not met.']), 'The rules for this book do not allow that yet. Open the full case to see why.');
+  assert.equal(plainReason(['Something the book has not met.']), 'The rules for this book do not allow that yet. Open its page to see why.');
   // none of the engine's own wording reaches the page
   const book = bookFor(demo(), { now });
-  const said = book.promises.flatMap((p) => [p.letter?.why, ...p.offers.map((o) => o.why)]).filter(Boolean);
+  const said = book.promises.flatMap((p) => [p.letter?.why, p.closed?.line, ...p.offers.map((o) => o.why)]).filter(Boolean);
   assert.ok(said.length >= 3);
   for (const line of said) assert.doesNotMatch(line, /amendment|policy|commitment|contractual|cent\b/i);
+});
+
+test('a promise whose time to claim ran out has no letter: the engine’s own refusal says so, with its date', () => {
+  const workspace = demo(), view = viewFor(workspace, now);
+  assert.equal(claimClosedOn(workspace, view, find(view, 'nimbus-sla')), '2026-10-30');
+  for (const id of ['pipeline-seats', 'parcel-waiver', 'orbit-renewal']) assert.equal(claimClosedOn(workspace, view, find(view, id)), null);
+  const book = bookFor(workspace, { now, demo: true });
+  const nimbus = promise(book, 'nimbus-sla');
+  assert.deepEqual(nimbus.closed, { on: '2026-10-30', line: 'The window to claim this closed Oct 30.' });
+  assert.equal(nimbus.letter, null, 'no letter is offered that could never be approved');
+  assert.deepEqual([nimbus.owedCents, nimbus.overdue], [200000, true], 'what is owed stays as it is');
+  assert.ok(nimbus.nextInvoice, 'an invoice can still arrive and settle it');
+  assert.deepEqual(book.promises.filter((p) => p.closed).map((p) => p.id), ['nimbus-sla']);
+  assert.ok(promise(book, 'pipeline-seats').letter && promise(book, 'parcel-waiver').letter);
+
+  // it is the engine's answer, not a date compared here: before the last day the engine has no objection
+  const early = '2026-10-29T12:00:00.000Z', before = viewFor(workspace, early);
+  assert.equal(claimClosedOn(workspace, before, find(before, 'nimbus-sla')), null);
+  assert.equal(promise(bookFor(workspace, { now: early }), 'nimbus-sla').closed, null);
+  assert.equal(promise(bookFor(workspace, { now: early }), 'nimbus-sla').letter.canApprove, true);
+  // and once the money is on an invoice there is nothing left to claim
+  const paid = send(workspace,
+    { type: 'ADD_SOURCE', source: { id: 'nimbus-november', vendorId: 'nimbus', title: 'November invoice', kind: 'invoice', text: 'Invoice INV-NC-1126 shows credit memo CM-NC-204.' } },
+    { type: 'APPLY_CREDIT', creditId: 'credit-nimbus-2000', sourceIds: ['nimbus-november'] });
+  assert.equal(claimClosedOn(paid, viewFor(paid, now), find(viewFor(paid, now), 'nimbus-sla')), null);
+  assert.equal(promise(bookFor(paid, { now }), 'nimbus-sla').closed, null);
 });
 
 test('the demo’s next invoice shows exactly what is still owed, with the examples’ own lines where they exist', () => {
