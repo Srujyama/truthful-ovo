@@ -4,7 +4,8 @@
 
 When a vendor promises you a credit, Truthful writes the promise down, checks every invoice against it, and drafts the letter asking for what is still owed. Nothing goes out until you approve it. A credit note is not money until it shows on an invoice, and an offer with strings is not a debt: the book keeps the three apart and shows, in red, only what is still owed. Built for the BBS × Ramp technical round.
 
-- **Live app: https://truthful-ovo.vercel.app** (runs in your browser; no account, nothing is sent)
+- **Live demo: https://truthful-ovo.vercel.app** (the demo book, in your browser; no account needed)
+- **Live product: https://truthful-ovo.fly.dev** (the real version: team accounts, sign-in, roles, SQLite books per team)
 - **Two-minute guided demo: https://truthful-ovo.vercel.app/?demo#/** (plays every feature hands-free, with captions)
 - Demo video: see [the submission page](docs/SUBMISSION.md)
 
@@ -25,7 +26,7 @@ Open **http://127.0.0.1:5173**. This starts the page and a small local server th
 
 ## Run it for real
 
-The same code runs as a real, multi-team product. `server/host.mjs` serves the app and the managed backend behind one HTTPS origin: accounts with password sign-in, HttpOnly + Secure + SameSite=Strict session cookies with a CSRF token, separate SQLite books per team, invitations, four roles (analyst prepares, approver approves, bookkeeper writes in, owner does all three), an append-only audit log, all-or-nothing writes and idempotent retries. `Dockerfile` and `fly.toml` deploy it to Fly.io with a volume for the books:
+The same code runs as a real, multi-team product, live at https://truthful-ovo.fly.dev. `server/host.mjs` serves the app and the managed backend behind one HTTPS origin: accounts with password sign-in, HttpOnly + Secure + SameSite=Strict session cookies with a CSRF token, separate SQLite books per team, invitations, four roles (analyst prepares, approver approves, bookkeeper writes in, owner does all three), an append-only audit log, all-or-nothing writes and idempotent retries. `Dockerfile` and `fly.toml` deploy it to Fly.io with a volume for the books:
 
 ```sh
 fly launch --no-deploy --copy-config

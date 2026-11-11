@@ -11,7 +11,8 @@ BBS × Ramp Hackathon, Round 2 · technical build
 ## Delivered links
 
 - Public repository: https://github.com/Srujyama/truthful-ovo (the build below is on branch `craft/isokra` until it is merged)
-- **Live app (this build): https://truthful-ovo.vercel.app** — opens on Truthful's quarter; add `?demo` for the guided two-minute walkthrough (https://truthful-ovo.vercel.app/?demo#/). Browser-only demo book; nothing is sent anywhere.
+- **Live product (team accounts, sign-in, roles): https://truthful-ovo.fly.dev**
+- **Live demo (this build, no sign-in): https://truthful-ovo.vercel.app** — opens on Truthful's quarter; add `?demo` for the guided two-minute walkthrough (https://truthful-ovo.vercel.app/?demo#/). Browser-only demo book; nothing is sent anywhere.
 - Older GitHub Pages build (v3): https://srujyama.github.io/truthful-ovo/
 - Demo video (2:43, narrated, 1920×1080): _add the Drive / Loom / unlisted YouTube link here once uploaded._ Recorded from the guided demo (`?demo`); every figure on screen is the app's own.
 
