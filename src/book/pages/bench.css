@@ -1,0 +1,359 @@
+/* The test bench: three tools for engineers, on one ledger sheet.
+ *
+ * Everything here starts bk-bench-. The sheet, the ruled ledger, the bond
+ * forms, the stamps and the buttons are the shell's (../shell/book.css) and
+ * the kit's (../kit/paper.css). This file adds what only the bench has: the
+ * two rules side by side over one ruled list of steps, the figures before
+ * and after a step, the permission slip with its stub and its till receipt,
+ * and the nine trials that open under their own line.
+ *
+ * Red here is the same red as everywhere: money. A step that writes money
+ * that is not there, a credit note overdrawn, a trick that got through.
+ * A refusal is the ledger working, so it is ink, not red.
+ */
+
+/* ————————————————————————————————————————————————— the top of the page */
+
+.bk-bench-top {
+  display: grid;
+  gap: 10px;
+  padding: 30px 40px 22px calc(var(--bk-lm) + 14px);
+}
+.bk-bench-top-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; }
+.bk-bench-title { font: 800 clamp(26px, 2.5vw, 36px) / 1 var(--bk-display); letter-spacing: -0.025em; }
+.bk-bench-lede { max-width: 46em; font: 400 clamp(15.5px, 1.2vw, 17px) / 1.45 var(--bk-text); }
+.bk-bench-top .bk-filters { margin-top: 6px; font-size: 15.5px; gap: 6px 28px; }
+
+/* the engineer's word, small, beside the plain one */
+.bk-bench-tech, :where(.bk-bench) small {
+  font: 400 12.5px/1.35 var(--bk-type);
+  letter-spacing: 0.01em;
+  color: var(--bk-muted);
+}
+.bk-bench-note { max-width: 62ch; font: 400 13.5px/1.45 var(--bk-type); color: var(--bk-muted); }
+.bk-bench-note .bk-hand { font-size: 16px; }
+.bk-bench-trouble {
+  max-width: 68ch;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 3px solid var(--bk-ink);
+  font: 700 14.5px/1.45 var(--bk-type);
+}
+.bk-bench-trouble small { font-weight: 400; overflow-wrap: anywhere; }
+.bk-bench-fine { max-width: 68ch; margin-top: 10px; font: 400 14.5px/1.45 var(--bk-type); }
+.bk-bench-foot { margin-top: 14px; font: 400 13.5px/1.4 var(--bk-type); color: var(--bk-muted); }
+.bk-bench-foot .bk-link { font-size: 13.5px; color: var(--bk-ink); }
+
+/* a typed block: JSON you can read or change */
+.bk-bench .bk-field textarea { min-height: 7.5em; font-size: 14px; }
+.bk-bench .bk-field textarea.bk-bench-json { min-height: 240px; font-size: 12.5px; line-height: 1.45; white-space: pre; overflow: auto; }
+.bk-bench details > summary {
+  width: fit-content;
+  cursor: pointer;
+  font: 400 14.5px/1.5 var(--bk-type);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.bk-bench details > summary:hover { text-decoration-thickness: 2px; }
+.bk-bench details[open] > summary { margin-bottom: 12px; }
+.bk-bench details > summary small { display: inline; text-decoration: none; }
+
+/* ————————————————————————————————————————————————— two clerks: the form */
+
+.bk-bench-desk { padding-bottom: 6px; }
+.bk-bench-form { width: min(100%, 1060px); }
+.bk-bench-form > .paper-face { padding: 22px 28px 20px; }
+.bk-bench-fields { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr) auto; align-items: end; gap: 16px 28px; }
+.bk-bench-fields:has(> :nth-child(4)) { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1.1fr) auto; }
+.bk-bench-go { align-self: end; }
+.bk-bench-whynot { margin-top: 10px; }
+.bk-bench-setup { margin-top: 14px; max-width: 96ch; font: 400 15px/1.5 var(--bk-type); }
+.bk-bench-setup small { white-space: nowrap; }
+.bk-bench-steps { margin-top: 12px; }
+.bk-bench-plan { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px 28px; margin-bottom: 10px; }
+.bk-bench-plan b { font: 700 16px/1.3 var(--bk-display); }
+.bk-bench-plan ol { margin-top: 4px; counter-reset: step; }
+.bk-bench-plan ol > li { counter-increment: step; padding-left: 22px; text-indent: -22px; font: 400 14.5px/1.5 var(--bk-type); }
+.bk-bench-plan ol > li::before { content: counter(step) ". "; color: var(--bk-muted); }
+.bk-bench-steps .bk-field { margin: 12px 0 10px; }
+
+/* ————————————————————————————————————————————————— two clerks: the run, both ways */
+
+.bk-bench-run { margin-top: 28px; }
+.bk-bench-verdicts {
+  display: grid;
+  grid-template-columns: var(--cols);
+  align-items: start;
+  padding-bottom: 18px;
+}
+.bk-bench-lead { grid-column: 1 / span 3; padding: 0 22px 2px calc(var(--bk-lm) + 14px); }
+.bk-bench-lead .bk-h2 { margin-bottom: 4px; font-size: clamp(22px, 2.1vw, 29px); letter-spacing: -0.02em; }
+.bk-bench-lead .bk-bench-note { margin-top: 8px; }
+.bk-bench-verdict { align-self: stretch; display: flex; flex-direction: column; padding: 0 14px 0 12px; border-left: 1px solid var(--bk-rule-green); }
+.bk-bench-rule { font: 700 clamp(17px, 1.45vw, 20px) / 1.2 var(--bk-display); letter-spacing: -0.012em; text-wrap: balance; }
+.bk-bench-stampline { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; min-height: 58px; margin: 8px 0 6px 4px; }
+.bk-bench-line { font: 600 15.5px/1.4 var(--bk-text); text-wrap: pretty; }
+.bk-bench-facts { margin-top: 4px; font: 400 13px/1.4 var(--bk-type); color: var(--bk-muted); }
+.bk-bench-doing { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; margin-top: auto; padding-top: 8px; }
+.bk-bench-doing .bk-link { font-size: 13.5px; }
+.bk-bench-doing .bk-bench-trouble { flex: 1 0 100%; margin-top: 4px; }
+
+/* ← Step 3 of 4 → */
+.bk-bench-stepper { display: inline-flex; align-items: center; gap: 12px; margin-top: 12px; font: 700 15px/1 var(--bk-type); }
+.bk-bench-arrow {
+  width: 32px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--bk-ink);
+  font: 700 17px/1 var(--bk-type);
+}
+.bk-bench-arrow:hover:not(:disabled) { background: rgb(29 39 64 / 0.08); }
+.bk-bench-arrow:disabled { color: rgb(29 39 64 / 0.4); box-shadow: inset 0 0 0 1px rgb(29 39 64 / 0.3); }
+
+/* the steps, on the rules */
+.bk-bench-ledger .bk-cell { text-wrap: pretty; }
+.bk-bench-who { font: 600 16.5px/var(--bk-rule) var(--bk-display); letter-spacing: -0.01em; }
+.bk-bench-ledger .bk-cell small { font-size: 12.5px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.bk-bench-no { font-weight: 700; }
+.bk-bench-ledger .bk-lrow.is-open { background: rgb(246 228 82 / 0.3); }
+.bk-bench-ledger .bk-lrow.is-open .bk-cell.is-no { color: var(--bk-ink); font-weight: 700; font-size: 12px; }
+
+/* the figures that matter, before and after the step you are stopped on */
+.bk-bench-figs { border-top: 2px solid var(--bk-head-green); padding-bottom: 6px; }
+.bk-bench-figrow { display: grid; grid-template-columns: var(--cols); min-height: var(--bk-rule); }
+.bk-bench-figrow > span { min-width: 0; }
+.bk-bench-figlabel {
+  grid-column: 1 / span 3;
+  position: relative;
+  padding: 0 14px 0 calc(var(--bk-lm) + 14px);
+  text-align: right;
+  font: 600 10.5px/var(--bk-rule) var(--bk-text);
+  letter-spacing: 0.115em;
+  text-transform: uppercase;
+}
+.bk-bench-figstep {
+  position: absolute;
+  left: calc(var(--bk-lm) + 14px);
+  font: 700 13.5px/var(--bk-rule) var(--bk-type);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.bk-bench-figlabel .bk-bench-tech { text-transform: none; letter-spacing: 0; }
+.bk-bench-figrow > [role="cell"] { padding: 0 14px 0 12px; border-left: 1px solid var(--bk-rule-red); }
+.bk-bench-figrow > [role="cell"]:nth-child(2) { border-left: 3px double var(--bk-rule-red); }
+.bk-bench-figrow > span:last-child { border-left: 3px double var(--bk-rule-red); }
+.bk-bench-fig { display: flex; align-items: baseline; gap: 10px; font: 400 17px/var(--bk-rule) var(--bk-type); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bk-bench-fig i { font-style: normal; color: var(--bk-muted); }
+.bk-bench-fig em { font-style: normal; color: var(--bk-muted); }
+.bk-bench-fig b { font-weight: 700; }
+.bk-bench-fig.is-wrong b { color: var(--bk-accent); }
+
+.bk-bench-raw { margin-top: 14px; }
+.bk-bench-raw pre, .bk-bench pre {
+  margin: 0;
+  max-height: 320px;
+  overflow: auto;
+  padding: 12px 14px;
+  border: 1px solid rgb(29 39 64 / 0.28);
+  background: rgb(255 255 255 / 0.28);
+  font: 400 12.5px/1.5 var(--bk-type);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* a way that works */
+.bk-bench-fix { margin-top: 38px; }
+.bk-bench-fixhead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 16px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+.bk-bench-fixhead .bk-h2 { display: inline; margin: 0; }
+.bk-bench-fixhead .bk-link { margin-left: auto; }
+.bk-bench-fixsaid { margin-top: 6px; max-width: 64ch; font: 400 16px/1.5 var(--bk-text); }
+.bk-bench-fixverdict { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 26px; margin: 18px 0 18px; }
+.bk-bench-fixverdict .bk-bench-stampline { margin: 0 0 0 4px; }
+.bk-bench-nofix { margin-top: 30px; font-size: 14.5px; color: var(--bk-ink); }
+
+/* ————————————————————————————————————————————————— permission slips */
+
+.bk-bench-slips {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 30px clamp(28px, 4vw, 64px);
+}
+
+/* the steps, in the order a person does them: numbered in the margin like ledger lines */
+.bk-bench-todo { counter-reset: todo; min-width: 0; }
+.bk-bench-todo > li { position: relative; counter-increment: todo; padding: 15px 0 17px; border-top: 1px solid var(--bk-rule-green); }
+.bk-bench-todo > li:first-child { padding-top: 0; border-top: 0; }
+.bk-bench-todo > li::before {
+  content: counter(todo);
+  position: absolute;
+  top: 17px;
+  left: calc(-1 * (var(--bk-lm) + 14px));
+  width: calc(var(--bk-lm) - 10px);
+  text-align: right;
+  font: 400 10.5px/1.6 var(--bk-type);
+  color: rgb(90 104 120 / 0.9);
+}
+.bk-bench-todo > li:first-child::before { top: 2px; }
+.bk-bench-todo h3 { margin: 0 0 9px; font: 700 clamp(17px, 1.4vw, 19.5px) / 1.2 var(--bk-display); letter-spacing: -0.012em; }
+.bk-bench-todo .bk-hand { font-size: 17px; }
+.bk-bench-pick { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr); gap: 14px 26px; max-width: 860px; margin: 10px 0 2px; }
+.bk-bench-byhand .bk-bench-pick { grid-template-columns: minmax(0, 520px); }
+.bk-bench-elsewhere { margin: 8px 0 2px; max-width: 56ch; }
+.bk-bench-says { margin-top: 12px; max-width: 70ch; font: 400 15px/1.5 var(--bk-type); }
+.bk-bench-limits { display: grid; grid-template-columns: repeat(3, minmax(0, 190px)); gap: 12px 24px; margin-bottom: 14px; }
+.bk-bench-paper { margin-bottom: 12px; }
+.bk-bench-paper .bk-field { max-width: 760px; }
+
+/* the slip: bond, perforated at the foot, a stub below the perforation */
+.bk-bench-slipside { position: sticky; top: 14px; display: grid; justify-items: center; padding: 6px 6px 0 0; }
+.bk-bench-slip { color: var(--bk-ink); }
+.bk-bench-slip > .paper-face { padding: calc(var(--u) * 7) calc(var(--u) * 7.5) calc(var(--u) * 7); }
+.bk-bench-slip .bk-doc-kind { display: flex; justify-content: space-between; gap: 12px; font-size: 10.5px; }
+.bk-bench-slip .bk-doc-kind b { font: 400 12.5px/1.2 var(--bk-type); letter-spacing: 0; text-transform: none; }
+.bk-bench-goodfor { margin-top: 3px; padding-right: 8px; font: 700 clamp(18px, 1.5vw, 21px) / 1.22 var(--bk-display); letter-spacing: -0.012em; text-wrap: pretty; }
+.bk-bench-whose { margin: 6px 0 14px; font: 400 13.5px/1.4 var(--bk-type); color: var(--bk-muted); }
+.bk-bench-slipstamp { position: absolute; z-index: 2; right: calc(var(--u) * 5); top: calc(var(--u) * 27); }
+.bk-bench-slipboxes { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.bk-bench-slipboxes > .bk-box { grid-column: span 2; min-height: 62px; }
+.bk-bench-slipboxes > .bk-box:nth-child(n + 4) { grid-column: span 3; }
+.bk-bench-slipboxes .bk-box > b { font-size: 15.5px; }
+.bk-bench-slipboxes .bk-box > small { display: block; margin-top: 1px; font-size: 11.5px; }
+.bk-bench-until em { display: block; margin-top: 1px; font: 700 14.5px/1.3 var(--bk-type); font-style: normal; font-variant-numeric: tabular-nums; }
+.bk-bench-until em.is-over { font-weight: 400; color: var(--bk-muted); }
+.bk-bench-slip.is-blank .bk-box > b { min-height: 1.35em; border-bottom: 1.5px dotted rgb(29 39 64 / 0.5); }
+.bk-bench-slip.is-blank .bk-bench-goodfor { color: rgb(29 39 64 / 0.78); }
+.bk-bench-also { margin-top: 8px; font: 400 12.5px/1.4 var(--bk-type); color: var(--bk-muted); }
+.bk-bench-slip .perf-line { margin: calc(var(--u) * 4.5) calc(var(--u) * -7.5) calc(var(--u) * 3); }
+.bk-bench-stub ol, .bk-bench-stub p { margin-top: 4px; font: 400 12.5px/1.55 var(--bk-type); }
+.bk-bench-stub p { color: var(--bk-muted); }
+.bk-bench-stub > small { display: block; margin-top: 5px; font-size: 11.5px; }
+
+/* the receipt: a narrow strip of till paper, smooth and a little grey, torn off against the teeth */
+.bk-bench-receipt { z-index: 1; margin: -14px 0 0 -30px; color: rgb(36 35 33 / 0.9); }
+.bk-bench-receipt > .paper-face {
+  --stock: #f8f7f2;
+  --tooth: calc(var(--u) * 1.5);
+  padding: calc(var(--u) * 7) calc(var(--u) * 5) calc(var(--u) * 6.5);
+  background-image: none;
+  font: 400 max(11.5px, calc(var(--u) * 3.05)) / 1.5 var(--bk-type);
+  -webkit-mask: conic-gradient(from -45deg at 50% 100%, #000 90deg, #0000 0) 0 100% / calc(var(--tooth) * 2) var(--tooth) repeat-x, linear-gradient(#000 0 0) 0 0 / 100% calc(100% - var(--tooth) + 0.5px) no-repeat;
+  mask: conic-gradient(from -45deg at 50% 100%, #000 90deg, #0000 0) 0 100% / calc(var(--tooth) * 2) var(--tooth) repeat-x, linear-gradient(#000 0 0) 0 0 / 100% calc(100% - var(--tooth) + 0.5px) no-repeat;
+}
+.bk-bench-rhead { display: block; margin-bottom: 2px; font: 700 max(14px, calc(var(--u) * 4)) / 1.2 var(--bk-type); letter-spacing: 0.3em; text-align: center; text-transform: uppercase; }
+.bk-bench-receipt p { text-align: center; }
+.bk-bench-rsaid { margin: 7px 0; padding: 7px 0; border-block: 1px dashed rgb(36 35 33 / 0.55); text-align: left !important; text-wrap: pretty; }
+.bk-bench-receipt dl { margin: 0; }
+.bk-bench-receipt dl > div { display: flex; justify-content: space-between; gap: 10px; }
+.bk-bench-receipt dt { flex: 0 0 auto; }
+.bk-bench-receipt dd { margin: 0; text-align: right; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.bk-bench-rfoot { margin-top: 7px; padding-top: 7px; border-top: 1px dashed rgb(36 35 33 / 0.55); letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* the record */
+.bk-bench-record { margin-top: 38px; padding-top: 22px; border-top: 2px solid var(--bk-head-green); }
+.bk-bench-record .bk-h2 { justify-content: flex-start; flex-wrap: wrap; gap: 4px 16px; }
+.bk-bench-signer { margin: 0 0 14px; font: 400 15px/1.5 var(--bk-type); }
+.bk-bench-signer .bk-hand { font-size: 17px; }
+.bk-bench-checked { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; margin: 16px 0 0 4px; }
+.bk-bench-checked .bk-bench-fine, .bk-bench-checked .bk-bench-trouble { margin-top: 0; }
+.bk-bench-record > details { margin-top: 18px; }
+
+/* ————————————————————————————————————————————————— nine ways it could go wrong */
+
+.bk-bench-nine { padding-bottom: 20px; }
+.bk-bench-tries b { display: block; font: 600 clamp(16.5px, 1.4vw, 19px) / var(--bk-rule) var(--bk-display); letter-spacing: -0.01em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.bk-bench-trials .bk-bench-tries small { white-space: normal; overflow: visible; font-size: 13.5px; line-height: var(--bk-rule); }
+.bk-bench-did { display: flex; flex-wrap: wrap; align-items: center; align-content: center; gap: 2px 18px; }
+.bk-bench-did .bk-link { font-size: 14px; line-height: var(--bk-rule); }
+.bk-bench-try { display: flex; align-items: center; }
+.bk-bench-try .bk-btn { padding: 8px 13px; }
+
+/* a trial opened: what was checked, what was tried, each on its own rule */
+.bk-bench-opened {
+  display: grid;
+  grid-template-columns: var(--bk-lm) minmax(0, 1fr) minmax(0, 1.25fr);
+  background: rgb(255 255 255 / 0.36);
+  box-shadow: inset 0 -1px 0 var(--bk-rule-green);
+}
+.bk-bench-opened > div { grid-column: 2; min-width: 0; padding: 0 16px 0 12px; border-left: 1px solid var(--bk-rule-red); }
+.bk-bench-opened > div + div { grid-column: 3; border-left: 1px solid var(--bk-rule-green); }
+.bk-bench-opened .bk-label { display: block; line-height: var(--bk-rule); }
+.bk-bench-checks li, .bk-bench-tried li { font: 400 15px/var(--bk-rule) var(--bk-type); }
+.bk-bench-checks li { padding-left: 24px; text-indent: -24px; }
+.bk-bench-checks li i { display: inline-block; width: 24px; text-indent: 0; font-style: normal; font-weight: 700; color: var(--bk-stamp-blue); }
+.bk-bench-checks li.is-wrong, .bk-bench-checks li.is-wrong i { color: var(--bk-accent); font-weight: 700; }
+.bk-bench-tried { counter-reset: tried; }
+.bk-bench-tried li { counter-increment: tried; display: grid; grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1fr); column-gap: 8px; }
+.bk-bench-tried li::before { content: counter(tried); color: var(--bk-muted); font-size: 12.5px; }
+.bk-bench-tried li b { font-weight: 400; }
+.bk-bench-tried li b.is-no { font-weight: 700; }
+.bk-bench-tried li small { grid-column: 2 / -1; display: none; }
+
+.bk-bench-byhand { margin-top: 30px; }
+.bk-bench-byhand .bk-field { max-width: 860px; margin-bottom: 14px; }
+
+/* ————————————————————————————————————————————————— narrower desks */
+
+@media (max-width: 1180px) {
+  .bk-bench-slips { grid-template-columns: minmax(0, 1fr); }
+  .bk-bench-slipside { position: static; justify-items: start; padding-left: 0; order: -1; }
+  .bk-bench-receipt { margin-left: 26px; }
+}
+
+@media (max-width: 760px) {
+  .bk-bench-top { padding: 22px 16px 18px; }
+  .bk-bench-form > .paper-face { padding: 18px 16px 16px; }
+  .bk-bench-fields, .bk-bench-fields:has(> :nth-child(4)) { grid-template-columns: minmax(0, 1fr); }
+
+  .bk-bench-verdicts { display: block; padding-bottom: 6px; }
+  .bk-bench-lead { padding: 0 16px 6px; }
+  .bk-bench-verdict { margin: 0 16px; padding: 14px 0 16px; border-left: 0; border-top: 1px solid var(--bk-rule-green); }
+  .bk-bench-stampline { min-height: 0; margin: 12px 0 10px 4px; }
+  .bk-bench-ledger .bk-lrow .bk-cell { text-align: right; }
+  .bk-bench-ledger .bk-lrow .bk-bench-who { display: flex; font-size: 17px; }
+  .bk-bench-ledger .bk-lrow .bk-bench-who small { display: none; }
+
+  .bk-bench-figs { padding: 8px 16px 10px; }
+  .bk-bench-figrow { display: block; min-height: 0; padding: 4px 0 6px; }
+  .bk-bench-figlabel { display: block; padding: 0; text-align: left; line-height: 1.7; }
+  .bk-bench-figstep { position: static; display: block; line-height: 1.6; }
+  .bk-bench-figrow > [role="cell"] { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 0; border-left: 0 !important; }
+  .bk-bench-figrow > [role="cell"]::before { content: attr(data-label); font: 600 9.5px/1.6 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.7); }
+  .bk-bench-figrow > span:last-child { display: none; }
+  .bk-bench-fig { font-size: 16px; line-height: 1.6; }
+
+  .bk-bench-todo > li::before { position: static; display: inline; width: auto; margin-right: 8px; font-size: 12px; }
+  .bk-bench-todo > li > h3 { display: inline; }
+  .bk-bench-todo > li > h3 + * { margin-top: 9px; }
+  .bk-bench-limits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bk-bench-pick { grid-template-columns: minmax(0, 1fr); }
+  .bk-bench-slipside { justify-items: stretch; padding-right: 0; }
+  .bk-bench-slip { --u: calc((100vw - 2 * var(--bk-gut) - 32px) / var(--W)); width: auto !important; rotate: 0deg; }
+  .bk-bench-receipt { --u: var(--paper-mm); margin: -10px 0 0 18px; }
+
+  .bk-bench-trials .bk-lrow .bk-cell { display: block; }
+  .bk-bench-tries b { white-space: normal; line-height: 1.25; }
+  .bk-bench-trials .bk-bench-tries small { line-height: 1.45; margin: 4px 0 8px; }
+  .bk-bench-trials .bk-lrow .bk-bench-did { display: flex; justify-content: flex-start; }
+  .bk-bench-trials .bk-lrow .bk-bench-did::before { display: none; }
+  .bk-bench-trials .bk-lrow .bk-bench-try { margin-top: 8px; }
+  .bk-bench-opened { display: block; padding: 6px 16px 10px; }
+  .bk-bench-opened > div { padding: 0; border-left: 0 !important; }
+  .bk-bench-opened .bk-label { margin-top: 6px; line-height: 2.2; }
+  .bk-bench-checks li, .bk-bench-tried li { line-height: 1.5; margin-bottom: 4px; }
+  .bk-bench-tried li { grid-template-columns: 20px minmax(0, 1fr); }
+  .bk-bench-tried li b { grid-column: 2; }
+}

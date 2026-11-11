@@ -1,12 +1,10 @@
 # Truthful · Team OVO
 
-**Did the credit they promised actually reach your invoice?**
+**Vendors promise. Invoices forget.**
 
-Truthful keeps the promise, original documents, credit note and invoice together. Open a company conversation to see what happened and the next decision. Changed terms stay separate from accepted agreements; an issued note stays separate from an invoice deduction. Built for the BBS × Ramp technical round.
+When a vendor promises you money, Truthful keeps the IOU and checks every invoice until it is paid. A credit note is not money until it shows up on an invoice, and an offer with strings attached is not a debt: the book keeps the three apart and shows, in red, only what is still owed. Built for the BBS × Ramp technical round.
 
-[Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md)
-
-The current v4 candidate opens **Team**: five named software teammates pass an actual case between their workstations. Choose a figure, inspect the exact document behind its finding, or open the real review, credit or case. Playback is explicitly a saved-case walkthrough; approval and recording remain real, separate financial actions. **Cases**, **Documents**, **Companies** and **Reports** remain primary destinations in the same open visual system. **More** retains History, Developer tools, the earlier Office map and examples. [The team design record](docs/TEAM_DESIGN.md) tracks the current implementation and review after the user rejected the previous styling; prior passing checks did not establish visual approval.
+[Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md) · [The design of every page](src/book/CONCEPT.md)
 
 ## Run
 
@@ -17,20 +15,38 @@ npm ci
 npm run dev
 ```
 
-Open **http://127.0.0.1:5173**. The supervisor starts Vite and a loopback HTTP/SQLite demo service; its data stays in ignored `server/data/`. No API key or external account is required. The account menu identifies the active runtime.
+Open **http://127.0.0.1:5173**. This starts the page and a small local server that keeps the demo book in SQLite (`server/data/`, ignored by git). No API key and no account are needed.
 
-`npm run dev:web` runs the browser-only demo with localStorage and selectable fictional roles. For real local accounts and isolated empty workspaces, follow [managed account bootstrap](docs/BACKEND.md#run), then run `npm run backend`. Managed mode supports sign-in, invitation enrollment and workspace switching; demo role selection remains demo-only.
+`npx vite --config vite.browser.config.js` (port 5190) runs the same book with no server: it is kept in your browser, and a new window starts from the first page. For real accounts and separate team books, follow [managed account bootstrap](docs/BACKEND.md#run), then `npm run backend`.
 
-## Try the work
+## The book
 
-- **Team:** watch Mina, Oren, Ada, Jules and Nell work through the saved case. Pause, reverse or scrub a handoff; inspect a teammate or its exact source. On phones, selected teammates open an accessible action sheet. Choose a different company or check the current case without inventing financial changes.
+The whole app is one bookkeeper's book on a desk. Tabs along the top of the page turn to each part of it.
 
-- **Pipeline CRM:** a $2,400 promise, $900 on the invoice and $1,500 still missing. Compare the proposed renewal: $2,400 extra spending for $1,500 credit means $900 more cost against the stated baseline. Decline the renewal with a recorded reason or keep the existing terms. A separate approver and executor can finish the decision; that decision does not invent invoice credit. Proposals do not change the original agreement until exact approval and execution.
-- **Nimbus Cloud:** a $2,000 credit note exists, but a matching invoice must confirm the deduction. Open the note, add supplied invoice evidence, preview the change and record it. Partial assignment and reversal preserve the original note and exact backing.
-- **Add documents:** analyze supported promise text, invoice-credit CSV and an optional reply. Inspect exact source passages, review an import, edit a draft and approve its exact version for an unsent EML export with the exact original documents attached. New intake keeps unfinished work separate from saved reviews; returning restores the exact unsaved source or message. Unsupported or conditional evidence requires review.
-- **Developer tools:** run bounded competing-action comparisons, inspect unsafe reference traces and the guarded reducer’s rejection, then export/replay the result. Permissions demonstrates exact-action Ed25519 grants, narrower delegation, atomic one-use execution and retry.
+| Page | Address | What is on it |
+|---|---|---|
+| **IOUs** | `#/ious` | One line per promise: what they said, when it was due, what they promised, what has been credited, what is still owed. Press a line and its IOU slides out with the email and the invoice clipped behind it. Drop an email or an invoice in the tray and it is read. |
+| **One promise** | `#/iou/pipeline-seats` | The figure still owed, a strip of boxes punched as money reaches an invoice, everything that happened in order with a running balance, the vendor's offers as tags you take or decline, and the decision slip with three boxes: prepared, approved, written in. Its credit notes and the papers it rests on are here too. |
+| **To do** | `#/todo` | What needs a hand, most urgent first, and who each line is waiting on. |
+| **Papers** | `#/papers` | Every email, invoice, credit note and agreement on file, as itself. Open one to read it word for word with the figures Truthful took from it highlighted, where it is used, and its earlier copies. |
+| **Companies** | `#/companies` | The index, and one page per company. |
+| **Day book** | `#/daybook` | Everything that happened, newest first. Any line opens in full, with the raw entry behind it. |
+| **Balance** | `#/balance` | Still owed across every company. Two date stamps turn the book back: what was in force on a day, and what the book knew by then. A CSV for the accountant and the whole trail as JSON. |
+| **In-tray** | `#/tray` | Drop in a promise, the invoices and what they said next. They come back marked with what was found; write the promise into the book and get the letter asking for the rest. |
+| **Test bench** | `#/bench` | For engineers: two clerks racing for one credit under two rules, one-use signed permission slips, and nine ways the ledger refuses to be fooled. |
 
-The [development guide](docs/DEVELOPMENT.md) retains detailed journey entrypoints, comparison cases, verification commands and proof limits. [Backend acceptance coverage](docs/BACKEND_ACCEPTANCE.md) maps managed evidence, durable drafts, execution reports, concurrency and recovery to earlier HTTP/browser evidence. The lead’s current integrated verification belongs to the correspondence record; historical counts are not the result of this redesign.
+`/` anywhere opens Find. The name plate, top right, is who is holding the pen.
+
+## Try it
+
+- **Pipeline CRM owes $1,500.** They promised $2,400 and the October invoice took off $900. Open its page from the IOUs. They answered with two offers: pay later, or a $1,500 credit if you renew for $2,400 more, which costs you $900. Decline the renewal with a reason, or keep the original promise and ask for the rest.
+- **A decision takes three people.** One prepares it, one approves it, one writes it into the book. In the demo book the name plate lets you pick up each pen in turn: prepare as the analyst, approve as the approver (the stamp comes down), write it in as the bookkeeper. A step you cannot take says who it is waiting for.
+- **Nimbus Cloud sent a $2,000 credit note.** It is on file, on pink paper, and it is still not money: no invoice shows it. Add the invoice that does, on Nimbus's page.
+- **Turn the book back.** On Balance, set both dates to Oct 28, 2026: Nimbus is not yet out of time and Parcel is not yet due.
+- **Read a paper.** Papers → "Original duplicate-seat correction": the sentence the promise was made in, with the amount, the date and the reference marked.
+- **Race two clerks.** Test bench → Two clerks, one credit: with a check made once and trusted, the credit is spent twice; with the check made again at the moment of writing, the second clerk is refused.
+
+The screens this replaced are still in the repository and still open at any old address (`?view=team`, `?view=assurance`, …).
 
 ## Verify
 
@@ -41,13 +57,15 @@ npm run verify:workspace-redesign
 npm run verify:team
 ```
 
+The browser suites (`test:workspace:*`, `test:team:browser`, `test:product:browser` and their `verify:*` companions) drive the earlier screens at their `?view=` addresses. The book's own pages are covered by `npm test` (selectors, entries and wording for every page) and were clicked through in a real browser page by page.
+
 Verification requires Python 3 for the independent standard-library MIME parser. The browser runner uses isolated temporary services and the Playwright CLI. The companion verifier replays actual downloads. [Development instructions](docs/DEVELOPMENT.md#verification-and-replay) include standalone packet and authority verifiers. Tests establish specified deterministic behavior, not held-out extraction accuracy or global formal verification.
 
-React 19, Vite 7, plain CSS, integer-cent financial/evidence engines and Node 24 HTTP/SQLite/crypto. Server sessions enforce local roles; optimistic revisions, idempotency and atomic batches preserve shared records. Hash-linked replay establishes internal consistency. Offline signed packets require a separately pinned public trust root; neither hashes nor a bundled public key authenticate vendor evidence or prove external settlement.
+**How it is built.** React 19 and Vite 7 with plain CSS. Money is integer cents from the first parse to the last total. A Node 24 server (HTTP, SQLite, the built-in crypto) keeps the book: it checks who you are signed in as before every write, refuses a write made against an old copy of the book, runs a batch of writes as all or nothing, and ignores a request it has already carried out. Every entry carries the hash of the one before it, so a changed history shows. A signed record can be checked offline against a public key you already trust; that proves the record was not altered, not that a vendor’s email is real or that money moved.
 
-**No live LLM, inbox, Ramp account, vendor, payment or accounting system is connected.** No emails, renewals or payments are performed. All included vendors and documents are synthetic; USD and supported contract shapes have explicit bounds. The custom authority profile makes no AP2/UCP/MCP/A2A or IETF-draft conformance claim. [Research](docs/FRONTIER_RESEARCH.md) and [source-backed comparison](docs/COMPETITIVE_RESEARCH.md) state the argument and limits without a first-of-its-kind claim.
+**What it is connected to: nothing.** No model, inbox, Ramp account, vendor, bank or accounting system. Truthful reads the papers you give it and writes the letter; you send it. The vendors and papers in the demo book are made up. It reads US dollars and the kinds of promise in `public/examples/`. The permission slips are this project’s own format and follow no outside standard. [Research](docs/FRONTIER_RESEARCH.md) and a [comparison with other tools](docs/COMPETITIVE_RESEARCH.md) say where it stands.
 
-The public GitHub Pages deployment remains the earlier v3 release. Current Office and paper-summary artwork are original application illustrations; a paper summary is not an original invoice. Archivo/Martian font files retain their [OFL notices](public/fonts/). [DESIGN.md](DESIGN.md) records the current candidate and reference boundaries.
+The public GitHub Pages site is still the earlier v3 release. The faces are Besley, Libre Franklin and Courier Prime, served from the app (SIL Open Font License). [The design of every page](src/book/CONCEPT.md) and [its look](src/book/identity.json) are in `src/book`; [DESIGN.md](DESIGN.md) records the screens that came before.
 
 ## Design and submission artifacts
 
@@ -55,6 +73,6 @@ The earlier [Figma source kit](design/figma/README.md) contains 69 screen models
 
 Videos and submission packaging remain deferred. [The architecture answer](docs/SUBMISSION.md), [demo script](docs/DEMO_SCRIPT.md), [form requirements](docs/FORM_REQUIREMENTS.md) and [delivery facts](docs/DELIVERY.md) preserve prepared materials. Public source, an accepted-host recording, team consent, original track and attendance remain external submission facts; the application has not been submitted.
 
-MIT license. Included source examples are synthetic.
+MIT license.
 
 The connected review-to-message regression is `npm run test:product:browser`, followed by `npm run verify:product`. It operates a real decline, separate approval/recording, case return, two independent analyses, retained edits and an exact approved unsent email. Export verification independently replays financial commands and parses MIME attachment bytes.
