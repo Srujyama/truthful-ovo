@@ -2,8 +2,10 @@
 import {fileURLToPath} from 'node:url';
 import {createService} from './service.mjs';
 import {createManagedService} from './managed.mjs';
+import {loadEnvFile} from './env-file.mjs';
+loadEnvFile();
 const args=process.argv.slice(2);
-if(args.includes('--help')){console.log('Usage: node server/start.mjs [--mode demo|managed] [--port 5174] [--db FILE] [--data DIR] [--origin EXACT_ORIGIN] [--secure-cookies]\nManaged mode requires an account initialized with server/admin.mjs bootstrap. Both modes bind loopback. No external vendor messages, payments or AI service is connected.');process.exit(0);}
+if(args.includes('--help')){console.log('Usage: node server/start.mjs [--mode demo|managed] [--port 5174] [--db FILE] [--data DIR] [--origin EXACT_ORIGIN] [--secure-cookies]\nManaged mode requires an account initialized with server/admin.mjs bootstrap. Both modes bind loopback. No external vendor messages or payments are connected. Set ANTHROPIC_API_KEY (or put it in .env) to turn on the Claude reader at /api/model/*.');process.exit(0);}
 const options={mode:'demo',port:5174,dbPath:fileURLToPath(new URL('./data/truthful.sqlite',import.meta.url)),dataDir:fileURLToPath(new URL('./data/managed',import.meta.url)),origins:[],secureCookies:false};
 for(let i=0;i<args.length;i++){
  const arg=args[i];if(arg==='--secure-cookies'){options.secureCookies=true;continue;}const value=args[++i];

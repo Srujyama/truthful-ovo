@@ -10,6 +10,7 @@ import { createQueryManager } from './queries.mjs';
 import { migrateFinance } from './migrations.mjs';
 import {createExplorerManager} from './explorer.mjs';
 import {createRecoveryManager} from './recovery.mjs';
+import {handleModelRequest} from './model-reader.mjs';
 import {backendCapabilities} from './contracts.mjs';
 import {verifyPacketInput,packetLimits} from './packets.mjs';
 
@@ -270,6 +271,7 @@ export function createServiceSync({ dbPath = ':memory:', clock = () => new Date(
         requireOrigin(req); res.writeHead(204, { 'Access-Control-Allow-Methods': 'GET,POST,DELETE,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type,X-CSRF-Token,Idempotency-Key,If-Match', 'Access-Control-Max-Age': '600' }); res.end(); return;
       }
       const url = new URL(req.url, `http://${host}`);
+      if(url.pathname.startsWith('/api/model/')){if(req.method==='POST')requireOrigin(req);if(await handleModelRequest(req,res))return;}
       if(req.method==='GET'&&url.pathname==='/api/live'){json(res,200,{ok:true});return;}
       if (req.method === 'GET' && ['/api/health','/api/ready'].includes(url.pathname)) {const checks=readiness();json(res,200,{ok:true,mode:'local-sqlite',authMode:authProvider?'managed-password':'local-demo',persistent:dbPath!==':memory:',integrity:checks.financial,checks,externalActions:false});return;}
       if (req.method === 'GET' && url.pathname === '/api/session') { json(res, 200, sessionPayload(session(req))); return; }

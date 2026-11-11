@@ -33,6 +33,8 @@ import Marked from './tray/Marked.jsx';
 import Found from './tray/Found.jsx';
 import Letter, { useDownloads } from './tray/Letter.jsx';
 import Pile from './tray/Pile.jsx';
+import ByClaude from './tray/ByClaude.jsx';
+import { claudeFigures, claudeMarks, modelStatus, readPapers } from './tray/claude.mjs';
 import './tray.css';
 
 const isDay = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '') && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
@@ -104,11 +106,16 @@ function OwnTray({ service, view, go, say }) {
   const [pressed, setPressed] = useState(null);          // the reason that was pressed, and stays lit
   const [book, setBook] = useState({ checking: false });
   const [over, setOver] = useState(false);
+  const [reader, setReader] = useState({ available: false, model: '' });   // is Claude on the server?
+  const [withClaude, setWithClaude] = useState(true);                       // chosen, when it is
+  const [claude, setClaude] = useState(null);                               // { recordId, model, papers } for the reading on the page
   const ticket = useRef(0);
   const pile = useRef(saved.pile);
   const desk = useRef(null), heading = useRef(null), found = useRef(null);
   const alive = useRef(true);
   useEffect(() => { alive.current = true; return () => { alive.current = false; ticket.current += 1; }; }, []);
+  useEffect(() => { modelStatus().then(status => { if (alive.current) setReader(status); }); }, []);
+  const claudeOn = reader.available && withClaude;
 
   const report = record?.report || null;
   const today = calendarDay();
@@ -206,6 +213,8 @@ function OwnTray({ service, view, go, say }) {
     setWorking('reading');
     try {
       const began = performance.now();
+      // Claude reads the same papers on the server; the engine's reading below stays the one the book uses.
+      const asking = claudeOn ? readPapers(SLOTS, form) : null;
       const result = analyzeEvidence({ ...form, vendor: form.vendor.trim(), asOf: engineDay(form.asOf) });
       // The same papers read the same way twice are one reading: the one in the pile comes back out.
       let next = pile.current.find(item => item.report?.id === result.id) || null;
@@ -213,7 +222,9 @@ function OwnTray({ service, view, go, say }) {
       if (!next) next = await createCase(result);
       const rest = reducedMotion() ? 0 : 420 - (performance.now() - began);
       if (rest > 0) await new Promise(done => setTimeout(done, rest));
+      const read = asking ? await asking : null;
       if (mine !== ticket.current) return;
+      setClaude(read ? { ...read, recordId: next.id } : null);
       keep(next);
       lay(next);
     } catch {
@@ -346,6 +357,8 @@ function OwnTray({ service, view, go, say }) {
   if (record && report) {
     const letter = report.requiresApproval && couldRead(report);
     const said = answer(report);
+    const byClaude = claude?.recordId === record.id ? claude : null;
+    const figures = byClaude ? claudeFigures(byClaude) : [];
     return (
       <Sheet holes={false} className="bk-tray-sheet is-read">
         <Head
@@ -370,12 +383,13 @@ function OwnTray({ service, view, go, say }) {
           >
             {!letter && <SlipDownloads record={record} say={say} />}
           </Found>
+          {byClaude && <ByClaude reading={byClaude} lit={lit} onHover={setHover} />}
           {papers.length > 0 && (
             <section className="bk-tray-papers" aria-labelledby="bk-tray-papers-h">
               <h2 className="bk-h2" id="bk-tray-papers-h">The papers, word for word <small>as they went in</small></h2>
               <div className="bk-tray-paperlist">
                 {papers.map((paper, i) => (
-                  <Marked key={paper.slot.key} i={i} slot={paper.slot} text={paper.text} marks={paper.marks} lit={lit} onHover={setHover} company={report.vendor} readAt={record.createdAt} />
+                  <Marked key={paper.slot.key} i={i} slot={paper.slot} text={paper.text} marks={figures.length ? [...paper.marks, ...claudeMarks(figures, paper.slot.key)] : paper.marks} lit={lit} onHover={setHover} company={report.vendor} readAt={record.createdAt} />
                 ))}
               </div>
             </section>
@@ -447,6 +461,16 @@ function OwnTray({ service, view, go, say }) {
             <Btn big type="submit" why={whyNotRead} busy={working === 'reading' ? 'Reading…' : ''}>Read them</Btn>
           </div>
         </form>
+        <div className="bk-tray-with">
+          <span className="bk-label">read with</span>
+          {reader.available ? (
+            <select aria-label="Read with" value={withClaude ? 'claude' : 'built-in'} onChange={event => setWithClaude(event.target.value === 'claude')}>
+              <option value="claude">Claude (Opus 5.5)</option>
+              <option value="built-in">the built-in reader</option>
+            </select>
+          ) : <span className="bk-tray-with-name">the built-in reader</span>}
+          {!reader.available && <p className="bk-tray-with-note">Add an Anthropic API key on the server to read with Claude.</p>}
+        </div>
         {working === 'reading' && <Reading form={form} />}
 
         <div className="bk-tray-tries">

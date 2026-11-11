@@ -11,6 +11,7 @@
 //   PORT             public port (Fly sets it; default 8080)
 //   PUBLIC_ORIGIN    exact public origin, e.g. https://truthful-ovo.fly.dev (required)
 //   DATA_DIR         where the accounts and workspace databases live (default /data/managed)
+//   ANTHROPIC_API_KEY  optional; turns on the Claude reader at /api/model/* (read from .env too)
 //   OWNER_EMAIL, OWNER_PASSWORD, OWNER_NAME, WORKSPACE_NAME
 //                    the first account, created once on a fresh data directory (kept as host secrets, never in Git)
 
@@ -19,6 +20,10 @@ import { createReadStream, existsSync, mkdirSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { loadEnvFile } from './env-file.mjs';
+import { handleModelRequest } from './model-reader.mjs';
+
+loadEnvFile();   // ANTHROPIC_API_KEY from .env, when present; the key stays on this server
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = resolve(root, 'dist');
@@ -68,9 +73,13 @@ function proxy(req, res) {
   req.pipe(upstream);
 }
 
-http.createServer((req, res) => {
+http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
   if (url.pathname === '/healthz') { res.writeHead(200, { 'content-type': 'text/plain' }); res.end('ok'); return; }
+  if (url.pathname.startsWith('/api/model/')) {   // answered here, before the proxy: the key never leaves this process
+    if (req.method === 'POST' && req.headers.origin && req.headers.origin !== ORIGIN) { res.writeHead(403, { 'content-type': 'application/json' }); res.end(JSON.stringify({ error: { code: 'ORIGIN_FORBIDDEN', message: 'Read from the Truthful page itself.' } })); return; }
+    if (await handleModelRequest(req, res)) return;
+  }   // answered here, before the proxy: the key never leaves this process
   if (url.pathname === '/api' || url.pathname.startsWith('/api/')) { proxy(req, res); return; }
   if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405); res.end(); return; }
   const path = normalize(decodeURIComponent(url.pathname)).replace(/^(\.\.[/\\])+/, '');

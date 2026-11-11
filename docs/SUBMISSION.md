@@ -27,11 +27,11 @@ Team: OVO. Confirm that the technical path matches the team’s Round 1 selectio
 
 Vendors promise credits by email; invoices forget them. Truthful reads every promise and every invoice with Claude, verifies every figure against the exact words it came from, writes each promise down as an IOU, weighs every invoice against it, and drafts the letter asking for what is still owed. A person approves before anything goes out. The ledger refuses a credit spent twice, an approval for a changed deal, and an offer with strings counted as money.
 
-## Architecture answer — 278 words
+## Architecture answer — 293 words
 
 Truthful automates the spreadsheet-and-inbox chase for vendor credits: a promise arrives by email, invoices arrive monthly, and money quietly goes missing.
 
-Reading is AI-first. Claude Opus 5.5 reads any email, contract or invoice into schema-constrained facts (vendor, amount, due date, reference, conditions, credits), each carrying the exact quote it came from. Deterministic code then verifies every quote appears verbatim in the source and every amount matches its quote before anything reaches the ledger, so the model proposes and the rules decide. A built-in reader handles the same formats with no key, which is how the public demo runs.
+Reading is AI-first. Claude Opus 5.5 reads any email, contract or invoice into schema-constrained facts (vendor, amount, due date, reference, conditions, credits), each carrying the exact quote it came from. Deterministic code then checks every quote appears verbatim in the source and every amount matches its quote, and drops anything that fails; the verified reading is shown for review beside the built-in reader’s, and only the engine writes to the ledger. The model proposes; the rules decide. With no key, the built-in reader runs alone, which is how the public demo works.
 
 The core is a dependency-free, event-sourced engine. Papers, promises, credits, amendments, decisions and approvals are events; integer-cent reducers project what is owed as of any date and as known at any moment. Invariants run on every command: a credit is conserved across promises, a changed source or policy voids pending approvals, competing amendments need a reasoned decision, an offer with strings never counts as money.
 

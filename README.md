@@ -8,7 +8,7 @@ When a vendor promises you a credit, Truthful writes the promise down, checks ev
 - **Two-minute guided demo: https://truthful-ovo.vercel.app/?demo#/** (plays every feature hands-free, with captions)
 - Demo video: see [the submission page](docs/SUBMISSION.md)
 
-[Architecture answer](docs/SUBMISSION.md#architecture-answer--278-words) · [Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md)
+[Architecture answer](docs/SUBMISSION.md#architecture-answer) · [Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md)
 
 ## Run
 
@@ -85,7 +85,7 @@ The browser suites run against isolated temporary services with Playwright, and 
 
 **How it is built.** React 19 and Vite 7 with plain CSS. Money is integer cents from the first parse to the last total. A Node 24 server (HTTP, SQLite, the built-in crypto) keeps the book: it checks who you are signed in as before every write, refuses a write made against an old copy of the book, runs a batch of writes as all or nothing, and ignores a request it has already carried out. Every entry carries the hash of the one before it, so a changed history shows. A signed record can be checked offline against a public key you already trust; that proves the record was not altered, not that a vendor’s email is real or that money moved.
 
-**AI where it earns its place, rules where money moves.** Claude Opus 5.5 reads any email, contract or invoice into structured facts, each carrying the exact words it came from ([the model reader](docs/MODEL_READER.md)); deterministic code then checks every quote against the source and every amount against its quote before a single cent reaches the book. Set `ANTHROPIC_API_KEY` on the server and the In-tray reads with Claude; the public demo ships without keys, as the hackathon rules ask, and reads with the built-in reader. Truthful drafts the letter; a person approves it and sends it. [Research](docs/FRONTIER_RESEARCH.md) and a [comparison with other tools](docs/COMPETITIVE_RESEARCH.md) show where it stands.
+**AI where it earns its place, rules where money moves.** Claude Opus 5.5 reads any email, contract or invoice into structured facts, each carrying the exact words it came from ([the model reader](docs/MODEL_READER.md)); deterministic code checks every quote against the source and every amount against its quote, and only the engine ever writes to the book. Set `ANTHROPIC_API_KEY` on the server and the In-tray reads with Claude; the public demo ships without keys, as the hackathon rules ask, and reads with the built-in reader. Truthful drafts the letter; a person approves it and sends it. [Research](docs/FRONTIER_RESEARCH.md) and a [comparison with other tools](docs/COMPETITIVE_RESEARCH.md) show where it stands.
 
 The faces are Red Hat Display, Text and Mono, served from the app (SIL Open Font License). The quarter is drawn by a small zero-dependency voxel renderer in `src/book/house/craft/`; its concept is [src/book/house/world/CONCEPT.md](src/book/house/world/CONCEPT.md). [DESIGN.md](DESIGN.md) records the screens that came before.
 
