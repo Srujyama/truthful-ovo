@@ -254,7 +254,7 @@ function paperStep({ date, vendorId, events, before, after, order, folded = [] }
       moves.push({ do: 'file' });
     }
   } else if (papers.length) {
-    said.push(`${arrival(name, papers)}. The reader files it in a drawer.`);
+    said.push(`${arrival(name, papers)}. It is read and kept with their papers.`);
     read('I’ll file it.');
     moves.push({ do: 'file' });
   }

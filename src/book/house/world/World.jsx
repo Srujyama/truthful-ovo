@@ -86,7 +86,7 @@ function TourCard({ step, steps, auto, onBack, onNext, onReplay }) {
   return (
     <section className="qw-tour t-box" aria-label="The book’s history, step by step" aria-live="polite">
       <div className="qw-tour-head">
-        <span className="qw-tour-count t-mono">{n} of {N}</span>
+        <span className="qw-tour-count t-mono">how it got here · {n} of {N}</span>
         <span className="qw-tour-day t-mono">{step.day}</span>
         <span className="qw-tour-btns">
           <button type="button" className="qw-btn" onClick={onBack} disabled={n <= 1} aria-label="Back a step" title="Back (←)">←</button>

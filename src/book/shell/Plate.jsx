@@ -13,7 +13,7 @@ export function plateLines(service) {
     if (!user) return ['Sign in', 'to your team’s book'];
     return [user.name || 'You', `${roleName(service.actor.role)} · ${service.session?.workspace?.name || 'no team yet'}`];
   }
-  return ['Demo', `you: ${roleName(service.actor.role).toLowerCase()}`];
+  return ['Demo book', roleName(service.actor.role).toLowerCase()];
 }
 
 export default function Plate({ service, say, onReset }) {
