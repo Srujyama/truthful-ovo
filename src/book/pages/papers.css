@@ -1,0 +1,231 @@
+/* Papers — the drawer of every paper on file, one paper at reading size, and a
+ * credit note. Every class here starts bk-pap-. The papers themselves (stocks,
+ * shadow, stamps, the highlighter) come from ../kit/paper.css and ../shell/book.css.
+ */
+
+/* ————————————————————————————————————————————————— the index sheet over the drawer */
+
+.bk-pap-sort { display: grid; gap: 2px; }
+.bk-pap-line {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  column-gap: 14px;
+  align-items: baseline;
+}
+.bk-pap-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 38px;
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--bk-rule-green);
+}
+.bk-pap-tools .bk-find { flex: 1 1 280px; max-width: 430px; }
+.bk-pap-by { display: inline-flex; align-items: center; gap: 12px; font: 400 15px/1.3 var(--bk-type); cursor: pointer; }
+/* the date is set on a dater stamp, like the one in the corner of the page */
+.bk-pap-by input {
+  padding: 4px 6px 3px 8px;
+  border: 1.5px solid currentColor;
+  background: none;
+  color: var(--bk-stamp-blue);
+  font: 700 13px/1 var(--bk-type);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  rotate: -1.2deg;
+}
+.bk-pap-by input:focus-visible { outline-offset: 4px; }
+.bk-pap-then { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; margin-top: 14px; }
+.bk-pap-index .bk-empty { margin-top: 18px; }
+.bk-pap-index .bk-empty .bk-link { font-size: inherit; line-height: inherit; }
+
+/* ————————————————————————————————————————————————— the papers, lying in rows */
+
+.bk-pap-drawer { margin-top: 34px; padding: 0 6px 12px calc(var(--bk-lm) + 14px); }
+.bk-pap-rows {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: calc(var(--paper-mm) * 11) calc(var(--paper-mm) * 8.5);
+}
+.bk-pap-rows > li { translate: 0 calc(var(--drop, 0) * 1px); }
+.bk-pap-more { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 40px; }
+
+.bk-pap-thumb { transition: --lift 240ms cubic-bezier(0.2, 0.7, 0.2, 1), rotate 220ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+.bk-pap-thumb:hover, .bk-pap-thumb:focus-visible { --lift: 0.16; rotate: 0deg; z-index: 2; }
+.bk-pap-thumb .bk-doc-kind { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 8px; margin-bottom: 0.7em; white-space: nowrap; }
+.bk-pap-thumb .bk-doc-kind i { font: 400 max(9px, calc(var(--u) * 2.45)) / 1.2 var(--bk-type); letter-spacing: 0; text-transform: none; white-space: nowrap; }
+.bk-pap-thumb .bk-doc-title { display: block; margin-bottom: 0.4em; }
+.bk-pap-from { display: block; font: 400 max(10px, calc(var(--u) * 2.7)) / 1.35 var(--bk-type); color: var(--bk-muted); }
+.bk-pap-thumb .bk-pap-from { margin-bottom: 0.95em; padding-bottom: 0.85em; border-bottom: 1px solid rgb(29 39 64 / 0.22); }
+.bk-pap-lines { display: block; font-size: max(9.5px, calc(var(--u) * 2.6)); line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bk-pap-old {
+  display: block;
+  width: fit-content;
+  margin: -0.5em 0 0.7em;
+  font: italic 500 max(11px, calc(var(--u) * 3.1)) / 1.2 var(--bk-display);
+  color: var(--bk-pen);
+  rotate: -2deg;
+}
+.bk-pap-thumb.is-old .bk-pap-lines { opacity: 0.62; }
+
+/* a credit note in the drawer: a pink slip torn from its book, with its amount and its stamp */
+.bk-pap-thumb.is-note > .paper-face { height: calc(var(--u) * 50); padding-left: calc(var(--u) * 7); }
+.bk-pap-thumb.is-note > .paper-face::after { content: none; }
+.bk-pap-thumb.is-note .bk-doc-kind { padding-bottom: 0.55em; border-bottom: 1.5px solid var(--bk-ink); }
+.bk-pap-sum { display: block; margin: 0.1em 0 0.15em; font: 700 max(19px, calc(var(--u) * 6.2)) / 1.1 var(--bk-type); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.bk-pap-thumb.is-note .bk-pap-from { margin: 0; padding: 0; border: 0; }
+.bk-pap-thumb.is-note .stamp { position: absolute; right: calc(var(--u) * 4); bottom: calc(var(--u) * 5); }
+
+/* ————————————————————————————————————————————————— one paper, at reading size */
+
+/* the top edge of the page stays above the desk: the way back, and what is lying here */
+.bk-sheet.bk-pap-strip > .paper-face { min-height: 0; padding: 15px 40px 14px calc(var(--bk-lm) + 14px); }
+.bk-pap-strip .bk-kicker { align-items: center; }
+.bk-pap-strip .bk-link { font: 400 14.5px/1.3 var(--bk-type); letter-spacing: 0; text-transform: none; color: var(--bk-ink); }
+
+.bk-pap-desk { margin-top: 30px; padding: 0 0 8px calc(var(--bk-lm) + 14px); }
+.bk-pap-read {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: calc(var(--paper-mm) * 9) calc(var(--paper-mm) * 12);
+}
+.bk-pap-left { max-width: 100%; }
+
+.bk-pap-sheet > .paper-face {
+  min-height: calc(var(--u) * 158);
+  padding: calc(var(--u) * 11) calc(var(--u) * 13) calc(var(--u) * 15);
+}
+.bk-pap-top {
+  position: relative;
+  margin-bottom: calc(var(--u) * 7);
+  padding-bottom: calc(var(--u) * 5);
+  border-bottom: 1px solid rgb(29 39 64 / 0.26);
+}
+.bk-pap-top .bk-doc-kind { margin-bottom: 0.7em; }
+.bk-pap-title {
+  max-width: calc(100% - var(--u) * 38);
+  margin-bottom: 0.3em;
+  font: 700 max(20px, calc(var(--u) * 6.7)) / 1.12 var(--bk-display);
+  letter-spacing: -0.015em;
+}
+.bk-pap-title:focus { outline: 0; }
+.bk-pap-top .bk-pap-from { font-size: max(12.5px, calc(var(--u) * 3.6)); }
+.bk-pap-stamps { position: absolute; top: calc(var(--u) * -1); right: calc(var(--u) * -2); display: grid; justify-items: end; gap: calc(var(--u) * 2.5); }
+.bk-pap-sheet .bk-pap-text { font: 400 max(15px, calc(var(--u) * 4.35)) / 1.66 var(--bk-type); }
+.bk-pap-text mark { color: inherit; cursor: default; transition: background-size 160ms, background-color 160ms, box-shadow 160ms; }
+/* the passage under your hand is underlined in ink as well, so it cannot be missed among the others */
+.bk-pap-text mark.is-lit { box-shadow: 0 2px 0 var(--bk-ink); }
+
+/* the slip beside it: what was read, where it is used, its copies */
+.bk-pap-slip h3 { margin: 20px 0 6px; }
+.bk-pap-said { margin: -4px 0 12px; font-size: clamp(16px, 1.3vw, 18px); }
+.bk-pap-said .bk-link { font: inherit; }
+.bk-pap-facts { border-top: 1px solid rgb(29 39 64 / 0.55); }
+.bk-pap-facts > li { border-bottom: 1px solid rgb(29 39 64 / 0.2); }
+.bk-pap-fact {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 12px;
+  align-items: baseline;
+  width: 100%;
+  padding: 8px 6px 7px;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  transition: background-color 160ms;
+}
+.bk-pap-fact > span { font: 600 9.5px/1.35 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.74); }
+.bk-pap-fact > b { font: 400 16px/1.3 var(--bk-type); overflow-wrap: anywhere; }
+.bk-pap-fact em { font-style: normal; }
+button.bk-pap-fact:hover, .bk-pap-fact.is-lit, a.bk-pap-fact:hover { background: rgb(246 228 82 / 0.24); }
+
+/* a paper lying on the desk is still paper: its links and its focus ring are in ink */
+.bk-on-desk .bk-pap-slip .bk-link, .bk-on-desk .bk-pap-note .bk-link { color: var(--bk-ink); }
+.bk-on-desk :is(.bk-pap-slip, .bk-pap-note, .bk-pap-sheet) :focus-visible { outline-color: var(--bk-ink); }
+
+/* a promise a credit note is matched to: the promise on the left, the figure on the right */
+.bk-pap-match { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 6px 8px; color: inherit; text-decoration: none; transition: background-color 160ms; }
+a.bk-pap-match:hover { background: rgb(246 228 82 / 0.24); }
+.bk-pap-match b { display: block; font: 400 15.5px/1.35 var(--bk-type); }
+a.bk-pap-match b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.bk-pap-match small { display: block; margin-top: 2px; font: 400 13px/1.35 var(--bk-type); color: var(--bk-muted); }
+.bk-pap-match em { font: 400 17px/1.3 var(--bk-type); font-style: normal; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bk-pap-slip h3.bk-pap-first { margin-top: 2px; }
+
+.bk-pap-uses > li { padding: 3px 0; font: 400 14.5px/1.4 var(--bk-type); }
+.bk-pap-uses small { display: block; font: 400 13px/1.35 var(--bk-type); color: var(--bk-muted); }
+.bk-pap-copies > li { padding: 4px 0; font: 400 14.5px/1.4 var(--bk-type); }
+.bk-pap-copies small { display: block; font: 400 13px/1.35 var(--bk-type); color: var(--bk-muted); }
+.bk-pap-copies > li.is-open .bk-link { font-weight: 700; }
+.bk-pap-copies i { display: inline-block; margin-left: 10px; font: italic 500 15px/1 var(--bk-display); color: var(--bk-pen); rotate: -2deg; }
+.bk-pap-foot { margin-top: 22px; padding-top: 16px; border-top: 2px solid var(--bk-ink); }
+
+/* ————————————————————————————————————————————————— a credit note */
+
+.bk-pap-note > .paper-face {
+  min-height: calc(var(--u) * 128);
+  padding: calc(var(--u) * 9) calc(var(--u) * 11) calc(var(--u) * 11) calc(var(--u) * 14);
+}
+.bk-pap-note-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; padding-bottom: 8px; border-bottom: 2px solid var(--bk-ink); }
+.bk-pap-note-co { margin-top: 18px; font: 700 clamp(22px, 2.1vw, 30px) / 1.1 var(--bk-display); letter-spacing: -0.015em; }
+.bk-pap-note-co:focus { outline: 0; }
+.bk-pap-note-amt {
+  margin: 10px 0 6px;
+  font: 700 clamp(44px, 5.2vw, 72px) / 1 var(--bk-type);
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+}
+.bk-pap-note-amt.is-long { font-size: clamp(34px, 4vw, 54px); }
+.bk-pap-note-amt.is-longer { font-size: clamp(26px, 3vw, 40px); }
+.bk-pap-note-row { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px 20px; margin-top: 12px; }
+.bk-pap-note-row .stamp { margin: 2px 6px 0 0; }
+.bk-pap-warn { margin-top: 16px; max-width: 30em; font: 400 15.5px/1.5 var(--bk-type); }
+
+.bk-pap-went { margin-top: 26px; }
+.bk-pap-bar { display: flex; height: 14px; margin: 8px 0 4px; border: 1.5px solid var(--bk-ink); }
+.bk-pap-bar > i { flex: 1 1 0; min-width: 3px; }
+.bk-pap-bar > i + i { border-left: 1.5px solid var(--bk-ink); }
+.bk-pap-went .is-matched { background: var(--bk-ink); }
+.bk-pap-went .is-back { background: repeating-linear-gradient(135deg, var(--bk-ink) 0 1.5px, #0000 1.5px 5px); }
+.bk-pap-went .is-loose { background: none; }
+.bk-pap-sums > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 6px 0 5px; border-bottom: 1px solid rgb(29 39 64 / 0.24); }
+.bk-pap-sums dt { display: flex; align-items: center; gap: 9px; font: 400 15px/1.3 var(--bk-type); }
+.bk-pap-sums dt > i { flex: 0 0 auto; width: 11px; height: 11px; border: 1.5px solid var(--bk-ink); }
+.bk-pap-sums dd { font: 400 17px/1.3 var(--bk-type); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bk-pap-sums > .is-total { border-bottom: 0; padding-top: 8px; }
+.bk-pap-sums > .is-total dt { font: 600 10.5px/1.3 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; }
+.bk-pap-sums > .is-total dd { padding: 5px 0 4px 18px; border-top: 1.5px solid var(--bk-ink); border-bottom: 4px double var(--bk-ink); font-weight: 700; }
+
+.bk-pap-behind { margin-top: 38px; }
+.bk-pap-behind .bk-desk-said { margin-bottom: 16px; }
+
+/* ————————————————————————————————————————————————— narrower desks, and the phone */
+
+@media (max-width: 980px) {
+  .bk-sheet.bk-pap-strip > .paper-face { padding-right: 22px; }
+}
+
+@media (max-width: 760px) {
+  .bk-pap-line { grid-template-columns: minmax(0, 1fr); }
+  .bk-pap-line + .bk-pap-line { margin-top: 8px; }
+  .bk-pap-tools { gap: 14px 24px; }
+  .bk-pap-tools .bk-find { flex-basis: 100%; max-width: none; }
+  .bk-pap-drawer { margin-top: 26px; padding: 0 4px 8px; }
+  .bk-pap-rows { justify-content: space-evenly; gap: calc(var(--paper-mm) * 9) calc(var(--paper-mm) * 5); }
+  .bk-sheet.bk-pap-strip > .paper-face { padding: 12px 16px; }
+  .bk-pap-strip .bk-kicker { flex-wrap: wrap; gap: 6px 14px; }
+  .bk-pap-desk { margin-top: 20px; padding: 0 0 8px; }
+  /* the reading desk stacks: the paper first, full width, then the slip */
+  .bk-pap-read { flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: 22px; }
+  .bk-pap-read > .paper, .bk-pap-left > .paper { rotate: 0deg; }
+  .bk-pap-sheet > .paper-face { min-height: 0; padding: 26px 20px 34px; }
+  .bk-pap-title { max-width: none; }
+  .bk-pap-stamps { position: static; display: flex; justify-items: start; margin-top: 12px; }
+  .bk-pap-slip > .paper-face, .bk-pap-note > .paper-face { padding: 22px 18px 26px; }
+  .bk-pap-note > .paper-face { min-height: 0; padding-left: 26px; }
+  .bk-pap-behind .bk-pap-rows { justify-content: flex-start; }
+}

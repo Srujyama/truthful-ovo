@@ -193,6 +193,7 @@ body:has(.bk) { margin: 0; }
 }
 .bk-sheet + .bk-sheet { margin-top: 26px; }
 .bk-sheet > .paper-face { padding-bottom: 26px; min-height: 240px; }
+.bk-sheet.is-strip > .paper-face { min-height: 0; padding-bottom: 0; }   /* a narrow strip of the page, when the papers below are the page */
 
 /* three binder holes: the desk shows through */
 .bk-hole {
@@ -442,6 +443,10 @@ a.bk-lrow { text-decoration: none; }
 .bk-link:hover { text-decoration-thickness: 2px; }
 .bk-link:disabled { color: var(--bk-muted); text-decoration-style: dotted; }
 .bk-on-desk .bk-link { color: var(--bk-desk-ink); }
+/* a paper lying on the desk is still paper: its links and focus rings are ink */
+.bk-on-desk .paper-face .bk-link { color: var(--bk-ink); }
+.bk-on-desk .paper-face :focus-visible, .bk-on-desk .paper:focus-visible { outline-color: var(--bk-ink); }
+.bk-on-desk .paper-face .bk-btn.is-quiet { color: var(--bk-ink); box-shadow: inset 0 0 0 1px var(--bk-ink); }
 
 /* Why a button will not press: said next to it, never in a tooltip alone. */
 .bk-why { font: 400 13.5px/1.35 var(--bk-type); color: var(--bk-muted); }
@@ -511,7 +516,7 @@ a.bk-lrow { text-decoration: none; }
 button.bk-doc, a.bk-doc { display: block; padding: 0; border: 0; background: none; text-align: left; text-decoration: none; }
 
 /* a small paper in a drawer or a fan: the real first lines, cut off by the foot */
-.bk-thumb { --W: 62; }
+.bk-thumb { --W: 62; width: calc(var(--W) * var(--u)); }
 .bk-thumb > .paper-face { height: calc(var(--u) * 78); padding: calc(var(--u) * 5) calc(var(--u) * 5) 0; overflow: hidden; font: 400 max(8px, calc(var(--u) * 2.25)) / 1.5 var(--bk-type); }
 .bk-thumb > .paper-face::after { content: ""; position: absolute; inset: auto 0 0; height: 34%; background: linear-gradient(#0000, var(--stock, var(--stock-bond))); }
 .bk-thumb .bk-doc-title { font-size: max(11px, calc(var(--u) * 3.4)); }
