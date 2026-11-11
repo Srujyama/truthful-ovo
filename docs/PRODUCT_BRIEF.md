@@ -37,8 +37,7 @@ The fictional Pipeline example still anchors the value: $2,400 promised, $900 ap
 | Public browser mode | Local assurance portfolio plus independent ephemeral cryptographic lab workspace. | No shared backend; signing lab does not sign/modify the persisted portfolio and resets on reload. |
 | Evidence/ledger | Exact supported source spans, stable invoice identity, shared allocation, ambiguity resolution, and causal reversal. | USD structured evidence, asserted source/line identity; no universal invoice understanding. |
 
-The explorer and authority modules have targeted executable tests. Integrated checks have passed in actual SQLite and isolated production-preview browser modes, including real exported-packet verification. Exact acceptance and publication results are tracked separately in [DELIVERY.md](DELIVERY.md); older v2/v3 recordings do not demonstrate the new v4 ritual.
-
+The explorer and authority modules have targeted executable tests. Integrated checks have passed in actual SQLite and isolated production-preview browser modes, including real exported-packet verification.
 ## Why this is a defensible direction
 
 Agents paying invoices, signed permissions, negotiation automation, counterexample-guided repair, and source-linked credit recovery already exist. Visa/BILL/Billtrust announced a live pilot on October 20, 2026; an October 24 IETF draft distinguishes signed evidence from enforcement. Our case is the concrete integration of adverse economic schedules, legitimate completion, and a current-state execution boundary—not an unsupported first/only claim. [Frontier research](FRONTIER_RESEARCH.md), [competitive review](COMPETITIVE_RESEARCH.md).

@@ -12,7 +12,7 @@ The credible frontier is a product ritual that makes a financial plan earn permi
 
 This combines financial fulfillment, changing evidence/authority, bounded adverse scheduling, and verifiable execution records. It does not make invoice payment, signed mandates, counterexample-guided repair, or deterministic policy enforcement newly invented ideas.
 
-The **v3 financial baseline** and **v4 explorer, fixed-family repair, and signed delegated execution modules are implemented** in this repository. The inspected source includes BFS over full histories, reproducible effect witnesses, explicit partial completion, strict Ed25519 delegation, and an atomic SQLite effect boundary. This research document does not assert a new published release or aggregate browser/test count: those require the lead’s integrated acceptance and [delivery record](DELIVERY.md). Source inspection and component checks are distinguished below from production, protocol-conformance, and real-world outcome claims.
+The **v3 financial baseline** and **v4 explorer, fixed-family repair, and signed delegated execution modules are implemented** in this repository. The inspected source includes BFS over full histories, reproducible effect witnesses, explicit partial completion, strict Ed25519 delegation, and an atomic SQLite effect boundary.Source inspection and component checks are distinguished below from production, protocol-conformance, and real-world outcome claims.
 
 ## 1. The market moved beyond agent-payment demos
 
@@ -63,7 +63,7 @@ The nearby temporal reconciliation and duplicate-reimbursement papers remain rel
 
 ## 5. The implemented v4 product ritual
 
-The modules now implement this ritual. The [recording script](DEMO_SCRIPT.md) maps it to actual controls; [architecture](ARCHITECTURE.md) separates the ephemeral browser authority fixture from the optional durable server. Integrated rendering/publication is tracked separately.
+The modules now implement this ritual. [architecture](ARCHITECTURE.md) separates the ephemeral browser authority fixture from the optional durable server. Integrated rendering/publication is tracked separately.
 
 ### A. Challenge the intended economic outcome
 

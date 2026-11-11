@@ -7,7 +7,6 @@ When a vendor promises you a credit, Truthful writes the promise down, checks ev
 - **Live demo: https://truthful-ovo.vercel.app** (the demo book, in your browser; no account needed)
 - **Live product: https://truthful-ovo.fly.dev** (the real version: team accounts, sign-in, roles, SQLite books per team)
 - **Two-minute guided demo: https://truthful-ovo.vercel.app/?demo#/** (plays every feature hands-free, with captions)
-- Demo video: see [the submission page](docs/SUBMISSION.md)
 
 [Architecture answer](docs/SUBMISSION.md#architecture-answer) · [Development status](docs/DEVELOPMENT.md) · [Backend](docs/BACKEND.md) · [Technical deep dive](docs/TECHNICAL_DEEP_DIVE.md)
 

@@ -1,7 +1,6 @@
 # Depth strategy: financial commitment assurance
 
-This strategy was prepared October 29, 2026 and reconciled with the v3 financial foundation and v4 explorer/authority modules. The earlier parser remains the evidence entry path. The inspected component checkpoints are thirty-eight assurance tests and nine scenarios/thirty-one checks, fourteen explorer tests/five families, and thirty authority/authority-HTTP tests. These are separate checkpoints, not a rerun aggregate. Integrated browser/build/publication evidence is recorded by the lead in [DELIVERY.md](DELIVERY.md).
-
+This strategy was prepared October 29, 2026 and reconciled with the v3 financial foundation and v4 explorer/authority modules. The earlier parser remains the evidence entry path. The inspected component checkpoints are thirty-eight assurance tests and nine scenarios/thirty-one checks, fourteen explorer tests/five families, and thirty authority/authority-HTTP tests. These are separate checkpoints, not a rerun aggregate.
 ## The coherent wedge
 
 Make one question the product: **“How can this plan fail before its effect, and what current authority permits the legitimate continuation?”**
@@ -25,8 +24,7 @@ Credit lifecycle automation, source-linked records, agent guardrails, and tempor
 | Execution evidence | Nine real reducer scenarios and structured command/atomic batch console; graph lineage derives from the event model. | Authored regressions, not held-out model accuracy or formal proof. |
 | Durable boundary | Optional loopback HTTP/SQLite service with session role context, revisions, transactions, persistent retries, audit hashing/replay. | Public GitHub Pages is browser-local fallback; hash consistency does not prove authenticity. |
 
-The integrated mechanisms are described in [TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md). The concrete acceptance workflow and current controls are in [DEMO_SCRIPT.md](DEMO_SCRIPT.md).
-
+The integrated mechanisms are described in [TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md).
 ## V4 makes the plan itself inspectable
 
 The new operator ritual is **test → witness → repair → approve → delegate → verify**. The bounded BFS explorer generates enabled orderings of explicit actor programs; it does not choose a canned verdict. A deliberately unsafe cached-check reference and the actual guard receive the same scripts/orderings. Full-history state identity preserves temporal differences, shortest unsafe prefixes expose actual effects, and independently replayable reports make the counterexample inspectable.
@@ -66,9 +64,9 @@ A separate question is whether absent evidence is final. A posting stream may be
 
 ## Three-minute technical demo
 
-The v4 hero sequence and actual controls are specified in [DEMO_SCRIPT.md](DEMO_SCRIPT.md): generated unsafe effect, paired current guard, bounded repair/utility, exact approval, signed root/child delegation, one local execution, identical retry versus refused new use, separately pinned verification, and signature tampering. The finance appendix retains the negative renewal economics, reasoned branch dismissal, two-cutoff history, reversals, atomic evidence import, and legitimate applied credit. Each lab labels its state boundary.
+The hero sequence exercises: generated unsafe effect, paired current guard, bounded repair/utility, exact approval, signed root/child delegation, one local execution, identical retry versus refused new use, separately pinned verification, and signature tampering. The finance appendix retains the negative renewal economics, reasoned branch dismissal, two-cutoff history, reversals, atomic evidence import, and legitimate applied credit. Each lab labels its state boundary.
 
-Every number and gate in the recording must execute. Counterparties and external effects are simulated. Existing v2/v3 recordings are older explanatory material, not evidence that the v4 ritual was recorded.
+Every number and gate in the recording must execute. Counterparties and external effects are simulated.
 
 ## Engineering acceptance and evaluation
 
