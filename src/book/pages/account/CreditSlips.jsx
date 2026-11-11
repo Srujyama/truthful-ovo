@@ -14,9 +14,9 @@
 // Which form is out is kept in af-open.mjs, so only one is out across both.
 
 import React, { useEffect, useState } from 'react';
-import { Paper, Stamp, Why, cx } from '../../shell/parts.jsx';
+import { Paper, Why, cx } from '../../shell/parts.jsx';
 import { href, paperId } from '../../shell/route.mjs';
-import { day, dollars, ledger, shortDay, stampDay } from '../../shell/money.mjs';
+import { day, dollars, ledger, shortDay } from '../../shell/money.mjs';
 import { may, roleName, whyNot } from '../../shell/roles.mjs';
 import { creditMatches, creditMoney, noteItem } from '../papers/kinds.mjs';
 import { useOpenForm } from './af-open.mjs';
@@ -25,9 +25,6 @@ import Sorting, { settlingPapers } from './af-Sorting.jsx';
 import './forms.css';
 
 export { CreditForm };
-
-const TURNS = [-1, 0.8, -0.6, 1.1];
-const STAMP = { '--u': 'calc(var(--paper-mm) * 0.8)' };   // the stamp at four fifths, so ON INVOICE and the date share a line
 
 /** The credit lines that belong to a promise: same company, same reference, same currency. */
 export function creditsOf(view, commitment) {
@@ -48,17 +45,15 @@ export default function CreditSlips({ view, commitment, service, say, past = fal
 
   const out = open && open.creditId ? credits.find(credit => credit.id === open.creditId) : null;
   const year = view.asOf.slice(0, 4);
-  // One slip keeps the form beside it; with more, the form takes the decision slip's width under them.
-  const width = credits.length > 1 ? 236 : 196;
 
   return (
     <section className="bk-part bk-af-credits" aria-labelledby="bk-af-credits-h">
-      <h2 className="bk-h2" id="bk-af-credits-h">Credits on this promise</h2>
-      <div className="bk-af-desk">
-        {credits.map((credit, index) => (
+      <h2 className="bk-h2" id="bk-af-credits-h">Credits on this promise <small>{credits.length}</small></h2>
+      <div className={cx('bk-af-desk', out && 'has-form')}>
+        {credits.map(credit => (
           <Slip
             key={credit.id}
-            credit={credit} index={index} view={view} commitment={commitment} year={year}
+            credit={credit} view={view} commitment={commitment} year={year}
             service={service} past={past}
             out={out?.id === credit.id ? open : null}
             landed={landed === credit.id}
@@ -70,7 +65,7 @@ export default function CreditSlips({ view, commitment, service, say, past = fal
           <CreditForm
             key={`${out.id}:${open.job}`}
             view={view} commitment={commitment} service={service} say={say} past={past}
-            job={open.job} credit={out} w={width} rot={0.3}
+            job={open.job} credit={out}
             onClose={() => close()}
             onDone={job => { if (job === 'apply') setLanded(out.id); }}
           />
@@ -79,7 +74,7 @@ export default function CreditSlips({ view, commitment, service, say, past = fal
           <Sorting
             key={`${out.id}:${open.step}`}
             view={view} commitment={commitment} service={service} say={say} past={past}
-            credit={out} step={open.step} paperId={open.paperId} w={width} rot={0.3}
+            credit={out} step={open.step} paperId={open.paperId}
             onClose={() => close()}
             onStep={(step, sourceId) => show({ kind: 'sort', creditId: out.id, step, paperId: sourceId })}
           />
@@ -89,9 +84,9 @@ export default function CreditSlips({ view, commitment, service, say, past = fal
   );
 }
 
-// ---- one credit, on pink carbon ----
+// ---- one credit, in a white box ----
 
-function Slip({ credit, index, view, commitment, year, service, past, out, landed, show }) {
+function Slip({ credit, view, commitment, year, service, past, out, landed, show }) {
   const pen = { actor: service.actor };
   const item = noteItem(view, credit);
   const money = creditMoney(credit);
@@ -113,25 +108,19 @@ function Slip({ credit, index, view, commitment, year, service, past, out, lande
 
   return (
     <Paper
-      stock="carbon" edge="perf-left" w={96} rot={TURNS[index % TURNS.length]}
       className={cx('bk-af-slip', out && 'is-out')}
       aria-label={`${item.noun} ${credit.invoiceId}`}
     >
+      <span className="bk-af-name" aria-hidden="true">{item.noun.toLowerCase()}</span>
       <div className="bk-af-slip-top">
-        <span className="bk-label">{item.noun}</span>
+        <p className="bk-af-slip-amt">{dollars(credit.amountCents)}</p>
         <a className="bk-link" href={href('papers', item.address)}>No. {credit.invoiceId}</a>
       </div>
-      <p className="bk-af-slip-amt">${ledger(credit.amountCents)}</p>
-      <div className="bk-af-slip-row">
-        <p className="bk-typed">{day(credit.issuedDate)}</p>
-        <Stamp
-          key={credit.status}
-          style={STAMP}
-          seed={`note-${credit.id}-${credit.status}`}
-          sub={stampDay(onInvoice ? credit.applicationDate || credit.issuedDate : credit.issuedDate)}
-          land={landed && onInvoice}
-        >{onInvoice ? 'On invoice' : 'Issued'}</Stamp>
-      </div>
+      <p key={credit.status} className={cx('bk-af-slip-row', !onInvoice && 'is-note', landed && onInvoice && 'is-landing')}>
+        {onInvoice
+          ? <>on an invoice {day(credit.applicationDate || credit.issuedDate)}</>
+          : <>issued {day(credit.issuedDate)} · not on an invoice yet</>}
+      </p>
 
       <dl className="bk-af-lines">
         <div><dt>Matched to this promise</dt><dd>{ledger(here)}</dd></div>

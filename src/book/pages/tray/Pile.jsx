@@ -1,19 +1,11 @@
-// Read before: the earlier readings, kept as a small pile of slips at the edge of
-// the desk. Each says the company, the figure still owed, and when it was read.
-// Press one and its papers go back on the desk.
+// Read before: the earlier readings, one hairline row each: the company, the
+// figure still owed, when it was read. Press one and its papers come back out.
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Btn, Paper, cx } from '../../shell/parts.jsx';
+import { Btn, cx } from '../../shell/parts.jsx';
 import { pileSlip } from './plain.mjs';
 
 const SHOWN = 6;
-
-/** The same slip always lies at the same small turn. */
-function turnOf(id) {
-  let h = 0;
-  for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  return ((h % 9) - 4) * 0.45;
-}
 
 export default function Pile({ pile, torn, onDesk, onOpen, onClear, busy }) {
   const [all, setAll] = useState(false);
@@ -26,20 +18,20 @@ export default function Pile({ pile, torn, onDesk, onOpen, onClear, busy }) {
   const shown = all ? pile : pile.slice(0, SHOWN);
   const more = pile.length - shown.length;
   return (
-    <section className="bk-tray-pile" aria-labelledby="bk-tray-pile-h">
-      <header className="bk-tray-pile-top">
-        <h2 id="bk-tray-pile-h">Read before</h2>
+    <section className="bk-part bk-tray-pile" aria-labelledby="bk-tray-pile-h">
+      <h2 className="bk-h2" id="bk-tray-pile-h">
+        <span>Read before <small>{pile.length}</small></span>
         {asking ? (
-          <span className="bk-actions" role="group" aria-label="Clear the pile">
-            <span className="bk-desk-said">{pile.length === 1 ? 'Throw this slip away?' : `Throw all ${pile.length} slips away?`} They can’t be brought back.</span>
-            <Btn quiet className="on-desk" onClick={() => { setAsking(false); onClear(); }}>Throw them away</Btn>
+          <span className="bk-actions bk-tray-pile-ask" role="group" aria-label="Clear the pile">
+            <span className="bk-why">{pile.length === 1 ? 'Throw this reading away?' : `Throw all ${pile.length} readings away?`} They can’t be brought back.</span>
+            <Btn quiet onClick={() => { setAsking(false); onClear(); }}>Throw them away</Btn>
             <button ref={keep} type="button" className="bk-link" onClick={() => setAsking(false)}>Keep them</button>
           </span>
         ) : (
           <button type="button" className="bk-link" onClick={() => (pile.length ? setAsking(true) : onClear())}>Clear the pile</button>
         )}
-      </header>
-      {torn && !pile.length && <p className="bk-desk-said">The slips from an earlier visit can’t be read any more. Clear the pile to start a new one.</p>}
+      </h2>
+      {torn && !pile.length && <p className="bk-why">The readings from an earlier visit can’t be read any more. Clear the pile to start a new one.</p>}
       {pile.length > 0 && (
         <ul className="bk-tray-slips">
           {shown.map(record => {
@@ -47,11 +39,8 @@ export default function Pile({ pile, torn, onDesk, onOpen, onClear, busy }) {
             const here = record.id === onDesk;
             return (
               <li key={record.id}>
-                <Paper
-                  as="button"
+                <button
                   type="button"
-                  w={56}
-                  rot={turnOf(record.id)}
                   className={cx('bk-tray-slip', here && 'is-here')}
                   onClick={() => onOpen(record)}
                   disabled={busy}
@@ -61,14 +50,14 @@ export default function Pile({ pile, torn, onDesk, onOpen, onClear, busy }) {
                   <b>{slip.company}</b>
                   <span>{slip.owed && <em className="bk-tray-owed">{slip.owed}</em>} {slip.said}</span>
                   <small>{slip.when}</small>
-                  {(here || slip.approved) && <i>{[slip.approved && 'letter approved', here && 'on the desk'].filter(Boolean).join(' · ')}</i>}
-                </Paper>
+                  <i>{[slip.approved && 'letter approved', here && 'out now'].filter(Boolean).join(' · ')}</i>
+                </button>
               </li>
             );
           })}
         </ul>
       )}
-      {more > 0 && <button type="button" className="bk-link bk-tray-pile-more" onClick={() => setAll(true)}>{more === 1 ? 'One more underneath' : `${more} more underneath`}</button>}
+      {more > 0 && <button type="button" className="bk-link bk-tray-pile-more" onClick={() => setAll(true)}>{more === 1 ? 'One more' : `${more} more`}</button>}
     </section>
   );
 }

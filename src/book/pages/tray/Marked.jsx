@@ -1,23 +1,22 @@
-// A paper out of the tray, at reading size, word for word as it went in. The
+// A paper out of the tray, word for word as it went in, in a white box. The
 // passages Truthful used are under the highlighter: exactly the characters the
-// reading cites. An invoice row it left out has a pen line through it and the
-// reason written beside it.
+// reading cites. An invoice row it left out is struck through, with the reason
+// beside it.
 
 import React, { useMemo } from 'react';
-import { Paper, Stamp, cx } from '../../shell/parts.jsx';
-import { stampDay } from '../../shell/money.mjs';
+import { Paper, cx } from '../../shell/parts.jsx';
 import { calendarDay, cutPaper } from './plain.mjs';
+import { shortDay } from '../../shell/money.mjs';
 
 export default function Marked({ slot, text, marks, lit, onHover, company, readAt, i = 0 }) {
   const lines = useMemo(() => cutPaper(text, marks), [text, marks]);
   const isLit = part => part.marks.some(mark => lit.includes(mark.id));
   return (
-    <Paper w={160} stock={slot.stock} rot={slot.rot * 0.45} className="bk-doc bk-tray-paper" data-paper={slot.source} data-arrives={i}>
+    <Paper className="bk-doc bk-tray-paper bk-arrive" style={{ '--i': i + 3 }} data-paper={slot.source} data-arrives={i}>
+      <span className="bk-tray-name" aria-hidden="true">{slot.noun.toLowerCase()} · read {shortDay(calendarDay(new Date(readAt))).toLowerCase()}</span>
       <header className="bk-tray-paper-top">
-        <span className="bk-doc-kind">{slot.noun}</span>
-        <h2 className="bk-tray-paper-title">{slot.title}</h2>
+        <h3 className="bk-tray-paper-title">{slot.title}</h3>
         <p className="bk-tray-from">{company}</p>
-        <Stamp small seed={`read-${slot.source}-${readAt}`} sub={stampDay(calendarDay(new Date(readAt)))} className="bk-tray-read-stamp">Read</Stamp>
       </header>
       <div className={cx('bk-tray-text', slot.source === 'invoice' && 'is-rows')}>
         {lines.map((line, n) => (

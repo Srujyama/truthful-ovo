@@ -7,12 +7,20 @@
 
 import React, { useState } from 'react';
 import { runScenario, scenarios } from '../../../assurance/index.mjs';
-import { Btn, Cell, Field, Ledger, Row, Stamp } from '../../shell/parts.jsx';
+import { Btn, Cell, Field, Ledger, Row, cx } from '../../shell/parts.jsx';
 import { plainError, whyNot } from '../../shell/roles.mjs';
 import { checkWords, trialStamp, trialStep, trialWords } from './plain.mjs';
 
-const COLS = 'var(--bk-lm) minmax(280px, 1.5fr) minmax(300px, 1.7fr) 168px 34px';
-const HEAD = [null, { label: 'What it tries', rule: 'red' }, { label: 'What the ledger did' }, { label: '', rule: 'double' }, { label: '', rule: 'double' }];
+const COLS = 'var(--bk-lm) minmax(240px, 1.3fr) minmax(300px, 1.7fr) 150px 0px';
+const HEAD = [null, { label: 'What it tries' }, { label: 'What the ledger did' }, { label: '' }, { label: '' }];
+
+/** "refused · there is not that much credit left", "holds · 4 checks", "got through". */
+function verdict(result, trialId) {
+  const stamp = trialStamp(result);
+  const first = result.steps.find(step => step.error);
+  const why = first ? trialStep(first, trialId).said.replace(/^Refused:\s*/, '').replace(/\.$/, '') : '';
+  return { word: stamp.word.toLowerCase(), wrong: stamp.ink === 'red', why };
+}
 
 // Commands to start from when writing one by hand. They are the demo book's own ids.
 const BY_HAND = [
@@ -74,27 +82,29 @@ export default function Nine({ service, say }) {
         {scenarios.map((scenario, i) => {
           const words = trialWords(scenario);
           const result = results[scenario.id];
-          const stamp = trialStamp(result);
+          const said = result ? verdict(result, scenario.id) : null;
           const isOpen = open === scenario.id && Boolean(result);
           return (
             <React.Fragment key={scenario.id}>
               <Row lines={2} open={isOpen} className="bk-bench-trial">
                 <Cell no>{i + 1}</Cell>
-                <Cell rule="red" className="bk-bench-tries"><b>{words.name}</b><small>{words.line}</small></Cell>
+                <Cell className="bk-bench-tries"><b>{words.name}</b><small>{words.line}</small></Cell>
                 <Cell label="The ledger" className="bk-bench-did">
-                  {stamp ? (
+                  {said ? (
                     <>
-                      <Stamp small ink={stamp.ink} seed={`trial-${scenario.id}-${stamp.word}`} land>{stamp.word}</Stamp>
+                      <span key={`${result.passed}-${said.word}-${said.why}`} className={cx('bk-bench-result', said.wrong && 'is-wrong')}>
+                        <b>{said.word}</b>{said.why && <> · {said.why}</>}
+                      </span>
                       <button type="button" className="bk-link" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? '' : scenario.id)}>
                         {isOpen ? 'Fold it away' : `${result.checks.length} checks, ${result.steps.length} ${result.steps.length === 1 ? 'step' : 'steps'}`}
                       </button>
                     </>
-                  ) : <span className="bk-muted">not tried yet</span>}
+                  ) : <span className="bk-bench-result is-none">not tried yet</span>}
                 </Cell>
-                <Cell rule="double" className="bk-bench-try">
+                <Cell className="bk-bench-try">
                   <Btn quiet onClick={() => run([scenario.id], scenario.id)} busy={running === scenario.id ? 'Trying it…' : ''} disabled={Boolean(running)}>{result ? 'Try it again' : 'Try it'}</Btn>
                 </Cell>
-                <Cell rule="double" />
+                <Cell />
               </Row>
               {isOpen && (
                 <div className="bk-bench-opened" role="row">
@@ -103,7 +113,7 @@ export default function Nine({ service, say }) {
                     <ul className="bk-bench-checks">
                       {result.checks.map((check, n) => {
                         const said = checkWords(check, scenario.id);
-                        return <li key={n} className={said.passed ? undefined : 'is-wrong'}><i aria-hidden="true">{said.passed ? '✓' : '✕'}</i>{said.text}{said.tech && <small> {said.tech}</small>}</li>;
+                        return <li key={n} className={said.passed ? undefined : 'is-wrong'}><i aria-hidden="true">{said.passed ? 'ok' : 'no'}</i>{said.text}{said.tech && <small> {said.tech}</small>}</li>;
                       })}
                     </ul>
                   </div>

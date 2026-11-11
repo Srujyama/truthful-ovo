@@ -6,7 +6,7 @@
 import React, { useId, useLayoutEffect, useRef } from 'react';
 import { emailFor, packetFor, summaryCsv } from '../../../recovery.mjs';
 import { evidenceActions } from '../../../evidence-ui.mjs';
-import { Btn, Paper, Stamp, Why, cx } from '../../shell/parts.jsx';
+import { Btn, Paper, Why, cx } from '../../shell/parts.jsx';
 import { whyNot } from '../../shell/roles.mjs';
 import { approvalOf, fileName, stampTime } from './plain.mjs';
 import { copyText, saveFile } from './save.mjs';
@@ -69,14 +69,13 @@ export default function Letter({ record, draft, onDraft, onApprove, approving, l
   }
 
   return (
-    <Paper w={160} rot={0.35} className="bk-doc bk-tray-paper bk-tray-letter" data-arrives="5" aria-label="The letter asking for the rest">
+    <Paper className="bk-doc bk-tray-paper bk-tray-letter" data-arrives="5" aria-label="The letter asking for the rest">
+      <span className="bk-tray-name" aria-hidden="true">{approval && !changed ? 'letter · approved' : 'letter · draft'}</span>
       <header className="bk-tray-paper-top">
-        <span className="bk-doc-kind">Letter</span>
         <h2 className="bk-tray-paper-title">Asking {report.vendor} for the rest</h2>
         <p className="bk-tray-from">To their billing team</p>
-        {!approval && <Stamp small seed={`draft-${record.id}`} className="bk-tray-read-stamp">Draft</Stamp>}
       </header>
-      {report.replyCondition && <p className="bk-hand bk-tray-letter-note">It asks on the first promise. The strings in their later note aren’t taken up.</p>}
+      {report.replyCondition && <p className="bk-tray-letter-note">It asks on the first promise. The strings in their later note aren’t taken up.</p>}
 
       <label className="sr-only" htmlFor={id}>The letter</label>
       <textarea
@@ -88,13 +87,11 @@ export default function Letter({ record, draft, onDraft, onApprove, approving, l
         maxLength={20000}
         onChange={event => onDraft(event.target.value)}
       />
-      {changed && <p className="bk-hand bk-tray-letter-note">You changed it after it was approved.</p>}
+      {changed && <p className="bk-tray-letter-note">You changed it after it was approved.</p>}
 
-      <footer className="bk-tray-letter-foot">
+      <footer className={cx('bk-tray-letter-foot', approval && landed === approval.hash && !changed && 'is-landing')}>
         {approval && (
-          <span className={cx('bk-tray-letter-stamp', changed && 'is-void')}>
-            <Stamp key={approval.hash} land={landed === approval.hash} sub={stampTime(approval.at)} seed={`approved-${approval.hash}`}>Approved</Stamp>
-          </span>
+          <p key={approval.hash} className={cx('bk-tray-letter-stamp', changed && 'is-void')}>approved {stampTime(approval.at).toLowerCase()}</p>
         )}
         {!good && <Btn big onClick={onApprove} why={why} busy={approving ? 'Approving…' : ''}>Approve this letter</Btn>}
         <div className="bk-actions bk-tray-sends">

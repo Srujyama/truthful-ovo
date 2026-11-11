@@ -15,8 +15,8 @@ import { Btn, Field, Paper, cx } from '../../shell/parts.jsx';
 import { today } from '../../shell/money.mjs';
 import { plainError } from '../../shell/roles.mjs';
 
-/** The form itself: white bond, a title with the kind of form in small capitals. Escape puts it away. */
-export function FormSheet({ title, kind, said, w = 236, rot = -0.3, onClose, className, children }) {
+/** The form itself: a white box with the kind of form set in its top edge, then a title. Escape puts it away. */
+export function FormSheet({ title, kind, said, onClose, className, children }) {
   const ref = useRef(null);
   useEffect(() => {
     const sheet = ref.current;
@@ -31,9 +31,10 @@ export function FormSheet({ title, kind, said, w = 236, rot = -0.3, onClose, cla
     onClose();
   }
   return (
-    <Paper ref={ref} as="section" w={w} rot={rot} className={cx('bk-form bk-af-form bk-arrive', className)} aria-label={title} onKeyDown={onKeyDown}>
-      <h3 className="bk-form-title" tabIndex={-1}>{title}<small>{kind}</small></h3>
-      {said && <p className="bk-typed bk-af-said">{said}</p>}
+    <Paper ref={ref} as="section" className={cx('bk-form bk-af-form bk-arrive', className)} aria-label={title} onKeyDown={onKeyDown}>
+      <span className="bk-af-name" aria-hidden="true">{String(kind || '').toLowerCase()}</span>
+      <h3 className="bk-form-title" tabIndex={-1}>{title}</h3>
+      {said && <p className="bk-af-said">{said}</p>}
       {children}
     </Paper>
   );
@@ -158,7 +159,7 @@ export function Foot({ plan, problem, stale, why, writing, onWrite, onClose, wri
         {plan
           ? <Btn onClick={onWrite} why={why} busy={writing ? writingLabel : ''}>{writeLabel}</Btn>
           : <Btn as="button" type="submit" why={why}>{checkLabel}</Btn>}
-        <button type="button" className="bk-link" onClick={onClose}>Put it away</button>
+        <button type="button" className="bk-link" onClick={onClose}>Put it away <kbd>esc</kbd></button>
       </div>
     </>
   );

@@ -341,7 +341,7 @@ export function runTrouble(error) {
   if (error instanceof SyntaxError || /JSON/.test(text)) return 'Those steps are not valid JSON. Fix them, or put the written steps back.';
   if (code === 'EXPLORER_BUSY') return 'Another run is still going. Try again in a moment.';
   if (code === 'REVISION_CONFLICT' || code === 'STALE_REVISION') return 'The book changed while this was starting. Run it again.';
-  if (code === 'DEADLINE_NOT_APPLICABLE') return 'This decision is not a claim, so it has no window to close. Race it against something else.';
+  if (code === 'DEADLINE_NOT_APPLICABLE') return 'This decision has no claim window to close. Race it against something else.';
   if (code === 'DEADLINE_UNAVAILABLE') return 'This promise has no claim deadline to run past.';
   if (code === 'DEADLINE_EXPIRED') return 'Its claim window has already closed.';
   if (code === 'ACTION_UNAPPROVED') return 'This decision is not approved yet. Approve it on its IOU page first.';
@@ -386,7 +386,6 @@ const CHECKS = {
   'No hindsight in earlier knowledge view': 'On Oct 20 the book did not know yet.',
   'Late knowledge changes retrospective interpretation': 'From Nov 5 the book knows, and dates it Oct 15.',
   'Ambiguity quarantined': 'The credit is held until someone says which promise it covers.',
-  'Resolution restores unique attribution': 'With its invoice as proof, it goes back to the right promise.',
   'Deadline state recalculated': 'The window shows as closed, and no new paper was needed.',
   'Pending branches conflict': 'The two offers are marked as rivals.',
   'Rejection retained without rewriting original': 'The declined offer stays on file.',
@@ -417,7 +416,8 @@ export function checkWords(check, trialId = '') {
     const why = refusal(expected[1], trialId) || 'it is against the rules';
     return { passed: check.passed, tech: expected[1], text: check.passed ? `The ledger said no: ${why}.` : `The ledger should have said no (${why}) and let it through.` };
   }
-  return { passed: check.passed, tech: '', text: CHECKS[check.name] || `${check.name}. ${check.detail}` };
+  const said = CHECKS[check.name] || (/^Resolution restores unique/.test(check.name) ? 'With its invoice as proof, it goes back to the right promise.' : '');
+  return { passed: check.passed, tech: '', text: said || `${check.name}. ${check.detail}` };
 }
 
 /** One step of a trial: what was tried, and what the ledger answered. { did, said, refused, tech } */
@@ -504,6 +504,6 @@ export function recordTrouble(verification) {
   const code = verification.code, reason = String(verification.reason || '');
   if (code === 'AUTHORITY_UNTRUSTED') return 'Nobody here has said they trust this signer. Trust the signer, then check again.';
   if (code === 'AUTHORITY_SIGNATURE') return 'A signature does not match what it signed. This record was changed after it was signed.';
-  if (/Unexpected token|JSON/.test(reason)) return 'That is not a record: the JSON does not parse.';
+  if (/Unexpected token|JSON/.test(reason)) return 'That JSON doesn’t parse. Paste the whole record as it was downloaded.';
   return `The record does not check out: ${reason}`;
 }

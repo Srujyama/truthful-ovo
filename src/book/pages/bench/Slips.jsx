@@ -257,7 +257,7 @@ export default function Slips({ service, route, say }) {
             </div>
             {trouble('use') && <p className="bk-bench-trouble" role="alert">{trouble('use')}</p>}
             {trouble('same') && <p className="bk-bench-trouble" role="alert">{trouble('same')}</p>}
-            {sameBack && <p className="bk-bench-fine" role="status">The same request came back with the same receipt. Nothing was written twice. <small>idempotent retry</small></p>}
+            {sameBack && <p className="bk-bench-fine" role="status">The same request came back with the same receipt. Nothing was written twice. <small>a retry with the same request id</small></p>}
           </li>
 
           <li>

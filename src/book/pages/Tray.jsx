@@ -1,33 +1,34 @@
-// The in-tray: a set of papers from one vendor goes in, Truthful reads them, and
-// they come back out onto the desk marked up.
+// The in-tray: a set of papers from one company goes in, Truthful reads them, and
+// says what is still owed, with every passage it used under the highlighter.
 //
 //   #/tray
 //
-// In the tray lie three papers you type, paste or drop a file onto: the promise,
-// the invoices, and what they said next. "Read them" runs the real reading
-// (src/engine: analyzeEvidence) and keeps it in this browser's pile
-// (src/recovery.mjs). The papers then lie on the desk at reading size with every
-// passage the reading used under the highlighter, beside a slip that says what
-// was found. From there: write it in the book (src/assuranceImport.mjs, through
-// service.commands), and approve the letter asking for the rest.
+// The drop zone takes three papers you type, paste or drop a file onto: the
+// promise, the invoices, and what they said next. "Read them" runs the real
+// reading (src/engine: analyzeEvidence) and keeps it in this browser's pile
+// (src/recovery.mjs). The answer is then the headline, what was read is one row
+// per paper, the papers follow word for word, and the box beside the rows writes
+// it in the book (src/assuranceImport.mjs, through service.commands). The letter
+// asking for the rest is approved under the papers.
 //
 // The words are in ./tray/plain.mjs; the parts are ./tray/Slot.jsx (a paper in the
-// tray), Marked.jsx (a paper on the desk), Found.jsx (the slip), Letter.jsx and
-// Pile.jsx (the earlier readings).
+// zone), Rows.jsx (what was read), Marked.jsx (a paper word for word), Found.jsx
+// (into the book), Letter.jsx and Pile.jsx (the earlier readings).
 
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { analyzeEvidence } from '../../engine/index.mjs';
 import { STORAGE_KEY, approveCase, createCase, readCases, saveCase, verifyCase } from '../../recovery.mjs';
 import { prepareEvidenceImport } from '../../assuranceImport.mjs';
 import { previewEvidencePortfolio } from '../../evidence-ui.mjs';
-import { reducedMotion, settle, sound } from '../kit/paper.js';
-import { Btn, Dater, Field, Paper, Sheet } from '../shell/parts.jsx';
+import { reducedMotion, sound } from '../kit/paper.js';
+import { Btn, Field, Sheet, SheetHead, cx } from '../shell/parts.jsx';
 import { plainError, whyNot } from '../shell/roles.mjs';
 import {
-  EXAMPLES, SLOTS, approvalOf, blankTray, bookProblem, bookWaits, calendarDay, companyIn, couldRead, engineDay,
+  EXAMPLES, SLOTS, answer, approvalOf, blankTray, bookProblem, bookWaits, calendarDay, companyIn, couldRead, engineDay,
   fileProblem, letterFor, letterProblem, marksFor, slipTime, sortFiles, textProblem, trayIsEmpty,
 } from './tray/plain.mjs';
 import Slot from './tray/Slot.jsx';
+import Rows from './tray/Rows.jsx';
 import Marked from './tray/Marked.jsx';
 import Found from './tray/Found.jsx';
 import Letter, { useDownloads } from './tray/Letter.jsx';
@@ -41,36 +42,40 @@ function readPile() {
   try { return { pile: readCases(localStorage), torn: false }; } catch { return { pile: [], torn: true }; }
 }
 
-/** The top edge of the page, left showing above the desk: where you are, and the way back. */
-function Strip({ heading, back, children }) {
+/** The page's head: the kicker (and the way back), the headline, one line under it. */
+function Head({ heading, back, kicker = 'in-tray', title, lede, children }) {
   return (
-    <Sheet holes={false} className={back ? 'is-strip bk-tray-strip has-back' : 'is-strip bk-tray-strip'}>
-      <div className="bk-kicker">
-        {back}
-        <span className="bk-tray-kick">In-tray</span>
-        <h1 ref={heading} tabIndex={-1} className="bk-tray-h1">{children}</h1>
-        <Dater style={{ marginLeft: 'auto' }} />
-      </div>
-    </Sheet>
+    <SheetHead back={back} kicker={kicker} title={<span ref={heading} tabIndex={-1} className="bk-tray-h1">{title}</span>} lede={lede}>
+      {children}
+    </SheetHead>
   );
+}
+
+/** The answer a reading gives, as a headline. */
+function Answer({ report }) {
+  if (!couldRead(report)) return <>Couldn’t read these.</>;
+  if (report.condition) return <>An offer, <i>with strings.</i></>;
+  if (report.outstandingCents === 0) return <>Paid in full.</>;
+  return <><em>{answer(report).owed}</em> still owed.</>;
+}
+
+/** "reading the promise, the invoices and what they said next…", typed out while the reading runs. */
+function Reading({ form }) {
+  const names = SLOTS.filter(slot => form[slot.key].trim()).map(slot => slot.title.toLowerCase());
+  const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0] || 'the papers';
+  const text = `reading ${list}…`;
+  return <p className="bk-tray-reading" role="status" style={{ '--n': text.length }}><span>{text}</span></p>;
 }
 
 /** A team's book keeps its readings on the server, and that path is still on the old screen. */
 function TeamTray() {
   return (
-    <>
-      <Strip>Drop in what they sent you.</Strip>
-      <div className="bk-on-desk bk-tray-desk">
-        <div className="bk-tray is-team">
-          <div className="bk-tray-box">
-            <Paper w={104} rot={-1.2} className="bk-tray-note">
-              <p>A team’s papers are filed on the old screen for now.</p>
-              <a className="bk-link" href="?view=evidence">Open it</a>
-            </Paper>
-          </div>
-        </div>
+    <Sheet holes={false} className="bk-tray-sheet">
+      <Head title="Add what they sent you." lede="A team’s papers are filed on the old screen for now." />
+      <div className="bk-part">
+        <a className="bk-btn" href="?view=evidence">Open the old screen</a>
       </div>
-    </>
+    </Sheet>
   );
 }
 
@@ -89,7 +94,7 @@ function OwnTray({ service, view, go, say }) {
   const [form, setForm] = useState(() => blankTray());
   const [ownCompany, setOwnCompany] = useState(false);   // true once the reader has typed the company themselves
   const [slotSays, setSlotSays] = useState({});          // what went wrong with a file, on the slot it was dropped on
-  const [record, setRecord] = useState(null);            // the reading whose papers are out on the desk
+  const [record, setRecord] = useState(null);            // the reading on the page now
   const [draft, setDraft] = useState('');
   const [saved, setSaved] = useState(readPile);
   const [working, setWorking] = useState('');            // 'reading' | 'approving' | 'writing' | 'fetching'
@@ -181,11 +186,11 @@ function OwnTray({ service, view, go, say }) {
       pile.current = saveCase(localStorage, pile.current, next);
       setSaved({ pile: pile.current, torn: false });
     } catch {
-      say('This browser won’t keep the pile. The reading on the desk is still here.', { wrong: true });
+      say('This browser won’t keep the pile. This reading is still on the page.', { wrong: true });
     }
   }
 
-  /** Put a reading's papers out on the desk. */
+  /** Show a reading: its answer, its rows, its papers. */
   function lay(next) {
     setRecord(next);
     setDraft(approvalOf(next)?.payload.draft ?? letterFor(next.report));
@@ -248,12 +253,9 @@ function OwnTray({ service, view, go, say }) {
     requestAnimationFrame(() => heading.current?.focus({ preventScroll: true }));
   }
 
-  // The papers slide out of the tray one after another, and the slip lands last.
+  // What was read arrives row by row (the reading is drawn afresh each time, so it plays again); the box beside it takes the focus.
   useLayoutEffect(() => {
     if (!out || !desk.current) return;
-    const sheets = [...desk.current.querySelectorAll('[data-arrives]')].sort((a, b) => Number(a.dataset.arrives) - Number(b.dataset.arrives));
-    sound.slide(0.34);
-    sheets.forEach((sheet, i) => { settle(sheet, { y: -70 - i * 14, rotate: i % 2 ? 3 : -3, opacity: 0 }, { duration: 480, delay: i * 85, lift: 0.5, quiet: i > 0 }); });
     found.current?.focus({ preventScroll: true });
   }, [out]);
 
@@ -339,42 +341,54 @@ function OwnTray({ service, view, go, say }) {
     .map(slot => ({ slot, text: report.documents?.[slot.key] || '', marks: marksFor(report, slot.source) }))
     .filter(paper => paper.text.trim()) : []), [report]);
 
-  // ——— on the desk
+  // ——— a reading
 
   if (record && report) {
     const letter = report.requiresApproval && couldRead(report);
+    const said = answer(report);
     return (
-      <>
-        <Strip heading={heading} back={<button type="button" className="bk-link" onClick={backToTray}>← Back to the tray</button>}>
-          {report.vendor || 'Papers'} · read {slipTime(record.createdAt)}
-        </Strip>
-        <div ref={desk} className="bk-on-desk bk-tray-desk">
-          <div className="bk-tray-read">
-            <div className="bk-tray-left">
-              {papers.map((paper, i) => (
-                <Marked key={paper.slot.key} i={i} slot={paper.slot} text={paper.text} marks={paper.marks} lit={lit} onHover={setHover} company={report.vendor} readAt={record.createdAt} />
-              ))}
-              {letter && <Letter record={record} draft={draft} onDraft={setDraft} onApprove={approve} approving={working === 'approving'} landed={landed} service={service} say={say} />}
-            </div>
-            <Found
-              report={report}
-              lit={lit}
-              pressed={pressed?.key}
-              onHover={setHover}
-              onPress={press}
-              book={{ ...book, twin }}
-              service={service}
-              writing={working === 'writing'}
-              onWrite={writeIn}
-              onBack={backToTray}
-              heading={found}
-            >
-              {!letter && <SlipDownloads record={record} say={say} />}
-            </Found>
+      <Sheet holes={false} className="bk-tray-sheet is-read">
+        <Head
+          heading={heading}
+          back={<button type="button" className="bk-link" onClick={backToTray}>← back to the tray</button>}
+          kicker={`${report.vendor || 'papers'} · read ${slipTime(record.createdAt)}`}
+          title={<Answer report={report} />}
+          lede={couldRead(report) ? <>{said.lead}{said.tail && ` ${said.tail}`}</> : 'Nothing went in the book. Fix what the box says, then read them again.'}
+        />
+        <div key={out} ref={desk} className="bk-part bk-tray-read">
+          <div className="bk-tray-left">
+            {papers.length > 0 && <Rows papers={papers} report={report} lit={lit} pressed={pressed?.key} onHover={setHover} onPress={press} />}
           </div>
-          <Pile pile={saved.pile} torn={saved.torn} onDesk={record.id} onOpen={openSlip} onClear={clearPile} busy={Boolean(working)} />
+          <Found
+            report={report}
+            book={{ ...book, twin }}
+            service={service}
+            writing={working === 'writing'}
+            onWrite={writeIn}
+            onBack={backToTray}
+            heading={found}
+          >
+            {!letter && <SlipDownloads record={record} say={say} />}
+          </Found>
+          {papers.length > 0 && (
+            <section className="bk-tray-papers" aria-labelledby="bk-tray-papers-h">
+              <h2 className="bk-h2" id="bk-tray-papers-h">The papers, word for word <small>as they went in</small></h2>
+              <div className="bk-tray-paperlist">
+                {papers.map((paper, i) => (
+                  <Marked key={paper.slot.key} i={i} slot={paper.slot} text={paper.text} marks={paper.marks} lit={lit} onHover={setHover} company={report.vendor} readAt={record.createdAt} />
+                ))}
+              </div>
+            </section>
+          )}
+          {letter && (
+            <section className="bk-tray-papers" aria-labelledby="bk-tray-letter-h">
+              <h2 className="bk-h2" id="bk-tray-letter-h">The letter asking for the rest</h2>
+              <Letter record={record} draft={draft} onDraft={setDraft} onApprove={approve} approving={working === 'approving'} landed={landed} service={service} say={say} />
+            </section>
+          )}
         </div>
-      </>
+        <Pile pile={saved.pile} torn={saved.torn} onDesk={record.id} onOpen={openSlip} onClear={clearPile} busy={Boolean(working)} />
+      </Sheet>
     );
   }
 
@@ -385,56 +399,67 @@ function OwnTray({ service, view, go, say }) {
       : !isDay(form.asOf) ? 'Pick the day to read it as of.' : '';
 
   return (
-    <>
-      <Strip heading={heading}>Drop in what they sent you.</Strip>
-      <div className="bk-on-desk bk-tray-desk">
-        <div className="bk-tray-top">
-          <div
-            className={over ? 'bk-tray is-over' : 'bk-tray'}
-            onDragEnter={event => { if (hasFiles(event)) { event.preventDefault(); setOver(true); } }}
-            onDragOver={event => { if (hasFiles(event)) event.preventDefault(); }}
-            onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOver(false); }}
-            onDrop={event => {
-              setOver(false);
-              if (!hasFiles(event) || event.defaultPrevented) return;
-              event.preventDefault();
-              takeFiles([...event.dataTransfer.files], null);
-            }}
-          >
-            <div className="bk-tray-box" role="group" aria-label="The tray">
-              {SLOTS.map(slot => <Slot key={slot.key} slot={slot} value={form[slot.key]} says={slotSays[slot.key]} onChange={put} onFiles={takeFiles} />)}
-              <p className="bk-tray-lip">type · paste · drop a .txt, .eml or .csv on a paper</p>
-            </div>
+    <Sheet holes={false} className="bk-tray-sheet">
+      <Head
+        heading={heading}
+        title="Add what they sent you."
+        lede="Truthful reads what a company sent you and says what is still owed, with every figure it used under the highlighter."
+      />
+      <div className="bk-part">
+        <div
+          className={cx('bk-tray-zone', over && 'is-over', working === 'reading' && 'is-reading')}
+          role="group"
+          aria-label="The tray"
+          onDragEnter={event => { if (hasFiles(event)) { event.preventDefault(); setOver(true); } }}
+          onDragOver={event => { if (hasFiles(event)) event.preventDefault(); }}
+          onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOver(false); }}
+          onDrop={event => {
+            setOver(false);
+            if (!hasFiles(event) || event.defaultPrevented) return;
+            event.preventDefault();
+            takeFiles([...event.dataTransfer.files], null);
+          }}
+        >
+          <div className="bk-tray-call">
+            <p className="bk-tray-drop">{over ? 'let go to put it in' : 'drop an email, a contract or an invoice'}</p>
+            <p className="bk-tray-or">or paste the text · .txt, .eml and .csv files</p>
           </div>
-
-          <Paper as="form" w={66} rot={0.9} className="bk-form bk-tray-cover" onSubmit={event => { event.preventDefault(); if (!whyNotRead) readThem(); }}>
-            <Field label="Who it is from">
-              <input
-                type="text"
-                value={form.vendor}
-                maxLength={120}
-                autoComplete="off"
-                placeholder="the company"
-                onChange={event => { setOwnCompany(event.target.value !== ''); setForm(current => ({ ...current, vendor: event.target.value })); }}
-              />
-            </Field>
-            <Field label="Read it as of">
-              <input type="date" value={form.asOf} max={today} required onChange={event => setForm(current => ({ ...current, asOf: event.target.value }))} />
-            </Field>
-            <Btn big type="submit" why={whyNotRead} busy={working === 'reading' ? 'Reading…' : ''}>Read them</Btn>
-          </Paper>
+          <div className="bk-tray-box">
+            {SLOTS.map(slot => <Slot key={slot.key} slot={slot} value={form[slot.key]} says={slotSays[slot.key]} onChange={put} onFiles={takeFiles} />)}
+          </div>
         </div>
 
+        <form className="bk-tray-cover" onSubmit={event => { event.preventDefault(); if (!whyNotRead) readThem(); }}>
+          <Field label="Who it is from">
+            <input
+              type="text"
+              value={form.vendor}
+              maxLength={120}
+              autoComplete="off"
+              placeholder="the company"
+              onChange={event => { setOwnCompany(event.target.value !== ''); setForm(current => ({ ...current, vendor: event.target.value })); }}
+            />
+          </Field>
+          <Field label="Read it as of">
+            <input type="date" value={form.asOf} max={today} required onChange={event => setForm(current => ({ ...current, asOf: event.target.value }))} />
+          </Field>
+          <div className="bk-tray-go">
+            <Btn big type="submit" why={whyNotRead} busy={working === 'reading' ? 'Reading…' : ''}>Read them</Btn>
+          </div>
+        </form>
+        {working === 'reading' && <Reading form={form} />}
+
         <div className="bk-tray-tries">
+          <span className="bk-label">try</span>
           {EXAMPLES.map(example => (
-            <button key={example.id} type="button" className="bk-link" disabled={Boolean(working)} onClick={() => tryExample(example)}>{example.label}</button>
+            <button key={example.id} type="button" className="bk-link" disabled={Boolean(working)} onClick={() => tryExample(example)}>{example.label.replace(/^Try:\s*/, '')}</button>
           ))}
           {!trayIsEmpty(form) && <button type="button" className="bk-link bk-tray-empty" onClick={emptyTray}>Empty the tray</button>}
         </div>
-
-        <Pile pile={saved.pile} torn={saved.torn} onDesk="" onOpen={openSlip} onClear={clearPile} busy={Boolean(working)} />
       </div>
-    </>
+
+      <Pile pile={saved.pile} torn={saved.torn} onDesk="" onOpen={openSlip} onClear={clearPile} busy={Boolean(working)} />
+    </Sheet>
   );
 }
 

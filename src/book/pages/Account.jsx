@@ -7,9 +7,10 @@
 // The lines of the ledger are built in ./account/entries.mjs (pure, tested).
 // The offers, the decision slip and the house rules are ./account/acct-Next.jsx.
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { correspondenceDocuments } from '../../correspondence.mjs';
-import { Cell, Ledger, Paper, Row, Sheet, SheetHead, Stamp, Tally, Total, cx } from '../shell/parts.jsx';
+import { Cell, Ledger, Paper, Row, Sheet, SheetHead, Total, cx } from '../shell/parts.jsx';
+import { Coin, CoinStrip } from '../ui/Coins.jsx';
 import { href, paperId } from '../shell/route.mjs';
 import { clock, day, dollars, ledger, shortDay } from '../shell/money.mjs';
 import { standing, whatTheySaid } from './Ious.jsx';
@@ -34,7 +35,7 @@ const head = owed => [
   { label: '', rule: 'double' },
 ];
 
-const backLink = <a className="bk-link bk-acct-back" href={href('ious')}>← All IOUs</a>;
+const backLink = <a className="bk-link bk-acct-back" href={href('ious')}>← all promises</a>;
 
 export default function Account({ service, view, route, go, say, active }) {
   const commitment = view?.commitments.find(c => c.id === route.id) || null;
@@ -47,9 +48,9 @@ export default function Account({ service, view, route, go, say, active }) {
   if (!commitment) {
     return (
       <Sheet className="bk-acct">
-        <SheetHead back={backLink} title="That IOU isn’t in this book." />
+        <SheetHead back={backLink} title="That promise isn’t in this book." />
         <div className="bk-part">
-          <a className="bk-btn" href={href('ious')}>Back to all IOUs</a>
+          <a className="bk-btn" href={href('ious')}>Back to all promises</a>
         </div>
       </Sheet>
     );
@@ -64,12 +65,13 @@ export default function Account({ service, view, route, go, say, active }) {
       <Sheet className="bk-acct" data-standing={state}>
         <SheetHead
           back={backLink}
-          title={company}
-          lede={<span className="bk-acct-said">“{whatTheySaid(view, commitment)}”</span>}
-          side={<Owed commitment={commitment} state={state} />}
+          title={<Answer commitment={commitment} state={state} company={company} />}
+          lede={<><b className="bk-acct-co">{company}</b> <span className="bk-acct-said">“{whatTheySaid(view, commitment)}”</span></>}
         >
-          <p className="bk-acct-due">{dueLine(commitment, state, year)}</p>
-          <Strip commitment={commitment} state={state} />
+          <div className="bk-acct-top">
+            <p className="bk-acct-due">{dueLine(commitment, state, year)}</p>
+            <Coins commitment={commitment} state={state} />
+          </div>
         </SheetHead>
 
         <Entries key={`lines:${commitment.id}`} lines={lines} commitment={commitment} state={state} year={year} />
@@ -86,68 +88,91 @@ export default function Account({ service, view, route, go, say, active }) {
 
 // ---- the head ----
 
-/** "due Oct 1, 2026 · PC-SEATS-2026", and the claim window when there is one. */
+/** "due Oct 1, 2026 · overdue · PC-SEATS-2026", and the claim window when there is one. */
 function dueLine(commitment, state, year) {
-  const parts = [`${state === 'offer' ? 'on offer for' : 'due'} ${day(commitment.dueDate)}`];
+  const parts = [`${state === 'offer' ? 'only if you agree · from' : 'due'} ${day(commitment.dueDate)}`];
   if (commitment.originalDueDate && commitment.originalDueDate !== commitment.dueDate) parts[0] += ` (first promised for ${shortDay(commitment.originalDueDate, year)})`;
-  parts.push(commitment.reference);
+  const late = state === 'overdue' ? <b key="late" className="bk-acct-late">overdue</b> : null;
+  const rest = [commitment.reference];
   const window = commitment.deadline;
-  if (window?.date) parts.push(`${window.state === 'expired' ? 'claims closed' : 'claims close'} ${shortDay(window.date, year)}`);
-  return parts.join(' · ');
+  if (window?.date) rest.push(`${window.state === 'expired' ? 'claims closed' : 'claims close'} ${shortDay(window.date, year)}`);
+  return <>{parts[0]}{late && <> · {late}</>} · {rest.join(' · ')}</>;
 }
 
-/** The figure this page is for, and the stamp that says where the promise stands. */
-function Owed({ commitment, state }) {
-  if (state === 'offer') {
-    return (
-      <div className="bk-acct-side">
-        <span className="bk-owed-label is-none">On offer, not owed</span>
-        <b className="bk-owed is-none">{ledger(commitment.promisedCents)}</b>
-        <Stamp small seed={`only-if-${commitment.id}`}>Only if</Stamp>
-      </div>
-    );
-  }
-  const paid = state === 'paid';
-  return (
-    <div className="bk-acct-side">
-      <span className={cx('bk-owed-label', paid && 'is-none')}>Still owed</span>
-      <b className={cx('bk-owed', paid && 'is-none')}>{ledger(commitment.outstandingCents)}</b>
-      {paid && <Stamp seed={`paid-${commitment.id}`}>Paid</Stamp>}
-      {state === 'overdue' && <Stamp ink="red" seed={`overdue-${commitment.id}`}>Overdue</Stamp>}
-    </div>
-  );
+/** The answer, as the headline: what is still owed, or that nothing is. */
+function Answer({ commitment, state, company }) {
+  const whose = <span className="sr-only"> on the promise from {company}</span>;
+  if (state === 'offer') return <>On offer: {dollars(commitment.promisedCents)}{whose}</>;
+  if (state === 'paid') return <>Paid in full.{whose}</>;
+  return <><em>{dollars(commitment.outstandingCents)}</em> still owed{whose}.</>;
 }
 
-/** The strip of boxes, punched as money reaches an invoice, and the sum under it. */
-function Strip({ commitment, state }) {
-  const { promisedCents, verifiedCents, outstandingCents, issuedCents } = commitment;
+/** How wide a box is, kept up to date as the window changes. */
+function useWidth(ref, fallback = 960) {
+  const [width, setWidth] = useState(fallback);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const fit = () => setWidth(el.clientWidth || fallback);
+    fit();
+    const watch = typeof ResizeObserver === 'function' ? new ResizeObserver(fit) : null;
+    watch?.observe(el);
+    return () => watch?.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return width;
+}
+
+const LEGEND = {
+  in: 'came in on an invoice',
+  note: 'a credit note, not on an invoice yet',
+  owed: 'still owed',
+  offer: 'on offer, only if you agree',
+};
+
+/**
+ * The promise as coins, one for each $100 (more for a big promise), ten to a row.
+ * Ink came in on an invoice, a red ring is still owed. When money arrives the coins turn over.
+ */
+function Coins({ commitment, state }) {
+  const box = useRef(null);
+  const width = useWidth(box);
+  const { promisedCents, verifiedCents, outstandingCents, issuedCents = 0 } = commitment;
   const offer = state === 'offer', paid = state === 'paid';
   const strip = stripFor(promisedCents, offer ? 0 : verifiedCents, paid);
-  const mark = i => {
-    if (i === strip.count) return dollars(promisedCents);
-    return i % 5 === 0 && strip.count - i >= 5 ? dollars(i * strip.boxCents) : '';
-  };
+  const noted = offer || paid ? 0 : Math.max(0, Math.min(strip.count - strip.punched, Math.ceil(issuedCents / strip.boxCents - 1e-9)));
+  const states = Array.from({ length: strip.count }, (_, i) => (offer ? 'offer' : i < strip.punched ? 'in' : i < strip.punched + noted ? 'note' : 'owed'));
+  const u = [5, 4, 3].find(n => n * 108 <= width) || 2;
+  const perRow = Math.max(1, Math.min(10, Math.floor((width + 2 * u) / (11 * u))));
+  const shown = Object.keys(LEGEND).filter(key => states.includes(key));
+  const coin = dollars(Math.min(strip.boxCents, promisedCents));
+  const label = offer
+    ? `${dollars(promisedCents)} on offer, in ${strip.count} coins`
+    : `${dollars(verifiedCents)} of ${dollars(promisedCents)} came in. ${paid ? 'Nothing' : dollars(outstandingCents)} still owed.`;
+
   return (
-    <div className="bk-acct-strip">
-      <div className="bk-acct-strip-row">
-        <div className={cx('paper bk-acct-slip', !offer && !paid && 'is-owed')} style={{ '--n': strip.count }}>
-          <Tally key={`${commitment.id}-${strip.boxCents}-${promisedCents}`} boxes={strip.boxes} punched={strip.punched} mark={mark} seed={`acct-${commitment.id}`} />
-        </div>
-        <span className="bk-acct-box">one box is {dollars(Math.min(strip.boxCents, promisedCents))}</span>
+    <div className="bk-acct-coins">
+      <p className="bk-acct-legend">
+        {shown.map(key => <span key={key}><Coin state={key} u={2} />{LEGEND[key]}</span>)}
+        <span className="bk-acct-each">one coin is {coin}</span>
+      </p>
+      <div ref={box} className="bk-acct-strip">
+        <CoinStrip key={`${commitment.id}-${strip.boxCents}-${strip.count}`} states={states} u={u} perRow={perRow} label={label} />
       </div>
       <p className="bk-acct-sum">
         {offer ? (
-          <>{dollars(promisedCents)} on offer. Nothing is owed unless you take it.</>
+          <><span>{dollars(promisedCents)} on offer</span><i aria-hidden="true" /><b>nothing owed unless you take it</b></>
         ) : (
           <>
-            {dollars(promisedCents)} promised − {dollars(verifiedCents)} on {verifiedCents > 0 ? 'the invoice' : 'an invoice'} ={' '}
-            {paid ? <b>nothing owed</b> : <b className="is-owed">{dollars(outstandingCents)} still owed</b>}
+            <span>{dollars(promisedCents)} promised − {dollars(verifiedCents)} on {verifiedCents > 0 ? 'the invoice' : 'an invoice'}</span>
+            <i aria-hidden="true" />
+            {paid ? <b>= nothing owed</b> : <b className="is-owed">= {dollars(outstandingCents)} still owed</b>}
           </>
         )}
-        {!offer && !paid && issuedCents > 0 && (
-          <span className="bk-acct-note"> A {dollars(issuedCents)} credit note is in. A note is not money until it shows on an invoice.</span>
-        )}
       </p>
+      {!offer && !paid && issuedCents > 0 && (
+        <p className="bk-acct-note">A {dollars(issuedCents)} credit note is in. A note is not money until it shows on an invoice.</p>
+      )}
     </div>
   );
 }
@@ -221,8 +246,6 @@ function Entries({ lines, commitment, state, year }) {
 
 // ---- the papers the promise rests on ----
 
-const TURNS = [-1.7, 1.1, -0.6, 1.9, -1.2, 0.7];
-
 /** A paper's own text. The sentence with the money in it is run over with the highlighter. */
 function PaperText({ text }) {
   const rows = String(text || '').split('\n').filter(row => row.trim());
@@ -251,21 +274,17 @@ function DeskPapers({ view, commitment, year }) {
     [view, commitment],
   );
   if (!papers.length) return null;
-  const count = ['', 'The paper', 'The two papers', 'The three papers', 'The four papers', 'The five papers'][papers.length] || `The ${papers.length} papers`;
   return (
-    <div className="bk-on-desk bk-acct-desk">
-      <p className="bk-desk-said">{count} this promise rests on.</p>
-      <div className="bk-desk-row bk-acct-fan">
-        {papers.map((paper, i) => {
+    <section className="bk-part bk-acct-desk" aria-labelledby="bk-acct-desk-h">
+      <h2 className="bk-h2" id="bk-acct-desk-h">{papers.length === 1 ? 'The paper it rests on' : 'The papers it rests on'} <small>{papers.length}</small></h2>
+      <div className="bk-acct-fan">
+        {papers.map(paper => {
           const look = paperLook(paper, commitment);
           return (
             <Paper
               key={`${paper.sourceId}@${paper.revision}`}
               as="a"
               href={href('papers', paperId(paper.sourceId, paper.revision))}
-              stock={look.stock}
-              w={108}
-              rot={TURNS[i % TURNS.length]}
               className="bk-doc bk-acct-paper"
               aria-label={`${look.name}: ${paper.title}`}
             >
@@ -276,6 +295,6 @@ function DeskPapers({ view, commitment, year }) {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }

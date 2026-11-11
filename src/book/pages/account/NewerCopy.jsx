@@ -88,7 +88,7 @@ function CopyForm({ view, commitment, service, say, past = false, onClose, w, ro
         {problem && <p className="bk-af-problem" role="alert">{problem}</p>}
         <div className="bk-actions bk-af-footline">
           <Btn as="button" type="submit" why={why} busy={writing ? 'Writing it in…' : ''}>Write it in</Btn>
-          <button type="button" className="bk-link" onClick={() => onClose()}>Put it away</button>
+          <button type="button" className="bk-link" onClick={() => onClose()}>Put it away <kbd>esc</kbd></button>
         </div>
       </form>
     </FormSheet>

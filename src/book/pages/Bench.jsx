@@ -13,7 +13,7 @@
 // slip still counting down is there when you come back.
 
 import React, { useRef } from 'react';
-import { Dater, Filters, Sheet } from '../shell/parts.jsx';
+import { Filters, Sheet, SheetHead } from '../shell/parts.jsx';
 import Clerks from './bench/Clerks.jsx';
 import Slips from './bench/Slips.jsx';
 import Nine from './bench/Nine.jsx';
@@ -34,15 +34,15 @@ export default function Bench({ service, view, route, go, say, active }) {
 
   return (
     <Sheet className="bk-bench">
-      <header className="bk-bench-top">
-        <div className="bk-bench-top-row">
-          <h1 className="bk-bench-title">Test bench</h1>
-          <span className="bk-label">for engineers</span>
-          <Dater style={{ marginLeft: 'auto' }} />
+      <SheetHead
+        kicker="test bench"
+        title={<>For engineers. <i>Try the book against its own rules.</i></>}
+        lede="Race two clerks for one credit, use a permission slip twice, or run nine old tricks against the ledger. A refusal is the ledger working."
+      >
+        <div className="bk-bench-tools">
+          <Filters items={TOOLS} value={tool} label="Which tool" onChange={id => go('bench', '', { tool: id, a: q.a, iou: q.iou }, { replace: true })} />
         </div>
-        <p className="bk-bench-lede">Try to break the book: race two clerks for one credit, use a permission slip twice, or run nine old tricks against the ledger.</p>
-        <Filters items={TOOLS} value={tool} label="Which tool" onChange={id => go('bench', '', { tool: id, a: q.a, iou: q.iou }, { replace: true })} />
-      </header>
+      </SheetHead>
 
       {TOOLS.map(({ id, Tool }) => opened.current.has(id) && (
         <div key={id} hidden={tool !== id} inert={tool !== id ? true : undefined} className="bk-bench-tool">

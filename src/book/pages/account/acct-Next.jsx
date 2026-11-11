@@ -9,8 +9,8 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { originalReviewState } from '../../../assurance-ui.mjs';
-import { reducedMotion, tagString } from '../../kit/paper.js';
-import { Btn, Close, Field, Over, Paper, Stamp, Why, cx } from '../../shell/parts.jsx';
+import { reducedMotion } from '../../kit/paper.js';
+import { Btn, Close, Field, Over, Paper, Why, cx } from '../../shell/parts.jsx';
 import { clock, day, dollars, shortDay, stampDay } from '../../shell/money.mjs';
 import { plainError, roleName, waitsFor, whyNot } from '../../shell/roles.mjs';
 import { localDay, offerKind, offerWords, whoWrote } from './entries.mjs';
@@ -18,8 +18,6 @@ import { centsFrom, isHouseRule, plainReason, plainReasons, typedDollars } from 
 
 const REASON_MAX = 200;                    // the book stops a reason for declining at 200 characters
 const COUNT = ['no offers', 'one offer', 'two offers', 'three offers', 'four offers', 'five offers'];
-const STRINGS = [{ dx: -5, dy: -15, sag: 4 }, { dx: 4, dy: -16, sag: -3 }, { dx: -3, dy: -16, sag: 3 }];
-const TURNS = [-1.6, 1.3, -0.8, 1.8];
 const cap = text => (text ? text[0].toUpperCase() + text.slice(1) : '');
 
 export default function Next({ service, view, commitment, state, say, wanted, active }) {
@@ -112,10 +110,10 @@ export default function Next({ service, view, commitment, state, say, wanted, ac
             </p>
           )}
           <div className="bk-acct-tags">
-            {offers.map((offer, i) => (
+            {offers.map(offer => (
               <Tag
                 key={offer.id}
-                offer={offer} index={i} commitment={commitment} view={view} year={year}
+                offer={offer} commitment={commitment} view={view} year={year}
                 action={latestFor(offer.id)}
                 out={slip?.offer?.id === offer.id}
                 pen={pen} role={role} busy={busy} doing={doing}
@@ -177,9 +175,9 @@ function renewalSums(offer, action, commitment) {
   return { creditCents: words.creditCents, extraCents: words.extraCents, costCents: words.costCents, anywayCents: offer.baselineCostCents || 0, renewalCents: (offer.baselineCostCents || 0) + words.extraCents };
 }
 
-// ---- an offer, on a manila tag ----
+// ---- an offer, in a dashed box ----
 
-function Tag({ offer, index, commitment, view, year, action, out, pen, role, busy, doing, declining, onTake, onDeclining, onDecline }) {
+function Tag({ offer, commitment, view, year, action, out, pen, role, busy, doing, declining, onTake, onDeclining, onDecline }) {
   const [reason, setReason] = useState('');
   const [wrong, setWrong] = useState('');
   const declineLink = useRef(null);
@@ -211,12 +209,10 @@ function Tag({ offer, index, commitment, view, year, action, out, pen, role, bus
   return (
     <article
       className={cx('paper bk-tag bk-acct-tag', offer.rejected && 'is-torn', out && 'is-out')}
-      style={{ '--W': 82, '--rot': `${TURNS[index % TURNS.length]}deg` }}
       aria-label={`Their offer: ${words.title}`}
     >
-      <div className="paper-face stock-manila tag-face">
-        <i className="tag-eye" aria-hidden="true" />
-        <Stamp small seed={`only-if-${offer.id}`}>Only if</Stamp>
+      <div className="paper-face">
+        <span className="bk-acct-tag-name">{offer.accepted ? 'offer · taken' : offer.rejected ? 'offer · declined' : 'offer · only if you agree'}</span>
         <h3 className="bk-tag-title">{words.title}</h3>
         <p className="bk-tag-said">
           {sums ? `A ${dollars(sums.creditCents)} credit if you spend ${dollars(sums.extraCents)} more.` : words.said}
@@ -230,7 +226,6 @@ function Tag({ offer, index, commitment, view, year, action, out, pen, role, bus
         )}
         {offer.accepted && (
           <p className="bk-tag-said bk-acct-tag-end">
-            <Stamp small seed={`taken-${offer.id}`}>Taken</Stamp>
             Taken {shortDay(localDay(offer.acceptedAt), year)}. It counts from {shortDay(offer.effectiveDate, year)}.
           </p>
         )}
@@ -239,7 +234,7 @@ function Tag({ offer, index, commitment, view, year, action, out, pen, role, bus
         {open && !declining && (
           <>
             <div className="bk-actions">
-              <Btn onClick={onTake} disabled={busy || offer.basisStale || Boolean(takeRole)} busy={doing === `take:${offer.id}` ? 'Preparing…' : ''}>Take it</Btn>
+              <Btn quiet onClick={onTake} disabled={busy || offer.basisStale || Boolean(takeRole)} busy={doing === `take:${offer.id}` ? 'Preparing…' : ''}>Take it</Btn>
               <button ref={declineLink} type="button" className="bk-link" disabled={busy || Boolean(declineRole)} onClick={() => onDeclining(true)}>Decline</button>
             </div>
             <Why>{waits.join(' ')}</Why>
@@ -258,7 +253,6 @@ function Tag({ offer, index, commitment, view, year, action, out, pen, role, bus
           </form>
         )}
       </div>
-      <span className="bk-acct-string" dangerouslySetInnerHTML={{ __html: tagString(STRINGS[index % STRINGS.length]) }} />
     </article>
   );
 }
@@ -301,8 +295,9 @@ function Slip({ slipRef, slip, commitment, view, year, pen, busy, doing, landed,
   const writeWhy = stoppedWhy || whyNot('EXECUTE_ACTION', pen);
 
   return (
-    <Paper ref={slipRef} as="article" w={236} rot={0.35} className="bk-form bk-acct-decision" aria-label="The decision">
-      <h3 className="bk-form-title" tabIndex={-1}>{slipTitle(slip, commitment, year, view.asOf)}<small>DECISION</small></h3>
+    <Paper ref={slipRef} as="article" className="bk-form bk-acct-decision" aria-label="The decision">
+      <span className="bk-acct-name" aria-hidden="true">decision</span>
+      <h3 className="bk-form-title" tabIndex={-1}>{slipTitle(slip, commitment, year, view.asOf)}</h3>
 
       {sums && (
         <div className="bk-boxes bk-acct-sums">
@@ -332,14 +327,12 @@ function Slip({ slipRef, slip, commitment, view, year, pen, busy, doing, landed,
             </div>
           )}
         </li>
-        <li className={cx(approved || done ? 'is-done' : next === 'approve' && 'is-now')}>
+        <li className={cx(approved || done ? 'is-done' : next === 'approve' && 'is-now', landed && landed === action?.id && 'is-landing')}>
           <span>Approved by</span>
           {(approved || done) && action.approval && (
             <>
               <b>{cap(whoWrote(action.approval.actor))}</b>
-              <div className="bk-acct-approved">
-                <Stamp seed={`approved-${action.id}`} sub={`${stampDay(localDay(action.approval.approvedAt))} · ${clock(action.approval.approvedAt)}`} land={landed === action.id}>Approved</Stamp>
-              </div>
+              <small className="bk-acct-approved">approved {stampDay(localDay(action.approval.approvedAt))} · {clock(action.approval.approvedAt)}</small>
             </>
           )}
           {next === 'approve' && (
@@ -407,9 +400,9 @@ function HouseRules({ service, view, say, onClose }) {
 
   return (
     <Over onClose={onClose} label="House rules">
-      <Paper w={128} rot={-0.5} className="bk-form bk-acct-rules">
+      <Paper className="bk-form bk-acct-rules">
         <Close onClose={onClose} />
-        <h2 className="bk-form-title">House rules<small>THE OWNER SETS THESE</small></h2>
+        <h2 className="bk-form-title">House rules<small>the owner sets these</small></h2>
         <p className="bk-typed bk-acct-rules-said">A decision has to fit inside these before anyone can approve it.</p>
         <form onSubmit={save}>
           <div className="bk-fields">

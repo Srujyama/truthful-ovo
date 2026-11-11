@@ -112,7 +112,7 @@ export default function DayBook({ service, view, route, go, active }) {
   return (
     <Sheet className="bk-rec-daybook">
       <SheetHead
-        kicker="Day book"
+        kicker="history"
         title={all.length ? `${entriesWord(all.length)} since ${shortDay(first)}.` : 'Nothing written yet.'}
         lede={newest ? `The last went in on ${shortDay(newest.event.observedAt)}. ${newest.line}` : null}
       />

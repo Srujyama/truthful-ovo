@@ -132,7 +132,7 @@ export default function Clerks({ service, view }) {
       } else if (typed != null) {
         const plan = JSON.parse(typed);
         plan.id = `custom:${setupId}`;
-        plan.metadata = { ...(plan.metadata || {}), origin: 'user-supplied', assumptionNotice: 'Steps typed by hand at the test bench. They are not the book’s own state and carry no real approval.' };
+        plan.metadata = { ...(plan.metadata || {}), origin: 'user-supplied', assumptionNotice: 'Steps typed by hand at the test bench. They run on a copy of the book, with a made-up approval.' };
         const naive = await explorePlan(plan, { mode: 'naive', bounds });
         if (stale()) return;
         const guarded = await explorePlan(plan, { mode: 'guarded', bounds });

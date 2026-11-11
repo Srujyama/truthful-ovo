@@ -1,0 +1,37 @@
+/* To do (src/book/pages/ToDo.jsx), in the isokra system.
+ *
+ * The headline is the answer: how many things wait for you, and in grey how many
+ * wait on someone else. Under it the kinds as mono words with counts, then one
+ * hairline row per thing, every row with the same parts in the same places.
+ * Every class starts bk-todo-. The base parts are ../shell/book.css.
+ */
+
+.bk-todo .bk-head h1 { max-width: 13em; }
+.bk-todo-owed { font-weight: 500; color: var(--t-red); font-family: var(--t-mono); font-size: 0.94em; }
+.bk-todo-filters { grid-column: 1 / -1; margin-top: 18px; }
+
+.bk-todo-list { margin-top: 4px; }
+.bk-todo-list .bk-lrow { min-height: 76px; }
+.bk-todo-what b { display: block; font: 500 17px/1.35 var(--t-display); letter-spacing: -0.01em; color: var(--t-ink); }
+.bk-todo-what small { margin-top: 4px; font: 400 12.5px/1.45 var(--t-mono); color: var(--t-muted); }
+.bk-todo-co { font: 400 15px/1.4 var(--t-text); color: var(--t-ink-2); }
+.bk-todo-who { font: 400 12.5px/1.4 var(--t-mono); color: var(--t-muted); }
+.bk-todo-who.is-you { color: var(--t-ink); }
+.bk-todo-go { text-align: right; font: 400 14px/1 var(--t-mono); color: var(--t-quiet); transition: color 140ms, translate 160ms var(--t-ease); }
+a.bk-lrow:hover .bk-todo-go, a.bk-lrow:focus-visible .bk-todo-go { color: var(--t-ink); translate: 4px 0; }
+.bk-todo-list .is-later .bk-todo-what b, .bk-todo-list .is-later .bk-todo-co { color: var(--t-muted); }
+.bk-todo-list a.bk-lrow:focus-visible { outline-offset: -2px; }
+
+@media (max-width: 760px) {
+  .bk-todo-filters { margin-top: 10px; }
+  .bk-todo-filters .bk-filters { gap: 4px 16px; }
+  .bk-todo-list .bk-lrow { padding-right: 36px; }
+  .bk-todo-list .bk-lrow .bk-todo-what { display: block; margin-bottom: 8px; }
+  .bk-todo-list .bk-lrow .bk-todo-what::before { display: none; }
+  .bk-todo-list .bk-lrow .bk-todo-go { position: absolute; top: 14px; right: 20px; display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bk-todo-go { transition: none; }
+  a.bk-lrow:hover .bk-todo-go { translate: none; }
+}

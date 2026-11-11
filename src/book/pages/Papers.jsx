@@ -163,7 +163,7 @@ function Drawer({ service, view, route, go }) {
   return (
     <Sheet className="bk-pap-index">
       <SheetHead
-        kicker="Papers"
+        kicker="papers"
         title={filters.by ? <>{papersWord(onFile)} had come in <i>by {shortDay(filters.by)}.</i></> : `${papersWord(onFile)} on file.`}
         lede="Each email, invoice and credit note a company sent, kept word for word."
       />

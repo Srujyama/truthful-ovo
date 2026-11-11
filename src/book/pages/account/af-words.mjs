@@ -133,7 +133,7 @@ export function plainProblem(error, { credit = null, neededCents = null, noteCen
   if (starts('The selected terms match the current agreement')) return 'That is what the promise already says. Change one of the things you ticked.';
   if (starts('Use at most 20 conditions')) return 'Twenty strings at most, each 1,000 characters or shorter.';
   if (starts('Enter conditions as one condition per line')) return 'Write the strings one to a line.';
-  if (starts('Describe the explicit renewal baseline') || starts('A renewal proposal needs an explicit baseline')) return 'Say what the extra is measured against, in a line. Something like: the same plan for 12 months at $6,000 a month.';
+  if (/^(?:Describe the|A renewal proposal needs an) explicit (?:renewal )?baseline/.test(text)) return 'Say what the extra is measured against, in a line. Something like: the same plan for 12 months at $6,000 a month.';
 
   // amounts, whichever blank they were typed in
   const which = amountLabel.exec(text)?.[1];

@@ -79,7 +79,7 @@ function Index({ view, all, query, go }) {
   return (
     <Sheet className="bk-rec-companies">
       <SheetHead
-        kicker="Companies"
+        kicker="companies"
         title={all.length ? whoOwes(all) : 'Nobody owes you anything yet.'}
         lede={allOwed > 0 ? `${dollars(allOwed)} still owed in all.` : null}
       >
@@ -175,7 +175,7 @@ function Company({ view, company }) {
     <Sheet className="bk-rec-company">
       <SheetHead
         back={back}
-        kicker="Company"
+        kicker="company"
         title={none ? <>{company.name} owes you <i>nothing.</i></> : <>{company.name} owes you <em>{dollars(t.outstandingCents)}</em>.</>}
         lede={sentence(standingLine(company.commitments, view.asOf))}
       />

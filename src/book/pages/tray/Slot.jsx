@@ -1,8 +1,8 @@
-// One of the three papers lying in the tray. You type on it, paste onto it, or
+// One of the three papers that go in the tray. You type on it, paste onto it, or
 // drop a text file on it; what you put there is what gets read, word for word.
 
 import React, { useId, useRef, useState } from 'react';
-import { Paper, cx } from '../../shell/parts.jsx';
+import { cx } from '../../shell/parts.jsx';
 
 const hasFiles = event => [...(event.dataTransfer?.types || [])].includes('Files');
 
@@ -11,10 +11,8 @@ export default function Slot({ slot, value, says, onChange, onFiles }) {
   const picker = useRef(null);
   const [over, setOver] = useState(false);
   return (
-    <Paper
-      stock={slot.stock}
-      rot={slot.rot}
-      className={cx('bk-tray-slot', over && 'is-over')}
+    <div
+      className={cx('bk-tray-slot', over && 'is-over', value.trim() && 'is-full')}
       data-slot={slot.source}
       onDragEnter={event => { if (hasFiles(event)) { event.preventDefault(); setOver(true); } }}
       onDragOver={event => { if (hasFiles(event)) { event.preventDefault(); event.dataTransfer.dropEffect = 'copy'; } }}
@@ -28,7 +26,7 @@ export default function Slot({ slot, value, says, onChange, onFiles }) {
       }}
     >
       <label className="bk-tray-slot-head" htmlFor={id}>
-        <b>{slot.title}</b>{' '}
+        <b>{slot.title}</b>
         <span>{slot.said}</span>
       </label>
       <textarea
@@ -62,6 +60,6 @@ export default function Slot({ slot, value, says, onChange, onFiles }) {
           }}
         />
       </div>
-    </Paper>
+    </div>
   );
 }
