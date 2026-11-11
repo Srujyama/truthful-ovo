@@ -128,7 +128,8 @@ export default function World({ service, view, go }) {
 
   const [index, setIndex] = useState(0);
   const [run, setRun] = useState(0);              // bumps to play the same step again (Replay)
-  const [auto, setAuto] = useState(true);
+  // the replay steps on its own, except in presenter mode (?talk), where only the presenter moves it
+  const [auto, setAuto] = useState(() => !(typeof location !== 'undefined' && new URLSearchParams(location.search).has('talk')));
   const [done, setDone] = useState(false);        // the current step has played to its end
   const [shown, setShown] = useState(null);       // the book as the tags read it
   const [panel, setPanel] = useState(null);       // { kind: 'station' | 'vendor', id }
@@ -485,7 +486,7 @@ export default function World({ service, view, go }) {
         openPanel({ kind: 'station', id, want });
       },
       close() { closePanel(); },
-      say(who, text, seconds, side) { directorRef.current?.say(who, text, seconds, side); },
+      say(who, text, seconds, side) { directorRef.current?.say(who, text, document.documentElement.dataset.demoTalk ? Math.max(seconds, 9) : seconds, side); },
       play(moves) { return directorRef.current?.play({ moves }) ?? Promise.resolve(false); },
       busy() { return playing.current || queue.current.length > 0; },
       vendorIndex(name) { return (viewRef.current?.vendors ?? []).findIndex((v) => v.name === name); },
@@ -573,7 +574,7 @@ export default function World({ service, view, go }) {
     >
       <div className="qw-top" ref={topBar}>
         <header className="qw-answer">
-          <p className="t-label">{demo ? 'the demo book' : 'your book'} · {view ? dateDay(view.asOf).toLowerCase() : ''}</p>
+          <p className="t-label">your book · {view ? dateDay(view.asOf).toLowerCase() : ''}</p>
           <h1 className="qw-head">
             {!totals || totals.promisedCents === 0 ? <>Nothing promised<br /><span className="is-quiet">yet.</span></>
               : owed > 0 ? <><span className="is-owed">{money(owed)} still owed</span><br /><span className="is-quiet">of {money(totals.promisedCents)} promised.</span></>

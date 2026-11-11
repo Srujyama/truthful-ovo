@@ -48,7 +48,8 @@ export default function DemoPlayer({ service, view, go }) {
   const [run, setRun] = useState(0);              // bumps to play the same scene again
   const [paused, setPaused] = useState(false);
   const [, setTick] = useState(0);
-  const ctl = useRef({ token: 0, paused: false, elapsed: 0, phase: 'prep' });
+  // presenter mode: every hold in a scene is a stop; `gate` is the stop waiting for →, `queued` one → pressed while things still moved
+  const ctl = useRef({ token: 0, paused: false, elapsed: 0, phase: 'prep', gate: 0, queued: false });
   ctl.current.paused = paused;
   ctl.current.phase = phase;
 
@@ -102,7 +103,20 @@ export default function DemoPlayer({ service, view, go }) {
   // —— the hand the scenes use
   function hand(token) {
     const check = () => { if (ctl.current.token !== token) throw STOP; };
+    /** Presenter mode: hold here until → (or take the → already pressed). */
+    const beat = async () => {
+      if (ctl.current.queued) { ctl.current.queued = false; return; }
+      ctl.current.gate = token;
+      html.dataset.demoWaiting = '1';
+      try {
+        while (ctl.current.gate === token) { await sleep(40); check(); }
+      } finally {
+        if (ctl.current.gate === token) ctl.current.gate = 0;
+        delete html.dataset.demoWaiting;
+      }
+    };
     const wait = async (ms) => {
+      if (talk && ms >= 2000) { await beat(); return; }   // a hold to look at something: the presenter decides how long
       let left = ms, last = performance.now();
       while (left > 0) {
         await sleep(Math.min(40, left));
@@ -165,11 +179,14 @@ export default function DemoPlayer({ service, view, go }) {
       aim.current = { rect: () => rectFor(target), on };
       await wait(440);
     }
+    // the history card is hidden in presenter mode: don't stand waiting for it
+    const timeoutFor = (selector, opts) => (talk && selector.includes('.qw-tour') ? 0 : opts.timeout ?? 4000);
     return {
       wait,
+      beat,
       until,
-      findAll: async (selector, opts = {}) => (await until(() => { const all = query(selector, opts); return all.length ? all : null; }, opts.timeout ?? 4000)) ?? [],
-      find: async (selector, opts = {}) => until(() => query(selector, opts)[0], opts.timeout ?? 4000),
+      findAll: async (selector, opts = {}) => (await until(() => { const all = query(selector, opts); return all.length ? all : null; }, timeoutFor(selector, opts))) ?? [],
+      find: async (selector, opts = {}) => until(() => query(selector, opts)[0], timeoutFor(selector, opts)),
       async go(page, id = '', q = null, opts) {
         check();
         live.current.go(page, id, q, opts);
@@ -299,7 +316,12 @@ export default function DemoPlayer({ service, view, go }) {
     (async () => {
       try {
         try { await scene.run(d); } catch (error) { if (error === STOP) throw error; /* a scene that trips goes on with the film */ }
-        if (talk) { for (;;) await d.wait(250); }   // held until → moves on
+        if (talk) {   // held until → moves on; the last scene holds for good
+          if (index === SCENES.length - 1) { for (;;) await d.wait(250); }
+          await d.beat();
+          setIndex(index + 1);
+          return;
+        }
         const need = secondsFor(scene) * 1000;
         while (ctl.current.elapsed < need) await d.wait(40);
         if (index < SCENES.length - 1) { setIndex(index + 1); return; }
@@ -319,6 +341,8 @@ export default function DemoPlayer({ service, view, go }) {
     if (phase === 'gone') return undefined;
     const to = (i) => {
       const next = Math.max(0, Math.min(SCENES.length - 1, i));
+      ctl.current.gate = 0;
+      ctl.current.queued = false;
       setPaused(false);
       setIndex(next);
       setRun((r) => r + 1);
@@ -333,6 +357,12 @@ export default function DemoPlayer({ service, view, go }) {
       event.stopImmediatePropagation();
       if (event.type !== 'keydown' || event.repeat) return;
       if (introOn.current) { if (key !== 'ArrowLeft' && key !== 'Escape') setIntro(false); return; }
+      // presenter mode: → or Space moves one step; pressed while something still moves, it counts for the next stop
+      if (talk && (key === 'ArrowRight' || key === ' ')) {
+        if (ctl.current.phase !== 'play') return;
+        if (ctl.current.gate) ctl.current.gate = 0; else ctl.current.queued = true;
+        return;
+      }
       if (key === ' ') { if (ctl.current.phase === 'play') setPaused((p) => !p); return; }
       if (key === 'Escape') { leave(); return; }
       if (ctl.current.phase === 'prep') return;
@@ -391,10 +421,7 @@ export default function DemoPlayer({ service, view, go }) {
             {count}<span className="dm-title"> · {phase === 'prep' ? 'starting' : ended ? 'the end' : scene.title}</span>
             {paused && <b className="dm-paused"> · paused</b>}
           </span>
-          <span className="dm-note">
-            replaying the demo book · nothing is sent
-            {!rec && <span className="dm-keys"> · space pause · ← → scene · esc leave</span>}
-          </span>
+          {!rec && <span className="dm-note"><span className="dm-keys">space pause · ← → scene · esc leave</span></span>}
         </div>
         <p className="dm-say" key={`${phase}:${index}`}>{said}</p>
         <div className="dm-line" aria-hidden="true">

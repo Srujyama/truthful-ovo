@@ -431,7 +431,7 @@ function Front({ service, onOpenCase, tree }) {
 
       <p className="f-notice t-small">
         {book.demo
-          ? 'This is a demo. The vendors are made up and nothing gets emailed.'
+          ? ''
           : 'Nothing is emailed from here. You copy the letter or download it, and send it yourself.'}
       </p>
     </div>
