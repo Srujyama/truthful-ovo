@@ -21,11 +21,10 @@ No response has been submitted. Attendance and teammate agreement require the te
 
 ## Delivered links
 
-- Public repository: https://github.com/Srujyama/truthful-ovo
-- Live supplemental demo: https://srujyama.github.io/truthful-ovo/
-- V3 assurance recording: https://github.com/Srujyama/truthful-ovo/releases/tag/v3.0.0 — actual decisions, historical replay, failures, and resolution.
-- Earlier v2 backup recording: https://github.com/Srujyama/truthful-ovo/releases/tag/v2.0.0 — demonstrates the earlier recovery/evidence workbench, not the expanded v3 assurance workflow.
-- Earlier v2 Drive video: https://drive.google.com/file/d/1ckSzoZlqrDPDLqCR5rA66YrvQA5WqZ5J/view — public-link access still needs verification; this is not a recording of the v3 assurance workflow.
+- Public repository: https://github.com/Srujyama/truthful-ovo (the build below is on branch `craft/isokra` until it is merged)
+- **Live app (this build): https://truthful-ovo.vercel.app** — opens on Truthful's quarter; add `?demo` for the guided two-minute walkthrough (https://truthful-ovo.vercel.app/?demo#/). Browser-only demo book; nothing is sent anywhere.
+- Older GitHub Pages build (v3): https://srujyama.github.io/truthful-ovo/
+- Demo video (2–3 min): _add the Drive / Loom / unlisted YouTube link here once uploaded._
 
 See [delivery status](DELIVERY.md) before checking the form’s access and team confirmations.
 
@@ -37,19 +36,19 @@ Team: OVO. Confirm that the technical path matches the team’s Round 1 selectio
 
 ## Short description
 
-Truthful tracks vendor promises through changing terms, shared credit allocations, and current authority. It prevents one recorded credit from funding two claims, blocks conflicting amendments and stale approvals, compares the real obligation behind a renewal concession, and exports the evidence and execution history. All external financial actions are simulated.
+Vendors promise credits by email; invoices forget them. Truthful reads every promise and every invoice, writes each promise down as an IOU, weighs each invoice against it, and drafts the letter asking for what is still owed. Nothing goes out until a person approves it. The engine refuses a credit spent twice, an approval for a changed deal, and an offer with strings counted as money.
 
-## Architecture answer — 260 words
+## Architecture answer — 283 words
 
-Truthful replaces a spreadsheet-and-inbox workflow with a financial commitment assurance system. It asks whether a proposed action is still valid under the evidence, available credit, accepted terms, and current authority.
+Truthful automates the spreadsheet-and-inbox chase for vendor credits: a promise arrives by email, invoices arrive monthly, and someone has to notice what never showed up.
 
-React and Vite provide Portfolio, Decision room, and Failure lab surfaces. A dependency-free JavaScript reducer records sources, commitments, amendments, credit allocations, reversals, policies, and exact-action approvals. Integer-cent accounting conserves each credit across commitments. Effective dates and observation times support historical projections without importing later knowledge. Conflicting amendment branches require a reasoned finance decision; a changed source, ledger, term, or policy invalidates pending approval. Renewal comparisons expose incremental cost separately from the headline credit.
+The core is a dependency-free JavaScript event-sourced engine. Every paper, promise, credit, amendment, decision and approval is an event; integer-cent reducers project what is owed as of any date and as known at any moment. Invariants are enforced on every command: a credit is conserved across promises, a changed source or policy invalidates pending approvals, competing amendments need a reasoned decision, and an offer with strings never counts as money. A deterministic reader turns pasted emails and invoice CSVs into facts with exact citations, so every figure links back to its words.
 
-The optional Node service uses built-in HTTP and SQLite. It derives demo actors from server sessions, enforces roles, checks optimistic revisions, commits command batches atomically, and persists idempotent responses. Hash-linked server audit records can be replayed to check snapshot consistency. They do not authenticate vendors or establish settlement finality. The public GitHub Pages build uses clearly labeled browser-local storage; it has no authoritative shared backend.
+The interface is React and Vite. Each page leads with its answer (“$3,850 still owed”) in one printed design system; each $100 of a promise is a pixel coin that turns over when an invoice pays it. The cover is a voxel quarter, drawn by our own zero-dependency renderer, where the pipeline’s stages appear as agents: a courier brings a paper, the reader marks the figure, the scribe writes the IOU, the checker weighs the invoice on a scale, the writer drafts the letter, and it waits on your desk. The replay is generated from the book’s real event log.
 
-A supported-format evidence lab imports promise text and positive invoice-credit CSV with exact citations. Revalidated evidence enters the shared portfolio atomically; an invoice reference change cannot manufacture another credit line. Nine synthetic failure scenarios execute the real reducer rather than display canned verdicts.
+An optional Node service adds HTTP, SQLite, roles, atomic batches and idempotency. The public build runs entirely in the browser.
 
-We chose deterministic runtime checks for transparent financial behavior and reliable reproduction. AI assisted development, but no live language model is called. With more time, we would add authenticated organizational identity, consented connectors, and schema-constrained model proposals evaluated on independently reviewed evidence, while keeping financial and authorization checks deterministic.
+Tradeoff: we kept extraction and money logic deterministic so behaviour is reproducible and auditable; no live language model runs. AI tools built and reviewed it. With more time: a schema-constrained model reader for arbitrary invoices, checked by the same engine, plus inbox and Ramp bill connectors.
 
 ## What the submitted build proves
 
