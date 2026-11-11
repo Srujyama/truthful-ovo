@@ -510,6 +510,7 @@ export default function World({ service, view, go }) {
               : owed > 0 ? <><span className="is-owed">{money(owed)} still owed</span><br /><span className="is-quiet">of {money(totals.promisedCents)} promised.</span></>
                 : <>Nothing owed.<br /><span className="is-quiet">All {money(totals.promisedCents)} came in.</span></>}
           </h1>
+          {demo && !/[?&]demo\b/.test(location.search) && <a className="qw-demo t-label" href="?demo#/">play the 2-minute demo ▸</a>}
         </header>
         {story.empty
           ? <p className="qw-tour qw-tour-empty t-box">{story.line}</p>

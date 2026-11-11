@@ -26,6 +26,8 @@ const HEAD = [
 ];
 
 const on = instant => String(instant).slice(0, 10);
+// The day an instant fell on in the reader's own time zone, to match the clock printed beside it.
+const localDay = instant => { const at = new Date(instant); return Number.isNaN(at.getTime()) ? '' : `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, '0')}-${String(at.getDate()).padStart(2, '0')}`; };
 const entriesWord = n => `${n} ${n === 1 ? 'entry' : 'entries'}`;
 
 /** The marks the legend explains: the kinds on the timeline, in the filter's order. */
@@ -158,7 +160,7 @@ export default function DayBook({ service, view, route, go, active }) {
               aria-haspopup="dialog"
             >
               <Cell no>{event.sequence}</Cell>
-              <Cell date label="date">{shortDay(event.observedAt)}</Cell>
+              <Cell date label="date">{shortDay(localDay(event.observedAt))}</Cell>
               <Cell date quiet label="time">{clock(event.observedAt)}</Cell>
               <Cell label="who" className="bk-rec-who">{who}</Cell>
               <Cell className="bk-rec-said">{line}</Cell>

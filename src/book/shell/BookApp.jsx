@@ -59,6 +59,11 @@ const BookFront = frontFiles['../front/BookFront.jsx'] ? React.lazy(frontFiles['
 const houseFiles = import.meta.glob('../house/index.js');
 const loadHouse = houseFiles['../house/index.js'] || null;
 
+// ?demo plays the guided walkthrough (src/book/house/demo). It is only fetched when asked for.
+const demoFiles = import.meta.glob('../house/demo/Player.jsx');
+const DemoPlayer = demoFiles['../house/demo/Player.jsx'] ? React.lazy(demoFiles['../house/demo/Player.jsx']) : null;
+const demoAsked = typeof location !== 'undefined' && new URLSearchParams(location.search).has('demo');
+
 class FrontGuard extends React.Component {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
@@ -266,6 +271,11 @@ export default function BookApp() {
       {foot}
       {finding && view && <FindOver view={view} go={go} more={house?.pages} onClose={() => setFinding(false)} />}
       {toast}
+      {demoAsked && DemoPlayer && (
+        <FrontGuard>
+          <React.Suspense fallback={null}><DemoPlayer service={service} view={view} go={go} route={here} say={say} /></React.Suspense>
+        </FrontGuard>
+      )}
     </div>
   );
 }

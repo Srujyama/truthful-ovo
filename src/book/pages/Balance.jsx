@@ -27,6 +27,8 @@ const HEAD = [
 ];
 
 const endOf = date => `${date}T23:59:59.999Z`;
+// Today's balance counts everything written in so far: in the evening west of Greenwich a paper written in now carries a moment past midnight UTC.
+const knownBy = (workspace, by, now) => (by !== now ? endOf(by) : [endOf(by), new Date().toISOString(), workspace.events.at(-1)?.observedAt ?? ''].sort().at(-1));
 const pick = (value, latest) => (isDate(value) && value <= latest ? value : latest);
 
 /** A date you can turn back: a real date input, in mono, with what it means under it. */
@@ -62,7 +64,7 @@ export default function Balance({ service, route, go, say }) {
 
   const { report, error } = useMemo(() => {
     if (!service.workspace) return {};
-    try { return { report: financialReport(service.workspace, { asOf, knownAt: endOf(by) }) }; } catch (e) { return { error: e }; }
+    try { return { report: financialReport(service.workspace, { asOf, knownAt: knownBy(service.workspace, by, now) }) }; } catch (e) { return { error: e }; }
   }, [service.workspace, asOf, by]);
   if (!service.workspace) return null;
 

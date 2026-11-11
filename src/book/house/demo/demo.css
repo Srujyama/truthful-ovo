@@ -1,0 +1,141 @@
+/* The demo player: a caption bar in the lower third, a ring that glides to what matters,
+   and a fading outline around it. Isokra: white box, one hairline, Red Hat. */
+
+.dm {
+  --dm-ink: var(--t-ink, #11161a);
+  --dm-white: var(--t-white, #fbfcfa);
+  --dm-ease: var(--t-ease, cubic-bezier(0.2, 0.7, 0.2, 1));
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+}
+
+/* —— the outline: 2px ink with a white halo, so it reads on paper and on the night quarter */
+.dm-mark {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border: 2px solid var(--dm-ink);
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px rgba(251, 252, 250, 0.92), 0 6px 22px rgba(17, 22, 26, 0.14);
+  opacity: 0;
+  transition: opacity 260ms var(--dm-ease);
+  will-change: transform, width, height;
+}
+
+/* —— the pointer: a soft ink ring, 28px, easing over 400ms */
+.dm-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  opacity: 0;
+  transform: translate(50vw, 50vh);
+  transition: transform 420ms var(--dm-ease), opacity 240ms var(--dm-ease);
+  will-change: transform;
+}
+.dm-ring i {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2.5px solid var(--dm-ink);
+  background: rgba(17, 22, 26, 0.1);
+  box-shadow: 0 0 0 2px rgba(251, 252, 250, 0.9), 0 3px 10px rgba(17, 22, 26, 0.25);
+  transition: transform 150ms var(--dm-ease), background-color 150ms var(--dm-ease);
+}
+.dm-ring.is-press i {
+  transform: scale(0.72);
+  background: rgba(17, 22, 26, 0.32);
+}
+
+/* —— the caption bar */
+.dm-bar {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(16px, 3vh, 32px);
+  transform: translateX(-50%);
+  width: min(1080px, calc(100vw - 32px));
+  box-sizing: border-box;
+  padding: 14px 26px 0;
+  background: var(--dm-white);
+  border: 1px solid var(--t-line-2, #bfc6c1);
+  border-radius: var(--t-r, 3px);
+  box-shadow: 0 10px 34px rgba(17, 22, 26, 0.16);
+  color: var(--dm-ink);
+  pointer-events: auto;
+  overflow: hidden;
+}
+.dm-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font: 400 12.5px/1.3 var(--t-mono, ui-monospace, monospace);
+  color: var(--t-muted, #646c70);
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.dm-count { color: var(--dm-ink); white-space: nowrap; }
+.dm-title { color: var(--t-muted, #646c70); }
+.dm-paused { font-weight: 400; color: var(--t-red, #c9361f); }
+.dm-note { text-align: right; }
+.dm-say {
+  margin: 8px 0 14px;
+  font: 450 clamp(18px, 1.15vw + 4px, 23px) / 1.42 var(--t-text, system-ui, sans-serif);
+  letter-spacing: -0.005em;
+  color: var(--dm-ink);
+  text-wrap: pretty;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  animation: dm-in 420ms var(--dm-ease) both;
+}
+@keyframes dm-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* the whole film as one thin line; a tick where each scene starts */
+.dm-line {
+  position: relative;
+  height: 3px;
+  margin: 0 -26px;
+  background: var(--t-paper-2, #e5e8e4);
+}
+.dm-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--dm-ink);
+  transform-origin: 0 50%;
+  transition: transform 120ms linear;
+}
+.dm-line i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--dm-white);
+}
+
+@media (max-width: 720px) {
+  .dm-bar { padding: 12px 16px 0; }
+  .dm-line { margin: 0 -16px; }
+  .dm-head { flex-direction: column; gap: 2px; }
+  .dm-note { text-align: left; }
+  .dm-keys { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dm-ring, .dm-mark, .dm-ring i { transition-duration: 1ms; }
+  .dm-say { animation: none; }
+}
+
+/* while the demo plays, the cover's own hint and the page's notes step aside for the caption bar */
+html[data-demo-scene] .qw-hint { display: none; }
+/* recording: the first frame is the cover alone; the caption bar comes in with the first scene */
+.dm-bar { transition: opacity 360ms var(--dm-ease); }
+.dm.is-rec[data-phase="prep"] .dm-bar { opacity: 0; }

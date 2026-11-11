@@ -127,6 +127,9 @@
 .qw.is-night .qw-answer .t-label { color: #a9b2ae; }
 .qw.is-night .qw-head .is-quiet { color: #8f9994; }
 .qw.is-night .qw-head .is-owed { color: #ff7a63; }
+.qw-answer .qw-demo { display: inline-block; margin: 12px 0 0; color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; pointer-events: auto; }
+.qw-answer .qw-demo:hover { color: var(--t-ink); }
+.qw.is-night .qw-answer .qw-demo:hover { color: #eef0ed; }
 
 .qw-tour { grid-column: 2; padding: 11px 16px 12px; }
 .qw-tour-empty { margin: 0; font: 500 15px / 1.4 var(--t-text); }
