@@ -48,9 +48,17 @@ export function stampDay(value = today()) {
   return `${MONTHS[Number(hit[2]) - 1].toUpperCase()} ${Number(hit[3])} ${hit[1]}`;
 }
 
-/** Today as the engine counts it (the same UTC calendar date every other screen passes to it). */
+/**
+ * Today, for the book: the reader's own calendar day. The engine keeps time in UTC and refuses a
+ * date later than its own day, so when the reader's day has run ahead of UTC (east of Greenwich,
+ * in the morning) this is the engine's day instead. Late in an American afternoon it stays the
+ * day on the reader's wall, not tomorrow.
+ */
 export function today() {
-  return new Date().toISOString().slice(0, 10);
+  const at = new Date();
+  const mine = `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, '0')}-${String(at.getDate()).padStart(2, '0')}`;
+  const engine = at.toISOString().slice(0, 10);
+  return mine < engine ? mine : engine;
 }
 
 /** How many days from `from` to `to`, both "YYYY-MM-DD". Negative when `to` is earlier. */

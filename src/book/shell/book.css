@@ -228,6 +228,9 @@ body:has(.bk) { margin: 0; }
   font: 400 clamp(15.5px, 1.2vw, 17.5px) / 1.45 var(--bk-text);
 }
 .bk-kicker {                       /* where you are, in the book's own words: "Account" */
+  position: relative;              /* above the title, so a way-back link in it takes the whole click */
+  z-index: 1;
+  min-height: 22px;
   grid-column: 1 / -1;
   display: flex;
   align-items: baseline;
@@ -237,6 +240,7 @@ body:has(.bk) { margin: 0; }
   text-transform: uppercase;
   color: rgb(29 39 64 / 0.78);
 }
+.bk-kicker .bk-link { font-family: var(--bk-type); font-weight: 400; font-size: 14.5px; letter-spacing: 0; text-transform: none; }
 .bk-head-side { grid-column: 2; grid-row: 2 / span 2; justify-self: end; text-align: right; }
 
 /* the date this page was opened, from a dater stamp */
@@ -546,6 +550,10 @@ button.bk-doc, a.bk-doc { display: block; padding: 0; border: 0; background: non
 .bk-hl { background: linear-gradient(rgb(246 228 82 / 0.62), rgb(246 228 82 / 0.62)) 0 62% / 100% 72% no-repeat; padding: 0 0.12em; }
 .bk-hl.is-lit { background-size: 100% 100%; background-color: rgb(246 228 82 / 0.35); }
 
+/* the marks above a tally strip stay over their own boxes, however wide the label */
+.bk .tally-scale > b { min-width: 0; display: flex; justify-content: center; }
+.bk .tally-scale > b:last-of-type { justify-content: flex-end; }
+
 /* a stamp sitting on a page, in the right ink */
 .bk .stamp.is-red { color: var(--bk-accent); }
 .bk .stamp.is-blue { color: var(--bk-stamp-blue); }
@@ -553,7 +561,7 @@ button.bk-doc, a.bk-doc { display: block; padding: 0; border: 0; background: non
 /* the routing slip: who has to put their initials on it, in order */
 .bk-route { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); border: 1px solid rgb(29 39 64 / 0.55); }
 .bk-route > li { position: relative; padding: 8px 10px 10px; box-shadow: 0 0 0 0.5px rgb(29 39 64 / 0.55); min-height: 86px; }
-.bk-route > li > span { display: block; font: 600 9.5px/1.3 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.72); }
+.bk-route > li > span:first-child { display: block; font: 600 9.5px/1.3 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.72); }
 .bk-route > li > b { display: block; margin-top: 4px; font: 400 14.5px/1.35 var(--bk-type); }
 .bk-route > li.is-done > b { font: italic 500 18px/1.2 var(--bk-display); color: var(--bk-pen); }
 .bk-route > li.is-now { background: rgb(246 228 82 / 0.28); }
@@ -638,6 +646,7 @@ button.bk-doc, a.bk-doc { display: block; padding: 0; border: 0; background: non
   .bk-lrows { background: none; border-top: 2px solid var(--bk-head-green); }
   .bk-lrow, .bk-ltotal { display: block; padding: 10px 16px 12px; border-bottom: 1px solid var(--bk-rule-green); min-height: 0 !important; }
   .bk-lrow .bk-cell, .bk-ltotal > span { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; height: auto; padding: 0; border-left: 0 !important; line-height: 1.5; text-align: left; }
+  .bk-ltotal > span[data-label]::before { content: attr(data-label); flex: 0 0 auto; font: 600 9.5px/1.6 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.7); }
   .bk-lrow .bk-cell[data-label]::before { content: attr(data-label); flex: 0 0 auto; font: 600 9.5px/1.6 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.7); }
   .bk-lrow .bk-cell.is-no, .bk-lrow .bk-cell:empty, .bk-ltotal > span:empty { display: none; }
   .bk-lrow .bk-cell.is-name { display: block; font-size: 20px; line-height: 1.25; margin-bottom: 4px; }

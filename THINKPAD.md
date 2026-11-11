@@ -378,27 +378,36 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
       deps: T57
       notes: Material Nomenmechanismgap identifiedafterinitial41checks: sourceclickleftscene. Exact source modalnowmustleaveworld/selectedagent/playheadmounted; Overview/art/originaltext/version/download; browserBack/close returnsameagent/handoff/focus, fullDocumentssecondaryescape, explicitmissing/unrelatedsource nofallback, phonefocustrap/Escapeandretainedcontext, nofinancialwrites. RootownsTeamWorld/URL integration, workeronlynewsourcepanel. Mustactualbrowseroperateandindependentlyverify.; Exactevidence nowopenswithinTeam portal; directURL/reloadpause, sourceOverview/original/details/download, browserBack+phoneEsc returnexactagent/playhead/focus, fullDocumentsroundtripoperated. Actual49Teamchecks andportableverificationpassed, selectedAda/pairedscene visiblebeside570pxreader; phoneexacttext/actionreadable. Independentreview identified/repairedinitialsourceURLautoplay. Renderedcurrentframesrootinspected.
       took: 10m
-- [~] T60 · Book: the account page for one promise (head, strip, entries, offers, decision slip, house rules, papers fan)
+- [x] T60 · Book: the account page for one promise (head, strip, entries, offers, decision slip, house rules, papers fan)
       files: src/book/pages/Account.jsx, src/book/pages/account.css, src/book/pages/account/entries.mjs, src/book/pages/account/entries.test.mjs
       accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/Account.jsx src/book/pages/account/entries.mjs --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/Account.jsx > /dev/null && node --test src/book/pages/account/entries.test.mjs
-      since: 2026-11-10T16:17
-- [~] T61 · Book: Papers (the drawer, one paper at reading size, a credit note)
+      notes: stale reads "The book changed since..."; prepared gets no ledger line; shared parts to add: Btn disabled order, .bk-route span:first-child, tally-scale marks, Total labels, ledger head wrap, kicker uppercases a back link. Two .bk-plate in the DOM while the front is kept mounted.
+      attempts: 1
+      took: 42m
+- [x] T61 · Book: Papers (the drawer, one paper at reading size, a credit note)
       files: src/book/pages/Papers.jsx, src/book/pages/papers.css, src/book/pages/papers/kinds.mjs, src/book/pages/papers/kinds.test.mjs
       accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/Papers.jsx src/book/pages/papers/kinds.mjs --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/Papers.jsx > /dev/null && node --test src/book/pages/papers/kinds.test.mjs
-      since: 2026-11-10T16:17
-- [~] T62 · Book: To do, Companies, Day book, Balance
+      notes: drawer on the desk below the sheet; highlighting by value search; used-in lists only decisions about a promise this paper is behind; shared parts missing: .bk-thumb width, .bk-on-desk link/focus colour inside papers, short sheet variant. Exports for others: papers/kinds.mjs paperLook/paperItem/noteItem, papers/Thumb.jsx PaperThumb.
+      attempts: 1
+      took: 39m
+- [x] T62 · Book: To do, Companies, Day book, Balance
       files: src/book/pages/ToDo.jsx, src/book/pages/Companies.jsx, src/book/pages/DayBook.jsx, src/book/pages/Balance.jsx, src/book/pages/records.css, src/book/pages/records/plain.mjs, src/book/pages/records/plain.test.mjs
       accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/ToDo.jsx src/book/pages/Companies.jsx src/book/pages/DayBook.jsx src/book/pages/Balance.jsx src/book/pages/records/plain.mjs --quiet && for f in ToDo Companies DayBook Balance; do node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/$f.jsx > /dev/null || exit 1; done && node --test src/book/pages/records/plain.test.mjs
-      since: 2026-11-10T16:17
-- [ ] T63 · Book: account-page forms: credit slips (write in, match, add the invoice, take back, sort out which promise) and changed terms
-      files: src/book/pages/account/CreditSlips.jsx, src/book/pages/account/ChangedTerms.jsx, src/book/pages/account/forms.css
-      accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/account/CreditSlips.jsx src/book/pages/account/ChangedTerms.jsx --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/account/CreditSlips.jsx > /dev/null && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/account/ChangedTerms.jsx > /dev/null
-- [ ] T64 · Book: the In-tray (drop papers, read them, write the promise in, the letter)
+      notes: Balance stamps show the engine UTC day; shared parts missing: Total per-figure label for the phone, .bk-kicker back link half covered by the h1. One unreproduced drive failure at daybook?p=2 during a dev-server reload.
+      attempts: 1
+      took: 41m
+- [~] T63 · Book: account-page forms: credit slips (write in, match, add the invoice, take back, sort out which promise) and changed terms
+      files: src/book/pages/account/CreditSlips.jsx, src/book/pages/account/ChangedTerms.jsx, src/book/pages/account/NewerCopy.jsx, src/book/pages/account/forms.css
+      accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/account/CreditSlips.jsx src/book/pages/account/ChangedTerms.jsx src/book/pages/account/NewerCopy.jsx --quiet && for f in CreditSlips ChangedTerms NewerCopy; do node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/account/$f.jsx > /dev/null || exit 1; done
+      since: 2026-11-10T16:58
+- [~] T64 · Book: the In-tray (drop papers, read them, write the promise in, the letter)
       files: src/book/pages/Tray.jsx, src/book/pages/tray.css
       accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/Tray.jsx --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/Tray.jsx > /dev/null
-- [ ] T65 · Book: the Test bench (two clerks one credit; permission slips)
+      since: 2026-11-10T16:55
+- [~] T65 · Book: the Test bench (two clerks one credit; permission slips)
       files: src/book/pages/Bench.jsx, src/book/pages/bench.css
       accept: /Users/srujanyamali/Downloads/Coding/claude-tools/craft/bin/craft words src/book/pages/Bench.jsx --quiet && node_modules/.bin/esbuild --log-level=error --loader:.jsx=jsx src/book/pages/Bench.jsx > /dev/null
+      since: 2026-11-10T16:57
 ## Log
 
 - 2026-10-22 · thinkpad created
@@ -537,3 +546,9 @@ External T9 remains open: runtime AI credential/direction choice; accepted-host 
 - 2026-11-10 · started T60 · Book: the account page for one promise (head, strip, entries, offers, decision slip, house rules, papers fan)
 - 2026-11-10 · started T61 · Book: Papers (the drawer, one paper at reading size, a credit note)
 - 2026-11-10 · started T62 · Book: To do, Companies, Day book, Balance
+- 2026-11-10 · done T61 (attempt 1) · verified: accept exit 0; 15 tests; craft drive 50/50; screenshots under scratchpad/look/T61
+- 2026-11-10 · started T64 · Book: the In-tray (drop papers, read them, write the promise in, the letter)
+- 2026-11-10 · done T62 (attempt 1) · verified: accept exit 0; 13 tests; craft drive 74/74; screenshots under scratchpad/look/T62/final and scratchpad/t62/shots
+- 2026-11-10 · started T65 · Book: the Test bench (two clerks one credit; permission slips)
+- 2026-11-10 · done T60 (attempt 1) · verified: accept exit 0; 9 tests; three craft drive scripts pass (49, 13, 6); screenshots under scratchpad/look/T60
+- 2026-11-10 · started T63 · Book: account-page forms: credit slips (write in, match, add the invoice, take back, sort out which promise) and changed terms

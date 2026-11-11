@@ -117,14 +117,15 @@ export function Cell({ children, label, no, name, text, num, date, owed, quiet, 
   );
 }
 
-/** The foot of a ledger: cells: [{ label } | { value, owed, rule } | null], one per column. */
+/** The foot of a ledger: cells: [{ label } | { value, owed, rule, says } | null], one per column.
+ *  `says` is what the phone prints beside the figure, since the column heads are gone there. */
 export function Total({ cells }) {
   return (
     <div className="bk-ltotal" role="row">
       {cells.map((c, i) => {
         if (!c) return <span key={i} className="r-none" />;
         if (c.label) return <span key={i} className="is-label r-none" style={c.span ? { gridColumn: `span ${c.span}` } : undefined}>{c.label}</span>;
-        return <span key={i} className={cx('is-num', c.owed && 'is-owed', c.rule && `r-${c.rule}`)}><b>{c.value}</b></span>;
+        return <span key={i} data-label={c.says} className={cx('is-num', c.owed && 'is-owed', c.rule && `r-${c.rule}`)}><b>{c.value}</b></span>;
       })}
     </div>
   );
@@ -211,9 +212,9 @@ export function Btn({ children, quiet, big, why, busy, className, as: Tag = 'but
     <Tag
       type={Tag === 'button' ? 'button' : undefined}
       className={cx('bk-btn', quiet && 'is-quiet', big && 'is-big', className)}
-      disabled={Tag === 'button' ? Boolean(why) || Boolean(busy) || rest.disabled : undefined}
       aria-busy={busy ? true : undefined}
       {...rest}
+      disabled={Tag === 'button' ? Boolean(why) || Boolean(busy) || Boolean(rest.disabled) : undefined}
     >{busy || children}</Tag>
   );
   if (!why) return button;

@@ -54,7 +54,7 @@ export default function Ious({ view }) {
         <Ledger
           cols={COLS}
           head={HEAD}
-          total={<Total cells={[null, { label: 'Total', span: 3 }, { value: ledger(sum('promisedCents')), rule: 'double' }, { value: ledger(sum('verifiedCents')), rule: 'red' }, { value: ledger(sum('outstandingCents')), owed: true, rule: 'red' }, null]} />}
+          total={<Total cells={[null, { label: 'Total', span: 3 }, { value: ledger(sum('promisedCents')), rule: 'double', says: 'They promised' }, { value: ledger(sum('verifiedCents')), rule: 'red', says: 'Credited so far' }, { value: ledger(sum('outstandingCents')), owed: true, rule: 'red', says: 'Still owed' }, null]} />}
         >
           {rows.map((c, i) => {
             const state = standing(c, view.asOf);
