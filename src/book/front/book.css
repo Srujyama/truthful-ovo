@@ -295,7 +295,8 @@
 
 .book-front .head {
   position: relative;
-  padding: 42px calc(126 * var(--bf-mm) + 60px) 30px calc(var(--bf-lm) + 14px);
+  /* 20px less than the standalone's 42 / 30, so four promises and their total fit a 1440 by 900 window */
+  padding: 32px calc(126 * var(--bf-mm) + 60px) 20px calc(var(--bf-lm) + 14px);
 }
 .book-front h1 {
   font: 800 clamp(38px, 4.5vw, 66px) / 0.98 var(--bf-f-display);
@@ -311,7 +312,7 @@
 .book-front .dater {
   position: absolute;
   right: calc(126 * var(--bf-mm) + 64px);
-  top: 46px;
+  top: 36px;
   color: var(--bf-stamp-blue);
   font: 700 calc(var(--u) * 3.9) / 1 var(--bf-f-type);
   letter-spacing: 0.16em;
@@ -1217,8 +1218,8 @@
 .book-front .tabs-slot { position: relative; z-index: 4; display: flex; padding-left: calc(var(--bf-gut) + var(--bf-lm) + 14px); }
 .book-front .tools-slot { display: flex; align-items: center; }
 
-/* a line typed under the quote: a credit note that has not reached an invoice */
-.book-front .l-aside { display: block; font: 400 15.5px/var(--bf-rule) var(--bf-f-type); color: var(--bf-muted); }
+/* why a slip has no letter to offer: the time to claim it ran out. Typed in ink, not the muted of a working. */
+.book-front .iou-closed { color: var(--bf-ink); }
 
 /* an offer with strings is in the book, but it is not money owed: no figures, no red */
 .book-front .l-row > .stamp.is-onlyif { grid-column: 7; justify-self: center; margin-top: 13px; color: var(--bf-stamp-blue); }
@@ -1264,17 +1265,13 @@
   .book-front .scene-papers:not(.has-pile):has(.tag-why, .tag-reason) { min-height: calc(156 * var(--bf-mm)); }
 }
 
-/* the two ways off the desk, side by side: back into the book, or on to the full case */
+/* the two ways off the desk, side by side: back into the book, or on to the promise's own page */
 .book-front .scene-ways { display: flex; align-items: center; gap: calc(7 * var(--bf-mm)); }
 
 @media (max-width: 1239px) {
-  .book-front .l-aside { font-size: 14.5px; }
   .book-front .scene .doc-promise.doc-more { grid-column: 1; grid-row: 3; margin-top: calc(-96 * var(--bf-mm)); translate: calc(-5 * var(--bf-mm)) 0; }
   .book-front .scene .doc-invoice + .doc-invoice + .doc-invoice { grid-row: 4; margin-top: calc(-96 * var(--bf-mm)); translate: calc(-3 * var(--bf-mm)) 0; }
   .book-front .scene-papers:has(.doc-invoice + .doc-invoice + .doc-invoice) .offers { grid-row: 5; }
-}
-@media (max-width: 980px) {
-  .book-front .l-aside { font-size: 14px; }
 }
 @media (max-width: 820px) {
   .book-front .top-tools { gap: 14px; }
@@ -1283,7 +1280,6 @@
   .book-front .rest-note .paper-face { padding: 22px 20px 24px; }
   .book-front .rest-note ul { font-size: 14.5px; gap: 11px; }
   .book-front .tabs-slot { order: 0; padding-left: 18px; }
-  .book-front .l-aside { font-size: 14.5px; line-height: 1.38; padding-top: 4px; }
   .book-front .l-row > .stamp.is-onlyif { grid-column: 2; grid-row: 1; justify-self: end; margin: -4px 0 0; }
   .book-front .scene .doc-promise.doc-more, .book-front .scene .doc-invoice + .doc-invoice + .doc-invoice { margin-top: 0; translate: none; }
   .book-front .tag-why { font-size: 13.5px; }

@@ -25,11 +25,11 @@ import { dayFor, isOffer, nextInvoiceFor, plainReason, stillOwedCents, viewFor }
  */
 export function plainFailure(error) {
   if (error?.code === 'POLICY_BLOCKED') return plainReason(error.details?.reasons?.length ? error.details.reasons : ['blocked']);
-  if (error?.code === 'FORBIDDEN') return 'Your sign-in is not allowed to do that. Open the full case and ask someone who can approve.';
+  if (error?.code === 'FORBIDDEN') return 'Your sign-in is not allowed to do that. Open its page and ask someone who can approve.';
   if (['STALE_APPROVAL', 'STALE_REVISION', 'REVISION_CONFLICT', 'CONFLICT'].includes(error?.code)) return 'The book changed while you were reading. Look again, then try once more.';
   if (/Wait for the current operation/.test(error?.message ?? '')) return 'The book is still writing the last thing down. Try again in a moment.';
   if (/still opening|not in the book any more|Nothing is owed/.test(error?.message ?? '')) return error.message;
-  return 'That did not go through. Open the full case to see why.';
+  return 'That did not go through. Open its page to see why.';
 }
 
 const fresh = (kind) => `${kind}-${crypto.randomUUID()}`;

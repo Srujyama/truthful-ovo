@@ -12,6 +12,7 @@
 //   papersFor                                                the papers clipped to a promise
 //   offersFor                                                what the vendor answered with
 //   letterFor                                                the follow-up, and whether it is approved
+//   claimClosedOn                                            the engine will not let it be chased: the time to claim ran out
 //   nextInvoiceFor                                           the invoice the demo can bring in
 //   totalsFor, promiseFor, bookFor                           the whole page
 
@@ -241,6 +242,9 @@ export function papersFor(view, commitment, quote = quoteFor(view, commitment)) 
 
 // ————————————————————————————————————————————————————————— why the engine said no, in plain words
 
+// How the engine words the one refusal that leaves nothing to do: the time to claim ran out.
+const CLAIM_CLOSED = /^Claim deadline (\d{4}-\d{2}-\d{2}) expired/;
+
 /**
  * The engine explains a refusal in its own terms. This says the same thing the
  * way a person would. Anything it does not recognise gets the general line.
@@ -248,7 +252,7 @@ export function papersFor(view, commitment, quote = quoteFor(view, commitment)) 
 export function plainReason(reasons = []) {
   for (const reason of reasons) {
     let found;
-    if ((found = reason.match(/^Claim deadline (\d{4}-\d{2}-\d{2}) expired/))) return `The last day to claim this was ${dateDay(found[1])}.`;
+    if ((found = reason.match(CLAIM_CLOSED))) return `The window to claim this closed ${dateDay(found[1])}.`;
     if ((found = reason.match(/^The promise is not due until (\d{4}-\d{2}-\d{2})/))) return `It is not due until ${dateDay(found[1])}.`;
     if ((found = reason.match(/exceeds the (\d+)-cent approval limit/))) return `Your rules stop at ${money(Number(found[1]))} for one approval.`;
     if (/forbids new contractual commitments|renewal cost exceeds the policy limit/i.test(reason)) return 'Your rules do not allow taking on new spending.';
@@ -258,7 +262,7 @@ export function plainReason(reasons = []) {
     if (/No outstanding original credit remains/.test(reason)) return 'Nothing is owed on this any more.';
     if (/commitment is conditional/.test(reason)) return 'This is an offer with strings attached, not something they owe you yet.';
   }
-  return reasons.length ? 'The rules for this book do not allow that yet. Open the full case to see why.' : null;
+  return reasons.length ? 'The rules for this book do not allow that yet. Open its page to see why.' : null;
 }
 
 // ————————————————————————————————————————————————————————— what they answered with
@@ -372,6 +376,24 @@ export function letterFor(workspace, view, commitment, keeper = keeperFor()) {
   };
 }
 
+/**
+ * The day the time to claim a promise ran out, when that is why the engine
+ * would refuse its follow-up. The answer is the engine's own: it is read from
+ * the reasons it gives for turning down the action a letter needs, not worked
+ * out from dates here. A promise like this has no letter to send; all that is
+ * left is to look at what happened.
+ * @returns {string | null}  YYYY-MM-DD, or null when the engine has no such objection
+ */
+export function claimClosedOn(workspace, view, commitment) {
+  if (stillOwedCents(commitment) <= 0) return null;
+  const { simulation } = originalReviewState(workspace, view, commitment);
+  for (const reason of simulation.policyDecision.reasons) {
+    const found = reason.match(CLAIM_CLOSED);
+    if (found) return found[1];
+  }
+  return null;
+}
+
 // ————————————————————————————————————————————————————————— the next invoice (demo)
 
 /**
@@ -421,7 +443,8 @@ export function boxCentsFor(promisedCents) {
 
 /**
  * Everything the book shows for one promise: its row, its slip, its papers,
- * the vendor's offers and the follow-up letter.
+ * the vendor's offers and the follow-up letter. A promise whose time to claim
+ * ran out has `closed` ({ on, line }) and no letter.
  * `demo` adds the invoice the demo lever can bring in.
  */
 export function promiseFor(workspace, view, commitment, { keeper = keeperFor(), demo = false, day = view.asOf } = {}) {
@@ -433,10 +456,11 @@ export function promiseFor(workspace, view, commitment, { keeper = keeperFor(), 
     .map((note) => `Credit note ${note.id} for ${money(note.cents)} came ${dateDay(note.date)}. It is not on an invoice yet.`);
   for (const credit of creditsOf(view, commitment)) {
     if (credit.status === 'applied' && credit.unallocatedCents > 0 && credit.reference === commitment.reference && owedCents > 0) {
-      asides.push(`Invoice ${credit.invoiceId} shows ${money(credit.unallocatedCents)} that is not matched to this yet. Open the full case to match it.`);
+      asides.push(`Invoice ${credit.invoiceId} shows ${money(credit.unallocatedCents)} that is not matched to this yet. Open its page to match it.`);
     }
   }
   const last = papers.invoices.at(-1);
+  const closedOn = offer ? null : claimClosedOn(workspace, view, commitment);
   return {
     id: commitment.id,
     vendor: vendorName(view, commitment),
@@ -449,13 +473,15 @@ export function promiseFor(workspace, view, commitment, { keeper = keeperFor(), 
     due: commitment.dueDate,
     firstDue: commitment.originalDueDate ?? commitment.dueDate,
     overdue: isOverdue(view, commitment),
+    // the time to claim it ran out: there is no letter to send, only what happened to look at
+    closed: closedOn ? { on: closedOn, line: plainReason([`Claim deadline ${closedOn} expired`]) } : null,
     quote: quote?.text ?? '',
     working: workingFor(view, commitment, quote),
     asides,
     boxCents: boxCentsFor(commitment.promisedCents),
     papers,
     offers: offersFor(workspace, view, commitment),
-    letter: offer ? null : letterFor(workspace, view, commitment, keeper),
+    letter: offer || closedOn ? null : letterFor(workspace, view, commitment, keeper),
     nextInvoice: demo && !offer ? nextInvoiceFor(view, commitment, day) : null,
     paidNote: !offer && owedCents === 0 && last
       ? `Invoice ${last.id} shows the ${papers.invoices.length > 1 ? 'other' : 'whole'} ${money(last.creditCents)}. Paid in full.`

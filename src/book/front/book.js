@@ -149,7 +149,7 @@ const dayOf = (date) => `${MONTHS[date.getMonth()]} ${date.getDate()}`;
 /** 9:41 AM */
 const clock = (date) => { const hr = date.getHours(); return `${hr % 12 || 12}:${String(date.getMinutes()).padStart(2, "0")} ${hr < 12 ? "AM" : "PM"}`; };
 
-// What a visitor left on the desk, kept while they look at a full case and
+// What a visitor left on the desk, kept while they look at a promise's page and
 // come back. A reload opens the book fresh.
 const kept = { open: null, letters: new Set(), drafts: new Map() };
 
@@ -243,7 +243,6 @@ export function createBook(root, actions) {
       h("div", { class: "l-cell is-said" },
         h("span", { class: "l-said typed" }, `“${p.quote}”`),
         workingFor(p, "l-working typed"),
-        p.asides.map((line) => h("span", { class: "l-aside typed" }, line)),
       ),
       h("div", { class: "l-cell is-due" }, dueNode(p)),
       h("div", { class: "l-cell is-num is-promised" }, h("span", null, p.offer ? "" : figure(p.promisedCents))),
@@ -254,9 +253,11 @@ export function createBook(root, actions) {
     if (p.overdue) row.append(makeStamp("Overdue", { seed: `${p.id}-overdue`, tilt: -4.5, className: "is-overdue" }));
     if (p.offer) row.append(makeStamp("Only if", { seed: `${p.id}-only-if`, tilt: -4, className: "is-onlyif" }));
     else if (left === 0) row.append(makeStamp("Paid", { seed: `${p.id}-paid`, tilt: 5.5, className: "is-paid" }));
-    row.append(left > 0
-      ? h("button", { class: "btn l-act", type: "button", "data-act": "ask" }, askWords(p))
-      : h("button", { class: "link is-typed l-act", type: "button", "data-act": "see" }, p.offer ? "See the offer" : "See how it was paid"));
+    // The one thing to do about a row. When the time to claim it ran out there is
+    // no letter to send, so the row leads to the promise's own page instead.
+    row.append(p.closed ? h("button", { class: "link is-typed l-act", type: "button", "data-act": "page" }, "See what happened")
+      : left > 0 ? h("button", { class: "btn l-act", type: "button", "data-act": "ask" }, askWords(p))
+        : h("button", { class: "link is-typed l-act", type: "button", "data-act": "see" }, p.offer ? "See the offer" : "See how it was paid"));
     return h("div", { class: "l-row-wrap" }, row);
   }
 
@@ -289,7 +290,8 @@ export function createBook(root, actions) {
       rowsEl.append(wrap);
       line += 1;
     }
-    const blanks = Math.max(1, 3 - book.promises.length);
+    // a short book keeps empty lines, and the first says what goes on it; four promises fill the page
+    const blanks = book.promises.length >= 4 ? 0 : Math.max(1, 3 - book.promises.length);
     for (let i = 0; i < blanks; i += 1) rowsEl.append(blankRow(line + i, i === 0 && book.promises.length > 0));
     drawTotals();
     placeSpike();
@@ -321,6 +323,7 @@ export function createBook(root, actions) {
     if (!row) return;
     sound.unlock();
     const act = event.target.closest("[data-act]")?.dataset.act;
+    if (act === "page") { actions.openCase(row.dataset.id); return; }
     openSlip(row.dataset.id, { letter: act === "ask" });
   });
 
@@ -344,7 +347,7 @@ export function createBook(root, actions) {
     if (p.overdue) kids.push(makeStamp("Overdue", { seed: `${p.id}-slip-overdue`, tilt: -7.5, className: "is-overdue" }));
     if (p.offer) kids.push(makeStamp("Only if", { seed: `${p.id}-slip-only-if`, tilt: -6, className: "is-onlyif" }));
     else if (left === 0) kids.push(makeStamp("Paid", { seed: `${p.id}-slip-paid`, tilt: -9, className: "is-paid" }));
-    if (live && left > 0 && !letterOut(p)) kids.push(h("button", { class: "btn iou-ask", type: "button", onclick: () => openLetter(p) }, askWords(p)));
+    if (live && left > 0 && p.letter && !letterOut(p)) kids.push(h("button", { class: "btn iou-ask", type: "button", onclick: () => openLetter(p) }, askWords(p)));
     return kids;
   }
 
@@ -371,6 +374,7 @@ export function createBook(root, actions) {
             h("p", { class: "iou-quote typed" }, h("span", { "data-says": "said", tabindex: live ? 0 : null }, `“${p.quote}”`)),
             p.working && h("p", { class: "iou-working typed" }, workingFor(p, null)),
             p.asides.map((line) => h("p", { class: "iou-working iou-aside typed" }, line)),
+            p.closed && h("p", { class: "iou-working iou-closed typed" }, p.closed.line),
           ),
           h("div", { class: "iou-side" }, slipSide(p, { live })),
           h("p", { class: "iou-sum" }, sumLine(p)),
@@ -863,7 +867,7 @@ export function createBook(root, actions) {
     tools.replaceChildren(
       h("div", { class: "scene-ways" },
         h("button", { class: "link", type: "button", onclick: () => closeSlip() }, "Put it back"),
-        h("button", { class: "link", type: "button", onclick: () => actions.openCase(p.id) }, "Open the full case"),
+        h("button", { class: "link", type: "button", onclick: () => actions.openCase(p.id) }, "Open its page"),
       ),
       said ? h("p", { class: "lever-said" }, said)
         : p.nextInvoice && p.owedCents > 0
@@ -1183,7 +1187,7 @@ export function createBook(root, actions) {
       case "vendor": return `${found}not who by. Add a line like “Vendor: Parcel” and drop it in again.`;
       case "reference": return `${found}nothing to match invoices to. Add a line like “Reference: PL-SETUP-2026”.`;
       case "date": return `${found}not when. Add a line like “Due date: 2026-12-01”.`;
-      case "differs": return "That vendor already has a promise under this reference, for a different amount or date. Open the full case to change it.";
+      case "differs": return "That vendor already has a promise under this reference, for a different amount or date. Open its page to change it.";
       case "sheet": return "One line of that spreadsheet can’t be read. Each line needs an invoice number, vendor, date, amount and reference.";
       default: return "Couldn’t find a promise in that. Paste the sentence where they said it.";
     }

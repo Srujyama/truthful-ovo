@@ -9,8 +9,9 @@
 //              selectors.mjs and sends everything a visitor does to
 //              service.commands as one batch (commands.mjs), so every other
 //              screen sees the same records.
-// onOpenCase   (required) onOpenCase(commitmentId): "Open the full case" on a
-//              slip. The commitment id is all a case screen needs.
+// onOpenCase   (required) onOpenCase(commitmentId): "Open its page" on a slip,
+//              and "See what happened" on a row whose time to claim ran out.
+//              The commitment id is all that page needs.
 // onGo         (optional) onGo(page): the front's own way round the rest of the
 //              book, a folded note at the top of the desk called "The rest of
 //              the book". `page` is one of "todo", "papers", "companies",
