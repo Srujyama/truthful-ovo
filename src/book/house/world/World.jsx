@@ -19,7 +19,7 @@ import { createDirector, quarterBox, WHERE } from './director.js';
 import { liveStep, storyOf, todayStep } from './story.mjs';
 import { latestLine, stationLine, vendorLine } from './lines.mjs';
 import { StationPanel, VendorPanel } from './panels.jsx';
-import { approveLetterCommands, plainFailure } from '../../front/commands.mjs';
+import { approveLetterCommands, declineOfferCommands, nextInvoiceCommands, plainFailure, readDocument } from '../../front/commands.mjs';
 import { dateDay, money } from '../../front/selectors.mjs';
 
 const PHONE = '(max-width: 900px)';
@@ -138,6 +138,8 @@ export default function World({ service, view, go }) {
   const [heard, setHeard] = useState('');         // what the figures said, for a screen reader
   const [ready, setReady] = useState(false);
   const [acting, setActing] = useState(null);     // something written in the book since the cover opened, being acted out
+  const [zoom, setZoom] = useState(1);            // the demo's close-up: a glide in on one place
+  const aimRef = useRef(null);                    // the place the demo looks at, if any
 
   const section = useRef(null);
   const holder = useRef(null);
@@ -251,10 +253,13 @@ export default function World({ service, view, go }) {
       }
     options.artWidth = deviceW / best.pixel;
     options.units.splice(0, options.units.length, best.unit, best.unit + 1, best.unit + 2);
+    const first = !fitRef.current;
     fitRef.current = { ...best, top, bottom, right };
     stage.setInset({ left: 0, right, top, bottom });
     stage.renderNow();
-    stage.lookAt(box.center, { jump: true, unit: best.unit });
+    // the first fit jumps; a refit (the top bar or the window changed size) glides, and keeps the demo's place in view
+    const to = aimRef.current ? lookPoint(aimRef.current, n) : box.center;
+    stage.lookAt(to, first ? { jump: true, unit: best.unit } : { unit: best.unit, rate: 2.6 });
   }, [phone, panel, focus, n, box]);
 
   const fitNow = useRef(fit);
@@ -409,8 +414,24 @@ export default function World({ service, view, go }) {
     const w = holder.current?.getBoundingClientRect().width ?? 1440;
     const right = panel ? panelWidth(w) + 32 : 0;
     stage.setInset({ right });
-    stage.lookAt(box.center);
+    stage.lookAt(aimRef.current ? lookPoint(aimRef.current, n) : box.center, { rate: 3.2 });
   }, [panel, ready, phone, n, box]);
+
+  // the close-up: canvas and tags scale together about the middle of what the panel leaves
+  useEffect(() => {
+    const el = holder.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const f = fitRef.current ?? {};
+    const right = panel && !phone ? panelWidth(r.width) + 32 : 0;
+    const top = f.top ?? 0, bottom = f.bottom ?? 0;
+    const ox = Math.round((r.width - right) / 2), oy = Math.round(top + (r.height - top - bottom) / 2);
+    for (const node of [canvas.current, layer.current]) {
+      if (!node) continue;
+      node.style.transformOrigin = `${ox}px ${oy}px`;
+      node.style.transform = zoom === 1 ? '' : `scale(${zoom})`;
+    }
+  }, [zoom, panel, phone, ready]);
 
   useEffect(() => {
     if (!panel) return;
@@ -447,6 +468,54 @@ export default function World({ service, view, go }) {
       throw new Error(plainFailure(error), { cause: error });
     }
   }, [service, touch]);
+
+  // —— the demo's hand on the quarter (Player/script.mjs): look, open, say, act out
+  useEffect(() => {
+    if (!ready) return undefined;
+    const api = {
+      /** Glide to a place ('book', 'scale', 'clock', 'vendor:2'…) and close in; null pulls back to the whole quarter. */
+      focus(id, { zoom: z = 1.35 } = {}) {
+        aimRef.current = id ?? null;
+        stageRef.current?.lookAt(id ? lookPoint(id, n) : box.center, { rate: 2.6 });
+        setZoom(id ? z : 1);
+      },
+      open(id, { want } = {}) {
+        if (!id) return;
+        if (String(id).startsWith('vendor:')) { const v = viewRef.current?.vendors?.[Number(id.slice(7))]; if (v) openPanel({ kind: 'vendor', id: v.id, key: id }); return; }
+        openPanel({ kind: 'station', id, want });
+      },
+      close() { closePanel(); },
+      say(who, text, seconds, side) { directorRef.current?.say(who, text, seconds, side); },
+      play(moves) { return directorRef.current?.play({ moves }) ?? Promise.resolve(false); },
+      busy() { return playing.current || queue.current.length > 0; },
+      vendorIndex(name) { return (viewRef.current?.vendors ?? []).findIndex((v) => v.name === name); },
+      approve(commitmentId) { return onApprove(commitmentId); },
+      // the same commands the book's own buttons send
+      async decline(commitmentId, reason) {
+        const a = (viewRef.current?.amendments ?? []).find((x) => x.commitmentId === commitmentId && !x.accepted && !x.superseded && !x.rejected);
+        if (!a) return false;
+        await service.commands(declineOfferCommands(a.id, reason));
+        return true;
+      },
+      async nextInvoice(commitmentId) {
+        const ws = service.workspace;
+        const d = new Date();
+        const day = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        const built = nextInvoiceCommands(ws, commitmentId, { actor: service.actor, now: momentFor(ws), day });
+        if (built.commands.length) await service.commands(built.commands);
+        return built.invoice;
+      },
+      async read(text) {
+        const ws = service.workspace;
+        const outcome = await readDocument(ws, text, { actor: service.actor, now: momentFor(ws) });
+        const commands = Array.isArray(outcome) ? outcome : outcome?.commands ?? [];
+        if (commands.length) await service.commands(commands);
+        return outcome;
+      },
+    };
+    window.__quarter = api;
+    return () => { if (window.__quarter === api) delete window.__quarter; };
+  }, [ready, n, box, openPanel, closePanel, onApprove, service]);
 
   // —— the phone's strip: one place at a time
   const strip = useRef(null);
@@ -578,9 +647,11 @@ export default function World({ service, view, go }) {
         {panel && view && (
           <aside className="qw-panel" ref={panelRef} role="dialog" aria-label={panel.kind === 'vendor' ? (vendors.find((v) => v.id === panel.id)?.name ?? 'A company') : NAMES[panel.id]}>
             <button type="button" className="qw-close" aria-label="Close" onClick={closePanel}>×</button>
-            {panel.kind === 'vendor'
-              ? <VendorPanel vendorId={panel.id} view={view} service={service} go={go} onClose={closePanel} />
-              : <StationPanel station={panel.id} view={view} service={service} go={go} onClose={closePanel} onApprove={onApprove} />}
+            <div className="qw-panel-body" key={`${panel.kind}:${panel.id}`}>
+              {panel.kind === 'vendor'
+                ? <VendorPanel vendorId={panel.id} view={view} service={service} go={go} onClose={closePanel} />
+                : <StationPanel station={panel.id} view={view} service={service} go={go} onClose={closePanel} onApprove={onApprove} want={panel.want} />}
+            </div>
           </aside>
         )}
       </div>

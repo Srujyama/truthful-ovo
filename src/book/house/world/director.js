@@ -718,7 +718,7 @@ export function createDirector({ stage, scene, vendors = 4, names = [], layer, r
     say(pm, m.reply, BUBBLE, sp, 30);
     setCarry(c, null);
     setCarry(pm, m.carry);
-    setWorld("inTray", Math.min(state.inTray, Math.max(0, props.inTray) + (m.papers ?? 1)));
+    if (state) setWorld("inTray", Math.min(state.inTray, Math.max(0, props.inTray) + (m.papers ?? 1)));
     await sleep(BEAT.reply); check(token);
     goHome(c);
   }
@@ -826,7 +826,7 @@ export function createDirector({ stage, scene, vendors = 4, names = [], layer, r
     await toss(letterModel(), hand(p), deskTop(), 0.3);
     check(token);
     setWorld("drafts", 0);
-    setWorld("waiting", state.waiting);
+    setWorld("waiting", state?.waiting ?? Math.max(1, props.waiting));
     say(p, m.say ?? "For you to sign.");
     await sleep(BEAT.reply); check(token);
     goHome(p);
@@ -885,7 +885,41 @@ export function createDirector({ stage, scene, vendors = 4, names = [], layer, r
     goHome(c);
   }
 
-  const ACT = { arrive, pass, slip, coins, hang, clip, draft, deliver, withdraw, ring: ringClock, send, file, call: async () => {} };
+  // two clerks reach for the same coin on the pan: one takes it, the other is told it is spent (staged, for the demo)
+  async function race(token, m) {
+    const a = P("checker"), b = P("scribe");
+    a.busy = true; b.busy = true;
+    const pan = [beamAt[0] + 12, 1, beamAt[2] - 12];
+    const sa = panSide(1);
+    const [bx, bz] = openCell(map, beamAt[0] + 22, beamAt[2] - 2);
+    const sb = [bx + map.ox, 1, bz + map.oz];
+    await Promise.all([walkTo(a, sa), walkTo(b, sb)]);
+    check(token);
+    faceToward(a, pan); faceToward(b, pan);
+    const [la, lb] = sides(a, b);
+    say(a, m.ask ?? "Spending this $100.", 1.8, la);
+    await sleep(0.35); check(token);
+    say(b, m.also ?? "So am I.", 1.6, lb, 30);
+    await sleep(1.6); check(token);
+    setCarry(a, "coin");
+    say(a, m.got ?? "Mine. Through.", 2.6, la);
+    await sleep(0.7); check(token);
+    say(b, m.reply ?? "Already spent.", 3.2, lb, 30);
+    await sleep(2.6); check(token);
+    setCarry(a, null);
+    goHome(a); goHome(b);
+  }
+
+  // an offer with strings, declined: its card falls off the stand to the ground (staged, for the demo)
+  async function drop(token, m) {
+    const p = P("checker");
+    say(p, m.say ?? "Declined.", 2.2);
+    await toss(slipModel(tab(m.vendor)), [beamAt[0] + 4, 17, beamAt[2] + 3], [beamAt[0] + 11, 0, beamAt[2] + 9], 0.9);
+    check(token);
+    await sleep(0.4); check(token);
+  }
+
+  const ACT = { arrive, pass, slip, coins, hang, clip, draft, deliver, withdraw, ring: ringClock, send, file, race, drop, call: async () => {} };
   async function file(token) {
     const p = P("reader");
     p.busy = true;
@@ -944,6 +978,13 @@ export function createDirector({ stage, scene, vendors = 4, names = [], layer, r
     idle(on) { live.idle = on; },
     /** Where a figure is now (for a tag that follows it). */
     where(name) { return people.get(name)?.actor.at ?? null; },
+    /** A bubble over someone (a figure's name, or "clock", which rings as it speaks). */
+    say(name, text, seconds = BUBBLE, side = "middle") {
+      const p = name === "clock" ? clockVoice : people.get(name);
+      if (!p || !text) return;
+      if (name === "clock") { ring.actor.visible = !reduce; ring.until = live.time + 1.6; poke(); }
+      say(p, text, seconds, side);
+    },
     stop() { live.token += 1; },
     destroy() {
       live.token += 1;

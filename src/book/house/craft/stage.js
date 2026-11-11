@@ -71,7 +71,9 @@ export function createStage(canvas, options = {}) {
 
   // —— size: art pixels are whole device pixels
   function resize() {
-    const rect = canvas.getBoundingClientRect();
+    // the layout size, not the drawn one: a CSS scale on the canvas (a close-up) must not change its resolution
+    const box = canvas.getBoundingClientRect();
+    const rect = { width: canvas.offsetWidth || box.width, height: canvas.offsetHeight || box.height };
     const dpr = window.devicePixelRatio || 1;
     const deviceW = Math.max(1, Math.round(rect.width * dpr)), deviceH = Math.max(1, Math.round(rect.height * dpr));
     pixel = Math.max(1, Math.round(deviceW / (options.artWidth ?? 520)));
@@ -310,7 +312,7 @@ export function createStage(canvas, options = {}) {
     }
     // glide to a place
     if (state.goal) {
-      const g = state.goal, k = reduce ? 1 : 1 - Math.exp(-dt * 7);
+      const g = state.goal, k = reduce ? 1 : 1 - Math.exp(-dt * (state.rate ?? 7));
       state.center[0] += (g[0] - state.center[0]) * k;
       state.center[1] += (g[1] - state.center[1]) * k;
       state.center[2] += (g[2] - state.center[2]) * k;
@@ -353,7 +355,8 @@ export function createStage(canvas, options = {}) {
     /** Ease to day (0) or night (1). */
     setNight(n) { state.nightGoal = clamp(n, 0, 1); kick(); },
     /** Glide the camera to a world point (or jump, with { jump: true }). */
-    lookAt(point, { jump = false, unit } = {}) {
+    lookAt(point, { jump = false, unit, rate = 7 } = {}) {
+      state.rate = rate;
       if (unit && unit !== state.unit) { state.unit = unit; dirtyWorld = true; }
       if (jump || reduce) { state.center = [...point]; state.goal = null; dirtyWorld = true; }
       else state.goal = [...point];

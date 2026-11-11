@@ -18,7 +18,17 @@ export const wordsIn = (text) => String(text).trim().split(/\s+/).filter(Boolean
 export const secondsFor = (scene) => Math.max(scene.seconds, wordsIn(scene.narration) / WORDS_PER_SECOND + BREATH);
 
 const PIPELINE = 'pipeline-seats';
-const openRow = '.f-item.is-open';
+
+// Scenes 2 on stay in the quarter: World.jsx sets window.__quarter while it is mounted
+// (focus a place, open its panel, a bubble, a few moves, and the book's own commands).
+const Q = () => (typeof window !== 'undefined' ? window.__quarter : null);
+async function inQuarter(d) {
+  if (document.querySelector('.bk')?.dataset.page !== 'home') await d.go('home');
+  await d.until(() => Q(), 4000);
+  return Q() ?? { focus() {}, open() {}, close() {}, say() {}, play: async () => false, busy: () => false, vendorIndex: () => 0, decline: async () => false, nextInvoice: async () => null, read: async () => null };
+}
+/** Wait for the quarter to finish acting out what was just written in the book. */
+const settle = (d, ms = 12000) => d.until(() => !Q()?.busy(), ms);
 
 export const SCENES = [
   {
@@ -65,12 +75,15 @@ export const SCENES = [
     seconds: 11,
     narration: 'This is the book of IOUs, one row per vendor. One coin is a hundred dollars: ink came in, red is still owed.',
     async run(d) {
-      await d.go('ious');
-      await d.point(await d.find('h1', { front: true }));
-      await d.wait(2600);
-      await d.point(await d.find('.f-list > .f-key', { front: true }));
-      await d.wait(2800);
-      await d.point(await d.find(`[data-item="${PIPELINE}"] .f-coins`, { front: true }));
+      const q = await inQuarter(d);
+      q.focus('book', { zoom: 1.3 });
+      await d.point(await d.find('.qw-tag', { text: 'the book' }));
+      await d.wait(1100);
+      q.open('book');
+      await d.wait(900);
+      await d.point(await d.find('.qw-panel .qp-legend'));
+      await d.wait(3000);
+      await d.point(await d.find('.qw-panel .qp-promise', { text: 'Pipeline' }));
     },
   },
   {
@@ -79,13 +92,17 @@ export const SCENES = [
     seconds: 11,
     narration: 'Pipeline CRM promised $2,400 in an email. One invoice took off $900, so $1,500 is still owed.',
     async run(d) {
-      await d.go('ious');
-      const row = await d.find(`[data-row="${PIPELINE}"]`, { front: true });
-      if (row && row.getAttribute('aria-expanded') !== 'true') await d.click(row);
-      await d.wait(700);
-      await d.point(await d.find(`${openRow} .f-quote mark`, { front: true }));
-      await d.wait(3000);
-      await d.point(await d.find(`${openRow} .t-row.is-sum`, { front: true }), { box: (el) => el.closest('dd') });
+      const q = await inQuarter(d);
+      const house = `vendor:${q.vendorIndex('Pipeline CRM')}`;
+      // Pipeline's house and the post across the bridge, where its papers come in
+      q.focus('post', { zoom: 1.25 });
+      q.open(house);
+      await d.wait(1000);
+      await d.point(await d.find('.qw-tag.is-house', { text: 'Pipeline CRM' }));
+      await d.wait(1800);
+      await d.point(await d.find('.qw-panel .qp-promise'));
+      await d.wait(2600);
+      await d.point(await d.find('.qw-panel .qp-promise .qp-fig'));
     },
   },
   {
@@ -94,16 +111,19 @@ export const SCENES = [
     seconds: 12,
     narration: 'Then they offered the rest, but only if we spend $2,400 more. The house rules say no new spending, so we decline it.',
     async run(d) {
-      await d.go('ious');
-      const offer = await d.find(`${openRow} .f-offer`, { front: true, text: 'Only if you renew' });
-      await d.point(offer);
-      await d.wait(3200);
-      await d.click(offer && [...offer.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Decline'));
-      const why = await d.find(`${openRow} .f-offer-why input`, { front: true, timeout: 1500 });
-      await d.type(why, 'Our rules say no new spending.');
-      await d.wait(300);
-      await d.click(await d.find(`${openRow} .f-offer-why button`, { front: true, text: 'Decline it' }));
-      await d.point(await d.find(`${openRow} .f-offer.is-dismissed, ${openRow} .f-decided`, { front: true, timeout: 2500 }), { box: (el) => el.closest('.f-offer') });
+      const q = await inQuarter(d);
+      q.focus('letter', { zoom: 1.25 });
+      await d.wait(900);
+      q.say('checker', 'Only if we spend $2,400 more?', 3, 'left');
+      await d.point(d.above('the scale'));
+      await d.wait(2600);
+      q.say('writer', 'Our rules say no new spending.', 3.4, 'left');
+      await d.point(d.above('the letter desk'));
+      await d.wait(2200);
+      await q.decline(PIPELINE, 'Our rules say no new spending.');
+      await settle(d, 6000);
+      await q.play([{ do: 'drop', vendor: q.vendorIndex('Pipeline CRM'), say: 'Declined.' }]);
+      await d.point(await d.find('.qw-panel .qp-promise'));
     },
   },
   {
@@ -112,32 +132,43 @@ export const SCENES = [
     seconds: 13,
     narration: 'Ask for the rest, and the letter writes itself from the evidence. Nothing is sent until you approve it.',
     async run(d) {
-      await d.go('ious');
-      await d.click(await d.find(`${openRow} .f-acts .f-btn:not(.is-quiet)`, { front: true }));
-      await d.wait(700);
-      const letter = await d.find(`#f-letter-${PIPELINE}`, { front: true });
-      await d.point(letter?.querySelector('textarea'));
-      await d.wait(3600);
-      await d.click(await d.find(`#f-letter-${PIPELINE} .f-letter-foot .f-btn`, { front: true, text: 'Approve this letter' }));
-      await d.point(await d.find(`#f-letter-${PIPELINE} .f-approved`, { front: true, timeout: 3000 }));
+      const q = await inQuarter(d);
+      q.focus('you', { zoom: 1.3 });
+      q.say('writer', 'I’ll ask Pipeline for the $1,500.', 2.6, 'right');
+      await d.wait(1200);
+      // the writer walks the letter over to your desk
+      const walk = q.play([{ do: 'deliver', say: 'For you to sign.' }]);
+      await d.point(d.above('your desk'));
+      await walk;
+      q.open('you', { want: PIPELINE });
+      await d.wait(900);
+      await d.point(await d.find('.qw-panel .qp-letter'));
+      await d.wait(3000);
+      await d.click(await d.find('.qw-panel .qp-act .bk-btn', { text: 'Approve this letter' }));
+      await d.wait(500);
+      // Truthful's courier takes it over the bridge to Pipeline's house
+      q.focus('post', { zoom: 1.1 });
+      await d.point(await d.find('.qw-panel .qp-approved', { timeout: 3000 }));
+      await settle(d, 7000);
     },
   },
   {
     id: 'invoice',
     title: 'the next invoice',
-    seconds: 11,
+    seconds: 13,
     narration: 'When the next invoice shows the credit, the coins turn over, Pipeline is paid, and the total counts down.',
     async run(d) {
-      await d.go('ious');
-      const button = await d.find(`[data-item="${PIPELINE}"] .f-acts .f-btn`, { front: true, text: 'The next invoice arrives' });
-      await d.scrollTo(0);
-      await d.click(button);
-      await d.point(await d.find(`[data-item="${PIPELINE}"] .f-big`, { front: true, timeout: 800 }));
-      await d.wait(3400);
-      await d.scrollTo(0);
-      await d.point(await d.find('h1', { front: true }));
+      const q = await inQuarter(d);
+      q.close();
+      q.focus(null);
+      await d.wait(900);
+      await q.nextInvoice(PIPELINE);
+      await d.point(await d.find('.qw-tag.is-house', { text: 'Pipeline CRM' }));
       await d.wait(2400);
-      await d.point(await d.find(`[data-item="${PIPELINE}"]`, { front: true }));
+      await d.point(d.above('the scale'));
+      await settle(d, 14000);
+      q.focus('scale', { zoom: 1.2 });
+      await d.point(await d.find('.qw-head'));
     },
   },
   {
@@ -146,17 +177,18 @@ export const SCENES = [
     seconds: 13,
     narration: 'Drop a paper in the tray. Truthful reads it, highlights every figure it used, and sees this promise is already in the book.',
     async run(d) {
-      await d.go('tray');
-      await d.click(await d.find('.bk-tray-tries button', { text: 'Pipeline CRM, half paid' }));
-      await d.until(() => [...document.querySelectorAll('.bk-tray-box textarea')].some((t) => t.value.trim()), 3000);
-      await d.point(await d.find('.bk-tray-box'));
-      await d.wait(1800);
-      await d.click(await d.find('.bk-tray-go button'));
-      await d.find('.bk-tray-read', { timeout: 4000 });
-      await d.wait(500);
-      await d.point(await d.find('.bk-tray-row'));
-      await d.wait(3200);
-      await d.point(await d.find('.bk-tray-found'));
+      const q = await inQuarter(d);
+      q.focus('post', { zoom: 1.35 });
+      const text = await fetch('/examples/pipeline-promise.txt').then((r) => (r.ok ? r.text() : '')).catch(() => '');
+      const vendor = q.vendorIndex('Pipeline CRM');
+      await d.point(await d.find('.qw-tag', { text: 'the post' }));
+      await q.play([{ do: 'arrive', vendor, carry: 'paper', papers: 0, say: 'Pipeline’s email again.', reply: 'Into the tray.' }]);
+      const outcome = text ? await q.read(text) : null;
+      q.open('post');
+      const play = q.play([{ do: 'pass', from: 'postmaster', to: 'reader', carry: 'paper', say: 'From Pipeline CRM.', reply: outcome?.kind === 'known' ? 'Already in the book.' : 'Read it.' }]);
+      await d.wait(700);
+      await d.point(await d.find('.qw-panel .qp-row'));
+      await play;
     },
   },
   {
@@ -165,12 +197,13 @@ export const SCENES = [
     seconds: 9,
     narration: 'Every figure in the book points back to the exact words it came from.',
     async run(d) {
-      await d.go('papers', d.paperOf(PIPELINE));
-      await d.wait(400);
-      await d.click(await d.find('.bk-pap-side button.bk-pap-fact'));
-      await d.point(await d.find('.bk-pap-text mark.is-lit', { timeout: 1200 }) ?? await d.find('.bk-pap-text mark'));
+      const q = await inQuarter(d);
+      q.focus('read', { zoom: 1.35 });
+      q.open('read');
+      await d.wait(1000);
+      await d.point(await d.find('.qw-panel .qp-paper-text mark.qp-hl') ?? await d.find('.qw-panel .qp-paper'));
       await d.wait(2800);
-      await d.point(await d.find('.bk-pap-uses'));
+      await d.point(await d.find('.qw-panel .qp-part', { text: 'what was read' }));
     },
   },
   {
@@ -179,17 +212,15 @@ export const SCENES = [
     seconds: 12,
     narration: 'The balance adds it all up as of any date. Turn the date back to see what you knew then, and hand the accountant a CSV.',
     async run(d) {
-      await d.go('balance');
-      await d.point(await d.find('.bk-rec-sums'));
-      await d.wait(2800);
-      const date = await d.find('.bk-rec-daters .bk-rec-turn');
-      await d.point(date);
-      await d.wait(900);
-      await d.go('balance', '', { asof: '2026-10-02', by: '2026-10-02' }, { replace: true });
-      await d.wait(400);
-      await d.point(await d.find('.bk-rec-sums'));
-      await d.wait(3000);
-      await d.point(await d.find('.bk-rec-take button', { text: 'Copy for the accountant (CSV)' }));
+      const q = await inQuarter(d);
+      q.focus('scale', { zoom: 1.4 });
+      q.open('scale');
+      await d.wait(1000);
+      await d.point(await d.find('.qw-panel .qp-sum'));
+      await d.wait(3200);
+      await d.point(d.above('the scale'));
+      await d.wait(2600);
+      await d.point(await d.find('.qw-panel .qp-foot'));
     },
   },
   {
@@ -198,32 +229,31 @@ export const SCENES = [
     seconds: 9,
     narration: 'History keeps every entry in order, including what we just did. Nothing is ever rewritten.',
     async run(d) {
-      await d.go('daybook');
-      await d.point(await d.find('.bk-rec-count'));
-      await d.wait(1600);
-      const rows = await d.findAll('.bk-rec-day');
-      await d.point(rows[0], { box: () => rows.slice(0, 4) });
-      await d.wait(3200);
-      await d.point(rows[6] ?? rows.at(-1), { box: () => rows.slice(4, 10) });
+      const q = await inQuarter(d);
+      q.focus('clock', { zoom: 1.3 });
+      q.open('clock');
+      await d.wait(900);
+      q.say('clock', 'Every entry kept, in order.', 3.6);
+      await d.point(await d.find('.qw-tour'));
+      await d.wait(3000);
+      await d.point(await d.find('.qw-panel .qp-head'));
     },
   },
   {
+    // Staged in the quarter: the real race runs on #/bench, against the ledger itself.
     id: 'bench',
     title: 'the test bench',
     seconds: 13,
     narration: 'On the test bench, two clerks race to spend the same credit. The ledger lets one through and refuses the other.',
     async run(d) {
-      await d.go('bench', '', { tool: 'clerks' });
-      const go = await d.find('.bk-bench-go button');
-      await d.point(await d.find('.bk-bench-setup') ?? go);
-      await d.wait(2200);
-      await d.click(go);
-      await d.wait(1000);
-      const rows = await d.findAll('.bk-bench-ledger [data-step]', { timeout: 4000 });
-      await d.point(rows.at(-1));
-      await d.wait(2800);
-      const verdicts = await d.findAll('.bk-bench-verdict');
-      await d.point(verdicts.at(-1));
+      const q = await inQuarter(d);
+      q.focus('scale', { zoom: 1.4 });
+      q.open('scale');
+      await settle(d, 3000);
+      await d.wait(700);
+      const race = q.play([{ do: 'race', ask: 'Spending this $100.', also: 'So am I.', got: 'Mine. Through.', reply: 'Already spent.' }]);
+      await d.point(d.above('the scale'));
+      await race;
     },
   },
   {
@@ -232,9 +262,10 @@ export const SCENES = [
     seconds: 8,
     narration: 'Truthful. Every credit you were promised, kept or chased.',
     async run(d) {
-      await d.go('home');
-      await d.wait(300);
-      await d.tour(d.lastTourStep());
+      const q = await inQuarter(d);
+      q.close();
+      q.focus(null);
+      await d.wait(900);
       await d.point(await d.find('.qw-head'));
     },
   },

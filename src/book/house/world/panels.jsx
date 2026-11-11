@@ -382,10 +382,16 @@ function LetterDesk({ view, service, go }) {
   );
 }
 
-function Desk({ view, service, go, onApprove }) {
+function Desk({ view, service, go, onApprove, want = null }) {
   const l = letters(view);
   const [pick, setPick] = useState(null);
-  const item = l.waiting.find((w) => w.commitment.id === pick) ?? l.waiting[0] ?? null;
+  // asked for one promise's letter (the demo): drafted from the book as it stands, even when an earlier draft lapsed
+  const wanted = useMemo(() => {
+    if (!want || l.waiting.some((w) => w.commitment.id === want)) return null;
+    const c = view.commitments.find((x) => x.id === want);
+    return c ? { commitment: c, vendor: view.vendors.find((v) => v.id === c.vendorId)?.name ?? '', owedCents: stillOwedCents(c) } : null;
+  }, [want, view, l.waiting]);
+  const item = l.waiting.find((w) => w.commitment.id === (pick ?? want)) ?? wanted ?? l.waiting[0] ?? null;
   const signed = item ? null : l.signed.at(-1) ?? null;
   const letter = useLetter(service, view, (item ?? signed)?.commitment);
   const [busy, setBusy] = useState('');
@@ -412,11 +418,11 @@ function Desk({ view, service, go, onApprove }) {
   const target = item ?? signed;
   return (
     <Panel
-      pic={<span className="qp-count-pic"><b>{l.waiting.length}</b><span className="t-label">to sign</span></span>}
+      pic={<span className="qp-count-pic"><b>{l.waiting.length + (wanted && !letter?.approvedAt ? 1 : 0)}</b><span className="t-label">to sign</span></span>}
       who={WHO.you}
       name={nameOf('you')}
       job={JOB.you}
-      now={stationNow('you', view)}
+      now={wanted && !letter?.approvedAt ? `A letter to ${wanted.vendor} asking for ${money(wanted.owedCents)}, for you to sign.` : stationNow('you', view)}
       foot={target
         ? <Go go={go} page="iou" id={target.commitment.id}>Open {possessive(target.vendor)} promise →</Go>
         : <Go go={go} page="todo">Open To do →</Go>}
@@ -504,10 +510,10 @@ function Clock({ view, go }) {
 const BODIES = { post: Post, read: Read, book: Book, scale: Scale, letter: LetterDesk, you: Desk, clock: Clock };
 
 /** The inside of a station's panel. */
-export function StationPanel({ station, view, service, go, onClose, onApprove }) {
+export function StationPanel({ station, view, service, go, onClose, onApprove, want }) {
   const Body = BODIES[station];
   if (!view || !Body) return null;
-  return <Body view={view} service={service} go={go} onClose={onClose} onApprove={onApprove} />;
+  return <Body view={view} service={service} go={go} onClose={onClose} onApprove={onApprove} want={want} />;
 }
 
 // · a company's house
