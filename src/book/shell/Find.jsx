@@ -42,7 +42,7 @@ export default function FindOver({ view, go, more, onClose }) {
     <Over onClose={onClose} label="Find">
       <Paper w={150} rot={0.4} className="bk-form">
         <Close onClose={onClose} />
-        <form className="bk-find" style={{ fontSize: 19, marginBottom: 14 }} onSubmit={e => { e.preventDefault(); if (hits[0]) open(hits[0]); }}>
+        <form className="bk-find" style={{ fontSize: 19, margin: '22px 0 14px' }} onSubmit={e => { e.preventDefault(); if (hits[0]) open(hits[0]); }}>
           <label htmlFor="bk-find-input" className="bk-label">Find</label>
           <input id="bk-find-input" data-autofocus="" type="search" value={text} onChange={e => setText(e.target.value)} placeholder="a company, a paper, an amount" autoComplete="off" spellCheck={false} />
         </form>
@@ -52,12 +52,12 @@ export default function FindOver({ view, go, more, onClose }) {
               <li key={i} style={{ borderTop: '1px solid rgb(29 39 64 / 0.16)' }}>
                 <button type="button" className="bk-link" style={{ display: 'grid', gridTemplateColumns: '92px 1fr', gap: 12, width: '100%', padding: '8px 0', textDecoration: 'none' }} onClick={() => open(row)}>
                   <span className="bk-label" style={{ paddingTop: 4 }}>{row.kind}</span>
-                  <span><b style={{ font: '600 16.5px/1.25 var(--bk-display)' }}>{row.title}</b>{row.said && <span className="bk-muted" style={{ display: 'block', fontSize: 13.5 }}>{row.said}</span>}</span>
+                  <span><b style={{ font: '500 16.5px/1.25 var(--bk-display)', letterSpacing: '-0.01em' }}>{row.title}</b>{row.said && <span className="bk-muted" style={{ display: 'block', fontSize: 13.5 }}>{row.said}</span>}</span>
                 </button>
               </li>
             ))}
           </ul>
-        ) : <p className="bk-hand">Nothing in the book by that name.</p>}
+        ) : <p className="bk-muted">Nothing in the book by that name.</p>}
       </Paper>
     </Over>
   );

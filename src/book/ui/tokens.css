@@ -1,0 +1,83 @@
+/* Truthful, in the isokra system: one printed sheet. Flat ink on porcelain stock,
+   hairlines, no shadows, no gradients, no texture. Six sizes, two weights.
+   One red, and it only ever means money still owed.
+
+   The mark is a pixel coin: one coin is $100 of a promise (src/book/ui/coins.js).
+   Every number is mono. Every label is small, lowercase and mono.
+   The answer is the headline. */
+
+@font-face {
+  font-family: "Red Hat Display Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url("./fonts/red-hat-display-latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Red Hat Text Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url("./fonts/red-hat-text-latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Red Hat Mono Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url("./fonts/red-hat-mono-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+:root {
+  --t-paper: #eef0ed;
+  --t-paper-2: #e5e8e4;
+  --t-white: #fbfcfa;
+  --t-ink: #11161a;
+  --t-ink-2: #343c40;
+  --t-muted: #646c70;
+  --t-quiet: #7d8682;
+  --t-line: #d3d8d4;
+  --t-line-2: #bfc6c1;
+  --t-red: #c9361f;          /* money still owed. Nothing else. */
+  --t-red-ink: #a62a16;
+  --t-red-wash: #f6e3de;
+  --t-hl: #f3e9a6;           /* where Truthful read a figure on a paper */
+  --t-code: #e7ebe8;
+
+  --t-display: "Red Hat Display Variable", "Red Hat Display", system-ui, sans-serif;
+  --t-text: "Red Hat Text Variable", "Red Hat Text", system-ui, sans-serif;
+  --t-mono: "Red Hat Mono Variable", "Red Hat Mono", ui-monospace, monospace;
+
+  --t-s-display: clamp(52px, 7vw, 100px);
+  --t-s-title: clamp(26px, 2.6vw, 34px);
+  --t-s-lead: 17px;
+  --t-s-body: 15px;
+  --t-s-small: 13px;
+  --t-s-label: 11.5px;
+
+  --t-r: 3px;
+  --t-gutter: clamp(20px, 8vw, 120px);
+  --t-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* the parts, for anything new; the book's own bk- parts are restyled to match in shell/book.css */
+.t-display { font: 500 var(--t-s-display) / 0.95 var(--t-display); letter-spacing: -0.045em; }
+.t-display .is-owed, .t-owed { color: var(--t-red); }
+.t-display .is-quiet { color: var(--t-quiet); }
+.t-title { font: 500 var(--t-s-title) / 1.1 var(--t-display); letter-spacing: -0.025em; }
+.t-lead { font: 400 var(--t-s-lead) / 1.5 var(--t-text); color: var(--t-ink-2); max-width: 36em; }
+.t-small { font: 400 var(--t-s-small) / 1.45 var(--t-text); color: var(--t-muted); }
+.t-label { font: 400 var(--t-s-label) / 1.3 var(--t-mono); color: var(--t-muted); text-transform: lowercase; letter-spacing: 0.01em; }
+.t-mono { font-family: var(--t-mono); font-variant-numeric: tabular-nums; }
+
+.t-row { display: flex; align-items: baseline; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--t-line); }
+.t-row > :first-child { flex: 0 1 auto; min-width: 0; }
+.t-row > .t-dots { flex: 1 1 auto; min-width: 16px; border-bottom: 1px dotted var(--t-line-2); translate: 0 -4px; }
+.t-row > :last-child { flex: 0 0 auto; font-family: var(--t-mono); font-variant-numeric: tabular-nums; text-align: right; }
+
+.t-box { position: relative; padding: 18px 20px 20px; border: 1px solid var(--t-line-2); border-radius: var(--t-r); background: var(--t-white); }
+.t-box > .t-box-name { position: absolute; top: -8px; left: 14px; padding: 0 6px; background: var(--t-white); font: 400 var(--t-s-label) / 1.3 var(--t-mono); color: var(--t-muted); }
+
+.t-coin { display: inline-block; line-height: 0; vertical-align: -2px; }
+.t-coin svg { display: block; }
+.t-strip { display: block; }

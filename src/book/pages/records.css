@@ -1,218 +1,223 @@
-/* The four pages that read the book: To do, Companies, Day book, Balance.
- *
- * Everything here starts bk-rec-. The ledger, the stocks, the stamps and the
- * buttons are the shell's (../shell/book.css); this file only adds what these
- * pages have that no other page does: a short heading above a ledger whose
- * first line is the loudest thing on the page, the two daters you can turn,
- * the figures beside the balance, and the entry slip.
+/* Companies, Day book, Balance — in the isokra grammar: the answer is the headline,
+ * the figure under it (coins for promises, a timeline of marks for the day book, leader
+ * rows for the balance), then the filters and a hairline list. Everything here starts
+ * bk-rec-; the list, the buttons and the fields are the shell's (../shell/book.css).
+ * Tokens: ../ui/tokens.css.
  */
 
-/* ————————————————————————————————————————————————— a short top, so the first line can be the biggest thing */
+/* ————————————————————————————————————————————————— shared */
 
-.bk-rec-top {
-  display: grid;
-  gap: 10px;
-  padding: 30px 40px 20px calc(var(--bk-lm) + 14px);
+.bk-rec-way { position: relative; z-index: 1; }
+.bk-rec-findrow { grid-column: 1 / -1; max-width: 520px; margin-top: 22px; }
+.bk-rec-figure { margin-bottom: 8px; }
+
+/* what each mark means, said once, in small mono */
+.bk-rec-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 26px;
+  margin-top: 18px;
+  font: 400 var(--t-s-label) / 1.3 var(--t-mono);
+  color: var(--t-muted);
 }
-.bk-rec-top-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 22px; }
-.bk-rec-title {
-  font: 800 clamp(20px, 1.7vw, 24px) / 1 var(--bk-display);
-  letter-spacing: -0.02em;
-}
+.bk-rec-key > span { display: inline-flex; align-items: center; gap: 9px; }
+.bk-rec-key > span:first-child:not(:has(.t-coin, .bk-rec-mark)) { color: var(--t-ink-2); }
+.bk-rec-key .t-coin { vertical-align: middle; }
+.bk-rec-mark { display: inline-block; line-height: 0; }
+.bk-rec-mark svg { display: block; }
 
-/* a label, then its words-with-counts */
-.bk-rec-pick { display: grid; grid-template-columns: 84px minmax(0, 1fr); align-items: baseline; gap: 4px 12px; }
-.bk-rec-pick > .bk-label { padding-top: 6px; }
-
-/* ————————————————————————————————————————————————— To do */
-
-.bk-rec-what b { display: block; font-weight: 400; text-wrap: pretty; }
-.bk-rec-co { font: 600 clamp(16px, 1.25vw, 18px) / var(--bk-rule) var(--bk-display); letter-spacing: -0.01em; }
-.bk-rec-you { font-weight: 700; }
-
-/* The first line: the one to do first. Set in the display face, on the same rules. */
-.bk-rec-first .bk-rec-what b,
-.bk-rec-first .bk-rec-said {
-  font: 700 clamp(22px, 2.15vw, 31px) / var(--bk-rule) var(--bk-display);
-  letter-spacing: -0.02em;
-}
-.bk-rec-first .bk-rec-what b > span,
-.bk-rec-first .bk-rec-said > span { display: block; }
-.bk-rec-first .bk-cell.is-num { font-size: clamp(20px, 1.8vw, 25px); letter-spacing: -0.03em; }
-.bk-rec-first .bk-cell.is-no { color: var(--bk-ink); font-weight: 700; font-size: 12px; }
+/* a section of a page: a name and a count, then its list (whose head carries the ink rule) */
+.bk-rec-section { margin-top: 56px; }
+.bk-rec-h2 { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; font: 500 22px/1.2 var(--t-display); letter-spacing: -0.02em; }
+.bk-rec-h2 small { font: 400 var(--t-s-label) / 1.2 var(--t-mono); color: var(--t-muted); letter-spacing: 0; }
 
 /* ————————————————————————————————————————————————— Companies */
 
-/* The way back sits in the kicker row, which is one short line tall: lift it over
-   the title below so the whole link can be pressed, not just its top half. */
-.bk-rec-way { position: relative; z-index: 1; }
-.bk-rec-findrow { grid-column: 1 / -1; max-width: 560px; margin-top: 10px; }
-.bk-rec-section { margin-top: 34px; }
-
-/* a company's papers, lying on the desk under its sheet */
-.bk-rec-desk { margin-top: 34px; padding-left: calc(var(--bk-lm) + 14px); }
-.bk-rec-desk > .bk-desk-said { margin-bottom: 20px; }
-.bk-rec-fan { gap: calc(var(--paper-mm) * 10) calc(var(--paper-mm) * 8); padding-bottom: 12px; }
-.bk-rec-thumb { transition: --lift 240ms cubic-bezier(0.2, 0.7, 0.2, 1), rotate 220ms cubic-bezier(0.2, 0.7, 0.2, 1); }
-.bk-rec-thumb:hover, .bk-rec-thumb:focus-visible { --lift: 0.16; rotate: 0deg; z-index: 2; }
-.bk-rec-thumb-date {
-  margin-bottom: 0.95em;
-  padding-bottom: 0.85em;
-  border-bottom: 1px solid rgb(29 39 64 / 0.22);
-  font: 400 max(10px, calc(var(--u) * 2.7)) / 1.35 var(--bk-type);
-  color: var(--bk-muted);
-}
-.bk-rec-thumb-lines { font-size: max(9.5px, calc(var(--u) * 2.6)); line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bk-rec-companies .bk-rec-key { margin: 0 0 22px; }
+.bk-rec-list .bk-lrow { min-height: 64px; }
+.bk-cell.bk-rec-coins { line-height: 0; }
+.bk-cell.bk-rec-coins .t-strip { display: inline-block; }
+.bk-cell.bk-rec-coins .bk-muted { line-height: 1.4; font: 400 12.5px/1.4 var(--t-mono); }
+.bk-cell.bk-rec-story { font: 500 15.5px/1.35 var(--t-text); color: var(--t-ink); }
+.bk-cell.bk-rec-story small { font-weight: 400; }
+.bk-cell.bk-rec-stands { font: 400 14px/1.4 var(--t-text); color: var(--t-ink-2); }
+.bk-cell.bk-rec-stands.is-waiting { color: var(--t-red-ink); }
+.bk-rec-company .bk-rec-figure { margin-top: 4px; }
 
 /* ————————————————————————————————————————————————— Day book */
 
-.bk-rec-tools { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 36px; }
-.bk-rec-tools > .bk-find { flex: 1 1 280px; max-width: 520px; }
-.bk-rec-span { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; font: 400 15px/1.4 var(--bk-type); }
-.bk-rec-span label { display: inline-flex; align-items: baseline; gap: 8px; }
-.bk-rec-span .bk-input { width: 15ch; font-size: 15px; padding: 4px 2px; }
+/* the timeline: marks on a hairline of days, the months under it */
+.bk-rec-tl { position: relative; max-width: 1200px; }
+.bk-rec-tl > canvas { position: absolute; left: 0; top: 0; display: block; image-rendering: pixelated; touch-action: manipulation; }
+.bk-rec-tl-tick { position: absolute; left: 0; top: 0; font: 400 var(--t-s-label) / 1 var(--t-mono); color: var(--t-muted); white-space: nowrap; pointer-events: none; }
+.bk-rec-tl-tick.is-end { transform: translateX(-100%); }
+.bk-rec-tl-tip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  max-width: min(420px, 80vw);
+  padding: 5px 8px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  font: 400 12.5px/1.35 var(--t-text);
+  color: var(--t-ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  transform: translateY(-100%);
+}
+.bk-rec-tl-tip.is-left { transform: translate(-100%, -100%); }
+.bk-rec-tl-tip b { margin-right: 6px; font: 400 12px/1.35 var(--t-mono); color: var(--t-ink); }
 
-.bk-rec-day .bk-rec-said { text-wrap: pretty; }
-.bk-rec-turnpage { margin-top: 22px; }
+.bk-rec-picks { display: grid; gap: 4px; margin-top: 36px; }
+.bk-rec-pick { display: grid; grid-template-columns: 76px minmax(0, 1fr); align-items: baseline; gap: 4px 14px; }
+.bk-rec-pick > .bk-label { padding-top: 5px; }
 
-/* an entry in full */
-.bk-rec-slip-said { margin: 0 0 16px; padding-right: 84px; font: 700 clamp(20px, 1.9vw, 26px) / 1.2 var(--bk-display); letter-spacing: -0.015em; text-wrap: pretty; }
-.bk-rec-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.bk-rec-slip-links { display: flex; flex-wrap: wrap; gap: 8px 26px; margin-top: 16px; }
-.bk-rec-raw { margin-top: 18px; padding-top: 12px; border-top: 1px dotted rgb(29 39 64 / 0.5); font: 400 13.5px/1.5 var(--bk-type); }
-.bk-rec-raw > summary { width: fit-content; cursor: pointer; font: 600 10.5px/1.6 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.78); }
+.bk-rec-tools {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin-top: 30px;
+  padding-top: 22px;
+  padding-bottom: 16px;
+}
+.bk-rec-tools::before { content: ""; position: absolute; top: 0; left: var(--t-gutter); right: var(--t-gutter); border-top: 1px dotted var(--t-line-2); }
+.bk-rec-tools > .bk-find { flex: 1 1 260px; max-width: 460px; }
+.bk-rec-span { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+.bk-rec-span label { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; }
+.bk-rec-span label > span { font: 400 var(--t-s-label) / 1.3 var(--t-mono); color: var(--t-muted); }
+.bk-rec-count { margin-left: auto; font: 400 var(--t-s-label) / 1.3 var(--t-mono); color: var(--t-muted); white-space: nowrap; }
+
+/* a quiet mono date field, the same on the day book and the balance */
+.bk-rec-date {
+  min-height: 36px;
+  padding: 6px 9px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  color: var(--t-ink);
+  font: 400 13px/1.2 var(--t-mono);
+  font-variant-numeric: tabular-nums;
+}
+.bk-rec-date:focus { outline: 0; border-color: var(--t-ink); }
+.bk-rec-date:invalid:not(:placeholder-shown) { color: var(--t-ink); }
+
+.bk-rec-days .bk-cell.bk-rec-said { font: 400 15px/1.45 var(--t-text); color: var(--t-ink); text-wrap: pretty; }
+.bk-rec-days .bk-cell.bk-rec-who { font: 400 14px/1.4 var(--t-text); color: var(--t-ink-2); }
+.bk-rec-days .bk-cell.bk-rec-co { font: 400 14px/1.4 var(--t-text); color: var(--t-ink-2); }
+.bk-rec-turnpage { margin-top: 24px; }
+
+/* an entry in full: a white slip with its name set into the top edge */
+.bk-rec-slip { width: min(560px, calc(100vw - 32px)) !important; }
+.bk-rec-slip > .t-box { padding: 30px 30px 26px; }
+.bk-rec-slip .bk-close { top: 10px; right: 12px; }
+.bk-rec-slip-said { margin: 6px 0 20px; padding-right: 72px; font: 500 22px/1.25 var(--t-display); letter-spacing: -0.02em; text-wrap: pretty; }
+.bk-rec-rows { margin: 0; border-top: 1px solid var(--t-line); }
+.bk-rec-rows > .t-row { padding: 9px 0; }
+.bk-rec-rows dt { font: 400 var(--t-s-label) / 1.4 var(--t-mono); color: var(--t-muted); }
+.bk-rec-rows dd { margin: 0; font: 400 13.5px/1.4 var(--t-mono); color: var(--t-ink); text-align: right; }
+.bk-rec-slip-links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 18px; }
+.bk-rec-raw { margin-top: 20px; padding-top: 12px; border-top: 1px dotted var(--t-line-2); font: 400 13px/1.5 var(--t-mono); }
+.bk-rec-raw > summary { width: fit-content; cursor: pointer; font: 400 var(--t-s-label) / 1.6 var(--t-mono); color: var(--t-muted); }
+.bk-rec-raw > summary:hover { color: var(--t-ink); }
 .bk-rec-raw > dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px 18px; margin: 10px 0 0; }
-.bk-rec-raw dt { font: 600 9.5px/1.3 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.72); }
+.bk-rec-raw dt { font: 400 var(--t-s-label) / 1.3 var(--t-mono); color: var(--t-muted); }
 .bk-rec-raw dd { margin: 1px 0 0; overflow-wrap: anywhere; }
 .bk-rec-raw > pre {
   max-height: 320px;
   margin: 12px 0 0;
   padding: 10px 12px;
   overflow: auto;
-  border: 1px solid rgb(29 39 64 / 0.22);
-  background: rgb(29 39 64 / 0.04);
-  font: 400 12.5px/1.5 var(--bk-type);
+  border: 1px solid var(--t-line);
+  border-radius: var(--t-r);
+  background: var(--t-code);
+  font: 400 12px/1.5 var(--t-mono);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
 /* ————————————————————————————————————————————————— Balance */
 
-.bk-rec-bal {
+.bk-rec-bal { padding-bottom: 28px; }
+.bk-rec-top {
   display: grid;
-  gap: 14px;
-  padding: 26px 40px 30px calc(var(--bk-lm) + 14px);
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  gap: 32px 72px;
+  align-items: start;
+  margin-bottom: 56px;
 }
-.bk-rec-bal-top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 22px 40px; }
-.bk-rec-bal-title { display: grid; gap: 14px; padding-top: 6px; }
+.bk-rec-sums { display: grid; gap: 30px; max-width: 760px; }
 
-/* Two dater stamps, each a date you can turn. The frame is the stamp; the real
-   <input type="date"> lies over it, clear, until someone tabs to it and types. */
-.bk-rec-daters { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px 38px; }
-.bk-rec-turn { display: grid; justify-items: start; gap: 9px; }
-.bk-rec-turn > small { font: 400 13px/1.3 var(--bk-type); color: var(--bk-muted); }
-.bk-rec-dater {
-  position: relative;
-  display: inline-grid;
-  align-items: center;
-  min-height: 44px;
-  padding: 10px 15px 8px;
-  border: 2px solid currentColor;
-  color: var(--bk-stamp-blue);
-  font: 700 clamp(18px, 1.55vw, 22px) / 1 var(--bk-type);
-  letter-spacing: 0.16em;
-  white-space: nowrap;
-  rotate: -1.4deg;
-  transition: rotate 160ms cubic-bezier(0.2, 0.7, 0.2, 1), background-color 160ms;
-}
-.bk-rec-turn + .bk-rec-turn .bk-rec-dater { rotate: 1deg; }
-.bk-rec-dater:hover { rotate: 0deg; background: rgb(255 255 255 / 0.3); }
-.bk-rec-dater > span,
-.bk-rec-dater > input { grid-area: 1 / 1; }
-.bk-rec-dater > span { opacity: 0.86; mix-blend-mode: multiply; }
-.bk-rec-dater > input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  margin: 0;
-  padding: 10px 15px 8px;
-  border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
-  letter-spacing: 0.04em;
-  opacity: 0;
-  cursor: pointer;
-}
-.bk-rec-dater > input::-webkit-calendar-picker-indicator { display: none; }
-.bk-rec-dater.is-typing { rotate: 0deg; background: rgb(255 255 255 / 0.42); }
-.bk-rec-dater.is-typing > span { visibility: hidden; }
-.bk-rec-dater.is-typing > input { opacity: 1; }
-.bk-rec-dater:has(input:focus-visible) { outline: 2px solid var(--bk-ink); outline-offset: 4px; }
-.bk .bk-rec-dater > input:focus-visible { outline: 0; }
-
-.bk-rec-back { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
-
-/* promised − credited = still owed, and the answer is the loudest thing on the page */
-.bk-rec-sum { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px clamp(14px, 2vw, 30px); margin-top: 6px; }
-.bk-rec-sum > i { padding-bottom: 7px; font: 400 clamp(22px, 2vw, 28px) / 1 var(--bk-type); font-style: normal; color: var(--bk-muted); }
-.bk-rec-fig { display: grid; gap: 7px; padding-bottom: 6px; }
-.bk-rec-fig:not(.is-owed) > b { font: 700 clamp(22px, 2.1vw, 30px) / 1 var(--bk-type); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-.bk-rec-fig.is-owed { gap: 4px; padding-bottom: 0; }
-.bk-rec-fig.is-owed > .bk-owed-label { margin-bottom: 0; }
+/* promised − credited = still owed, as large mono leader rows */
+.bk-rec-sum { margin: 0; border-top: 1px solid var(--t-line); }
+.bk-rec-sum > .t-row { align-items: baseline; padding: 12px 0; }
+.bk-rec-sum > .t-row > dt { flex: 0 1 auto; min-width: 0; }
+.bk-rec-sum dt { display: inline-flex; align-items: baseline; gap: 0; font: 400 16px/1.3 var(--t-text); color: var(--t-ink-2); }
+.bk-rec-sum dt > i { display: inline-block; width: 26px; font: 400 18px/1 var(--t-mono); font-style: normal; color: var(--t-muted); }
+.bk-rec-sum dd { margin: 0; font: 400 clamp(24px, 2.4vw, 32px) / 1.1 var(--t-mono); letter-spacing: -0.02em; color: var(--t-ink); }
+.bk-rec-sum > .is-total { border-top: 1px solid var(--t-ink); border-bottom: 0; margin-top: -1px; }
+.bk-rec-sum > .is-total dt { color: var(--t-ink); font-weight: 500; }
+.bk-rec-sum > .is-owed dd { color: var(--t-red); font-weight: 500; }
 
 /* the two figures that are not owed money, kept out of the sum */
-.bk-rec-apart {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 360px));
-  gap: 12px 44px;
-  margin: 12px 0 0;
-  padding-top: 14px;
-  border-top: 1px solid var(--bk-rule-green);
-}
-.bk-rec-apart dt { font: 600 10.5px/1.3 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.78); }
-.bk-rec-apart dd { margin: 5px 0 0; font: 400 14px/1.45 var(--bk-type); color: var(--bk-muted); }
-.bk-rec-apart dd > b { margin-right: 8px; font: 700 18px/1 var(--bk-type); color: var(--bk-ink); font-variant-numeric: tabular-nums; }
+.bk-rec-apart { margin: 0; border-top: 1px solid var(--t-line); }
+.bk-rec-apart > .t-row { padding: 12px 0; }
+.bk-rec-apart > .t-row > dt { flex: 0 1 auto; min-width: 0; font: 400 15px/1.35 var(--t-text); color: var(--t-ink); }
+.bk-rec-apart dt small { display: block; margin-top: 3px; font: 400 13px/1.4 var(--t-text); color: var(--t-muted); }
+.bk-rec-apart dd { margin: 0; font: 400 18px/1.2 var(--t-mono); color: var(--t-ink-2); }
+.bk-rec-apart > .t-row > .t-dots { align-self: flex-start; margin-top: 12px; }
 
-.bk-rec-take { margin-top: 26px; display: grid; gap: 10px; }
+.bk-rec-daters { display: grid; gap: 22px; justify-items: start; padding-top: 2px; }
+.bk-rec-turn { display: grid; justify-items: start; gap: 6px; }
+.bk-rec-turn > small { font: 400 12px/1.35 var(--t-mono); color: var(--t-muted); }
+.bk-rec-turn .bk-rec-date { min-width: 180px; }
 
-/* ————————————————————————————————————————————————— narrower desks */
+.bk-rec-take { margin-top: 32px; display: grid; gap: 12px; }
 
-@media (max-width: 980px) {
-  .bk-rec-top, .bk-rec-bal { padding-right: 22px; }
+/* ————————————————————————————————————————————————— narrower, and the phone */
+
+@media (max-width: 1100px) {
+  .bk-rec-top { grid-template-columns: minmax(0, 1fr); }
+  .bk-rec-daters { grid-template-columns: repeat(auto-fit, minmax(200px, max-content)); align-items: end; gap: 18px 32px; }
 }
 
 @media (max-width: 760px) {
-  .bk-rec-top { padding: 22px 16px 16px; }
-  .bk-rec-bal { padding: 20px 16px 22px; }
-  .bk-rec-dater { font-size: 19px; }
-  .bk-rec-sum > .is-owed { flex-basis: 100%; }
+  .bk-rec-findrow { margin-top: 14px; }
+  .bk-rec-section { margin-top: 44px; }
   .bk-rec-pick { grid-template-columns: minmax(0, 1fr); }
   .bk-rec-pick > .bk-label { padding-top: 0; }
+  .bk-rec-pick + .bk-rec-pick { margin-top: 8px; }
+  .bk-rec-picks { margin-top: 28px; }
+  .bk-rec-tools::before { left: 20px; right: 20px; }
+  .bk-rec-tools > .bk-find { flex-basis: 100%; max-width: none; }
+  .bk-rec-count { margin-left: 0; }
+  .bk-rec-top { margin-bottom: 40px; }
+  .bk-rec-daters { grid-template-columns: minmax(0, 1fr); }
+  .bk-rec-sum dd { font-size: 22px; }
+  .bk-rec-sum dt { font-size: 15px; }
 
-  /* a line is a small slip: what to do first, then its labelled facts */
-  .bk-lrow .bk-cell.bk-rec-what { display: block; margin-bottom: 6px; font-size: 16.5px; line-height: 1.4; }
-  .bk-lrow .bk-cell.bk-rec-what b { font-weight: 700; }
-  .bk-lrow .bk-cell.bk-rec-what small { margin-top: 3px; }
-  .bk-lrow.bk-rec-first .bk-cell.bk-rec-what b,
-  .bk-lrow.bk-rec-first .bk-rec-said { font-size: 23px; line-height: 1.18; }
-  .bk-lrow .bk-cell.bk-rec-co { font-size: 17px; line-height: 1.5; }
+  /* a list row: the coins on their own line, the figures beside their names */
+  .bk-lrow .bk-cell.bk-rec-coins { display: block; margin: 4px 0 10px; }
+  .bk-lrow .bk-cell.bk-rec-coins::before { display: none; }
+  .bk-lrow .bk-cell.bk-rec-story { display: block; margin-bottom: 6px; font-size: 16px; }
+  .bk-lrow .bk-cell.bk-rec-story::before { display: none; }
 
   /* a day-book line: what happened, then when, who and which company on one small line */
-  .bk-lrow.bk-rec-day { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px; }
-  .bk-lrow.bk-rec-day .bk-cell:not(.is-no):not(:empty) { display: block; font: 400 13.5px/1.5 var(--bk-type); color: var(--bk-muted); }
+  .bk-lrow.bk-rec-day { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; }
+  .bk-lrow.bk-rec-day .bk-cell:not(.is-no):not(:empty) { display: block; font: 400 12px/1.5 var(--t-mono); color: var(--t-muted); }
   .bk-lrow.bk-rec-day .bk-cell::before { display: none; }
-  .bk-lrow.bk-rec-day .bk-cell.bk-rec-said:not(:empty) { order: -1; flex: 0 0 100%; margin-bottom: 5px; font-size: 16.5px; line-height: 1.4; font-weight: 700; color: var(--bk-ink); }
-  .bk-lrow.bk-rec-day.bk-rec-first .bk-cell.bk-rec-said:not(:empty) { font: 700 23px/1.18 var(--bk-display); letter-spacing: -0.02em; }
+  .bk-lrow.bk-rec-day .bk-cell.bk-rec-said:not(:empty) { order: -1; flex: 0 0 100%; margin-bottom: 4px; font: 400 15.5px/1.4 var(--t-text); color: var(--t-ink); }
 
   /* the foot of a ledger: each figure with its column's name beside it */
-  .bk-rec-total > span[data-label]::before { content: attr(data-label); flex: 0 0 auto; align-self: center; font: 600 9.5px/1.6 var(--bk-text); letter-spacing: 0.115em; text-transform: uppercase; color: rgb(29 39 64 / 0.7); }
+  .bk-rec-total > span[data-label]::before { content: attr(data-label); flex: 0 0 auto; align-self: center; font: 400 11px/1.6 var(--t-mono); color: var(--t-muted); text-transform: lowercase; }
   .bk-rec-total > span + span { margin-top: 4px; }
-  .bk-rec-tools > .bk-find { flex-basis: 100%; }
-  .bk-rec-span .bk-input { width: 14ch; }
-  .bk-rec-slip-said { padding-right: 0; margin-top: 18px; }
-  .bk-rec-desk { padding-left: 4px; }
-  .bk-rec-fan { justify-content: space-evenly; gap: calc(var(--paper-mm) * 9) calc(var(--paper-mm) * 5); }
+
+  .bk-rec-slip > .t-box { padding: 26px 18px 22px; }
+  .bk-rec-slip-said { padding-right: 0; margin-top: 22px; font-size: 20px; }
 }

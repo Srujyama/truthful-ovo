@@ -1,4 +1,5 @@
-// Papers: every paper on file, as papers.
+// Papers: every paper on file. The headline is how many; under it every paper is one
+// small mark, grouped by what it is, then the same papers as a list.
 //
 //   #/papers                              the drawer  (?kind= ?company= ?q= ?copies=all ?by=YYYY-MM-DD)
 //   #/papers/pipeline-promise@6           one paper at one copy; no @ → the newest copy
@@ -8,15 +9,16 @@
 // reloaded, and come back to with "← All papers". The pure parts (what each kind is
 // called, what lies in the drawer, which passages get the highlighter) are in
 // ./papers/kinds.mjs; one paper is ./papers/Reading.jsx; a credit note is
-// ./papers/CreditNote.jsx; the small copy of a paper is ./papers/Thumb.jsx.
+// ./papers/CreditNote.jsx; a paper as a list row is ./papers/Thumb.jsx; the figure is ./papers/Figure.jsx.
 
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { evaluateWorkspace } from '../../assurance/index.mjs';
 import { Btn, Empty, Filters, Find, Sheet, SheetHead } from '../shell/parts.jsx';
 import { href, readPaperId } from '../shell/route.mjs';
-import { day, today } from '../shell/money.mjs';
-import { companyCounts, drawerPapers, filterCounts, GROUPS, groupFor, nothingFound, paperDrop } from './papers/kinds.mjs';
-import { PaperThumb } from './papers/Thumb.jsx';
+import { shortDay, today } from '../shell/money.mjs';
+import { companyCounts, drawerPapers, filterCounts, GROUPS, groupFor, nothingFound } from './papers/kinds.mjs';
+import { PaperList, PaperMark, markItem } from './papers/Thumb.jsx';
+import { PaperFigure } from './papers/Figure.jsx';
 import Reading from './papers/Reading.jsx';
 import CreditNote from './papers/CreditNote.jsx';
 import './papers.css';
@@ -115,6 +117,20 @@ export default function Papers({ service, view, route, go, say, active }) {
   );
 }
 
+const papersWord = n => `${n} ${n === 1 ? 'paper' : 'papers'}`;
+
+/** The figure's groups: by kind, or by company once one kind is picked (then kind says nothing). */
+function figureGroups(view, items, byCompany) {
+  const groups = byCompany
+    ? [...new Set(items.map(item => item.vendorId))]
+      .map(id => ({ key: `co:${id}`, label: items.find(item => item.vendorId === id).company }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+    : GROUPS.map(group => ({ key: group.id, label: group.label }));
+  return groups
+    .map(group => ({ ...group, items: items.filter(item => (byCompany ? `co:${item.vendorId}` : item.group) === group.key).map(item => markItem(view, item)) }))
+    .filter(group => group.items.length);
+}
+
 function Drawer({ service, view, route, go }) {
   const filters = readFilters(route.query, view);
   const [most, setMost] = useState(PAGE);
@@ -126,6 +142,7 @@ function Drawer({ service, view, route, go }) {
     try { return evaluateWorkspace(service.workspace, { asOf: today(), knownAt: `${filters.by}T23:59:59.999Z` }); } catch { return view; }
   }, [service.workspace, view, filters.by]);
 
+  const onFile = useMemo(() => drawerPapers(then).length, [then]);
   const all = useMemo(() => drawerPapers(then, { query: filters.q, versions: filters.copies ? 'all' : 'current' }), [then, filters.q, filters.copies]);
   const ofCompany = all.filter(item => !filters.company || item.vendorId === filters.company);
   const ofGroup = all.filter(item => !filters.group || item.group === filters.group);
@@ -138,77 +155,82 @@ function Drawer({ service, view, route, go }) {
   const companyName = view.vendors.find(vendor => vendor.id === filters.company)?.name || '';
   if (filters.company && !companies.some(company => company.id === filters.company)) companies.push({ id: filters.company, label: companyName, count: 0 });
 
+  const groups = figureGroups(then, items, Boolean(filters.group));
+  const inks = new Set(groups.flatMap(group => group.items.map(item => item.ink)));
+  const figureSaid = `${papersWord(items.length)}: ${groups.map(group => `${group.items.length} ${group.label.toLowerCase()}`).join(', ')}`;
+
   const nothingOnFile = !view.sourceVersions.length && !view.credits.length;
   return (
-    <>
-      <Sheet className="bk-pap-index">
-        <SheetHead
-          kicker="Papers"
-          title="Every paper on file"
-          lede="Each email, invoice and credit note a company sent, kept word for word."
-        />
-        {nothingOnFile ? (
-          <Empty then={<>Drop the first one in the <a className="bk-link" href={href('tray')}>in-tray</a>.</>}>No papers on file yet.</Empty>
-        ) : (
-          <>
-            <div className="bk-part bk-pap-sort">
-              <div className="bk-pap-line">
-                <span className="bk-label">Show</span>
-                <Filters label="Show" items={kinds} value={filters.group || 'all'} onChange={id => set({ group: id === 'all' ? '' : id })} />
-              </div>
-              <div className="bk-pap-line">
-                <span className="bk-label">From</span>
-                <Filters label="From" items={companies} value={filters.company || 'all'} onChange={id => set({ company: id === 'all' ? '' : id })} />
-              </div>
-              <div className="bk-pap-tools">
-                <Find value={filters.q} onChange={q => set({ q })} placeholder="a company, a number, a word" />
-                <label className="bk-check">
-                  <input type="checkbox" checked={filters.copies} onChange={event => set({ copies: event.target.checked })} />
-                  Older copies too
-                </label>
-                <label className="bk-pap-by">
-                  <span>Papers received by</span>
-                  <input
-                    type="date"
-                    max={calendarDay()}
-                    value={filters.by || calendarDay()}
-                    onChange={event => set({ by: isDay(event.target.value) && event.target.value < calendarDay() ? event.target.value : '' })}
-                  />
-                </label>
-              </div>
-              {filters.by && (
-                <p className="bk-pap-then">
-                  <span className="bk-hand">The drawer as it stood on {day(filters.by)}.</span>
-                  <button type="button" className="bk-link" onClick={() => set({ by: '' })}>Back to today</button>
+    <Sheet className="bk-pap-index">
+      <SheetHead
+        kicker="Papers"
+        title={filters.by ? <>{papersWord(onFile)} had come in <i>by {shortDay(filters.by)}.</i></> : `${papersWord(onFile)} on file.`}
+        lede="Each email, invoice and credit note a company sent, kept word for word."
+      />
+      {nothingOnFile ? (
+        <Empty then={<>Drop the first one in the <a className="bk-link" href={href('tray')}>in-tray</a>.</>}>No papers on file yet.</Empty>
+      ) : (
+        <>
+          <div className="bk-part bk-pap-sort">
+            <div className="bk-pap-line">
+              <span className="bk-label">show</span>
+              <Filters label="Show" items={kinds} value={filters.group || 'all'} onChange={id => set({ group: id === 'all' ? '' : id })} />
+            </div>
+            <div className="bk-pap-line">
+              <span className="bk-label">from</span>
+              <Filters label="From" items={companies} value={filters.company || 'all'} onChange={id => set({ company: id === 'all' ? '' : id })} />
+            </div>
+          </div>
+
+          {items.length > 0 && (
+            <div className="bk-part bk-pap-figure">
+              <PaperFigure groups={groups} label={figureSaid} />
+              {(inks.has('waiting') || inks.has('offer') || inks.has('old')) && (
+                <p className="bk-pap-key">
+                  {inks.has('waiting') && <span><PaperMark mark="credit" ink="waiting" /> a credit note not on an invoice yet</span>}
+                  {inks.has('offer') && <span><PaperMark mark="offer" ink="offer" /> an offer: yours only if you agree</span>}
+                  {inks.has('old') && <span><PaperMark mark="letter" ink="old" /> an older copy, since replaced</span>}
                 </p>
               )}
             </div>
-            {!items.length && (
-              <Empty then={<button type="button" className="bk-link" onClick={() => { setMost(PAGE); go('papers', '', null, { replace: true }); }}>Show every paper</button>}>
-                {nothingFound({ group: filters.group, company: companyName, query: filters.q, by: filters.by })}
-              </Empty>
-            )}
-          </>
-        )}
-      </Sheet>
-
-      {items.length > 0 && (
-        <div className="bk-on-desk bk-pap-drawer">
-          <ul className="bk-pap-rows" aria-label="Papers, newest first">
-            {items.slice(0, most).map((item, i) => (
-              <li key={item.key} className="bk-arrive" style={{ '--i': Math.min(i, 12), '--drop': paperDrop(item.address) }}>
-                <PaperThumb item={item} />
-              </li>
-            ))}
-          </ul>
-          {items.length > most && (
-            <p className="bk-pap-more">
-              <Btn quiet onClick={() => setMost(n => n + PAGE)}>Earlier papers</Btn>
-              <span className="bk-desk-said">{items.length - most} more in the drawer</span>
-            </p>
           )}
-        </div>
+
+          <div className="bk-part bk-pap-tools">
+            <Find value={filters.q} onChange={q => set({ q })} placeholder="a company, a number, a word" />
+            <label className="bk-check">
+              <input type="checkbox" checked={filters.copies} onChange={event => set({ copies: event.target.checked })} />
+              Older copies too
+            </label>
+            <label className="bk-pap-by">
+              <span>received by</span>
+              <input
+                type="date"
+                max={calendarDay()}
+                value={filters.by || calendarDay()}
+                onChange={event => set({ by: isDay(event.target.value) && event.target.value < calendarDay() ? event.target.value : '' })}
+              />
+            </label>
+            {filters.by && <button type="button" className="bk-link" onClick={() => set({ by: '' })}>Back to today</button>}
+            <span className="bk-pap-count">{papersWord(items.length)}</span>
+          </div>
+
+          {!items.length ? (
+            <Empty then={<button type="button" className="bk-link" onClick={() => { setMost(PAGE); go('papers', '', null, { replace: true }); }}>Show every paper</button>}>
+              {nothingFound({ group: filters.group, company: companyName, query: filters.q, by: filters.by })}
+            </Empty>
+          ) : (
+            <>
+              <PaperList view={then} items={items.slice(0, most)} label="Papers, newest first" />
+              {items.length > most && (
+                <div className="bk-part bk-pap-more">
+                  <Btn quiet onClick={() => setMost(n => n + PAGE)}>Earlier papers</Btn>
+                  <span className="bk-why">{items.length - most} more on file</span>
+                </div>
+              )}
+            </>
+          )}
+        </>
       )}
-    </>
+    </Sheet>
   );
 }

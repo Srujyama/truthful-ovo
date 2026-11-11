@@ -17,7 +17,8 @@
 // The CSS is ./book.css; the paper itself (stocks, shadow, stamps) is ../kit/paper.css.
 
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { reducedMotion, sound, tally as buildTally } from '../kit/paper.js';
+import { reducedMotion, sound } from '../kit/paper.js';
+import { CoinStrip } from '../ui/Coins.jsx';
 import { stampDay } from './money.mjs';
 
 const cx = (...names) => names.filter(Boolean).join(' ');
@@ -180,24 +181,23 @@ export function Stamp({ children, sub, seed, small, ink = 'blue', tilt, land = f
 }
 
 /**
- * The strip of boxes along a slip's foot: one box per unit, punched as the money arrives.
- * When `punched` goes up the new holes are punched one after another, each with a tick.
- * mark(i) may return a label to print above box i (1-based), e.g. "$500".
+ * A promise's coins: one per $100 (`boxes` of them), the first `punched` came in on an invoice,
+ * the rest are still owed. When `punched` goes up the new coins turn over one after another.
+ * (The name is the book's old one: it used to be a strip of boxes punched out.)
  */
-export function Tally({ boxes, punched = 0, mark, seed = 'tally', className, ...rest }) {
-  const ref = useRef(null);
-  const api = useRef(null);
-  useEffect(() => {
-    api.current = buildTally(ref.current, { boxes, punched, mark, seed });
-    return () => { api.current = null; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [boxes, seed]);
-  useEffect(() => {
-    const strip = api.current;
-    if (!strip) return;
-    if (punched > strip.punched) strip.punchTo(punched); else strip.set(punched);
-  }, [punched]);
-  return <div ref={ref} className={cx('tally', className)} role="img" aria-label={`${Math.round(punched)} of ${Math.ceil(boxes)} boxes punched`} {...rest} />;
+export function Tally({ boxes, punched = 0, className, u = 3, perRow = 0, offer = false }) {
+  const total = Math.max(0, Math.ceil(boxes || 0));
+  const came = Math.max(0, Math.min(total, Math.floor(punched || 0)));
+  const states = Array.from({ length: total }, (_, i) => (offer ? 'offer' : i < came ? 'in' : 'owed'));
+  return (
+    <CoinStrip
+      states={states}
+      u={u}
+      perRow={perRow}
+      className={cx('bk-coins', className)}
+      label={`${came} of ${total} coins came in`}
+    />
+  );
 }
 
 // ————————————————————————————————————————————————— controls

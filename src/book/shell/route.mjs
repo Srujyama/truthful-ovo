@@ -65,9 +65,9 @@ export function useRoute() {
     if (replace) {
       history.replaceState(history.state, '', location.pathname + location.search + next);
       setRoute(parseHash(next));
-    } else {
-      location.hash = next;
+      return;   // a filter or a turned-back date: stay where you are on the page
     }
+    location.hash = next;
     scrollTo({ top: 0 });
   }
   return [route, go];

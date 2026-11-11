@@ -1,59 +1,68 @@
-// A small copy of a paper, as it lies in the drawer: the right stock for its kind,
-// turned a degree or two (always the same way for the same paper), its kind, title,
-// company and date, then its real first lines running off the foot. A credit note is
-// a pink slip with its number, its amount and its stamp. The whole thing is a link.
+// A paper in a list: its mark in the margin, its title, the company, what kind of
+// paper it is and its date, on one hairline row. The whole row is a link to it.
+// A credit note is a row too: its number and amount, and whether it is on an invoice.
 //
-//   import { PaperThumb } from './papers/Thumb.jsx';
-//   import { paperItem, noteItem } from './papers/kinds.mjs';
-//   <PaperThumb item={paperItem(view, source)} />      // a letter, an invoice, an agreement…
-//   <PaperThumb item={noteItem(view, credit)} />       // a credit note
+//   import { PaperList, PaperMark, markItem } from './papers/Thumb.jsx';
+//   <PaperList view={view} items={drawerPapers(view)} />
+//   <PaperList view={view} items={sources.map(source => paperItem(view, source))} head={false} />
 
 import React from 'react';
-import { Paper, Stamp, cx } from '../../shell/parts.jsx';
+import { Cell, Ledger, Row, cx } from '../../shell/parts.jsx';
 import { href } from '../../shell/route.mjs';
-import { day, dollars, ledger, shortDay } from '../../shell/money.mjs';
-import { paperTurn } from './kinds.mjs';
+import { day, dollars } from '../../shell/money.mjs';
+import { inkFor, markFor, markSVG } from './glyphs.js';
+import { waitingOnInvoice } from './kinds.mjs';
 import '../papers.css';
 
-export function PaperThumb({ item, className, ...rest }) {
-  const shared = {
-    as: 'a',
-    w: 62,
+/** One mark as SVG: `mark` and `ink` from glyphs.js. */
+export function PaperMark({ mark, ink = 'ink', u = 2, className = '' }) {
+  return <span className={cx('bk-pap-mark', className)} aria-hidden="true" dangerouslySetInnerHTML={{ __html: markSVG(mark, ink, u) }} />;
+}
+
+/** What the figure needs of one drawer item. */
+export function markItem(view, item) {
+  return {
+    key: item.key,
+    mark: markFor(item),
+    ink: inkFor(item, waitingOnInvoice(view, item)),
+    title: item.type === 'credit' ? `${item.noun} ${item.title}, ${dollars(item.amountCents)}` : item.title,
+    company: item.company,
     href: href('papers', item.address),
-    stock: item.stock,
-    rot: paperTurn(item.address),
-    'data-paper': item.address,
-    ...rest,
   };
-  if (item.type === 'credit') {
-    return (
-      <Paper
-        {...shared}
-        edge="perf-left"
-        className={cx('bk-doc bk-thumb bk-pap-thumb is-note', className)}
-        aria-label={`${item.noun} ${item.title}, ${item.company}, ${dollars(item.amountCents)}, ${item.onInvoice ? 'on an invoice' : 'not on an invoice yet'}`}
-      >
-        <span className="bk-doc-kind">{item.noun}<i>No. {item.title}</i></span>
-        <b className="bk-doc-title">{item.company}</b>
-        <span className="bk-pap-sum">${ledger(item.amountCents)}</span>
-        <span className="bk-pap-from">{day(item.date)}</span>
-        <Stamp small seed={item.key}>{item.onInvoice ? 'On invoice' : 'Issued'}</Stamp>
-      </Paper>
-    );
-  }
+}
+
+const COLS = 'var(--bk-lm) minmax(0, 2.6fr) minmax(0, 1fr) minmax(0, 0.8fr) 128px';
+const HEAD = [null, { label: 'paper' }, { label: 'from' }, { label: 'kind' }, { label: 'date', num: true }];
+
+export function PaperRow({ view, item }) {
+  const look = markItem(view, item);
+  const waiting = look.ink === 'waiting';
+  const note = item.type === 'credit';
+  const said = note
+    ? `${item.noun} ${item.title}, ${item.company}, ${dollars(item.amountCents)}, ${item.onInvoice ? 'on an invoice' : 'not on an invoice yet'}`
+    : `${item.noun}: ${item.title}, ${item.company}, ${day(item.date)}${item.current ? '' : `, an older copy replaced ${day(item.replacedOn)}`}`;
   return (
-    <Paper
-      {...shared}
-      className={cx('bk-doc bk-thumb bk-pap-thumb', !item.current && 'is-old', className)}
-      aria-label={`${item.noun}: ${item.title}, ${item.company}, ${day(item.date)}${item.current ? '' : `, an older copy replaced ${day(item.replacedOn)}`}`}
-    >
-      <span className="bk-doc-kind">{item.noun}</span>
-      <b className="bk-doc-title">{item.title}</b>
-      <span className="bk-pap-from">{item.company} · {day(item.date)}</span>
-      {!item.current && <span className="bk-pap-old">replaced {shortDay(item.replacedOn)}</span>}
-      <span className="bk-pap-lines">{item.lines}</span>
-    </Paper>
+    <Row href={look.href} className={cx('bk-pap-row', !note && !item.current && 'is-old')} data-paper={item.address} aria-label={said}>
+      <Cell className="bk-pap-at"><PaperMark mark={look.mark} ink={look.ink} /></Cell>
+      <Cell className="bk-pap-title">
+        {note ? <>No. {item.title} <span className="bk-pap-sum">{dollars(item.amountCents)}</span></> : item.title}
+        {note
+          ? <small className={cx(waiting && 'is-waiting')}>{item.onInvoice ? 'on an invoice' : 'not on an invoice yet'}</small>
+          : !item.current && <small>replaced {day(item.replacedOn)}</small>}
+      </Cell>
+      <Cell label="from" className="bk-pap-co">{item.company}</Cell>
+      <Cell label="kind" className="bk-pap-kind">{item.noun.toLowerCase()}</Cell>
+      <Cell label="date" date className="bk-pap-date">{day(item.date)}</Cell>
+    </Row>
   );
 }
 
-export default PaperThumb;
+export function PaperList({ view, items, head = true, label = 'Papers', className }) {
+  return (
+    <Ledger cols={COLS} head={head ? HEAD : null} className={cx('bk-pap-list', !head && 'is-headless', className)} aria-label={label}>
+      {items.map(item => <PaperRow key={item.key} view={view} item={item} />)}
+    </Ledger>
+  );
+}
+
+export default PaperRow;

@@ -160,6 +160,17 @@ export function drawerPapers(view, { query = '', versions = 'current' } = {}) {
   return [...papers, ...notes].sort((a, b) => b.order - a.order || a.key.localeCompare(b.key));
 }
 
+/**
+ * A credit note not on an invoice yet: a credit line still only issued, or a credit-note paper
+ * whose every credit is. The figure draws these like a note coin, in a red ring.
+ */
+export function waitingOnInvoice(view, item) {
+  if (item.type === 'credit') return !item.onInvoice;
+  if (item.group !== 'credit-notes') return false;
+  const credits = view.credits.filter(credit => (credit.sourceLinks || []).some(link => link.sourceId === item.sourceId));
+  return credits.length > 0 && credits.every(credit => credit.status !== 'applied');
+}
+
 /** Filter words with counts, All first. A group with nothing in it is not offered. The counts add up to All. */
 export function filterCounts(items) {
   const counts = GROUPS.map(group => ({ id: group.id, label: group.label, count: items.filter(item => item.group === group.id).length }));

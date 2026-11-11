@@ -206,7 +206,7 @@ test('the front’s own stylesheet keeps every rule under .book-front and its to
   const css = readFileSync(new URL('./book.css', import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
   const rules = css.replace(/@keyframes[^{]*\{(?:[^{}]|\{[^{}]*\})*\}/g, '').replace(/@(?:media|container)[^{]*\{/g, '');
   const selectors = [...rules.matchAll(/(?:^|\})\s*([^{}]+)\{/g)].flatMap((match) => match[1].split(/,(?![^(]*\))/)).map((selector) => selector.trim()).filter(Boolean);
-  assert.ok(selectors.length > 400);
+  assert.ok(selectors.length > 150);   // the sheet was read at all (the isokra redesign is a third the size of the desk it replaced)
   for (const selector of selectors) assert.ok(selector === '.book-front' || selector.startsWith('.book-front '), selector);
   assert.doesNotMatch(css, /(?:^|[\s,}])(?:html|body|:root)\s*[{,]/);
   for (const name of css.match(/@keyframes\s+([\w-]+)/g)) assert.match(name, /@keyframes\s+bf-/);

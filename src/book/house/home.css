@@ -1,0 +1,208 @@
+/* The cover: the coins fill the window under the top bar; scrolling sorts them.
+   Tokens are src/book/ui/tokens.css; buttons are the book's own .bk-btn. */
+
+.cv { color: var(--t-ink); }
+.cv .is-owed { color: var(--t-red); }
+.cv .is-quiet { color: var(--t-quiet); }
+.cv-wait { padding: 64px 32px; }
+
+/* · the crowd and the answer */
+
+.cv-story {
+  position: relative;
+  height: calc((100svh - var(--cv-bar, 64px)) * 2.15);
+  overflow-anchor: none;   /* the browser must not pin its scroll to something inside the sticky part when it re-sorts */
+}
+.cv-stick {
+  position: sticky;
+  top: var(--cv-top, 64px);
+  height: calc(100svh - var(--cv-bar, 64px));
+  display: flex;
+  flex-direction: column;
+  padding: 18px 32px 30px;
+  overflow: hidden;
+}
+.cv-frame { flex: 1; min-height: 0; }
+.cv-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-top: 18px;
+}
+.cv-say {
+  min-height: calc(var(--t-s-display) * 1.9 + 76px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.cv-say > * { animation: cv-in 0.45s var(--t-ease) backwards; }
+.cv-ask { margin-bottom: 14px; }
+.cv-say .t-display { font-weight: 500; }
+.cv-say .t-lead { margin-top: 14px; color: var(--t-muted); }
+.cv-act { display: grid; gap: 12px; justify-items: end; flex: none; }
+.cv-btns { display: flex; gap: 8px; }
+.cv-btns kbd { font: 400 12px/1 var(--t-mono); opacity: 0.7; }
+@keyframes cv-in { from { opacity: 0; translate: 0 6px; } }
+
+/* on a phone the names go under the coins, as a list */
+.cv-key { display: none; }
+
+/* · one promise, one invoice */
+
+.cv-one {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: 64px;
+  align-items: start;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 112px 32px 0;
+  scroll-margin-top: 40px;
+}
+.cv-one-coins {
+  position: sticky;
+  top: 112px;
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  padding-top: 8px;
+}
+.cv-one-coins .t-strip { max-width: 100%; }
+.cv-one-name {
+  font: 500 var(--t-s-title) / 1.1 var(--t-display);
+  letter-spacing: -0.025em;
+  text-align: center;
+}
+.cv-one-name .t-label { margin-left: 6px; letter-spacing: 0.01em; text-transform: none; }
+.cv-one-key { width: 100%; max-width: 340px; border-top: 1px solid var(--t-line); }
+.cv-one-key li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--t-line);
+  font-size: var(--t-s-small);
+  color: var(--t-ink-2);
+}
+.cv-one-key .t-dots {
+  flex: 1;
+  min-width: 16px;
+  height: 1px;
+  background-image: linear-gradient(90deg, var(--t-line-2) 1px, transparent 1px);
+  background-size: 4px 1px;
+}
+.cv-one-key b { font: 400 var(--t-s-small) / 1 var(--t-mono); font-variant-numeric: tabular-nums; }
+.cv-one-key b.is-owed { color: var(--t-red-ink); }
+
+.cv-one-body { display: grid; gap: 26px; align-content: start; }
+.cv-one-body > .t-label { margin-bottom: -14px; }
+.cv-one-body .t-title { max-width: 680px; }
+.cv-one-said { margin: 6px 0 0; padding: 24px 24px 22px; }
+.cv-one-said blockquote {
+  margin: 0;
+  font: 400 19px / 1.45 var(--t-text);
+  color: var(--t-ink);
+  text-wrap: pretty;
+}
+.cv-one-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--t-ink);
+}
+.cv-one-line {
+  flex: 1;
+  min-width: 240px;
+  font: 400 12.5px / 1.5 var(--t-mono);
+  color: var(--t-ink-2);
+}
+.cv-one-line.is-wrong { color: var(--t-red-ink); }
+.cv-more {
+  justify-self: start;
+  font-size: var(--t-s-body);
+  color: var(--t-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--t-line-2);
+  text-underline-offset: 3px;
+}
+.cv-more:hover { text-decoration-color: var(--t-ink); }
+
+/* three answers, as rows (the same rows How it works uses) */
+.cv-answers { border-top: 1px solid var(--t-ink); border-bottom: 1px solid var(--t-ink); }
+.cv-answers > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 0;
+}
+.cv-answers > div + div { border-top: 1px solid var(--t-line); }
+.cv-answers dt { color: var(--t-muted); }
+.cv-answers dd {
+  font: 500 20px / 1.25 var(--t-display);
+  letter-spacing: -0.02em;
+  text-align: right;
+  text-wrap: balance;
+}
+.cv-answers dd.is-owed { color: var(--t-red); }
+
+/* · the close */
+
+.cv-close {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  max-width: 1240px;
+  margin: 168px auto 0;
+  padding: 0 32px;
+}
+
+/* · a phone */
+
+@media (max-width: 719px) {
+  .cv-stick { padding: 10px 20px 18px; }
+  .cv-key {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 16px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--t-line);
+    font: 400 var(--t-s-label) / 1.35 var(--t-mono);
+    color: var(--t-muted);
+  }
+  .cv-key li {
+    display: grid;
+    grid-template-columns: 18px auto 1fr;
+    align-items: baseline;
+    column-gap: 7px;
+    min-width: 0;
+  }
+  .cv-key .t-coin { align-self: center; }
+  .cv-key-name { color: var(--t-ink); font-family: var(--t-text); font-size: var(--t-s-small); font-weight: 500; }
+  .cv-key b { font-weight: 400; color: var(--t-ink-2); }
+  .cv-key b.is-owed { color: var(--t-red-ink); }
+  .cv-key-note { grid-column: 2 / -1; }
+  .cv-key li { animation: cv-in 0.4s var(--t-ease) backwards; }
+  .cv-foot { flex-direction: column; align-items: stretch; gap: 14px; padding-top: 14px; }
+  .cv-say { min-height: 0; }
+  .cv-say .t-display { font-size: clamp(34px, 10.6vw, 52px); }
+  .cv-ask { margin-bottom: 10px; }
+  .cv-say .t-lead { margin-top: 10px; font-size: var(--t-s-body); }
+  .cv-act { justify-items: start; gap: 10px; }
+  .cv-btns .bk-btn { padding: 12px 14px; font-size: var(--t-s-body); }
+  .cv-one { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 64px 20px 0; }
+  .cv-one-coins { position: static; }
+  .cv-one-said blockquote { font-size: 17px; }
+  .cv-answers > div { flex-direction: column; gap: 2px; }
+  .cv-answers dd { text-align: left; font-size: 18px; }
+  .cv-close { flex-direction: column; align-items: flex-start; gap: 22px; margin-top: 112px; padding: 0 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-say > *, .cv-key li { animation: none; }
+}

@@ -1,14 +1,24 @@
-// One credit note: the note itself on pink carbon, a stamp saying whether it has
-// reached an invoice, where its money went, the promises it is matched to and the
-// papers behind it. Nothing is changed here; its forms are on the account page.
+// One credit note. The headline is its amount and where it stands ("$2,000 credit note.
+// Not on an invoice yet."); under it its coins, one per $100; then the note itself as
+// leader rows, where its money went, the promises it is matched to and the papers behind it.
+// Nothing is changed here; its forms are on the account page.
 
 import React, { useEffect, useRef } from 'react';
-import { Paper, Stamp, cx } from '../../shell/parts.jsx';
+import { CoinStrip, Coin } from '../../ui/Coins.jsx';
+import { Sheet, cx } from '../../shell/parts.jsx';
 import { href } from '../../shell/route.mjs';
-import { day, dollars, ledger, stampDay } from '../../shell/money.mjs';
+import { day, dollars, ledger, shortDay } from '../../shell/money.mjs';
 import { creditMatches, creditMoney, creditNoun, creditPapers, paperItem } from './kinds.mjs';
-import { Missing, Strip } from './Reading.jsx';
-import { PaperThumb } from './Thumb.jsx';
+import { Head, Missing } from './Reading.jsx';
+import { PaperList } from './Thumb.jsx';
+
+/** One coin per $100 of the note: on an invoice they came in; not yet, a credit note covers them; taken back, owed again. */
+function noteCoins(credit, onInvoice) {
+  const money = creditMoney(credit);
+  const total = Math.ceil(money.noteCents / 10000);
+  const back = Math.min(total, Math.round(money.takenBackCents / 10000));
+  return Array.from({ length: total }, (_, i) => (i >= total - back ? 'owed' : onInvoice ? 'in' : 'note'));
+}
 
 export default function CreditNote({ view, creditId, back }) {
   const heading = useRef(null);
@@ -33,123 +43,128 @@ export default function CreditNote({ view, creditId, back }) {
   const papers = creditPapers(view, credit);
   const home = [...matches.map(match => match.commitmentId), ...credit.candidateCommitmentIds].find(promise);
   const todo = money.unmatchedCents > 0 || credit.quarantined ? 'Match it' : onInvoice ? 'See it' : 'Add its invoice';
-  const share = cents => (money.noteCents > 0 ? { flexGrow: cents } : null);
-  const amount = `$${ledger(credit.amountCents)}`;
-  const matchRow = match => {
-    const found = promise(match.commitmentId);
-    const inside = (
-      <>
-        <span>
-          <b>{nameOf(match.commitmentId)}</b>
-          {found && <small>{found.reference} · due {day(found.dueDate)}</small>}
-        </span>
-        <em>{ledger(match.amountCents)}</em>
-      </>
-    );
-    return found ? <a className="bk-pap-match" href={href('iou', found.id)}>{inside}</a> : <div className="bk-pap-match">{inside}</div>;
-  };
+  const coins = noteCoins(credit, onInvoice);
+  const small = typeof innerWidth === 'number' && innerWidth < 560;
+  const applied = credit.applicationDate || credit.issuedDate;
+
+  // the headline: the amount, then where it stands or where its money went
+  const stands = !onInvoice ? <i>Not on an invoice yet.</i>
+    : money.takenBackCents > 0 ? <i>{dollars(money.takenBackCents)} taken back.</i>
+      : money.unmatchedCents > 0 ? <i>{dollars(money.unmatchedCents)} not matched yet.</i>
+        : <i>On an invoice since {shortDay(applied)}.</i>;
 
   return (
-    <>
-      <Strip back={back}>{noun} · {company}</Strip>
-      <div className="bk-on-desk bk-pap-desk">
-        <div className="bk-pap-read">
-          <Paper w={132} stock="carbon" edge="perf-left" rot={-0.7} className="bk-form bk-pap-note">
-            <div className="bk-pap-note-top">
-              <span className="bk-label">{noun}</span>
-              <span className="bk-typed">No. {credit.invoiceId}</span>
-            </div>
-            <h1 ref={heading} tabIndex={-1} className="bk-pap-note-co">{company}</h1>
-            <p className={cx('bk-pap-note-amt', amount.length > 12 ? 'is-longer' : amount.length > 9 && 'is-long')}>{amount}</p>
-            <div className="bk-pap-note-row">
-              <p className="bk-typed">{day(credit.issuedDate)}<br />for {credit.reference}</p>
-              <Stamp
-                seed={`note-${credit.id}-${credit.status}`}
-                sub={stampDay(onInvoice ? credit.applicationDate || credit.issuedDate : credit.issuedDate)}
-              >{onInvoice ? 'On invoice' : 'Issued'}</Stamp>
-            </div>
-            <p className="bk-pap-warn">
-              {onInvoice
-                ? `It showed up on an invoice on ${day(credit.applicationDate || credit.issuedDate)}.`
-                : 'A credit note is not money until it shows up on an invoice.'}
-            </p>
+    <Sheet className="bk-pap-reading bk-pap-credit">
+      <Head
+        back={back}
+        kicker={`${noun.toLowerCase()} · ${company}`}
+        heading={heading}
+        lede={onInvoice ? `It showed up on an invoice on ${day(applied)}.` : 'A credit note is not money until it shows up on an invoice.'}
+      >
+        {dollars(credit.amountCents)} {noun.toLowerCase()}. {stands}
+      </Head>
 
-            <div className="bk-pap-went">
-              <span className="bk-label">Where its money went</span>
-              <div
-                className="bk-pap-bar"
-                role="img"
-                aria-label={`${dollars(money.matchedCents)} matched to a promise, ${dollars(money.takenBackCents)} taken back, ${dollars(money.unmatchedCents)} not matched yet`}
-              >
-                {money.matchedCents > 0 && <i className="is-matched" style={share(money.matchedCents)} />}
-                {money.takenBackCents > 0 && <i className="is-back" style={share(money.takenBackCents)} />}
-                {money.unmatchedCents > 0 && <i className="is-loose" style={share(money.unmatchedCents)} />}
-              </div>
-              <dl className="bk-pap-sums">
-                <div><dt><i className="is-matched" />Matched to a promise</dt><dd>{ledger(money.matchedCents)}</dd></div>
-                <div><dt><i className="is-back" />Taken back</dt><dd>{ledger(money.takenBackCents)}</dd></div>
-                <div><dt><i className="is-loose" />Not matched yet</dt><dd>{ledger(money.unmatchedCents)}</dd></div>
-                <div className="is-total"><dt>The note</dt><dd>{ledger(money.noteCents)}</dd></div>
-              </dl>
-            </div>
-          </Paper>
-
-          <Paper as="aside" w={112} rot={0.8} className="bk-form bk-pap-slip" aria-label="Where this note is matched">
-            <h2 className="bk-form-title">Which promise it covers</h2>
-            {matches.length > 0 && (
-              <>
-                <h3 className="bk-label bk-pap-first">Matched to</h3>
-                <ul className="bk-pap-facts">
-                  {matches.map(match => <li key={match.commitmentId}>{matchRow(match)}</li>)}
-                </ul>
-              </>
-            )}
-            {!matches.length && !could.length && (
-              <p className="bk-hand bk-pap-said">
-                {credit.candidateCommitmentIds.length ? 'Not matched to a promise yet.' : `No promise in the book has the reference ${credit.reference}.`}
-              </p>
-            )}
-
-            {could.length > 0 && (
-              <>
-                <p className="bk-hand bk-pap-said">{could.length} promises fit this note. Waiting for an approver to say which.</p>
-                <h3 className="bk-label">It could belong to</h3>
-                <ul className="bk-pap-uses">
-                  {could.map(id => <li key={id}><a className="bk-link" href={href('iou', id)}>{nameOf(id)}</a><small>{promise(id).reference} · {dollars(promise(id).outstandingCents)} still owed</small></li>)}
-                </ul>
-              </>
-            )}
-            {limits.length > 0 && (
-              <>
-                <h3 className="bk-label">An approver said it may cover</h3>
-                <ul className="bk-pap-uses">
-                  {limits.map(limit => (
-                    <li key={limit.commitmentId}>
-                      {promise(limit.commitmentId) ? <a className="bk-link" href={href('iou', limit.commitmentId)}>{nameOf(limit.commitmentId)}</a> : nameOf(limit.commitmentId)}, up to {dollars(limit.limitCents)}
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-
-            <div className={cx('bk-actions bk-pap-foot')}>
-              {home
-                ? <a className="bk-btn" href={href('iou', home)}>{todo} on {company}’s page</a>
-                : <a className="bk-btn" href={href('companies', credit.vendorId)}>Open {company}’s page</a>}
-              <a className="bk-link" href={back}>← All papers</a>
-            </div>
-          </Paper>
+      {coins.length > 0 && (
+        <div className="bk-part bk-pap-coins">
+          <CoinStrip
+            states={coins}
+            u={small ? 3 : 4}
+            perRow={10}
+            label={`${dollars(credit.amountCents)} in coins of $100: ${onInvoice ? 'on an invoice' : 'not on an invoice yet'}`}
+          />
+          <p className="bk-pap-key">
+            <span>one coin is $100</span>
+            <span><Coin state={onInvoice ? 'in' : 'note'} /> {onInvoice ? 'it came in on an invoice' : 'a credit note covers it, not on an invoice yet'}</span>
+            {money.takenBackCents > 0 && <span><Coin state="owed" /> taken back, owed again</span>}
+          </p>
         </div>
+      )}
 
-        {papers.length > 0 && (
-          <section className="bk-pap-behind" aria-label="The papers behind this note">
-            <p className="bk-desk-said">{papers.length === 1 ? 'The paper behind it' : 'The papers behind it'}</p>
-            <ul className="bk-pap-rows">
-              {papers.map(source => <li key={`${source.id}@${source.revision}`}><PaperThumb item={paperItem(view, source)} /></li>)}
+      <div className="bk-part bk-pap-read">
+        <article className="t-box bk-pap-paper bk-pap-note" aria-label={`${noun} ${credit.invoiceId}`}>
+          <span className="t-box-name">{noun.toLowerCase()}</span>
+          <h2 className="bk-pap-name">{company}</h2>
+          <dl className="bk-pap-rows">
+            <div className="t-row"><dt>number</dt><i className="t-dots" /><dd>{credit.invoiceId}</dd></div>
+            <div className="t-row"><dt>dated</dt><i className="t-dots" /><dd>{day(credit.issuedDate)}</dd></div>
+            <div className="t-row"><dt>for</dt><i className="t-dots" /><dd>{credit.reference}</dd></div>
+            <div className="t-row"><dt>on an invoice</dt><i className="t-dots" /><dd>{onInvoice ? day(applied) : 'not yet'}</dd></div>
+          </dl>
+
+          <h3 className="bk-label bk-pap-went">where its money went</h3>
+          <dl
+            className="bk-pap-rows"
+            aria-label={`${dollars(money.matchedCents)} matched to a promise, ${dollars(money.takenBackCents)} taken back, ${dollars(money.unmatchedCents)} not matched yet`}
+          >
+            <div className="t-row"><dt>matched to a promise</dt><i className="t-dots" /><dd>{ledger(money.matchedCents)}</dd></div>
+            <div className="t-row"><dt>taken back</dt><i className="t-dots" /><dd>{ledger(money.takenBackCents)}</dd></div>
+            <div className="t-row"><dt>not matched yet</dt><i className="t-dots" /><dd>{ledger(money.unmatchedCents)}</dd></div>
+            <div className="t-row is-total"><dt>the note</dt><i className="t-dots" /><dd>{ledger(money.noteCents)}</dd></div>
+          </dl>
+        </article>
+
+        <aside className="bk-pap-side" aria-label="Which promise it covers">
+          <h2 className="bk-pap-side-head">Which promise it covers</h2>
+          {matches.length > 0 && (
+            <ul className="bk-pap-facts">
+              {matches.map(match => {
+                const found = promise(match.commitmentId);
+                const inside = (
+                  <>
+                    <span>{nameOf(match.commitmentId)}{found && <small>{found.reference} · due {day(found.dueDate)}</small>}</span>
+                    <i className="t-dots" />
+                    <b>{ledger(match.amountCents)}</b>
+                  </>
+                );
+                return <li key={match.commitmentId}>{found ? <a className="t-row bk-pap-fact is-link" href={href('iou', found.id)}>{inside}</a> : <div className="t-row bk-pap-fact">{inside}</div>}</li>;
+              })}
             </ul>
-          </section>
-        )}
+          )}
+          {!matches.length && !could.length && (
+            <p className="bk-pap-said">
+              {credit.candidateCommitmentIds.length ? 'Not matched to a promise yet.' : `No promise in the book has the reference ${credit.reference}.`}
+            </p>
+          )}
+
+          {could.length > 0 && (
+            <>
+              <p className="bk-pap-said">{could.length} promises fit this note. Waiting for an approver to say which.</p>
+              <h3 className="bk-label">it could belong to</h3>
+              <ul className="bk-pap-uses">
+                {could.map(id => <li key={id}><a className="bk-pap-use" href={href('iou', id)}>{nameOf(id)}<small>{promise(id).reference} · {dollars(promise(id).outstandingCents)} still owed</small></a></li>)}
+              </ul>
+            </>
+          )}
+          {limits.length > 0 && (
+            <>
+              <h3 className="bk-label">an approver said it may cover</h3>
+              <ul className="bk-pap-uses">
+                {limits.map(limit => (
+                  <li key={limit.commitmentId}>
+                    {promise(limit.commitmentId)
+                      ? <a className="bk-pap-use" href={href('iou', limit.commitmentId)}>{nameOf(limit.commitmentId)}, up to {dollars(limit.limitCents)}</a>
+                      : <span className="bk-pap-use">{nameOf(limit.commitmentId)}, up to {dollars(limit.limitCents)}</span>}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          <div className={cx('bk-actions bk-pap-foot')}>
+            {home
+              ? <a className="bk-btn" href={href('iou', home)}>{todo} on {company}’s page</a>
+              : <a className="bk-btn" href={href('companies', credit.vendorId)}>Open {company}’s page</a>}
+            <a className="bk-link" href={back}>← All papers</a>
+          </div>
+        </aside>
       </div>
-    </>
+
+      {papers.length > 0 && (
+        <section className="bk-pap-behind" aria-label="The papers behind this note">
+          <h2 className="bk-part bk-pap-section">{papers.length === 1 ? 'The paper behind it' : 'The papers behind it'}</h2>
+          <PaperList view={view} items={papers.map(source => paperItem(view, source))} head={false} label="The papers behind this note" />
+        </section>
+      )}
+    </Sheet>
   );
 }

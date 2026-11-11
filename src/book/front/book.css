@@ -1,1295 +1,377 @@
-/* Truthful — a book of IOUs on a desk.
- *
- * The look (identity.json): pale green ledger paper, blue-black ink, white bond
- * slips, and one red that is used for money still owed and nothing else.
- * Besley for the headline and names, Libre Franklin for anything printed on a
- * form, Courier Prime for anything typed onto one.
- *
- * Paper objects (stocks, shadows, stamps, the tally strip, the clip) come from
- * ../kit/paper.css. This file is the desk, the ledger, and what is specific
- * to an IOU.
- *
- * Every rule sits under .book-front, the element BookFront draws the book in,
- * so nothing here can reach another page. The front's own tokens are --bf-*
- * and its keyframes bf-*; the kit's tokens (--paper-mm, --u, --W, --rot,
- * --lift) keep the kit's names.
- */
+/* The book of IOUs, in the isokra system (src/book/ui/tokens.css).
+   Flat ink on porcelain, hairlines, no shadows, no gradients, no texture.
+   One red, and it only ever means money still owed. Every number is mono;
+   every label is small, lowercase and mono. The answer is the headline.
+   Motion only where something happens: a row unfolds, coins turn over
+   (src/book/ui/Coins.jsx), a paid row goes down to the paid ones. */
 
 .book-front {
-  --bf-paper: #dde8d0;
-  --bf-ink: #1d2740;
-  --bf-muted: #5a6878;
-  --bf-line: #93b29c;
-  --bf-accent: #c9361f;
-
-  /* the desk: a steel desk's linoleum top, the muted ink a step down */
-  --bf-desk: #414b61;
-  --bf-desk-ink: #dfe7d6;
-  --bf-stamp-blue: #27326a;
-
-  --bf-f-display: "Besley Variable", "Besley", "Rockwell", Georgia, serif;
-  --bf-f-text: "Libre Franklin Variable", "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
-  --bf-f-type: "Courier Prime", "Courier New", monospace;
-
-  --paper-mm: clamp(2.7px, calc(100vw / 400), 3.7px);
-  --paper-shade: 1.45;          /* the desk is dark: shadows need to be stronger to show */
-  --bf-mm: var(--paper-mm);
-  --paper-under: rgb(20 26 42 / 0.5);
-  --bf-rule: 36px;                 /* the ledger's line pitch */
-  --bf-lm: 72px;                   /* the ledger's left margin: holes and line numbers */
-  --bf-gut: clamp(14px, 2vw, 28px);
-  --bf-cols: var(--bf-lm) minmax(190px, 0.9fr) minmax(230px, 2.1fr) 124px 140px 156px minmax(244px, 1fr) 34px;
-  --bf-rule-red: rgb(201 54 31 / 0.5);
-  --bf-rule-green: rgb(113 152 126 / 0.62);
-}
-
-.book-front, .book-front *, .book-front *::before, .book-front *::after { box-sizing: border-box; }
-
-/* the desk itself */
-.book-front {
-  background: var(--bf-desk) var(--paper-grain) 0 0 / 260px;
-  background-blend-mode: soft-light;
-  -webkit-text-size-adjust: 100%;
-  margin: 0;
-  min-height: 100vh;
-  color: var(--bf-ink);
-  font: 400 16px/1.5 var(--bf-f-text);
+  display: block;
+  background: var(--t-paper);
+  color: var(--t-ink);
+  font: 400 var(--t-s-body) / 1.5 var(--t-text);
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-
-.book-front button, .book-front input, .book-front textarea { font: inherit; color: inherit; border-radius: 0; }
-.book-front button { cursor: pointer; }
-.book-front p, .book-front h1, .book-front ol, .book-front blockquote, .book-front dl, .book-front dd { margin: 0; }
+.book-front *, .book-front *::before, .book-front *::after { box-sizing: border-box; }
+.book-front h1, .book-front h2, .book-front p, .book-front ul, .book-front ol, .book-front dl, .book-front dd, .book-front blockquote, .book-front pre { margin: 0; }
+.book-front ul, .book-front ol { padding: 0; list-style: none; }
+.book-front button, .book-front input, .book-front textarea { font: inherit; color: inherit; }
+.book-front button { cursor: pointer; background: none; border: 0; padding: 0; text-align: inherit; -webkit-tap-highlight-color: transparent; }
+.book-front button:disabled { cursor: default; }
+.book-front a { color: inherit; }
+.book-front mark { background: var(--t-hl); color: inherit; padding: 0 2px; margin: 0 -2px; }
+.book-front :focus-visible { outline: 2px solid var(--t-ink); outline-offset: 2px; }
+.book-front ::selection { background: var(--t-ink); color: var(--t-paper); }
 .book-front [hidden] { display: none !important; }
 
-.book-front :focus-visible { outline: 2px solid var(--bf-ink); outline-offset: 3px; }
-.book-front .top :focus-visible, .book-front .below > :focus-visible, .book-front .scene-tools :focus-visible, .book-front .tray :focus-visible, .book-front .offer-said :focus-visible { outline-color: var(--bf-desk-ink); }
+.book-front .is-owed { color: var(--t-red); }
+.book-front .is-quiet { color: var(--t-quiet); }
 
-.book-front .desk {
-  position: relative;
-  overflow-x: clip;
-  padding-bottom: 72px;
-  min-height: 100vh;
+/* ———————————————————————————————————————————— the page */
+
+.book-front .f-page {
+  max-width: calc(1240px + 2 * var(--t-gutter));
+  margin: 0 auto;
+  padding: 64px var(--t-gutter) 88px;
 }
 
-/* ————————————————————————————————————————————————— the top of the desk */
-
-.book-front .top {
-  position: relative;
-  z-index: 6;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 62px;
-  padding: 0 calc(var(--bf-gut) + 126 * var(--bf-mm) + 44px) 0 calc(var(--bf-gut) + 10px);
-  color: var(--bf-desk-ink);
-}
-.book-front .mark {
-  font: 700 23px/1 var(--bf-f-display);
-  letter-spacing: -0.015em;
-}
-.book-front .top-tools { display: flex; align-items: center; gap: 26px; }
-.book-front .sound {
-  padding: 6px 0;
-  border: 0;
-  background: none;
-  font: 500 13.5px/1 var(--bf-f-text);
-  letter-spacing: 0.01em;
-  color: var(--bf-desk-ink);
-  opacity: 0.86;
-}
-.book-front .sound span { font-family: var(--bf-f-type); font-size: 14px; }
-.book-front .sound { white-space: nowrap; }
-.book-front .sound:hover { opacity: 1; }
-
-/* "How it works" is a folded note tucked at the top edge of the desk. */
-.book-front .howto-tab {
-  position: relative;
-  align-self: flex-start;
-  padding: 16px 16px 9px;
-  border: 0;
-  background: var(--stock-bond) var(--paper-grain) 0 0 / 190px;
-  background-blend-mode: soft-light;
-  color: var(--bf-ink);
-  font: 400 13.5px/1 var(--bf-f-type);
-  rotate: -1.4deg;
-  transform-origin: 50% 0;
-  filter: drop-shadow(0 0.5px 0.7px rgb(0 0 0 / 0.45)) drop-shadow(2px 3px 4px rgb(0 0 0 / 0.3));
-  transition: translate 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  translate: 0 -5px;
-}
-.book-front .howto-tab::after {                 /* the fold */
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 3px;
-  background: linear-gradient(rgb(0 0 0 / 0), rgb(0 0 0 / 0.1));
-}
-.book-front .howto-tab:hover, .book-front .howto-tab[aria-expanded="true"] { translate: 0 0; }
-
-.book-front .howto {
-  --W: 78;
-  --rot: 1.1deg;
-  width: calc(var(--W) * var(--u));
-  position: absolute;
-  z-index: 30;
-  top: 50px;
-  right: calc(var(--bf-gut) + 104 * var(--bf-mm));
-  transform-origin: 80% 0;
-}
-.book-front .howto .paper-face {
-  padding: calc(var(--u) * 7) calc(var(--u) * 7) calc(var(--u) * 8);
-  /* two creases: it was folded in three */
-  background-image:
-    linear-gradient(rgb(0 0 0 / 0) calc(33.3% - 1px), rgb(0 0 0 / 0.09) 33.3%, rgb(255 255 255 / 0.5) calc(33.3% + 1px), rgb(0 0 0 / 0) calc(33.3% + 2px), rgb(0 0 0 / 0) calc(66.6% - 1px), rgb(0 0 0 / 0.09) 66.6%, rgb(255 255 255 / 0.5) calc(66.6% + 1px), rgb(0 0 0 / 0) calc(66.6% + 2px)),
-    var(--paper-grain);
-  background-size: 100% 100%, 190px;
-  background-blend-mode: normal, soft-light;
-}
-.book-front .howto ol {
-  padding: 0;
-  list-style: none;
-  counter-reset: step;
+/* the answer, and the drop zone beside it */
+.book-front .f-top {
   display: grid;
-  gap: calc(var(--u) * 3.4);
-  font: 400 max(13px, calc(var(--u) * 3.7)) / 1.45 var(--bf-f-type);
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 290px);
+  gap: 48px;
+  align-items: start;
 }
-.book-front .howto li { counter-increment: step; display: grid; grid-template-columns: 1.6em 1fr; }
-.book-front .howto li::before { content: counter(step) "."; font-weight: 700; }
-.book-front .howto.is-unfolding { animation: bf-howto-unfold 460ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-@keyframes bf-howto-unfold {
-  from { clip-path: inset(0 0 70% 0); translate: 0 -30px; --lift: 0.7; }
-  45% { clip-path: inset(0 0 34% 0); }
-  to { clip-path: inset(-40px -40px -40px -40px); translate: 0 0; --lift: 0; }
-}
+.book-front .f-asof { margin-bottom: 22px; }
+.book-front .f-answer { text-wrap: balance; }
+.book-front .f-answer > span { display: block; }
+.book-front .f-answer .is-owed { font-variant-numeric: tabular-nums; }
+.book-front .f-lede { margin-top: 24px; max-width: 48em; text-wrap: pretty; }
 
-/* ————————————————————————————————————————————————— the in-tray */
-
-/* A steel memo tray pushed in from the top edge of the desk: its back wall is
-   off the window. Light comes from the top left, so the left wall shades the floor. */
-.book-front .tray {
-  position: absolute;
-  z-index: 5;
-  top: 0;
-  right: calc(var(--bf-gut) + 22px);
-  width: calc(126 * var(--bf-mm));
-  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.4)) drop-shadow(8px 13px 11px rgb(0 0 0 / 0.34));
-}
-.book-front .tray-box {
-  --bf-wall: calc(3.2 * var(--bf-mm));
-  position: relative;
-  height: calc(63 * var(--bf-mm));
-  border: var(--bf-wall) solid #36415f;
-  border-top: 0;
-  border-left-color: #3f4b6c;
-  border-bottom-color: #313b57;
-  background: #1f2840;
-  box-shadow:
-    inset 15px 0 13px -7px rgb(0 0 0 / 0.55),
-    inset 0 24px 20px -10px rgb(0 0 0 / 0.5),
-    inset 1px 0 0 rgb(0 0 0 / 0.35),
-    inset -1px 0 0 rgb(0 0 0 / 0.3),
-    inset 0 -1px 0 rgb(0 0 0 / 0.3),
-    0 0 0 1px rgb(255 255 255 / 0.07);
-  /* the finger notch in the front wall */
-  -webkit-mask: radial-gradient(circle at 50% calc(100% + 2.5 * var(--bf-mm)), #0000 calc(9 * var(--bf-mm) - 0.6px), #000 calc(9 * var(--bf-mm)));
-  mask: radial-gradient(circle at 50% calc(100% + 2.5 * var(--bf-mm)), #0000 calc(9 * var(--bf-mm) - 0.6px), #000 calc(9 * var(--bf-mm)));
+.book-front .f-drop-wrap { padding-top: 36px; }
+.book-front .f-drop {
   display: grid;
-  grid-template-rows: 1fr auto;
-  transition: background-color 160ms;
+  gap: 6px;
+  min-height: 108px;
+  align-content: center;
+  justify-items: start;
+  padding: 18px 20px;
+  border: 1px dashed var(--t-line-2);
+  border-radius: var(--t-r);
+  transition: border-color 0.15s, background-color 0.15s;
 }
-.book-front .tray.is-over .tray-box { background: #28324d; }
-.book-front .tray.is-missed .tray-box { grid-template-rows: auto 1fr; }
-.book-front .tray.is-missed .tray-line { order: -1; padding-top: calc(4 * var(--bf-mm)); padding-bottom: 0; }
-.book-front .tray.is-missed .tray-floor { padding-bottom: calc(5 * var(--bf-mm)); }
-.book-front .tray-floor {
-  position: relative;
-  display: grid;
-  place-items: center;
-  padding: calc(3 * var(--bf-mm)) calc(4 * var(--bf-mm)) 0;
-  min-height: 0;
-}
-.book-front .tray-note { --W: 109; --rot: -1.3deg; width: calc(var(--W) * var(--u)); max-width: 100%; }
-.book-front .tray.is-over .tray-note { --lift: 0.45; }
-.book-front .tray-note .paper-face {
-  display: grid;
-  gap: calc(var(--u) * 1.6);
-  padding: calc(var(--u) * 6) calc(var(--u) * 7) calc(var(--u) * 6.5);
-}
-.book-front .tray-ask {
-  padding: 0;
-  border: 0;
-  background: none;
-  text-align: left;
-  font: 700 max(14px, calc(var(--u) * 4.5)) / 1.25 var(--bf-f-type);
-  color: var(--bf-ink);
-}
-.book-front .tray-or { font: 400 max(13px, calc(var(--u) * 3.8)) / 1.3 var(--bf-f-type); color: var(--bf-muted); }
-.book-front .tray-paste, .book-front .link {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--bf-ink);
-  font: inherit;
+.book-front .f-drop.is-over { border-color: var(--t-ink); background: var(--t-white); }
+.book-front .f-drop.is-paste, .book-front .f-drop.is-reading { border-style: solid; background: var(--t-white); align-content: start; }
+.book-front .f-drop.is-reading { border-color: var(--t-ink); }
+.book-front .f-drop.is-missed { border-color: var(--t-ink); }
+.book-front .f-drop-ask { font: 500 var(--t-s-body) / 1.35 var(--t-text); color: var(--t-ink); text-align: left; }
+.book-front .f-drop-ask:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.book-front .f-drop-paste {
+  font: 400 var(--t-s-label) / 1.4 var(--t-mono);
+  color: var(--t-muted);
   text-decoration: underline;
-  text-decoration-thickness: 1px;
+  text-decoration-color: var(--t-line-2);
   text-underline-offset: 3px;
 }
-.book-front .tray-paste:hover, .book-front .link:hover { text-decoration-thickness: 2px; }
-.book-front .tray-line {
-  min-height: calc(11 * var(--bf-mm));
-  padding: calc(1.6 * var(--bf-mm)) calc(5 * var(--bf-mm)) calc(3 * var(--bf-mm));
-  font: 400 max(12.5px, calc(var(--bf-mm) * 3.5)) / 1.3 var(--bf-f-type);
-  color: var(--bf-desk-ink);
-  text-align: center;
+.book-front .f-drop-paste:hover { color: var(--t-ink); text-decoration-color: var(--t-ink); }
+.book-front .f-drop-area {
+  width: 100%;
+  min-height: 112px;
+  padding: 8px 10px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  font: 400 var(--t-s-small) / 1.45 var(--t-mono);
+  resize: vertical;
 }
-.book-front .tray-line:empty { min-height: calc(4 * var(--bf-mm)); padding-block: 0; }
-
-/* a document that has been dropped in, or the sheet you paste onto */
-.book-front .tray-doc { --W: 100; --rot: 1.6deg; width: calc(var(--W) * var(--u)); }
-.book-front .tray-doc .paper-face {
-  height: calc(var(--u) * 40);
-  padding: calc(var(--u) * 4.5) calc(var(--u) * 5.5);
+.book-front .f-drop-area:focus-visible { outline-offset: -1px; border-color: var(--t-ink); }
+.book-front .f-drop-acts { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
+.book-front .f-drop-paper {
+  width: 100%;
+  max-height: 6.2em;
   overflow: hidden;
-  font: 400 max(9.5px, calc(var(--u) * 2.5)) / 1.42 var(--bf-f-type);
+  font: 400 var(--t-s-label) / 1.45 var(--t-mono);
+  color: var(--t-muted);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  animation: bf-arrive 0.3s var(--t-ease);
 }
-.book-front .tray-doc.is-paste { --rot: -0.8deg; }
-.book-front .tray-doc.is-paste .paper-face { display: grid; grid-template-rows: 1fr auto; gap: calc(var(--u) * 1.5); padding: calc(var(--u) * 3.5) calc(var(--u) * 4.5); }
-.book-front .tray-doc textarea {
-  width: 100%;
-  min-height: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  resize: none;
-  background: repeating-linear-gradient(#0000 0 calc(1.5em - 1px), rgb(29 39 64 / 0.16) calc(1.5em - 1px) 1.5em);
-  font: 400 max(12px, calc(var(--u) * 3.3)) / 1.5 var(--bf-f-type);
-}
-.book-front .tray-doc .paste-foot { display: flex; justify-content: space-between; align-items: center; font: 400 max(12px, calc(var(--u) * 3.3)) / 1 var(--bf-f-type); }
+.book-front .f-drop-line { min-height: 1.45em; margin-top: 10px; color: var(--t-ink-2); }
 
-/* ————————————————————————————————————————————————— the ledger page */
+/* ———————————————————————————————————————————— the list */
 
-.book-front .sheet {
-  z-index: 3;
-  margin: 0 var(--bf-gut);
-  --rot: 0deg;
-}
-.book-front .sheet > .paper-face { padding-bottom: 22px; }
-
-/* three binder holes: the desk shows through */
-.book-front .sheet-hole {
-  position: absolute;
-  left: 19px;
-  width: calc(6.2 * var(--bf-mm));
-  height: calc(6.2 * var(--bf-mm));
-  border-radius: 50%;
-  background: var(--bf-desk);
-  box-shadow: inset 1.5px 2px 2.5px rgb(0 0 0 / 0.55), 0 0.5px 0 rgb(255 255 255 / 0.5);
-}
-.book-front .sheet-hole:nth-of-type(1) { top: 58px; }
-.book-front .sheet-hole:nth-of-type(2) { top: calc(50% - 3.1 * var(--bf-mm)); }
-.book-front .sheet-hole:nth-of-type(3) { bottom: 44px; }
-
-.book-front .head {
-  position: relative;
-  /* 20px less than the standalone's 42 / 30, so four promises and their total fit a 1440 by 900 window */
-  padding: 32px calc(126 * var(--bf-mm) + 60px) 20px calc(var(--bf-lm) + 14px);
-}
-.book-front h1 {
-  font: 800 clamp(38px, 4.5vw, 66px) / 0.98 var(--bf-f-display);
-  letter-spacing: -0.034em;
-}
-.book-front .lede {
-  margin-top: 18px;
-  max-width: 34em;
-  font: 400 clamp(16px, 1.3vw, 18.5px) / 1.45 var(--bf-f-text);
-  color: var(--bf-ink);
-}
-/* the date this page was opened, from a dater stamp */
-.book-front .dater {
-  position: absolute;
-  right: calc(126 * var(--bf-mm) + 64px);
-  top: 36px;
-  color: var(--bf-stamp-blue);
-  font: 700 calc(var(--u) * 3.9) / 1 var(--bf-f-type);
-  letter-spacing: 0.16em;
-  opacity: 0.82;
-}
-
-.book-front .ledger { position: relative; }
-
-.book-front .l-head, .book-front .l-row, .book-front .l-total {
+.book-front .f-list { margin-top: 80px; }
+.book-front .f-grid {
   display: grid;
-  grid-template-columns: var(--bf-cols);
+  grid-template-columns: minmax(124px, 1fr) minmax(220px, 2.5fr) 108px 238px 82px 82px 90px;
+  column-gap: 22px;
 }
-.book-front .l-head {
-  height: 34px;
-  border-top: 2px solid rgb(79 122 96 / 0.85);
-  border-bottom: 1px solid rgb(79 122 96 / 0.85);
-  background: rgb(147 178 156 / 0.2);
-  font: 600 10.5px/32px var(--bf-f-text);
-  letter-spacing: 0.115em;
-  text-transform: uppercase;
-  color: rgb(29 39 64 / 0.84);
-}
-.book-front .l-head > span { padding: 0 12px; white-space: nowrap; }
-.book-front .l-head > .is-num { text-align: right; padding-right: 14px; }
-.book-front .l-head > .is-owed { color: var(--bf-accent); }
+.book-front .f-head { padding-bottom: 9px; border-bottom: 1px solid var(--t-ink); }
+.book-front .f-head .is-num { text-align: right; }
 
-/* column rules: green between words, a red double rule where the money starts */
-.book-front .l-head > span:nth-child(n+2), .book-front .l-cell, .book-front .l-total > span:nth-child(n+3) { border-left: 1px solid var(--bf-rule-green); }
-.book-front .l-head > span:nth-child(2), .book-front .l-cell.is-vendor { border-left: 1px solid var(--bf-rule-red); }
-.book-front .l-head > span:nth-child(5), .book-front .l-cell.is-promised, .book-front .l-total > span:nth-child(3) { border-left: 3px double var(--bf-rule-red); }
-.book-front .l-head > span:nth-child(6), .book-front .l-head > span:nth-child(7), .book-front .l-cell.is-invoice, .book-front .l-cell.is-owed, .book-front .l-total > span:nth-child(4), .book-front .l-total > span:nth-child(5) { border-left: 1px solid var(--bf-rule-red); }
-.book-front .l-head > span:nth-child(8), .book-front .l-cell.is-margin, .book-front .l-total > span:nth-child(6) { border-left: 3px double var(--bf-rule-red); }
+.book-front .f-item { position: relative; background: var(--t-paper); }
+.book-front .f-item + .f-item { border-top: 1px solid var(--t-line); }
+.book-front .f-item.is-moving { z-index: 2; }
+.book-front .f-item.is-new { animation: bf-new 2.4s var(--t-ease); }
+@keyframes bf-new { from { background-color: var(--t-hl); } }
 
-.book-front .l-row-wrap { display: contents; }
-.book-front .l-rows {
-  /* the ruling: one line every --rule, under every row */
-  background: repeating-linear-gradient(to bottom, #0000 0 calc(var(--bf-rule) - 1px), var(--bf-rule-green) calc(var(--bf-rule) - 1px) var(--bf-rule));
-}
-.book-front .l-row {
+.book-front .f-row {
   position: relative;
-  min-height: calc(var(--bf-rule) * 3);
-  cursor: pointer;
-  transition: background-color 160ms;
-}
-.book-front .l-row.is-blank { min-height: var(--bf-rule); cursor: default; }
-.book-front .l-row:not(.is-blank):hover { background: rgb(255 255 255 / 0.2); }
-.book-front .l-row.is-open { background: rgb(255 255 255 / 0.34); }
-.book-front .l-cell { grid-row: 1; min-width: 0; padding: 0 12px; line-height: var(--bf-rule); }
-.book-front .l-no { grid-column: 1; }
-.book-front .l-cell.is-vendor { grid-column: 2; }
-.book-front .l-cell.is-said { grid-column: 3; }
-.book-front .l-cell.is-due { grid-column: 4; }
-.book-front .l-cell.is-promised { grid-column: 5; }
-.book-front .l-cell.is-invoice { grid-column: 6; }
-.book-front .l-cell.is-owed { grid-column: 7; }
-.book-front .l-cell.is-margin { grid-column: 8; }
-.book-front .l-cell > * { position: relative; top: 8px; }
-.book-front .l-no {
-  grid-row: 1;
-  padding: 0 9px 0 0;
-  text-align: right;
-  font: 400 11px/var(--bf-rule) var(--bf-f-type);
-  color: rgb(90 104 120 / 0.8);
-}
-.book-front .l-no > span { position: relative; top: 9px; }
-.book-front .l-open {
-  display: block;
   width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
+  align-items: start;
+  padding: 15px 0 16px;
   text-align: left;
-  font: 600 clamp(18px, 1.5vw, 21.5px) / var(--bf-rule) var(--bf-f-display);
-  letter-spacing: -0.012em;
-  color: var(--bf-ink);
 }
-.book-front .l-row.is-open .l-no span { visibility: hidden; }
-.book-front .l-row.is-open .l-open::before {       /* a pencil mark in the margin: this one is out */
+.book-front .f-row::before {
   content: "";
   position: absolute;
   left: -30px;
-  top: 12px;
-  width: 0;
-  height: 0;
-  border: 6px solid #0000;
-  border-left: 9px solid var(--bf-ink);
-}
-.book-front .l-said { display: block; font: 400 15.5px/var(--bf-rule) var(--bf-f-type); }
-/* the working, when what they said is a percentage: typed under the quote */
-.book-front .l-cell.is-said { container-type: inline-size; }
-/* it says as much as the column has room for: "25% of $8,000 = $2,000", then
-   "25% of the $8,000 month = $2,000", then the reason in front */
-.book-front .l-working { display: block; font: 400 15.5px/var(--bf-rule) var(--bf-f-type); color: var(--bf-muted); }
-.book-front .l-working i, .book-front .iou-working i { font-style: normal; }
-.book-front .l-working i { display: none; }
-@container (min-width: 326px) { .book-front .l-working i.w-more { display: inline; } }
-@container (min-width: 492px) { .book-front .l-working i.w-why { display: inline; } }
-/* the first empty line says what goes on it */
-.book-front .l-hint { display: block; font: 400 15.5px/var(--bf-rule) var(--bf-f-type); color: rgb(90 104 120 / 0.92); }
-.book-front .l-hint span { display: block; }
-.book-front .l-due { display: block; font: 400 15.5px/var(--bf-rule) var(--bf-f-type); white-space: nowrap; }
-.book-front .l-due s { color: var(--bf-muted); }
-.book-front .l-cell.is-num { text-align: right; padding-right: 14px; font: 400 18px/var(--bf-rule) var(--bf-f-type); font-variant-numeric: tabular-nums; }
-.book-front .l-cell.is-owed b {
-  display: block;
   top: 25px;
-  font: 700 clamp(34px, 3.3vw, 47px) / 1 var(--bf-f-type);
-  letter-spacing: -0.045em;
-  color: var(--bf-accent);
+  width: 0;
+  height: 2px;
+  background: var(--t-ink);
+  transition: width 0.2s var(--t-ease);
 }
-.book-front .l-cell.is-owed b.is-none { top: 8px; font: 400 18px/var(--bf-rule) var(--bf-f-type); letter-spacing: 0; color: var(--bf-muted); }
-.book-front .l-row > .stamp { grid-row: 1; z-index: 2; align-self: start; }
-/* OVERDUE goes in the row it belongs to, on the line under the date it is about */
-.book-front .l-row > .stamp.is-overdue {
-  grid-column: 4;
-  justify-self: start;
-  margin: calc(var(--bf-rule) + 2px) 0 0 3px;
-  padding: calc(var(--u) * 1.15) calc(var(--u) * 2) calc(var(--u) * 0.95);
-  border-width: calc(var(--u) * 0.5);
-  outline-offset: calc(var(--u) * -1.05);
-  font-size: min(calc(var(--u) * 4.1), 14.5px);
-  color: var(--bf-accent);
-}
-.book-front .l-row.has-moved > .stamp.is-overdue { margin-top: calc(var(--bf-rule) * 2 + 2px); }
-.book-front .l-row > .stamp.is-paid { grid-column: 7; justify-self: center; margin-top: 13px; color: var(--bf-stamp-blue); }
-.book-front .l-act { grid-row: 1; grid-column: 5 / span 3; align-self: end; justify-self: end; margin: 0 14px 6px 0; z-index: 3; }
+.book-front .f-item.is-open > .f-row::before { width: 14px; }
+.book-front .f-row:hover .f-co, .book-front .f-item.is-open .f-co { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 
-.book-front .btn {
-  padding: 9px 15px 9px;
-  border: 0;
-  background: var(--bf-ink);
-  color: #f1f5ea;
-  font: 600 13.5px/1 var(--bf-f-text);
-  letter-spacing: 0.012em;
-  white-space: nowrap;
-  transition: translate 120ms, background-color 120ms;
+.book-front .f-co { font: 500 var(--t-s-lead) / 22px var(--t-display); letter-spacing: -0.012em; }
+.book-front .f-said {
+  font: 400 var(--t-s-small) / 20px var(--t-text);
+  color: var(--t-ink-2);
+  padding-top: 1px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.book-front .btn:hover { background: #2a3760; translate: 0 -1px; }
-.book-front .btn:active { translate: 0 1px; }
-.book-front .btn.is-quiet {
-  background: none;
-  color: var(--bf-ink);
-  box-shadow: inset 0 0 0 1px var(--bf-ink);
-}
-.book-front .btn.is-quiet:hover { background: rgb(29 39 64 / 0.07); }
-.book-front .link.is-typed { font: 400 14px/1.2 var(--bf-f-type); }
-.book-front .l-act.link { margin-bottom: 9px; }
-
-.book-front .l-total { height: calc(var(--bf-rule) * 2); align-items: end; }
-.book-front .l-total > span { height: 100%; display: grid; align-items: end; }
-.book-front .t-label {
-  grid-column: 2 / span 3;
-  justify-items: end;
-  padding: 0 14px 12px 0;
-  border-left: 0 !important;
-  font: 600 10.5px/1 var(--bf-f-text);
-  letter-spacing: 0.115em;
-  text-transform: uppercase;
-}
-.book-front .t-num { text-align: right; padding: 0 14px 0 0; }
-.book-front .t-num small { display: none; }
-.book-front .t-num b {
-  display: block;
-  padding: 7px 0 5px;
-  margin-left: 10px;
-  border-top: 1.5px solid var(--bf-ink);
-  border-bottom: 4px double var(--bf-ink);
-  font: 700 18px/1.3 var(--bf-f-type);
+.book-front .f-due { display: grid; gap: 1px; }
+.book-front .f-date { font: 400 var(--t-s-small) / 22px var(--t-mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.book-front .f-marks { display: flex; flex-wrap: wrap; gap: 0 8px; }
+.book-front .t-label.is-late { color: var(--t-red-ink); }
+.book-front .f-coins { padding-top: 4px; line-height: 0; }
+.book-front .f-num {
+  font: 400 var(--t-s-small) / 22px var(--t-mono);
   font-variant-numeric: tabular-nums;
-}
-.book-front .t-num.is-owed b { color: var(--bf-accent); font-size: 23px; line-height: 1.02; border-color: var(--bf-ink); }
-.book-front .t-num.is-owed b.is-none { color: var(--bf-muted); font-size: 18px; font-weight: 400; line-height: 1.3; }
-
-.book-front .notice {
-  padding: 16px 40px 0 calc(var(--bf-lm) + 13px);
-  font: 400 13.5px/1.4 var(--bf-f-text);
-  color: var(--bf-muted);
-}
-
-/* the empty book: one line written in the first row */
-.book-front .l-empty {
-  grid-column: 2 / span 6;
-  grid-row: 1;
-  padding: 0 12px;
-  font: italic 500 clamp(17px, 1.6vw, 21px) / var(--bf-rule) var(--bf-f-display);
-  color: #27357a;
-  rotate: -0.35deg;
-  transform-origin: 0 50%;
-}
-.book-front .l-empty > span { position: relative; top: 8px; }
-.book-front .l-row.is-empty { cursor: default; min-height: calc(var(--bf-rule) * 2); }
-.book-front .l-row.is-empty:hover { background: none; }
-
-/* a row that has just been written in */
-.book-front .l-row.is-new .l-cell > *, .book-front .l-row.is-new .l-no > span { animation: bf-typed-in 700ms steps(14) both; }
-@keyframes bf-typed-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(-20px -20px -20px -4px); } }
-
-/* ————————————————————————————————————————————————— below the page: the desk */
-
-.book-front .below {
-  position: relative;
-  z-index: 1;
-  min-height: calc(var(--bf-spike-top, 20 * var(--bf-mm)) + 104 * var(--bf-mm));
-  padding: 0 var(--bf-gut);
-}
-
-.book-front .scene {
-  position: relative;
-  width: calc(360 * var(--bf-mm));
-  max-width: 100%;
-  margin: 0 auto;
-  padding-top: calc(3.5 * var(--bf-mm));
-}
-.book-front .scene:focus { outline: none; }
-.book-front .scene-papers { position: relative; min-height: calc(134 * var(--bf-mm)); }
-.book-front .scene-papers.has-pile { min-height: calc(172 * var(--bf-mm)); }
-.book-front .scene-papers:not(:has(.offers)):not(.has-pile) { min-height: calc(112 * var(--bf-mm)); }
-/* a clip with nothing behind it would be holding air */
-.book-front .scene:not(:has(.doc-invoice)) .paper-clip[data-holds="invoice"] { display: none; }
-
-.book-front .scene .doc { position: absolute; top: calc(-2.5 * var(--bf-mm)); z-index: 1; }
-.book-front .scene .doc-promise { left: 0; --rot: -2.1deg; }
-.book-front .scene .doc-invoice { left: calc(248 * var(--bf-mm)); --rot: 1.7deg; }
-/* a later invoice lies on the pile, lower down, so the line above it still shows */
-.book-front .scene .doc-invoice + .doc-invoice { left: calc(252 * var(--bf-mm)); top: calc(66 * var(--bf-mm)); --rot: -1.4deg; z-index: 2; }
-.book-front .scene .iou { position: absolute; left: calc(100 * var(--bf-mm)); top: 0; z-index: 3; --rot: 0.45deg; }
-.book-front .scene .offers { position: absolute; left: calc(113 * var(--bf-mm)); top: calc(89 * var(--bf-mm)); width: calc(134 * var(--bf-mm)); z-index: 2; }
-/* the part of each paper that is tucked under the slip carries no print */
-.book-front .scene .doc-promise > .paper-face { padding-right: calc(var(--u) * 16.5); }
-.book-front .scene .doc-invoice > .paper-face { padding-left: calc(var(--u) * 16.5); }
-.book-front .scene .doc-invoice .perf-line { margin-left: calc(var(--u) * -16.5); }
-
-.book-front .scene-tools {
-  position: relative;
-  z-index: 4;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  min-height: 40px;
-  /* above the papers: the way back by the book's edge, the next invoice over the invoice pile */
-  margin-bottom: calc(4.5 * var(--bf-mm));
-  padding: 0 calc(2 * var(--bf-mm));
-  color: var(--bf-desk-ink);
-}
-.book-front .scene-tools .link { color: var(--bf-desk-ink); font: 400 14.5px/1.2 var(--bf-f-type); }
-.book-front .lever {
-  padding: 10px 15px;
-  border: 0;
-  background: none;
-  box-shadow: inset 0 0 0 1px var(--bf-desk-ink);
-  color: var(--bf-desk-ink);
-  font: 600 13.5px/1 var(--bf-f-text);
-  letter-spacing: 0.012em;
-  transition: background-color 120ms;
-}
-.book-front .lever:hover { background: rgb(223 231 214 / 0.12); }
-.book-front .lever-said { font: 400 14.5px/1.35 var(--bf-f-type); color: var(--bf-desk-ink); text-align: right; }
-
-/* ————————————————————————————————————————————————— the IOU slip */
-
-.book-front .iou { --W: 160; color: var(--bf-ink); }
-.book-front .iou > .paper-face {
-  /* the face is built from parts so the boxes can have real holes in them */
-  background: none;
-  display: grid;
-  grid-template-rows: 1fr auto auto;
-  min-height: calc(var(--u) * 79);
-}
-.book-front .iou-body {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto 1fr;
-  column-gap: calc(var(--u) * 4);
-  padding: calc(var(--u) * 6) calc(var(--u) * 8) calc(var(--u) * 1.5) calc(var(--u) * 10.5);
-}
-.book-front .iou-top {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding-bottom: calc(var(--u) * 2.2);
-  border-bottom: 3px double rgb(29 39 64 / 0.55);
-}
-.book-front .iou-title {
-  font: 800 calc(var(--u) * 8.6) / 0.9 var(--bf-f-display);
-  letter-spacing: 0.3em;
-}
-.book-front .iou-no { font: 400 max(10px, calc(var(--u) * 2.75)) / 1 var(--bf-f-type); color: var(--bf-muted); letter-spacing: 0.02em; }
-
-.book-front .iou-lines { grid-column: 1; padding-top: calc(var(--u) * 3.6); display: grid; gap: calc(var(--u) * 1.5); align-content: start; }
-/* a form line: a printed word and what was typed on the dots after it */
-.book-front .iou-line { display: flex; align-items: baseline; gap: 0.5em; font: 500 max(12px, calc(var(--u) * 3.6)) / 1.35 var(--bf-f-text); color: rgb(29 39 64 / 0.82); }
-.book-front .iou-line > b {
-  flex: 0 1 auto;
-  padding: 0 0.25em;
-  border-bottom: 1px dotted rgb(29 39 64 / 0.55);
-  font: 700 max(13px, calc(var(--u) * 4.1)) / 1.25 var(--bf-f-type);
-  color: var(--bf-ink);
-}
-.book-front .iou-line > b.is-wide { flex: 1 1 auto; }
-.book-front .iou-line s { font-weight: 400; color: var(--bf-muted); margin-right: 0.45em; }
-.book-front .iou-quote {
-  padding: 0 0.25em;
-  font: 400 max(12.5px, calc(var(--u) * 3.75)) / 1.42 var(--bf-f-type);
-  color: var(--bf-ink);
-}
-/* where the figure comes from, typed under what they wrote */
-.book-front .iou-working { padding: 0 0.25em; font: 400 max(12px, calc(var(--u) * 3.5)) / 1.42 var(--bf-f-type); color: var(--bf-muted); }
-.book-front .iou-working i.w-why { display: none; }
-.book-front .iou-quote span, .book-front .iou-sum span, .book-front .said-mark {
-  background: linear-gradient(100deg, rgb(246 228 82 / 0.22), rgb(246 228 82 / 0.6) 3%, rgb(246 228 82 / 0.5) 97%, rgb(246 228 82 / 0.2)) 0 0 / 0% 100% no-repeat;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  transition: background-size 260ms cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
-.book-front .iou-side { grid-column: 2; grid-row: 2 / span 2; position: relative; display: grid; justify-items: end; align-content: start; padding-top: calc(var(--u) * 3.2); width: calc(var(--u) * 53); }
-.book-front .iou-amount {
-  font: 700 calc(var(--u) * 10.4) / 1 var(--bf-f-type);
-  letter-spacing: -0.045em;
-  color: var(--bf-accent);
+  text-align: right;
   white-space: nowrap;
+  color: var(--t-ink-2);
 }
-.book-front .iou.is-paid .iou-amount { color: var(--bf-ink); }
-.book-front .iou-side .stamp { margin-top: calc(var(--u) * 2.4); margin-right: calc(var(--u) * 1); }
-.book-front .iou-side .stamp.is-overdue { color: var(--bf-accent); }
-.book-front .iou-side .stamp.is-paid { color: var(--bf-stamp-blue); }
-.book-front .iou-ask { margin-top: calc(var(--u) * 3); }
+.book-front .f-owed .is-owed, .book-front .f-total .is-owed { color: var(--t-red); font-weight: 500; }
+.book-front .f-none { color: var(--t-quiet); }
 
-.book-front .iou-sum {
-  grid-column: 1 / -1;
-  align-self: end;
-  padding-top: calc(var(--u) * 2.6);
-  font: 400 max(11.5px, calc(var(--u) * 3.3)) / 1.4 var(--bf-f-type);
-}
-.book-front .iou-sum b { color: var(--bf-accent); }
-.book-front .iou.is-paid .iou-sum b { color: var(--bf-ink); }
+/* a paid promise goes quiet */
+.book-front .f-item.is-paid .f-co, .book-front .f-item.is-paid .f-said, .book-front .f-item.is-paid .f-date, .book-front .f-item.is-paid .f-num { color: var(--t-quiet); }
+.book-front .f-item.is-paid .f-coins { opacity: 0.55; transition: opacity 0.3s; }
+.book-front .f-item.is-paid.is-open .f-coins { opacity: 1; }
 
-/* the parts of the face overlap by a pixel, so no hairline of desk shows between them when the slip turns */
-.book-front .iou .tally { --tally-ink: var(--bf-accent); color: var(--bf-ink); margin-top: -1px; }
-.book-front .iou .tally-scale { padding-top: calc(var(--u) * 0.6); }
-.book-front .iou .tally-row { margin-top: -1px; }
-.book-front .iou-foot { height: calc(var(--u) * 2.2 + 1px); margin-top: -1px; }
+.book-front .f-total { align-items: baseline; padding: 13px 0 0; border-top: 1px solid var(--t-ink); }
+.book-front .f-total .f-num { color: var(--t-ink); font-weight: 500; }
 
-/* what a hover on one paper lights on the others */
-.book-front .scene[data-lit="said"] [data-says="said"], .book-front .scene[data-lit="credit"] [data-says="credit"] { background-size: 100% 100%; }
-.book-front .scene[data-lit="said"] .highlighter[data-says="said"], .book-front .scene[data-lit="credit"] .highlighter[data-says="credit"] { background-color: rgb(246 228 82 / 0.5); }
-.book-front .scene[data-lit="credit"] .tally-box.is-punched { background-color: #f1e58f; }
-.book-front [data-says] { cursor: default; }
+.book-front .f-empty { padding: 22px 0; color: var(--t-ink-2); }
+.book-front .f-notice { margin-top: 56px; }
 
-/* ————————————————————————————————————————————————— clipped papers */
+/* ———————————————————————————————————————————— a row unfolding */
 
-.book-front .doc { --W: 112; color: var(--bf-ink); }
-.book-front .doc > .paper-face {
-  min-height: calc(var(--u) * 102);
-  padding: calc(var(--u) * 8) calc(var(--u) * 8.5) calc(var(--u) * 9);
-  font: 400 max(11px, calc(var(--u) * 3.1)) / 1.5 var(--bf-f-type);
-}
-.book-front .doc p + p { margin-top: 0.85em; }
+.book-front .f-fold { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 380ms var(--t-ease); }
+.book-front .f-fold.is-open { grid-template-rows: 1fr; }
+.book-front .f-fold-in { min-height: 0; overflow: hidden; }
+.book-front .f-fold-in > * { opacity: 0; transition: opacity 220ms var(--t-ease); }
+.book-front .f-fold.is-open > .f-fold-in > * { opacity: 1; transition-delay: 90ms; }
 
-.book-front .mail-head { display: grid; grid-template-columns: auto 1fr; gap: 0.1em 0.9em; padding-bottom: 0.9em; margin-bottom: 1em; border-bottom: 1px solid rgb(29 39 64 / 0.4); }
-.book-front .mail-head dt { color: var(--bf-muted); }
-.book-front .mail-head dd { min-width: 0; }
-.book-front .mail-sign { margin-top: 1.1em !important; }
-.book-front .mail-sign + .mail-sign { margin-top: 0 !important; }
+/* ———————————————————————————————————————————— one promise, opened */
 
-.book-front .inv-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1em; }
-.book-front .inv-vendor { font: 700 max(14px, calc(var(--u) * 4.5)) / 1.1 var(--bf-f-text); letter-spacing: -0.01em; }
-.book-front .inv-word { text-align: right; font: 600 max(9.5px, calc(var(--u) * 2.5)) / 1.2 var(--bf-f-text); letter-spacing: 0.2em; text-transform: uppercase; color: var(--bf-muted); }
-.book-front .inv-word b { display: block; margin-top: 0.35em; font: 700 max(11.5px, calc(var(--u) * 3.3)) / 1.2 var(--bf-f-type); letter-spacing: 0; color: var(--bf-ink); text-transform: none; }
-.book-front .inv-meta { display: grid; grid-template-columns: auto 1fr; gap: 0.15em 1em; margin: 1.5em 0 1.3em; }
-.book-front .inv-meta dt { font: 500 max(9.5px, calc(var(--u) * 2.5)) / 1.9 var(--bf-f-text); letter-spacing: 0.08em; text-transform: uppercase; color: var(--bf-muted); }
-.book-front .inv-lines { border-top: 1.5px solid var(--bf-ink); }
-.book-front .inv-line { display: flex; justify-content: space-between; gap: 1em; padding: 0.5em 0.3em; border-bottom: 1px solid rgb(29 39 64 / 0.22); }
-.book-front .inv-line span:last-child, .book-front .inv-total span:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.book-front .inv-line.is-credit { margin: 0 -0.3em; padding: 0.5em 0.6em; }
-.book-front .inv-total { display: flex; justify-content: space-between; padding: 0.65em 0.3em 0; font-weight: 700; }
-.book-front .doc-invoice .perf-line { margin: calc(var(--u) * 6) calc(var(--u) * -8.5) calc(var(--u) * 3.5); }
-.book-front .inv-stub { display: flex; justify-content: space-between; color: var(--bf-muted); font-size: max(10px, calc(var(--u) * 2.75)); }
-
-.book-front .doc-agreement > .paper-face { font: 400 max(10.5px, calc(var(--u) * 2.95)) / 1.52 var(--bf-f-text); }
-.book-front .agr-title { font: 700 max(14px, calc(var(--u) * 4.6)) / 1.15 var(--bf-f-display); letter-spacing: -0.01em; }
-.book-front .agr-section { margin-top: 0.5em !important; font: 600 max(9.5px, calc(var(--u) * 2.5)) / 1.3 var(--bf-f-text); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bf-muted); }
-.book-front .agr-date { margin: 0.3em 0 1.2em !important; padding-bottom: 1em; border-bottom: 1px solid rgb(29 39 64 / 0.4); color: var(--bf-muted); }
-.book-front .doc-agreement .agr-body p { text-align: left; hyphens: auto; }
-
-/* ————————————————————————————————————————————————— what they answered */
-
-.book-front .scene.is-arriving .offer-said, .book-front .scene.is-arriving .scene-tools { animation: bf-desk-words 360ms 520ms both; }
-@keyframes bf-desk-words { from { opacity: 0; } }
-.book-front .offer-said { margin: 0 0 calc(var(--bf-mm) * 2.4); font: 400 max(13px, calc(var(--bf-mm) * 3.7)) / 1.3 var(--bf-f-type); color: var(--bf-desk-ink); text-align: center; }
-.book-front .offer-row { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--bf-mm) * 3); align-items: start; }
-.book-front .offer { position: relative; }
-.book-front .tag { --W: 65; width: 100% !important; color: var(--bf-ink); }
-.book-front .offer:nth-child(1) .tag { --rot: -2.2deg; }
-.book-front .offer:nth-child(2) .tag { --rot: 1.6deg; }
-.book-front .tag > .paper-face {
-  min-height: calc(var(--u) * 37);
-  padding: calc(var(--u) * 3.6) calc(var(--u) * 3.5) calc(var(--u) * 3.6) calc(var(--u) * 10.5);
+.book-front .f-open { margin: 0 0 26px; padding: 30px 32px 30px; }
+.book-front .f-open-head {
   display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px 44px;
+  align-items: center;
+  padding-bottom: 26px;
+}
+.book-front .f-big { min-width: 0; }
+.book-front .f-open-say { display: grid; gap: 8px; justify-items: start; }
+.book-front .f-open-say .t-title .t-label { margin-left: 6px; letter-spacing: 0.01em; vertical-align: 0.35em; text-transform: none; }
+.book-front .f-open-sum { color: var(--t-ink); max-width: none; }
+.book-front .f-key { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 4px; }
+.book-front .f-key > span { display: inline-flex; align-items: center; gap: 6px; }
+
+.book-front .f-facts { border-top: 1px solid var(--t-ink); }
+.book-front .f-fact {
+  display: grid;
+  grid-template-columns: 136px minmax(0, 1fr);
+  gap: 24px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--t-line);
+}
+.book-front .f-fact > dt { padding-top: 4px; }
+.book-front .f-fact > dd { min-width: 0; max-width: 760px; }
+.book-front .f-quote { font: 500 var(--t-s-lead) / 1.42 var(--t-display); letter-spacing: -0.008em; color: var(--t-ink); text-wrap: pretty; }
+.book-front .f-source { margin-top: 6px; }
+.book-front .f-fact .t-row { max-width: 560px; padding: 3px 0; border: 0; font-size: var(--t-s-body); }
+.book-front .f-fact .t-row > :last-child { font-size: var(--t-s-small); }
+.book-front .f-fact .t-row.is-note, .book-front .f-fact .t-row.is-none { color: var(--t-muted); }
+.book-front .f-fact .t-row.is-sum { margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--t-line-2); font-weight: 500; }
+.book-front .f-fact .t-row.is-sum.is-owing > :last-child { color: var(--t-red); }
+.book-front .f-fact .t-row.is-new, .book-front .f-link.is-new { animation: bf-arrive 0.5s var(--t-ease) backwards; }
+.book-front .f-fact .t-row.is-new > :first-child { background: var(--t-hl); transition: background-color 1s; }
+.book-front .f-notes { display: grid; gap: 4px; color: var(--t-ink-2); }
+.book-front .f-papers { display: flex; flex-wrap: wrap; gap: 6px 20px; padding-top: 3px; }
+
+.book-front .f-offers { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 12px; }
+.book-front .f-offer {
+  display: grid;
+  gap: 4px;
   align-content: start;
-  gap: calc(var(--u) * 1);
+  padding: 13px 15px 15px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-paper);
 }
-.book-front .tag .stamp { justify-self: start; color: var(--bf-stamp-blue); margin-bottom: calc(var(--u) * 0.6); }
-.book-front .tag-title { font: 700 max(13.5px, calc(var(--u) * 4.2)) / 1.15 var(--bf-f-display); letter-spacing: -0.01em; }
-.book-front .tag-text { font: 400 max(11px, calc(var(--u) * 3.05)) / 1.36 var(--bf-f-type); }
-.book-front .tag-acts { display: flex; align-items: center; gap: calc(var(--u) * 3.2); margin-top: calc(var(--u) * 1.2); }
-.book-front .tag-acts .btn { padding: 7px 11px; font-size: 12.5px; }
-.book-front .tag-acts .link { font: 400 max(12px, calc(var(--u) * 3.3)) / 1 var(--bf-f-type); }
-.book-front .tag .stamp.is-accepted { justify-self: end; margin: calc(var(--u) * 0.6) calc(var(--u) * 1) 0 0; }
-.book-front .tag-note { font: 400 max(11px, calc(var(--u) * 3.05)) / 1.36 var(--bf-f-type); color: var(--bf-muted); }
+.book-front .f-offer-title { font-weight: 500; }
+.book-front .f-offer .t-small { color: var(--t-ink-2); }
+.book-front .f-offer .f-why { color: var(--t-muted); }
+.book-front .f-offer-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 8px; }
+.book-front .f-offer-why { display: grid; gap: 4px; margin-top: 6px; }
+.book-front .f-offer.is-accepted { border-color: var(--t-ink); background: var(--t-white); }
+.book-front .f-offer.is-declined { border-style: dashed; }
+.book-front .f-offer.is-declined .f-offer-title, .book-front .f-offer.is-declined .t-small { color: var(--t-quiet); }
+.book-front .f-decided { margin-top: 6px; color: var(--t-ink); animation: bf-arrive 0.4s var(--t-ease); }
 
-/* declined: the tag is torn off its string. What is left is the eyelet end. */
-.book-front .offer.is-declined .tag { width: calc(var(--u) * 15) !important; }
-.book-front .offer.is-declined .tag > .paper-face { min-height: calc(var(--u) * 20); padding: 0; }
-.book-front .offer.is-declined .tag > .paper-face > :not(.tag-eye) { display: none; }
-.book-front .offer-after {
-  position: absolute;
-  left: calc(var(--bf-mm) * 17);
-  right: 0;
-  top: calc(var(--bf-mm) * 2.5);
-  display: grid;
-  gap: 6px;
-  font: 400 max(12px, calc(var(--bf-mm) * 3.3)) / 1.35 var(--bf-f-type);
-  color: var(--bf-desk-ink);
-  text-wrap: balance;
-}
-.book-front .offer-after input {
+.book-front .f-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding-top: 24px; }
+.book-front .f-error { margin-top: 12px; color: var(--t-red-ink); font-size: var(--t-s-small); }
+
+/* ———————————————————————————————————————————— the letter */
+
+.book-front .f-letter { max-width: 760px; margin: 34px 0 4px; padding: 26px 24px 22px; transition: border-color 0.3s; }
+.book-front .f-letter.is-approved { border-color: var(--t-ink); }
+.book-front .f-letter .t-box-name { line-height: 16px; }
+.book-front .f-field { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 12px; padding: 3px 0; }
+.book-front .f-input {
   width: 100%;
-  padding: 2px 0 3px;
-  border: 0;
-  border-bottom: 1px dotted rgb(223 231 214 / 0.7);
-  background: none;
-  color: var(--bf-desk-ink);
-  font: inherit;
-  outline-offset: 4px;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  font: 400 var(--t-s-body) / 1.35 var(--t-text);
 }
-.book-front .offer-after input::placeholder { color: rgb(223 231 214 / 0.6); }
-/* the torn-off part, on its way down */
-.book-front .tag-scrap { position: absolute; left: calc(var(--bf-mm) * 13); top: 0; pointer-events: none; }
-.book-front .tag-scrap.is-falling { animation: bf-scrap-fall 560ms cubic-bezier(0.4, 0, 0.9, 0.5) forwards; }
-@keyframes bf-scrap-fall {
-  from { --lift: 0.4; }
-  to { translate: calc(var(--bf-mm) * 6) calc(var(--bf-mm) * 46); rotate: 19deg; opacity: 0; --lift: 0.9; }
-}
-
-/* ————————————————————————————————————————————————— the letter */
-
-.book-front .letter { --W: 152; --rot: -0.5deg; width: calc(var(--W) * var(--u)); margin: calc(7 * var(--bf-mm)) auto 0; z-index: 2; color: var(--bf-ink); }
-.book-front .letter > .paper-face {
-  padding: calc(var(--u) * 13) calc(var(--u) * 15) calc(var(--u) * 11);
-  background-image:
-    linear-gradient(rgb(0 0 0 / 0) calc(33.3% - 1px), rgb(0 0 0 / 0.08) 33.3%, rgb(255 255 255 / 0.55) calc(33.3% + 1px), rgb(0 0 0 / 0) calc(33.3% + 2px), rgb(0 0 0 / 0) calc(66.6% - 1px), rgb(0 0 0 / 0.08) 66.6%, rgb(255 255 255 / 0.55) calc(66.6% + 1px), rgb(0 0 0 / 0) calc(66.6% + 2px)),
-    var(--paper-grain);
-  background-size: 100% 100%, 190px;
-  background-blend-mode: normal, soft-light;
-}
-.book-front .letter.is-unfolding > .paper-face { animation: bf-letter-unfold 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-@keyframes bf-letter-unfold {
-  from { clip-path: inset(0 0 66.6% 0); }
-  50% { clip-path: inset(0 0 33.3% 0); }
-  to { clip-path: inset(0 0 0 0); }
-}
-.book-front .letter-field { display: grid; grid-template-columns: calc(var(--u) * 20) 1fr; align-items: baseline; }
-.book-front .letter-field + .letter-field { margin-top: calc(var(--u) * 1.6); }
-.book-front .letter-field span { font: 600 max(10px, calc(var(--u) * 2.6)) / 1 var(--bf-f-text); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bf-muted); }
-.book-front .letter-field input, .book-front .letter-body {
-  width: 100%;
-  padding: 2px 3px 3px;
-  border: 0;
-  background: none;
-  font: 400 max(14px, calc(var(--u) * 4)) / 1.5 var(--bf-f-type);
-  color: var(--bf-ink);
-  outline-offset: 3px;
-}
-.book-front .letter-field input { border-bottom: 1px dotted rgb(29 39 64 / 0.5); }
-.book-front .letter-body {
+.book-front .f-input:hover { border-color: var(--t-muted); }
+.book-front .f-input:focus-visible, .book-front .f-body:focus-visible { outline-offset: -1px; border-color: var(--t-ink); }
+.book-front .f-input[readonly], .book-front .f-body[readonly] { border-color: transparent; padding-left: 0; padding-right: 0; }
+.book-front .f-body {
   display: block;
-  margin-top: calc(var(--u) * 7);
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--t-line-2);
+  border-radius: var(--t-r);
+  background: var(--t-white);
+  font: 400 var(--t-s-body) / 1.55 var(--t-text);
   resize: none;
   overflow: hidden;
-  line-height: 1.58;
 }
-.book-front .letter-field input:read-only, .book-front .letter-body:read-only { cursor: default; }
-.book-front .letter-field input:focus-visible, .book-front .letter-body:focus-visible { outline: 1px dotted rgb(29 39 64 / 0.6); outline-offset: 5px; }
-.book-front .letter-foot {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: calc(var(--u) * 6);
-  margin-top: calc(var(--u) * 9);
-  min-height: calc(var(--u) * 20);
-}
-.book-front .sign { flex: 0 1 calc(var(--u) * 74); }
-.book-front .sign-line { display: block; border-bottom: 1px solid var(--bf-ink); height: calc(var(--u) * 9); }
-.book-front .sign-by { display: block; min-height: 1.5em; padding-top: 5px; font: 400 max(11.5px, calc(var(--u) * 3.15)) / 1.3 var(--bf-f-type); color: var(--bf-muted); }
-.book-front .letter-foot .stamp { position: absolute; left: calc(var(--u) * 11); bottom: calc(var(--u) * 4.6); color: var(--bf-stamp-blue); font-size: calc(var(--u) * 5.8); }
-.book-front .letter-foot .stamp small { font-size: calc(var(--u) * 2.9); }
-.book-front .letter-send {
-  display: flex;
-  gap: calc(var(--u) * 7);
-  margin-top: calc(var(--u) * 6);
-  padding-top: calc(var(--u) * 4.5);
-  border-top: 1px dotted rgb(29 39 64 / 0.4);
-  font: 400 max(13.5px, calc(var(--u) * 3.7)) / 1.2 var(--bf-f-type);
-}
-.book-front .letter-send .link:disabled { color: rgb(90 104 120 / 0.62); text-decoration: none; cursor: default; }
+.book-front .f-body[readonly] { border-top: 1px solid var(--t-line); border-radius: 0; padding-top: 14px; }
+.book-front .f-letter-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 16px; }
+.book-front .f-standing { color: var(--t-ink-2); max-width: 32em; }
+.book-front .f-approved { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 10px; animation: bf-arrive 0.42s var(--t-ease); }
+.book-front .f-approved-line { color: var(--t-ink); margin-right: 10px; }
 
-/* ————————————————————————————————————————————————— the spike */
+@keyframes bf-arrive { from { opacity: 0; transform: translateY(6px); } }
 
-/* A desk spindle, seen from above: a round base, a needle that leans a hair
-   toward the top left, and its long thin shadow. Paid slips are pushed on. */
-.book-front .spike {
-  position: absolute;
-  z-index: 0;
-  top: var(--bf-spike-top, calc(20 * var(--bf-mm)));
-  right: calc(var(--bf-gut) + 5 * var(--bf-mm));
-  width: calc(160 * var(--bf-mm));
-  height: calc(79 * var(--bf-mm));
-  transition: translate 520ms cubic-bezier(0.3, 0.7, 0.2, 1);
+/* ———————————————————————————————————————————— buttons and links */
+
+.book-front .f-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--t-ink);
+  border-radius: var(--t-r);
+  background: var(--t-ink);
+  color: var(--t-paper);
+  font: 500 var(--t-s-body) / 1 var(--t-text);
+  white-space: nowrap;
+  transition: background-color 0.12s, border-color 0.12s, color 0.12s;
 }
-/* what the spike is for, typed on the desk above it */
-.book-front .spike-label {
-  position: absolute;
-  left: calc(2 * var(--bf-mm));
-  bottom: calc(100% + 3 * var(--bf-mm));
-  font: 400 max(13px, calc(var(--bf-mm) * 3.7)) / 1 var(--bf-f-type);
-  color: var(--bf-desk-ink);
+.book-front .f-btn:hover { background: var(--t-ink-2); border-color: var(--t-ink-2); }
+.book-front .f-btn:active { transform: translateY(1px); }
+.book-front .f-btn:disabled { opacity: 0.5; transform: none; }
+.book-front .f-btn.is-quiet { background: var(--t-white); color: var(--t-ink); border-color: var(--t-line-2); }
+.book-front .f-btn.is-quiet:hover { border-color: var(--t-ink); }
+.book-front .f-btn.is-quiet:disabled:hover { border-color: var(--t-line-2); }
+.book-front .f-btn.is-small { min-height: 32px; padding: 0 12px; font-size: var(--t-s-small); }
+.book-front .f-link {
+  font: 400 var(--t-s-label) / 1.4 var(--t-mono);
+  letter-spacing: 0.01em;
+  color: var(--t-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--t-line-2);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
   white-space: nowrap;
 }
-.book-front .below.has-scene .spike { translate: calc(186 * var(--bf-mm)) 0; }
-.book-front .spike-base {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(58 * var(--bf-mm));
-  height: calc(58 * var(--bf-mm));
-  margin: calc(-29 * var(--bf-mm)) 0 0 calc(-29 * var(--bf-mm));
-  border-radius: 50%;
-  background: radial-gradient(circle at 38% 34%, #5d6a86 0, #3b4660 46%, #2a334a 100%);
-  box-shadow: inset 0 0 0 calc(1.2 * var(--bf-mm)) rgb(255 255 255 / 0.05), 0 1px 1px rgb(0 0 0 / 0.5), calc(2.4 * var(--bf-mm)) calc(4 * var(--bf-mm)) calc(4 * var(--bf-mm)) rgb(0 0 0 / 0.36);
-}
-.book-front .spike-slips { position: absolute; inset: 0; }
-.book-front .spike-slip { position: absolute; inset: 0; cursor: pointer; }
-.book-front .spike-slip .iou { position: absolute; left: 0; top: 0; }
-.book-front .spike-slip:nth-child(1) .iou { --rot: -7deg; }
-.book-front .spike-slip:nth-child(2) .iou { --rot: 5deg; }
-.book-front .spike-slip:nth-child(3) .iou { --rot: -2deg; }
-.book-front .spike-slip:focus-visible { outline: 2px solid var(--bf-desk-ink); outline-offset: 6px; }
-.book-front .spike-slip .iou:hover { --lift: 0.06; }
-/* the needle: its shadow first, then the shaft, then the bright tip */
-.book-front .spike-pin {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0;
-  height: 0;
-  z-index: 5;
-  pointer-events: none;
-}
-.book-front .spike-pin::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: calc(-0.7 * var(--bf-mm));
-  width: calc(30 * var(--bf-mm));
-  height: calc(1.6 * var(--bf-mm));
-  background: linear-gradient(to right, rgb(0 0 0 / 0.42), rgb(0 0 0 / 0));
-  transform-origin: 0 50%;
-  rotate: 59deg;
-  filter: blur(1.2px);
-}
-.book-front .spike-pin::after {
-  content: "";
-  position: absolute;
-  left: calc(-1.3 * var(--bf-mm));
-  top: calc(-1.3 * var(--bf-mm));
-  width: calc(2.6 * var(--bf-mm));
-  height: calc(11 * var(--bf-mm));
-  background: linear-gradient(to right, #7a8499, #f2f5f9 42%, #8b94a8 70%, #4d566b);
-  clip-path: polygon(50% 0, 62% 6%, 100% 92%, 82% 100%, 18% 100%, 0 92%, 38% 6%);
-  transform-origin: 50% 100%;
-  translate: 0 calc(-9.7 * var(--bf-mm));
-  rotate: -31deg;
-}
-/* where the needle went through */
-.book-front .iou-pierce {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(var(--u) * 2.6);
-  height: calc(var(--u) * 2.6);
-  margin: calc(var(--u) * -1.3) 0 0 calc(var(--u) * -1.3);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgb(20 26 42 / 0.78) 0 42%, rgb(20 26 42 / 0.16) 60%, #0000 72%);
-  z-index: 3;
+.book-front .f-link:hover { color: var(--t-ink); text-decoration-color: var(--t-ink); }
+
+/* ———————————————————————————————————————————— narrower */
+
+@media (max-width: 1180px) {
+  .book-front .f-grid { grid-template-columns: minmax(116px, 1fr) minmax(200px, 2.5fr) 104px 238px 82px 90px; }
+  .book-front .f-promised { display: none; }
+  .book-front .f-said { -webkit-line-clamp: 3; }
 }
 
-/* ————————————————————————————————————————————————— a narrower desk */
+@media (max-width: 900px) {
+  .book-front .f-page { padding: 36px 20px 64px; }
+  .book-front .f-top { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .book-front .f-asof { margin-bottom: 14px; }
+  .book-front .f-lede { margin-top: 18px; }
+  .book-front .f-drop-wrap { padding-top: 0; max-width: 440px; }
+  .book-front .f-drop { min-height: 88px; }
+  .book-front .f-list { margin-top: 44px; }
 
-/* Not wide enough to fan three papers side by side: the slip sits on top and
-   the email and the invoice lie under it, side by side. */
-@media (max-width: 1239px) {
-  .book-front .scene { width: calc(232 * var(--bf-mm)); }
-  .book-front .scene-papers { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(8 * var(--bf-mm)); justify-items: center; min-height: 0; }
-  .book-front .scene .iou { position: relative; left: auto; grid-column: 1 / -1; grid-row: 1; margin-bottom: calc(-5 * var(--bf-mm)); }
-  .book-front .scene .doc-promise > .paper-face { padding-right: calc(var(--u) * 8.5); }
-  .book-front .scene .doc-invoice > .paper-face { padding-left: calc(var(--u) * 8.5); }
-  .book-front .scene .doc-invoice .perf-line { margin-left: calc(var(--u) * -8.5); }
-  .book-front .scene-papers.has-pile { min-height: 0; }
-  .book-front .scene .paper-clip { display: none; }
-  .book-front .scene .doc { position: relative; left: auto !important; top: auto !important; grid-row: 2; }
-  .book-front .scene .doc-promise { grid-column: 1; }
-  .book-front .scene .doc-invoice { grid-column: 2; }
-  .book-front .scene .doc-invoice + .doc-invoice { margin-top: calc(-96 * var(--bf-mm)); grid-row: 3; translate: calc(5 * var(--bf-mm)) 0; }
-  .book-front .scene .offers { position: relative; left: auto; top: auto; grid-column: 1 / -1; grid-row: 4; width: calc(118 * var(--bf-mm)); margin-top: calc(8 * var(--bf-mm)); }
-  .book-front .below.has-scene .spike { translate: calc(190 * var(--bf-mm)) 0; }
-  .book-front .howto { right: calc(var(--bf-gut) + 20px); }
-}
-
-/* The fanned desk's breakpoint is also where the ledger's columns tighten and
-   the two longer column heads break onto two lines. */
-@media (max-width: 1239px) {
-  .book-front { --bf-cols: var(--bf-lm) minmax(140px, 0.9fr) minmax(190px, 2fr) 116px 112px 118px minmax(176px, 1fr) 20px; --bf-lm: 60px; }
-  .book-front .l-cell.is-num { font-size: 16.5px; padding-right: 10px; }
-  .book-front .l-said, .book-front .l-due, .book-front .l-working, .book-front .l-hint { font-size: 14.5px; }
-  .book-front .l-cell.is-owed b { font-size: clamp(29px, 2.85vw, 34px); top: 28px; }
-  .book-front .l-head { height: 42px; line-height: 1.25; }
-  .book-front .l-head > span { display: grid; align-content: center; white-space: normal; text-wrap: balance; }
-  .book-front .l-head > .is-num { padding-right: 10px; justify-items: end; }
-}
-@media (max-width: 1100px) {
-  .book-front .head { padding-right: calc(126 * var(--bf-mm) + 40px); }
-  .book-front .dater { display: none; }
-}
-
-@media (max-width: 980px) {
-  .book-front { --bf-cols: var(--bf-lm) minmax(104px, 0.8fr) minmax(150px, 1.6fr) 104px 98px 98px 166px 10px; --bf-lm: 44px; }
-  .book-front .sheet-hole { left: 9px; width: calc(5 * var(--bf-mm)); height: calc(5 * var(--bf-mm)); }
-  .book-front .l-cell { padding: 0 8px; }
-  .book-front .l-head > span { padding: 0 8px; }
-  .book-front .l-open { font-size: 18px; }
-  .book-front .l-said, .book-front .l-due { font-size: 14px; }
-  .book-front .l-cell.is-num { font-size: 15.5px; padding-right: 8px; }
-  .book-front .l-head > .is-num { padding-right: 8px; }
-  .book-front .l-cell.is-owed b { font-size: 29px; top: 30px; }
-  .book-front .l-act { margin-right: 8px; }
-  .book-front .t-num { padding-right: 8px; }
-  .book-front .t-num b { font-size: 15.5px; margin-left: 6px; }
-  .book-front .t-num.is-owed b { font-size: 19px; line-height: 1.06; }
-  .book-front .head { padding-left: calc(var(--bf-lm) + 10px); padding-right: calc(126 * var(--bf-mm) + 26px); }
-  .book-front .notice { padding-left: calc(var(--bf-lm) + 9px); }
-  .book-front h1 { font-size: clamp(34px, 4.6vw, 44px); }
-}
-
-/* ————————————————————————————————————————————————— a phone */
-
-/* The ledger's columns do not fit. Each row becomes a small slip in a stack:
-   vendor, the quote, the red figure. Opened papers stack instead of fanning. */
-@media (max-width: 820px) {
-  .book-front {
-    --paper-mm: clamp(2.1px, calc((100vw - 28px) / 160), 3.4px);
-    --bf-gut: 0px;
-    --bf-lm: 0px;
-  }
-  .book-front .desk { display: flex; flex-direction: column; padding-bottom: 48px; }
-  .book-front .top { order: 0; height: 54px; padding: 0 16px; }
-  .book-front .mark { font-size: 21px; }
-  .book-front .top-tools { gap: 12px; }
-  .book-front .sound { font-size: 12.5px; }
-  .book-front .sound span { font-size: 13px; }
-  .book-front .howto-tab { padding: 14px 10px 8px; font-size: 12.5px; }
-  .book-front .howto { --W: 0; width: auto !important; left: 14px; right: 14px; top: 48px; }
-  .book-front .howto .paper-face { padding: 22px 20px 24px; }
-  .book-front .howto ol { font-size: 14.5px; gap: 12px; }
-
-  .book-front .sheet { order: 1; margin: 0; }
-  .book-front .sheet > .paper-face { padding-bottom: 20px; }
-  .book-front .sheet-hole { display: none; }
-  .book-front .head { padding: 26px 18px 20px; }
-  .book-front h1 { font-size: clamp(28px, 9.5vw, 46px); letter-spacing: -0.038em; white-space: nowrap; }
-  .book-front .lede { margin-top: 12px; font-size: 16px; }
-  .book-front .dater { display: none; }
-
-  .book-front .l-head { display: none; }
-  .book-front .l-rows { background: none; display: grid; gap: 0; padding: 4px 14px 0; }
-  .book-front .l-row.is-blank { display: none; }
-  .book-front .l-row {
-    display: grid;
+  .book-front .f-head { display: none; }
+  .book-front .f-rows { border-top: 1px solid var(--t-ink); }
+  .book-front .f-row {
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-rows: auto auto auto;
-    column-gap: 12px;
-    min-height: 0;
-    padding: 15px 16px 15px 22px;
-    background: var(--stock-bond) var(--paper-grain) 0 0 / 190px;
-    background-blend-mode: soft-light;
-    /* a slip torn out of the book: perforated down its left side */
-    -webkit-mask: radial-gradient(circle at 0 50%, #0000 2.4px, #000 3px) 0 0 / 100% 9px repeat-y;
-    mask: radial-gradient(circle at 0 50%, #0000 2.4px, #000 3px) 0 0 / 100% 9px repeat-y;
+    grid-template-areas: "co owed" "said said" "coins due";
+    gap: 8px 12px;
+    padding: 14px 0 15px;
   }
-  .book-front .l-row-wrap { display: block; }
-  .book-front .l-rows > .l-row-wrap { filter: drop-shadow(0 0.5px 0.7px rgb(0 0 0 / 0.32)) drop-shadow(2px 3px 4px rgb(0 0 0 / 0.2)); }
-  .book-front .l-rows > .l-row-wrap:nth-child(odd) { rotate: -0.5deg; }
-  .book-front .l-rows > .l-row-wrap:nth-child(even) { rotate: 0.6deg; margin-top: -6px; }
-  .book-front .l-row:not(.is-blank):hover, .book-front .l-row.is-open { background-color: var(--stock-bond); }
-  .book-front .l-no { display: none; }
-  .book-front .l-cell { border: 0 !important; padding: 0; grid-row: auto; line-height: 1.3; }
-  .book-front .l-cell > * { top: 0; }
-  .book-front .l-cell.is-vendor { grid-column: 1; grid-row: 1; }
-  .book-front .l-open { font-size: 21px; line-height: 1.2; }
-  .book-front .l-row.is-open .l-open::before { display: none; }
-  .book-front .l-cell.is-said { grid-column: 1 / -1; grid-row: 2; padding-top: 7px; }
-  .book-front .l-said { font-size: 14.5px; line-height: 1.38; }
-  .book-front .l-cell.is-due { grid-column: 1 / -1; grid-row: 3; padding-top: 12px; align-self: center; justify-self: start; }
-  .book-front .l-working { font-size: 14.5px; line-height: 1.38; }
-  .book-front .l-due { font-size: 13.5px; line-height: 1.3; color: var(--bf-muted); }
-  .book-front .l-due::before { content: "due "; }
-  .book-front .l-due br { display: none; }
-  .book-front .l-due s { margin-right: 0.5em; }
-  .book-front .l-cell.is-promised, .book-front .l-cell.is-invoice, .book-front .l-cell.is-margin { display: none; }
-  .book-front .l-cell.is-owed { grid-column: 2; grid-row: 1; align-self: start; }
-  .book-front .l-cell.is-owed b { top: 0; font-size: clamp(26px, 8vw, 31px); line-height: 0.95; }
-  .book-front .l-cell.is-owed b.is-none { display: none; }
-  .book-front .l-row > .stamp.is-overdue, .book-front .l-row.has-moved > .stamp.is-overdue { grid-column: 1 / -1; grid-row: 3; justify-self: start; align-self: center; margin: 10px 0 0 132px; font-size: 12.5px; padding: 4px 7px 3px; border-width: 1.6px; outline-offset: -3.6px; }
-  .book-front .l-row > .stamp.is-paid { grid-column: 2; grid-row: 1; justify-self: end; margin: -4px 0 0; }
-  .book-front .l-row { grid-template-rows: auto auto auto auto; }
-  .book-front .l-act { grid-column: 1 / -1; grid-row: 4; margin: 12px 0 0; align-self: end; justify-self: end; }
-  .book-front .l-act.link { grid-row: 3; margin: 12px 0 2px; }
-  .book-front .l-row.is-empty { background: none; -webkit-mask: none; mask: none; padding: 10px 6px; }
-  .book-front .l-empty { grid-column: 1 / -1; font-size: 19px; line-height: 1.35; rotate: -0.6deg; }
-  .book-front .l-empty > span { top: 0; }
+  .book-front .f-row::before { display: none; }
+  .book-front .f-co { grid-area: co; }
+  .book-front .f-owed { grid-area: owed; }
+  .book-front .f-said { grid-area: said; }
+  .book-front .f-coins { grid-area: coins; align-self: center; padding-top: 0; }
+  .book-front .f-due { grid-area: due; justify-items: end; text-align: right; }
+  .book-front .f-marks { justify-content: flex-end; }
+  .book-front .f-credited, .book-front .f-promised { display: none; }
 
-  .book-front .l-total { display: grid; grid-template-columns: repeat(3, 1fr); height: auto; padding: 18px 16px 0; gap: 0 10px; }
-  .book-front .l-total > span { border: 0 !important; height: auto; }
-  .book-front .l-total > span:first-child, .book-front .l-total > span:last-child { display: none; }
-  .book-front .l-total > .t-label { grid-column: 1 / -1; justify-items: start; padding: 0 0 10px; }
-  .book-front .t-num { padding: 0; text-align: left; }
-  .book-front .t-num small { display: block; font: 600 9.5px/1.2 var(--bf-f-text); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bf-muted); padding-bottom: 4px; }
-  .book-front .t-num.is-owed small { color: var(--bf-accent); }
-  .book-front .t-num b { margin: 0; font-size: 16px; }
-  .book-front .t-num.is-owed b { font-size: 18px; line-height: 1.16; }
-  .book-front .notice { padding: 16px 18px 0; font-size: 13px; }
+  .book-front .f-total { grid-template-columns: minmax(0, 1fr) auto; }
+  .book-front .f-total > :nth-child(2), .book-front .f-total > :nth-child(3), .book-front .f-total > :nth-child(4), .book-front .f-total > :nth-child(5), .book-front .f-total > :nth-child(6) { display: none; }
 
-  .book-front .tray { order: 2; position: relative; top: auto; right: auto; width: auto; margin: 26px 14px 0; }
-  .book-front .desk:has(.scene) .tray { order: 4; }
-  .book-front .tray-box { height: auto; min-height: 148px; border-top: var(--bf-wall) solid #2d3750; box-shadow: inset 13px 0 12px -7px rgb(0 0 0 / 0.5), inset 0 16px 14px -10px rgb(0 0 0 / 0.45); -webkit-mask: none; mask: none; }
-  .book-front .tray-floor { padding: 16px 14px 4px; }
-  .book-front .tray-note { --W: 0; width: 100% !important; max-width: 320px; }
-  .book-front .tray-note .paper-face { padding: 16px 18px 17px; gap: 5px; }
-  .book-front .tray-ask { font-size: 15.5px; }
-  .book-front .tray-or { font-size: 14px; }
-  .book-front .tray-line { min-height: 0; padding: 8px 14px 14px; font-size: 13.5px; }
-  .book-front .tray-line:empty { padding: 0 0 12px; }
-  .book-front .tray-doc { --W: 0; width: 100% !important; }
-  .book-front .tray-doc .paper-face { height: 150px; padding: 14px 16px; font-size: 10.5px; }
-  .book-front .tray-doc.is-paste .paper-face { padding: 12px 14px; }
-  .book-front .tray-doc textarea, .book-front .tray-doc .paste-foot { font-size: 16px; }
-
-  .book-front .below { order: 3; min-height: 0; padding: 0 14px; display: flex; flex-direction: column; }
-  .book-front .scene { width: 100%; padding-top: 16px; }
-  .book-front .scene-papers { display: grid; grid-template-columns: 1fr; row-gap: 14px; }
-  .book-front .scene .iou, .book-front .scene .doc, .book-front .tag, .book-front .letter { --rot: 0deg !important; }
-  .book-front .scene .iou { margin-bottom: 0; grid-column: 1; }
-  .book-front .scene .doc { grid-column: 1 !important; grid-row: auto !important; width: 100% !important; }
-  .book-front .scene .doc-invoice + .doc-invoice { margin-top: 0; translate: none; }
-  .book-front .scene .offers { width: 100%; margin-top: 6px; grid-column: 1; grid-row: auto; }
-  .book-front .doc > .paper-face { min-height: 0; padding: 22px 20px 24px; font-size: 13px; }
-  .book-front .doc-invoice .perf-line { margin: 18px -20px 10px; }
-  .book-front .offer-row { grid-template-columns: 1fr; gap: 12px; }
-  .book-front .offer-said { font-size: 14px; text-align: left; }
-  .book-front .tag > .paper-face { min-height: 0; padding: 14px 14px 15px 46px; }
-  .book-front .tag-eye { left: 12px; width: 20px; height: 20px; margin-top: -10px; background: radial-gradient(circle, var(--paper-under) 0 4px, #0000 4.6px), radial-gradient(circle, #cdb98a 0 9.6px, #0000 10.2px); }
-  .book-front .tag-face { --snip: 16px; }
-  .book-front .tag-title { font-size: 16px; }
-  .book-front .tag-text { font-size: 13.5px; }
-  .book-front .tag-acts { gap: 18px; margin-top: 6px; }
-  .book-front .tag-acts .link { font-size: 14px; }
-  .book-front .offer.is-declined .tag { width: 58px !important; }
-  .book-front .offer.is-declined .tag > .paper-face { min-height: 62px; }
-  .book-front .offer-after { left: 70px; top: 6px; font-size: 14px; }
-  .book-front .offer-after input { font-size: 16px; }
-  .book-front .tag-scrap { left: 52px; }
-
-  /* the slip, upright: type keeps its size and the slip grows taller instead */
-  .book-front .iou { --W: 0; width: 100% !important; }
-  .book-front .iou > .paper-face { min-height: 0; }
-  .book-front .iou-body { grid-template-columns: 1fr; padding: 20px 16px 6px 24px; }
-  .book-front .iou-title { font-size: 28px; }
-  .book-front .iou-no { font-size: 10.5px; }
-  .book-front .iou-side { grid-column: 1; grid-row: auto; order: -1; justify-items: start; width: auto; padding-top: 14px; grid-template-columns: auto 1fr; align-items: center; column-gap: 14px; }
-  .book-front .iou-top { order: -2; }
-  .book-front .iou-amount { font-size: 40px; }
-  .book-front .iou-side .stamp { margin: 0; justify-self: end; }
-  .book-front .iou-side .stamp.is-paid { margin: 0; }
-  .book-front .iou-ask { grid-column: 1 / -1; margin-top: 14px; justify-self: start; }
-  .book-front .iou-lines { padding-top: 14px; gap: 7px; }
-  .book-front .iou-line { font-size: 13px; flex-wrap: wrap; }
-  .book-front .iou-line > b { font-size: 15px; }
-  .book-front .iou-quote { font-size: 14.5px; }
-  .book-front .iou-working { font-size: 13.5px; }
-  .book-front .iou-sum { font-size: 13px; padding-top: 12px; }
-  /* the strip wraps: twelve boxes to a line, the margins painted as borders so the holes stay holes */
-  .book-front .iou .tally { --cell: calc((100vw - 28px - 40px) / 12); --box: calc(var(--cell) * 0.76); --hole: calc(var(--cell) * 0.4); }
-  .book-front .iou .tally-row { flex-wrap: wrap; border-inline: 20px solid var(--stock-bond); }
-  .book-front .iou .tally-row::before { display: none; }
-  .book-front .iou .tally-scale { display: none; }
-  .book-front .iou .tally-box { flex: 0 0 calc(100% / 12); padding-block: 4px; background-position: 0 0; }
-  .book-front .iou .tally-box[style*="--part"] { flex-basis: calc(100% / 12 * var(--part)); }
-  .book-front .iou-foot { height: 14px; }
-  .book-front .paper-clip { display: none; }
-
-  .book-front .scene-tools { flex-wrap: wrap; margin-bottom: 14px; padding: 0; }
-  .book-front .lever-said { text-align: left; }
-
-  .book-front .letter { --W: 0; width: 100% !important; margin-top: 16px; }
-  .book-front .letter > .paper-face { padding: 26px 20px 22px; }
-  .book-front .letter-field { grid-template-columns: 70px 1fr; }
-  .book-front .letter-field input, .book-front .letter-body { font-size: 16px; }
-  .book-front .letter-body { margin-top: 18px; line-height: 1.5; }
-  .book-front .letter-foot { flex-direction: column; align-items: stretch; gap: 14px; margin-top: 22px; }
-  .book-front .sign { flex: none; }
-  .book-front .sign-line { height: 30px; }
-  .book-front .letter-foot .stamp { left: 30px; bottom: auto; top: -4px; }
-  .book-front .letter-send { flex-wrap: wrap; gap: 12px 26px; margin-top: 18px; padding-top: 16px; font-size: 15px; }
-
-  .book-front .spike { position: relative; order: 9; top: auto; right: auto; width: 100%; height: auto; min-height: 0; margin: 64px 0 0; translate: none !important; }
-  .book-front .spike-label { left: 2px; bottom: calc(100% + 14px); font-size: 14px; }
-  .book-front .spike:has(.spike-slip) { padding: 0 0 6px; }
-  .book-front .spike-base { width: 120px; height: 120px; margin: -60px 0 0 -60px; }
-  .book-front .spike:not(:has(.spike-slip)) { height: 150px; }
-  .book-front .spike-slips { position: relative; inset: auto; display: grid; }
-  .book-front .spike-slip { position: relative; inset: auto; grid-area: 1 / 1; }
-  .book-front .spike-slip .iou { position: relative; }
-  .book-front .spike-slip:nth-child(1) .iou { --rot: -2.4deg !important; }
-  .book-front .spike-slip:nth-child(2) .iou { --rot: 1.8deg !important; }
-  .book-front .spike-pin::after { width: 9px; height: 34px; left: -4.5px; top: -4.5px; translate: 0 -30px; }
-  .book-front .spike-pin::before { width: 90px; height: 5px; top: -2.5px; }
+  .book-front .f-open { padding: 20px 16px 22px; }
+  .book-front .f-open-head { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-bottom: 20px; }
+  .book-front .f-fact { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 13px 0; }
+  .book-front .f-fact > dt { padding-top: 0; }
+  .book-front .f-letter { padding: 24px 14px 18px; }
+  .book-front .f-field { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .book-front .f-acts .f-btn { flex: 1 1 auto; }
 }
-
-/* ————————————————————————————————————————————————— less motion */
 
 @media (prefers-reduced-motion: reduce) {
-  .book-front *, .book-front *::before, .book-front *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .book-front *, .book-front *::before, .book-front *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
 
-/* ————————————————————————————————————————————————— what the app's records add */
-
-/* the way to the rest of the book: a quiet line on the desk, beside the sound switch.
-   It unfolds a note like "How it works", with a line for each page behind the book. */
-.book-front .rest-tab {
-  padding: 6px 0;
-  border: 0;
-  background: none;
-  font: 500 13.5px/1 var(--bf-f-text);
-  letter-spacing: 0.01em;
-  color: var(--bf-desk-ink);
-  opacity: 0.86;
-  white-space: nowrap;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-}
-.book-front .rest-tab:hover, .book-front .rest-tab[aria-expanded="true"] { opacity: 1; text-decoration-thickness: 2px; }
-.book-front .rest-short { display: none; }
-.book-front .rest-note {
-  --W: 100;
-  --rot: -0.9deg;
-  width: calc(var(--W) * var(--u));
-  position: absolute;
-  z-index: 30;
-  top: 50px;
-  right: calc(var(--bf-gut) + 104 * var(--bf-mm) + 150px);
-  transform-origin: 30% 0;
-}
-.book-front .rest-note .paper-face {
-  padding: calc(var(--u) * 7) calc(var(--u) * 7) calc(var(--u) * 8);
-  /* one crease: it was folded in two */
-  background-image:
-    linear-gradient(rgb(0 0 0 / 0) calc(50% - 1px), rgb(0 0 0 / 0.09) 50%, rgb(255 255 255 / 0.5) calc(50% + 1px), rgb(0 0 0 / 0) calc(50% + 2px)),
-    var(--paper-grain);
-  background-size: 100% 100%, 190px;
-  background-blend-mode: normal, soft-light;
-}
-.book-front .rest-note.is-unfolding { animation: bf-howto-unfold 460ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-.book-front .rest-note ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: calc(var(--u) * 2.4);
-  font: 400 max(13px, calc(var(--u) * 3.7)) / 1.35 var(--bf-f-type);
-}
-.book-front .rest-note li { display: grid; grid-template-columns: 6.4em 1fr; column-gap: 0.6em; align-items: baseline; }
-.book-front .rest-note li .link { justify-self: start; font-weight: 700; text-align: left; }
-.book-front .rest-note li span { color: var(--bf-muted); }
-
-/* Two places the pages behind the book can fill. Each only has a position:
-   index tabs on the sheet's top edge, in line with its text, and tools at the
-   end of the top bar. Empty, they take no room. */
-.book-front .tabs-slot { position: relative; z-index: 4; display: flex; padding-left: calc(var(--bf-gut) + var(--bf-lm) + 14px); }
-.book-front .tools-slot { display: flex; align-items: center; }
-
-/* why a slip has no letter to offer: the time to claim it ran out. Typed in ink, not the muted of a working. */
-.book-front .iou-closed { color: var(--bf-ink); }
-
-/* an offer with strings is in the book, but it is not money owed: no figures, no red */
-.book-front .l-row > .stamp.is-onlyif { grid-column: 7; justify-self: center; margin-top: 13px; color: var(--bf-stamp-blue); }
-.book-front .iou.is-offer .iou-amount { color: var(--bf-ink); }
-.book-front .iou.is-offer .tally { --tally-ink: rgb(29 39 64 / 0.46); }
-.book-front .iou-side .stamp.is-onlyif { color: var(--bf-stamp-blue); }
-.book-front .iou-only { flex: none; white-space: nowrap; }
-
-/* an invoice or a credit note kept as a sentence: its own words, under the line the book reads */
-.book-front .inv-said { margin-top: 1.5em; padding-top: 1.1em; border-top: 1px dotted rgb(29 39 64 / 0.4); color: var(--bf-muted); }
-.book-front .note-where { margin-top: 1em; font-weight: 700; }
-
-/* a second paper behind the promise (the report an agreement's credit rests on) lies lower on the same side */
-.book-front .scene .doc-promise.doc-more { left: calc(-3 * var(--bf-mm)); top: calc(66 * var(--bf-mm)); --rot: 1.3deg; z-index: 2; }
-/* a third paper on the invoice pile */
-.book-front .scene .doc-invoice + .doc-invoice + .doc-invoice { left: calc(246 * var(--bf-mm)); top: calc(106 * var(--bf-mm)); --rot: 2.1deg; }
-.book-front .scene-papers.has-pile:has(.doc-invoice + .doc-invoice + .doc-invoice) { min-height: calc(214 * var(--bf-mm)); }
-
-/* why a tag cannot be taken, and the line a refusal is written on */
-.book-front .tag-why { font: 400 max(11px, calc(var(--u) * 3.05)) / 1.36 var(--bf-f-type); color: var(--bf-muted); }
-.book-front .tag-reason { display: grid; gap: calc(var(--u) * 1.4); margin-top: calc(var(--u) * 1); }
-.book-front .tag-reason input {
-  width: 100%;
-  padding: 2px 0 3px;
-  border: 0;
-  border-bottom: 1px dotted rgb(29 39 64 / 0.55);
-  background: none;
-  font: 400 max(12px, calc(var(--u) * 3.3)) / 1.3 var(--bf-f-type);
-  color: var(--bf-ink);
-  outline-offset: 4px;
-}
-.book-front .tag-reason input::placeholder { color: rgb(90 104 120 / 0.9); }
-.book-front .offer-why { opacity: 0.86; }
-
-/* a row with more lines under its quote is taller; what to do about it stays on the third line, under the figure */
-@media (min-width: 821px) {
-  .book-front .l-row > .l-act { align-self: start; margin-top: calc(var(--bf-rule) * 2 - 2px); margin-bottom: 0; }
-  .book-front .l-row > .l-act.link { margin-top: calc(var(--bf-rule) * 2 + 10px); }
-}
-
-/* a tag that says why it cannot be taken, or asks why it is refused, is taller: the letter starts below it */
-@media (min-width: 1240px) {
-  .book-front .scene-papers:not(.has-pile):has(.tag-why, .tag-reason) { min-height: calc(156 * var(--bf-mm)); }
-}
-
-/* the two ways off the desk, side by side: back into the book, or on to the promise's own page */
-.book-front .scene-ways { display: flex; align-items: center; gap: calc(7 * var(--bf-mm)); }
-
-@media (max-width: 1239px) {
-  .book-front .scene .doc-promise.doc-more { grid-column: 1; grid-row: 3; margin-top: calc(-96 * var(--bf-mm)); translate: calc(-5 * var(--bf-mm)) 0; }
-  .book-front .scene .doc-invoice + .doc-invoice + .doc-invoice { grid-row: 4; margin-top: calc(-96 * var(--bf-mm)); translate: calc(-3 * var(--bf-mm)) 0; }
-  .book-front .scene-papers:has(.doc-invoice + .doc-invoice + .doc-invoice) .offers { grid-row: 5; }
-}
-@media (max-width: 820px) {
-  .book-front .top-tools { gap: 14px; }
-  .book-front .rest-tab { font-size: 12.5px; }
-  .book-front .rest-note { --W: 0; width: auto; left: 14px; right: 14px; top: 48px; }
-  .book-front .rest-note .paper-face { padding: 22px 20px 24px; }
-  .book-front .rest-note ul { font-size: 14.5px; gap: 11px; }
-  .book-front .tabs-slot { order: 0; padding-left: 18px; }
-  .book-front .l-row > .stamp.is-onlyif { grid-column: 2; grid-row: 1; justify-self: end; margin: -4px 0 0; }
-  .book-front .scene .doc-promise.doc-more, .book-front .scene .doc-invoice + .doc-invoice + .doc-invoice { margin-top: 0; translate: none; }
-  .book-front .tag-why { font-size: 13.5px; }
-  .book-front .tag-reason input { font-size: 16px; }
-  .book-front .scene-ways { gap: 22px; }
-}
-/* a narrow phone: the sound switch gives its place to the way into the rest of the app, said shorter */
-@media (max-width: 470px) {
-  .book-front .sound, .book-front .rest-long { display: none; }
-  .book-front .rest-short { display: inline; }
-  .book-front .rest-tab { font-size: 13.5px; }
-  .book-front .howto-tab { white-space: nowrap; }
-}
+/* the key to the coins, once, above the list */
+.book-front .f-key { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; margin: 0 0 18px; }
+.book-front .f-key > span { display: inline-flex; align-items: center; gap: 7px; }
+.book-front .f-key > span:first-child { color: var(--t-ink); }
+/* a closed row says it can be opened: a quiet + in the margin, a dash when open */
+.book-front .f-row::after { content: "+"; position: absolute; left: -30px; top: 15px; font: 400 13px/1 var(--t-mono); color: var(--t-quiet); transition: opacity 0.2s; }
+.book-front .f-row:hover::after { color: var(--t-ink); }
+.book-front .f-item.is-open > .f-row::after { opacity: 0; }

@@ -15,6 +15,7 @@ import '@fontsource-variable/libre-franklin/wght.css';
 import '@fontsource/courier-prime/400.css';
 import '@fontsource/courier-prime/700.css';
 import '../kit/paper.css';
+import '../ui/tokens.css';
 import './book.css';
 import useAssurance from '../../useAssurance.js';
 import { evaluateWorkspace } from '../../assurance/index.mjs';
@@ -25,6 +26,7 @@ import { addPages, href, useRoute } from './route.mjs';
 import { plainError } from './roles.mjs';
 import { today } from './money.mjs';
 import Plate from './Plate.jsx';
+import { Coin } from '../ui/Coins.jsx';
 import FindOver from './Find.jsx';
 
 // Each page is loaded on its own, so a page that fails to load or throws takes
@@ -83,12 +85,12 @@ class PageGuard extends React.Component {
 
 // The tabs along the top of the page. `iou` (one account) lives behind the IOUs tab.
 const TABS = [
-  ['ious', 'IOUs'],
-  ['todo', 'To do'],
-  ['papers', 'Papers'],
-  ['companies', 'Companies'],
-  ['daybook', 'Day book'],
-  ['balance', 'Balance'],
+  ['ious', 'promises'],
+  ['todo', 'to do'],
+  ['papers', 'papers'],
+  ['companies', 'companies'],
+  ['daybook', 'history'],
+  ['balance', 'balance'],
 ];
 const tabOf = page => (page === 'iou' ? 'ious' : page);
 const SOUND_KEY = 'truthful.sound';   // the same key the front page keeps its own switch in
@@ -116,7 +118,7 @@ export default function BookApp() {
 
   const [toast, say] = useToast();
   const [finding, setFinding] = useState(false);
-  const [sounds, setSounds] = useState(() => { try { return localStorage.getItem(SOUND_KEY) !== 'off'; } catch { return true; } });
+  const [sounds, setSounds] = useState(false);   // the paper's sounds went with the paper
 
   const view = useMemo(
     () => (service.workspace ? evaluateWorkspace(service.workspace, { asOf: today(), knownAt: new Date().toISOString() }) : null),
@@ -179,11 +181,11 @@ export default function BookApp() {
   const managed = service.authMode === 'managed-password';
 
   // On the front page the tools sit in the front's own top bar, which already has its sound switch and its in-tray.
+  const onFront = here.page === 'ious' && BookFront && !frontFailed && !gate;
   const tools = slotted => (
     <div className={slotted ? 'bk-tools is-slotted' : 'bk-tools'}>
-      {!slotted && <button type="button" className="bk-tool is-wide" aria-pressed={sounds} onClick={() => setSounds(on => !on)}>Paper sounds: {sounds ? 'on' : 'off'}</button>}
-      <button type="button" className="bk-tool" onClick={() => setFinding(true)} disabled={!view}>Find<kbd>/</kbd></button>
-      {!slotted && <a className="bk-tool" href={href('tray')} aria-current={here.page === 'tray' ? 'page' : undefined} style={{ textDecoration: 'none' }}>In-tray</a>}
+      <button type="button" className="bk-tool" onClick={() => setFinding(true)} disabled={!view}>find<kbd>/</kbd></button>
+      {!onFront && <a className="bk-tool is-drop" href={href('tray')} aria-current={here.page === 'tray' ? 'page' : undefined}>add an email or invoice</a>}
       <Plate service={service} say={say} onReset={() => go('ious')} />
     </div>
   );
@@ -196,8 +198,7 @@ export default function BookApp() {
       ))}
     </nav>
   );
-  const onFront = here.page === 'ious' && BookFront && !frontFailed && !gate;
-  // The house's picture for this page. With stationAbove it stands behind the book, above the tabs;
+    // The house's picture for this page. With stationAbove it stands behind the book, above the tabs;
   // otherwise it sits between the tabs and the sheet. If it throws, the page is simply without one.
   const station = house?.Station && !gate && !onFront && here.page !== 'home' && (
     <FrontGuard key={`station:${here.page}`}>
@@ -216,27 +217,26 @@ export default function BookApp() {
 
   return (
     <div className="bk" data-runtime={service.mode} data-page={here.page} data-front={onFront ? '' : undefined}>
-      {/* The front page brings its own desk top; the shell's tabs and tools go into its slots. */}
+      {/* One top bar on every page, the front included: the mark, the book's pages, the tools. */}
+      <header className="bk-top">
+        <a className="bk-mark" href={href(house?.Home ? 'home' : 'ious')}><Coin state="in" u={2} />truthful</a>
+        {!gate && tabs(false)}
+        {tools(false)}
+      </header>
+
       {BookFront && !frontFailed && !gate && (
         <div hidden={!onFront} inert={!onFront ? true : undefined}>
           {(onFront || frontSeen.current) && (
             <FrontGuard onFail={() => setFrontFailed(true)}>
               <React.Suspense fallback={null}>
-                <BookFront service={service} onOpenCase={id => go('iou', id)} onGo={page => go(page)} tabs={tabs(true)} tools={tools(true)} />
+                <BookFront service={service} onOpenCase={id => go('iou', id)} onGo={page => go(page)} tabs={null} tools={null} />
               </React.Suspense>
             </FrontGuard>
           )}
         </div>
       )}
 
-      {!onFront && (
-        <header className="bk-top">
-          <a className="bk-mark" href={href(house?.Home ? 'home' : 'ious')}>Truthful</a>
-          {tools(false)}
-        </header>
-      )}
       {house?.stationAbove && station}
-      {!onFront && tabs(false)}
 
       <main hidden={onFront}>
         {/* the house's picture for this page, above its sheet; if it fails, the page is simply without one */}
