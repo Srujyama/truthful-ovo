@@ -35,7 +35,7 @@ export const SCENES = [
     id: 'cover',
     title: 'the cover',
     seconds: 10,
-    narration: 'Vendors promise you credits by email, and then their invoices forget them. Truthful keeps every promise until it is paid.',
+    narration: 'Vendors promise you credits by email, and their invoices forget them. Truthful keeps every promise until it is paid.',
     async run(d) {
       await d.go('home');
       await d.point(await d.find('.qw-head'));
@@ -47,7 +47,7 @@ export const SCENES = [
     id: 'agents',
     title: 'the quarter',
     seconds: 24,
-    narration: 'Its agents read every paper that comes in, write each promise down, and weigh every invoice against it on the scale. An offer with strings hangs off to the side.',
+    narration: 'Watch its agents work. Pipeline CRM\'s email arrives at the post, the reader finds the $2,400, and the scribe writes it down. The October invoice takes off $900 on the scale. Orbit\'s offer comes with strings, so it hangs off to the side. And a letter now waits on your desk.',
     async run(d) {
       await d.go('home');
       // Pipeline's email comes in and is written down (stepping back and on takes the replay off its own clock)
@@ -73,7 +73,7 @@ export const SCENES = [
     id: 'book',
     title: 'the book of IOUs',
     seconds: 11,
-    narration: 'This is the book of IOUs, one row per vendor. One coin is a hundred dollars: ink came in, red is still owed.',
+    narration: 'The book holds every promise, one row per vendor. One coin is a hundred dollars: ink came in, red is still owed.',
     async run(d) {
       const q = await inQuarter(d);
       q.focus('book', { zoom: 1.3 });
@@ -90,7 +90,7 @@ export const SCENES = [
     id: 'pipeline',
     title: 'one promise',
     seconds: 11,
-    narration: 'Pipeline CRM promised $2,400 in an email. One invoice took off $900, so $1,500 is still owed.',
+    narration: 'Pipeline CRM promised $2,400 in an email. One invoice took off $900, so $1,500 is still owed, and it is late.',
     async run(d) {
       const q = await inQuarter(d);
       const house = `vendor:${q.vendorIndex('Pipeline CRM')}`;
@@ -109,7 +109,7 @@ export const SCENES = [
     id: 'offers',
     title: 'an offer with strings',
     seconds: 12,
-    narration: 'Then they offered the rest, but only if we spend $2,400 more. The house rules say no new spending, so we decline it.',
+    narration: 'Then Pipeline offered the rest, but only if we spend $2,400 more. Our house rules say no new spending, so the offer is declined.',
     async run(d) {
       const q = await inQuarter(d);
       q.focus('letter', { zoom: 1.25 });
@@ -130,7 +130,7 @@ export const SCENES = [
     id: 'letter',
     title: 'the letter',
     seconds: 13,
-    narration: 'Ask for the rest, and the letter writes itself from the evidence. Nothing is sent until you approve it.',
+    narration: 'The writer drafts a letter asking for the $1,500, straight from the evidence. Nothing goes out until you approve it. Once approved, the courier takes it to Pipeline.',
     async run(d) {
       const q = await inQuarter(d);
       q.focus('you', { zoom: 1.3 });
@@ -156,7 +156,7 @@ export const SCENES = [
     id: 'invoice',
     title: 'the next invoice',
     seconds: 13,
-    narration: 'When the next invoice shows the credit, the coins turn over, Pipeline is paid, and the total counts down.',
+    narration: 'Pipeline\'s next invoice arrives with the $1,500 credit. The checker weighs it, the coins turn over, Pipeline is paid in full, and the total drops to $2,350.',
     async run(d) {
       const q = await inQuarter(d);
       q.close();
@@ -175,7 +175,7 @@ export const SCENES = [
     id: 'tray',
     title: 'the in-tray',
     seconds: 13,
-    narration: 'Drop a paper in the tray. Truthful reads it, highlights every figure it used, and sees this promise is already in the book.',
+    narration: 'Any email or invoice dropped in comes through the post. Truthful reads it, marks every figure, and knows this promise is already in the book, so nothing counts twice.',
     async run(d) {
       const q = await inQuarter(d);
       q.focus('post', { zoom: 1.35 });
@@ -195,7 +195,7 @@ export const SCENES = [
     id: 'paper',
     title: 'a paper on file',
     seconds: 9,
-    narration: 'Every figure in the book points back to the exact words it came from.',
+    narration: 'Every figure points back to the exact words it came from, highlighted in the paper itself.',
     async run(d) {
       const q = await inQuarter(d);
       q.focus('read', { zoom: 1.35 });
@@ -210,7 +210,7 @@ export const SCENES = [
     id: 'balance',
     title: 'the balance',
     seconds: 12,
-    narration: 'The balance adds it all up as of any date. Turn the date back to see what you knew then, and hand the accountant a CSV.',
+    narration: 'The scale adds it all up: $4,750 promised, $2,400 credited, $2,350 still owed. A credit note and an offer with strings stay off it until they are real money.',
     async run(d) {
       const q = await inQuarter(d);
       q.focus('scale', { zoom: 1.4 });
@@ -227,7 +227,7 @@ export const SCENES = [
     id: 'history',
     title: 'history',
     seconds: 9,
-    narration: 'History keeps every entry in order, including what we just did. Nothing is ever rewritten.',
+    narration: 'The clock watches every deadline: Parcel is nine days late. And every entry is kept, in order, never rewritten.',
     async run(d) {
       const q = await inQuarter(d);
       q.focus('clock', { zoom: 1.3 });
@@ -244,7 +244,7 @@ export const SCENES = [
     id: 'bench',
     title: 'the test bench',
     seconds: 13,
-    narration: 'On the test bench, two clerks race to spend the same credit. The ledger lets one through and refuses the other.',
+    narration: 'And the ledger cannot be fooled. Two clerks race to spend the same credit: one gets through, the other is refused. The same check runs on every write.',
     async run(d) {
       const q = await inQuarter(d);
       q.focus('scale', { zoom: 1.4 });
