@@ -69,13 +69,13 @@ function Reading({ form }) {
   return <p className="bk-tray-reading" role="status" style={{ '--n': text.length }}><span>{text}</span></p>;
 }
 
-/** A team's book keeps its readings on the server, and that path is still on the old screen. */
+/** A team's book keeps its readings on the server: they go in through the evidence desk. */
 function TeamTray() {
   return (
     <Sheet holes={false} className="bk-tray-sheet">
-      <Head title="Add what they sent you." lede="A team’s papers are filed on the old screen for now." />
+      <Head title="Add what they sent you." lede="Your team’s papers go in through the evidence desk: each one is read, every figure cited, and reviewed before it reaches the book." />
       <div className="bk-part">
-        <a className="bk-btn" href="?view=evidence">Open the old screen</a>
+        <a className="bk-btn" href="?view=evidence">Open the evidence desk</a>
       </div>
     </Sheet>
   );

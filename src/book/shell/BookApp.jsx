@@ -215,7 +215,7 @@ export default function BookApp() {
       <span>{onFront ? '' : managed ? 'Your team’s book. Nothing is emailed or paid from here.' : 'This is a demo book. The vendors are made up and nothing gets emailed.'}</span>
       <span className="bk-actions">
         <a className="bk-link" href={href('bench')}>Test bench</a>
-        <a className="bk-link" href="?view=team">The old screens</a>
+        <a className="bk-link" href="?view=team">The full workbench</a>
       </span>
     </footer>
   );
